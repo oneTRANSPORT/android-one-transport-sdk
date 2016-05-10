@@ -1,0 +1,135 @@
+Overview
+========
+
+Car park list: name
+               capacity
+               location
+               full/space.
+Predefined locations: from location
+                      to location.
+Traffic flow: vehicles/minute
+              average speed
+              travel time
+              free-flow equivalent
+              queue details
+              congestion percent
+              link details.
+Variable message signs: size
+                        message
+                        type
+
+Requirements
+============
+
+1. Data accessible through content provider as SQL tables.
+2. Data also available as (arrays of) pojos.
+3. Search nearby only?
+4. Return data in a given area?
+5. Background updates?  Needs subscriptions?
+6. Update all or part?
+7. Caching?  HTTP layer?
+
+Architecture
+============
+
+Two layers.
+
+1. Fetch data from server and return lists of pojos.
+2. Convert pojos into SQL data and store in a content provider.
+
+Application code can take data from or add to either source.
+
+
+
+Application Entity			Container			Content
+
+C-BCCCarPark2FeedImport			BUCK-Waterside			{"carParkIdentity": "BUCK-Waterside",
+									 "totalParkingCapacity": "212",
+									 "almostFullIncreasing": "0",
+									 "almostFullDecreasing": "0",
+									 "fullDecreasing": "0",
+									 "fullIncreasing": "0",
+									 "entranceFull": "0",
+									 "parkingAreaName": "Waterside",
+									 "radius": "10",
+									 "latitude": "51.8122864",
+									 "longitude": "-0.809660852"}
+
+C-BCCCarPark2FeedImport			All				[{"carParkIdentity": "BUCK-Waterside1",
+									  "totalParkingCapacity": "211",
+									  "almostFullIncreasing": "1",
+									  "almostFullDecreasing": "1",
+									  "fullDecreasing": "1",
+									  "fullIncreasing": "1",
+									  "entranceFull": "1",
+									  "radius": "11",
+									  "latitude": "51.8122864",
+									  "longitude": "-0.809660852"}, ...]
+
+C-BCCFeedImportPredefinedLocation	TRBUCK-1210711742		{"locationId": "TRBUCK-1210711742",
+									 "fromLatitude": "51.39322",
+									 "fromLongitude": "-0.5603394",
+									 "toLatitude": "61.39322",
+									 "toLongitude": "-1.39322",
+									 "fromDescriptor": "from desc",
+									 "toDescriptor": "to desc",
+									 "tpegDirection": "direction1"}
+
+C-BCCFeedImportPredefinedLocation	All				[{"locationId": "VMS30080112",
+									 "latitude": "51.39322",
+									 "longitude": "-0.5603392",
+									 "name": "M40/8353B M42 southBound",
+									 "descriptor": "M40/8353B M42 southBound",
+									 "tpegDirection": "allDirections"}, ...]
+
+C-BCCTrafficFlowExtensionFeedImport	LINKBUCK-76SW1/trafficQueue	{"locationReference":"LINKBUCK-76SW1",
+									 "queuePresent":"N",
+									 "queueSeverity":"0"}
+
+C-BCCTrafficFlowExtensionFeedImport	LINKBUCK-76SW1/trafficScoot	{"locationReference":"LINKBUCK-N11121S",
+									 "congestionPercent":"0",
+									 "currentFlow":"0",
+									 "averageSpeed":"0",
+									 "linkStatus":"0",
+									 "linkStatusType":"0",
+									 "linkTravelTime":"12"}
+
+C-BCCTrafficFlowFeedImport		LINKBUCK-110NW1/trafficFlow	{"locationReference": "LINKBUCK-110NW1",
+									 "vehicleFlow": "1"}
+
+C-BCCTrafficFlowFeedImport		LINKBUCK-110NW1/trafficSpeed	{"locationReference": "LINKBUCK-110NW1",
+									 "averageVehicleSpeed": "78.053"}
+
+C-BCCTrafficFlowFeedImport		Section210187/travelTimeValue	{"locationReference": "Section210187",
+									 "travelTime": "-1",
+									 "freeFlowSpeed": "0",
+									 "freeFlowTravelTime": "1401"}
+
+C-BCCTrafficFlowFeedImport		All				[{"locationReference": "LINKBUCK-110NW1",
+									  "vehicleFlow": "1" },
+									 {"locationReference": "LINKBUCK-110NW1",
+									  "averageVehicleSpeed": "78.053" },
+									 {"locationReference": "Section210187",
+									  "travelTime": "-1",
+									  "freeFlowSpeed": "0",
+									  "freeFlowTravelTime": "1401"} ...]
+
+C-BCCSignSettingFeedImport		VMSBUCK-3/signSetting		{"locationReference": "VMSBUCK-3",
+									 "numberOfCharacters": "16",
+									 "numberOfRows": "4",
+									 "vmsLegends": [
+									    "Major Works",
+									    "Bierton Rd",
+									    "by prison",
+									    "7-25 Mar"],
+									  "vmsType": "other"}
+
+BCCSignSettingFeedImport		All				[{"locationReference": "VMSBUCK-3",
+									  "numberOfCharacters": "16",
+									  "numberOfRows": "4",
+									  "vmsLegends": [
+									    "Major Works 1",
+									    "Bierton 1 Rd",
+									    "by prison 1",
+									    "7-25 Mar"],
+									   "vmsType": "other 1"}, ...]
