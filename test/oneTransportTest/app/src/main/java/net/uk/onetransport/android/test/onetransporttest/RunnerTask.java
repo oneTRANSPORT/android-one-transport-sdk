@@ -6,13 +6,18 @@ import com.interdigital.android.dougal.resource.Resource;
 import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
 import net.uk.onetransport.android.test.onetransporttest.tests.OneTransportTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.ae.ApplicationEntityCreateTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.ae.ApplicationEntityDeleteTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.bucks.carpark.GetCarParkArrayTest;
 
 public class RunnerTask extends AsyncTask<Void, Object[], Void>
         implements DougalCallback {
 
     private ReportAdapter reportAdapter;
     private OneTransportTest[] oneTransportTests = {
-            // TODO Tests go here.
+            new ApplicationEntityCreateTest(),
+            new GetCarParkArrayTest(),
+            new ApplicationEntityDeleteTest()
     };
     private int testNum = 0;
     private String currentTest;

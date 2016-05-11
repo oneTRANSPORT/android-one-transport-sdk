@@ -10,9 +10,9 @@ public interface OneTransportTest {
     String PASSWORD = "EKFYGUCC";
     //    String USER_NAME = "android";
 //    String PASSWORD = "DompAdtem9";
-    String CSE_BASE = "cse-05.onetransport.uk.net";
-    String CSE_ID = "ONET-CSE-05";
-    String CSE_NAME = "ONETCSE05";
+    String CSE_BASE = "cse-02.onetransport.uk.net";
+    String CSE_ID = "ONET-CSE-02";
+    String CSE_NAME = "ONETCSE02";
 
     String BASE_URL = "https://" + CSE_BASE + "/";
 

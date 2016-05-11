@@ -1,24 +1,17 @@
 package net.uk.onetransport.android.county.bucks.carparks;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.Expose;
-import com.interdigital.android.dougal.resource.Container;
-import com.interdigital.android.dougal.resource.ContentInstance;
 
 public class CarPark {
-
-    private static final String BASE_URL = "https://cse-02.onetransport.uk.net/ONETCSE02";
-    private static final String RETRIEVE_PATH = "/C-BCCCarPark2FeedImport/All";
 
     @Expose
     private String carParkIdentity;
     @Expose
     private Integer totalParkingCapacity;
     @Expose
-    private Integer almostFullIncreasing;
-    @Expose
     private Integer almostFullDecreasing;
+    @Expose
+    private Integer almostFullIncreasing;
     @Expose
     private Integer fullDecreasing;
     @Expose
@@ -32,16 +25,84 @@ public class CarPark {
     @Expose
     private Double longitude;
 
-    public static CarPark[] getCarParkList(String aeId, String userName, String password)
-            throws Exception {
-        ContentInstance contentInstance = Container.retrieveLatest(aeId, BASE_URL, RETRIEVE_PATH,
-                userName, password);
-        String content = contentInstance.getContent();
-        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
-        return gson.fromJson(content, CarPark[].class);
+    public String getCarParkIdentity() {
+        return carParkIdentity;
     }
 
-    public static void getCarParkListAsync(CarParkListCallback carParkListCallback) {
-
+    public void setCarParkIdentity(String carParkIdentity) {
+        this.carParkIdentity = carParkIdentity;
     }
+
+    public Integer getTotalParkingCapacity() {
+        return totalParkingCapacity;
+    }
+
+    public void setTotalParkingCapacity(Integer totalParkingCapacity) {
+        this.totalParkingCapacity = totalParkingCapacity;
+    }
+
+    public Integer getAlmostFullDecreasing() {
+        return almostFullDecreasing;
+    }
+
+    public void setAlmostFullDecreasing(Integer almostFullDecreasing) {
+        this.almostFullDecreasing = almostFullDecreasing;
+    }
+
+    public Integer getAlmostFullIncreasing() {
+        return almostFullIncreasing;
+    }
+
+    public void setAlmostFullIncreasing(Integer almostFullIncreasing) {
+        this.almostFullIncreasing = almostFullIncreasing;
+    }
+
+    public Integer getFullDecreasing() {
+        return fullDecreasing;
+    }
+
+    public void setFullDecreasing(Integer fullDecreasing) {
+        this.fullDecreasing = fullDecreasing;
+    }
+
+    public Integer getFullIncreasing() {
+        return fullIncreasing;
+    }
+
+    public void setFullIncreasing(Integer fullIncreasing) {
+        this.fullIncreasing = fullIncreasing;
+    }
+
+    public Integer getEntranceFull() {
+        return entranceFull;
+    }
+
+    public void setEntranceFull(Integer entranceFull) {
+        this.entranceFull = entranceFull;
+    }
+
+    public Double getRadius() {
+        return radius;
+    }
+
+    public void setRadius(Double radius) {
+        this.radius = radius;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
+
 }
