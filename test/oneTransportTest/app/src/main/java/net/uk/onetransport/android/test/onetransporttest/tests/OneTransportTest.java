@@ -23,6 +23,10 @@ public interface OneTransportTest {
     String AE_ID = "C-ONETRANSPORT-TEST";
     String APP_NAME = "C-ONETRANSPORT-TEST-APP";
 
+    String NAME = "ONETRANSPORT-TEST";
+    String APPLICATION_ID = "C-ONETRANSPORT-TEST-APP-ID";
+    String BASE_URL_CSE = BASE_URL + CSE_NAME + "/";
+
     void start(RunnerTask runnerTask) throws Exception;
 
     void startAsync(DougalCallback dougalCallback);

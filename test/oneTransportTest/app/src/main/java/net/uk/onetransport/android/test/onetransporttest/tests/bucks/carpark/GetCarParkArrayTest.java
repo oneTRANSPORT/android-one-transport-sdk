@@ -7,8 +7,9 @@ import com.interdigital.android.dougal.resource.callback.DougalCallback;
 import net.uk.onetransport.android.county.bucks.carparks.CarParkArray;
 import net.uk.onetransport.android.county.bucks.carparks.CarParkArrayCallback;
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
+import net.uk.onetransport.android.test.onetransporttest.tests.OneTransportTest;
 
-public class GetCarParkArrayTest implements CarParkArrayCallback, CarParkTest {
+public class GetCarParkArrayTest implements CarParkArrayCallback, OneTransportTest {
 
     private RunnerTask runnerTask;
     private DougalCallback dougalCallback;
@@ -26,7 +27,7 @@ public class GetCarParkArrayTest implements CarParkArrayCallback, CarParkTest {
     }
 
     @Override
-    public void onCarParkListReady(int i, CarParkArray carParkArray) {
+    public void onCarParkArrayReady(int i, CarParkArray carParkArray) {
         if (i != 1 || carParkArray == null || carParkArray.getCarParks() == null
                 || carParkArray.getCarParks().length == 0) {
             dougalCallback.getResponse(null, new Throwable("Car park array error"));
@@ -38,7 +39,7 @@ public class GetCarParkArrayTest implements CarParkArrayCallback, CarParkTest {
     }
 
     @Override
-    public void onCarParkListError(int i, Throwable throwable) {
+    public void onCarParkArrayError(int i, Throwable throwable) {
         dougalCallback.getResponse(null, new Throwable("Car park array error"));
     }
 

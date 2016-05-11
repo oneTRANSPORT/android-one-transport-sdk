@@ -9,6 +9,7 @@ import net.uk.onetransport.android.test.onetransporttest.tests.OneTransportTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.ae.ApplicationEntityCreateTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.ae.ApplicationEntityDeleteTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.carpark.GetCarParkArrayTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.bucks.locations.GetPredefinedLocationsArrayTest;
 
 public class RunnerTask extends AsyncTask<Void, Object[], Void>
         implements DougalCallback {
@@ -17,6 +18,7 @@ public class RunnerTask extends AsyncTask<Void, Object[], Void>
     private OneTransportTest[] oneTransportTests = {
             new ApplicationEntityCreateTest(),
             new GetCarParkArrayTest(),
+            new GetPredefinedLocationsArrayTest(),
             new ApplicationEntityDeleteTest()
     };
     private int testNum = 0;

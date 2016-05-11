@@ -43,13 +43,13 @@ public class CarParkArray implements DougalCallback {
     @Override
     public void getResponse(Resource resource, Throwable throwable) {
         if (throwable != null) {
-            carParkArrayCallback.onCarParkListError(id, throwable);
+            carParkArrayCallback.onCarParkArrayError(id, throwable);
         } else {
             String content = ((ContentInstance) resource).getContent();
             // TODO Use one instance of Gson everywhere.
             Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
             carParks = gson.fromJson(content, CarPark[].class);
-            carParkArrayCallback.onCarParkListReady(id, this);
+            carParkArrayCallback.onCarParkArrayReady(id, this);
         }
     }
 

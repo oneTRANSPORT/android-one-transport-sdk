@@ -40,7 +40,6 @@ Two layers.
 Application code can take data from or add to either source.
 
 
-
 Application Entity			Container			Content
 
 C-BCCCarPark2FeedImport			BUCK-Waterside			{"carParkIdentity": "BUCK-Waterside",
