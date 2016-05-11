@@ -4,8 +4,6 @@ import com.interdigital.android.dougal.Types;
 import com.interdigital.android.dougal.resource.Resource;
 import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
-import net.uk.onetransport.android.county.bucks.carparks.CarParkArray;
-import net.uk.onetransport.android.county.bucks.carparks.CarParkArrayCallback;
 import net.uk.onetransport.android.county.bucks.locations.PredefinedLocationArray;
 import net.uk.onetransport.android.county.bucks.locations.PredefinedLocationArrayCallback;
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
@@ -50,7 +48,7 @@ public class GetPredefinedLocationsArrayTest
 
     private void getPredefinedLocationsArray() throws Exception {
         runnerTask.setCurrentTest("BUCKS get predefined location array");
-        PredefinedLocationArray predefinedLocationArray= PredefinedLocationArray
+        PredefinedLocationArray predefinedLocationArray = PredefinedLocationArray
                 .getPredefinedLocationArray(AE_ID, BASE_URL_CSE, USER_NAME, PASSWORD);
         if (predefinedLocationArray.getPredefinedLocations() == null
                 || predefinedLocationArray.getPredefinedLocations().length == 0) {

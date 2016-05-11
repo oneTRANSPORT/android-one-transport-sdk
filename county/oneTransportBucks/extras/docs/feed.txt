@@ -123,7 +123,7 @@ C-BCCSignSettingFeedImport		VMSBUCK-3/signSetting		{"locationReference": "VMSBUC
 									    "7-25 Mar"],
 									  "vmsType": "other"}
 
-BCCSignSettingFeedImport		All				[{"locationReference": "VMSBUCK-3",
+C-BCCSignSettingFeedImport		All				[{"locationReference": "VMSBUCK-3",
 									  "numberOfCharacters": "16",
 									  "numberOfRows": "4",
 									  "vmsLegends": [
