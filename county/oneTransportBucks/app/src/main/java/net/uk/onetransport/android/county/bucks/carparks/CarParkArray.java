@@ -7,7 +7,9 @@ import com.interdigital.android.dougal.resource.ContentInstance;
 import com.interdigital.android.dougal.resource.Resource;
 import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
-public class CarParkArray implements DougalCallback {
+import net.uk.onetransport.android.county.bucks.BaseArray;
+
+public class CarParkArray extends BaseArray implements DougalCallback {
 
     private static final String RETRIEVE_PATH = "BCCCarPark2FeedImport/All";
 
@@ -27,9 +29,7 @@ public class CarParkArray implements DougalCallback {
         ContentInstance contentInstance = Container.retrieveLatest(aeId, baseUrl, RETRIEVE_PATH,
                 userName, password);
         String content = contentInstance.getContent();
-        // TODO Use one instance of Gson everywhere.
-        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
-        return new CarParkArray(gson.fromJson(content, CarPark[].class));
+        return new CarParkArray(GSON.fromJson(content, CarPark[].class));
     }
 
     public static void getCarParkArrayAsync(String aeId, String baseUrl, String userName, String password,

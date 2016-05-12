@@ -7,7 +7,9 @@ import com.interdigital.android.dougal.resource.ContentInstance;
 import com.interdigital.android.dougal.resource.Resource;
 import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
-public class VariableMessageSignArray implements DougalCallback {
+import net.uk.onetransport.android.county.bucks.BaseArray;
+
+public class VariableMessageSignArray extends BaseArray implements DougalCallback {
 
     private static final String RETRIEVE_PATH = "BCCSignSettingFeedImport/All";
 
@@ -27,9 +29,7 @@ public class VariableMessageSignArray implements DougalCallback {
         ContentInstance contentInstance = Container.retrieveLatest(aeId, baseUrl, RETRIEVE_PATH,
                 userName, password);
         String content = contentInstance.getContent();
-        // TODO Use one instance of Gson everywhere.
-        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
-        return new VariableMessageSignArray(gson.fromJson(content, VariableMessageSign[].class));
+        return new VariableMessageSignArray(GSON.fromJson(content, VariableMessageSign[].class));
     }
 
     public static void getVariableMessageSignArrayAsync(String aeId, String baseUrl, String userName,
@@ -48,9 +48,7 @@ public class VariableMessageSignArray implements DougalCallback {
             variableMessageSignArrayCallback.onVariableMessageSignArrayError(id, throwable);
         } else {
             String content = ((ContentInstance) resource).getContent();
-            // TODO Use one instance of Gson everywhere.
-            Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
-            variableMessageSigns = gson.fromJson(content, VariableMessageSign[].class);
+            variableMessageSigns = GSON.fromJson(content, VariableMessageSign[].class);
             variableMessageSignArrayCallback.onVariableMessageSignArrayReady(id, this);
         }
     }
