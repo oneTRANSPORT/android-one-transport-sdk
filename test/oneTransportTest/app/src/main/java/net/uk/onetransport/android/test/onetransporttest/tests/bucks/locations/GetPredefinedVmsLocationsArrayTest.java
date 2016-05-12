@@ -30,7 +30,7 @@ public class GetPredefinedVmsLocationsArrayTest
 
     @Override
     public void onPredefinedVmsLocationArrayReady(int i,
-                                                 PredefinedVmsLocationArray predefinedVmsLocationArray) {
+                                                  PredefinedVmsLocationArray predefinedVmsLocationArray) {
         if (i != 1 || predefinedVmsLocationArray == null
                 || predefinedVmsLocationArray.getPredefinedVmsLocations() == null
                 || predefinedVmsLocationArray.getPredefinedVmsLocations().length == 0) {

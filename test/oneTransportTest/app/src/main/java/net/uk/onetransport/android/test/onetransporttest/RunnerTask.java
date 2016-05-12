@@ -13,6 +13,7 @@ import net.uk.onetransport.android.test.onetransporttest.tests.bucks.locations.G
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.locations.GetPredefinedSectionLocationsArrayTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.locations.GetPredefinedTrLocationsArrayTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.locations.GetPredefinedVmsLocationsArrayTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.bucks.trafficflow.GetTrafficFlowArrayTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.vms.GetVariableMessageSignArrayTest;
 
 public class RunnerTask extends AsyncTask<Void, Object[], Void>
@@ -27,6 +28,7 @@ public class RunnerTask extends AsyncTask<Void, Object[], Void>
             new GetPredefinedSectionLocationsArrayTest(),
             new GetPredefinedVmsLocationsArrayTest(),
             new GetVariableMessageSignArrayTest(),
+            new GetTrafficFlowArrayTest(),
             new ApplicationEntityDeleteTest()
     };
     private int testNum = 0;
