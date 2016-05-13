@@ -15,6 +15,8 @@ import net.uk.onetransport.android.test.onetransporttest.tests.bucks.locations.G
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.locations.GetPredefinedTrLocationsArrayTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.locations.GetPredefinedVmsLocationsArrayTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksCarParkInsertTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksSegmentLocationInsertTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksVmsLocationInsertTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.trafficflow.GetTrafficFlowArrayTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.vms.GetVariableMessageSignArrayTest;
 
@@ -33,6 +35,8 @@ public class RunnerTask extends AsyncTask<Void, Object[], Void>
             new GetVariableMessageSignArrayTest(),
             new GetTrafficFlowArrayTest(),
             new BucksCarParkInsertTest(),
+            new BucksVmsLocationInsertTest(),
+            new BucksSegmentLocationInsertTest(),
             new ApplicationEntityDeleteTest()
     };
     private int testNum = 0;

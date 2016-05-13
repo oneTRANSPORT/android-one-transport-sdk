@@ -1,11 +1,17 @@
 package net.uk.onetransport.android.county.bucks.locations;
 
+import android.content.ContentResolver;
+import android.content.ContentValues;
+import android.content.Context;
+
 import com.interdigital.android.dougal.resource.Container;
 import com.interdigital.android.dougal.resource.ContentInstance;
 import com.interdigital.android.dougal.resource.Resource;
 import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
 import net.uk.onetransport.android.county.bucks.BaseArray;
+import net.uk.onetransport.android.county.bucks.provider.BucksContract;
+import net.uk.onetransport.android.county.bucks.provider.BucksProvider;
 
 public class PredefinedVmsLocationArray extends BaseArray implements DougalCallback {
 
@@ -49,6 +55,29 @@ public class PredefinedVmsLocationArray extends BaseArray implements DougalCallb
             String content = ((ContentInstance) resource).getContent();
             predefinedVmsLocations = GSON.fromJson(content, PredefinedVmsLocation[].class);
             predefinedVmsLocationArrayCallback.onPredefinedVmsLocationArrayReady(id, this);
+        }
+    }
+
+    public void insertIntoProvider(Context context) {
+        if (predefinedVmsLocations != null && predefinedVmsLocations.length > 0) {
+            ContentResolver contentResolver = context.getContentResolver();
+            ContentValues values = new ContentValues();
+            for (PredefinedVmsLocation predefinedVmsLocation : predefinedVmsLocations) {
+                values.clear();
+                values.put(BucksContract.VmsLocation.COLUMN_NAME,
+                        predefinedVmsLocation.getName());
+                values.put(BucksContract.VmsLocation.COLUMN_LOCATION_ID,
+                        predefinedVmsLocation.getLocationId());
+                values.put(BucksContract.VmsLocation.COLUMN_LATITUDE,
+                        predefinedVmsLocation.getLatitude());
+                values.put(BucksContract.VmsLocation.COLUMN_LONGITUDE,
+                        predefinedVmsLocation.getLongitude());
+                values.put(BucksContract.VmsLocation.COLUMN_DESCRIPTOR,
+                        predefinedVmsLocation.getDescriptor());
+                values.put(BucksContract.VmsLocation.COLUMN_TPEG_DIRECTION,
+                        predefinedVmsLocation.getTpegDirection());
+                contentResolver.insert(BucksProvider.VMS_LOCATION_URI, values);
+            }
         }
     }
 

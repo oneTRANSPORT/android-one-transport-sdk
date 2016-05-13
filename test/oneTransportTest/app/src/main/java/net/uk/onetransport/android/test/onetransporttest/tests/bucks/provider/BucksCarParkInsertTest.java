@@ -36,27 +36,27 @@ public class BucksCarParkInsertTest implements OneTransportTest {
             return;
         }
         Context context = runnerTask.getContext();
-        carParkArray.insertIntoProvider(context);
         ContentResolver contentResolver = context.getContentResolver();
+        contentResolver.delete(BucksProvider.CAR_PARK_URI, null, null);
+        carParkArray.insertIntoProvider(context);
         Cursor cursor = contentResolver.query(BucksProvider.CAR_PARK_URI, new String[]{
                 BucksContract.CarPark._ID,
-                BucksContract.CarPark.CAR_PARK_IDENTITY,
-                BucksContract.CarPark.TOTAL_PARKING_CAPACITY,
-                BucksContract.CarPark.ALMOST_FULL_DECREASING,
-                BucksContract.CarPark.ALMOST_FULL_INCREASING,
-                BucksContract.CarPark.FULL_DECREASING,
-                BucksContract.CarPark.FULL_INCREASING,
-                BucksContract.CarPark.ENTRANCE_FULL,
-                BucksContract.CarPark.RADIUS,
-                BucksContract.CarPark.LATITUDE,
-                BucksContract.CarPark.LONGITUDE
-        }, null, null, BucksContract.CarPark.CAR_PARK_IDENTITY);
+                BucksContract.CarPark.COLUMN_CAR_PARK_IDENTITY,
+                BucksContract.CarPark.COLUMN_TOTAL_PARKING_CAPACITY,
+                BucksContract.CarPark.COLUMN_ALMOST_FULL_DECREASING,
+                BucksContract.CarPark.COLUMN_ALMOST_FULL_INCREASING,
+                BucksContract.CarPark.COLUMN_FULL_DECREASING,
+                BucksContract.CarPark.COLUMN_FULL_INCREASING,
+                BucksContract.CarPark.COLUMN_ENTRANCE_FULL,
+                BucksContract.CarPark.COLUMN_RADIUS,
+                BucksContract.CarPark.COLUMN_LATITUDE,
+                BucksContract.CarPark.COLUMN_LONGITUDE
+        }, null, null, BucksContract.CarPark.COLUMN_CAR_PARK_IDENTITY);
         if (cursor != null && cursor.getCount() > 0) {
             runnerTask.report("BUCKS car park insert ... PASSED.", COLOUR_PASSED);
         } else {
-            runnerTask.report("BUCKS car park insert ... PASSED.", COLOUR_FAILED);
+            runnerTask.report("BUCKS car park insert ... FAILED.", COLOUR_FAILED);
         }
         cursor.close();
-        contentResolver.delete(BucksProvider.CAR_PARK_URI, null, null);
     }
 }

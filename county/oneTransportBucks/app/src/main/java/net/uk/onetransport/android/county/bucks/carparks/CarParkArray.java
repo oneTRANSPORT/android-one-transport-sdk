@@ -65,16 +65,20 @@ public class CarParkArray extends BaseArray implements DougalCallback {
             ContentValues values = new ContentValues();
             for (CarPark carPark : carParks) {
                 values.clear();
-                values.put(BucksContract.CarPark.RADIUS, carPark.getRadius());
-                values.put(BucksContract.CarPark.LATITUDE, carPark.getLatitude());
-                values.put(BucksContract.CarPark.LONGITUDE, carPark.getLongitude());
-                values.put(BucksContract.CarPark.ENTRANCE_FULL, carPark.getEntranceFull());
-                values.put(BucksContract.CarPark.FULL_INCREASING, carPark.getFullIncreasing());
-                values.put(BucksContract.CarPark.FULL_DECREASING, carPark.getFullDecreasing());
-                values.put(BucksContract.CarPark.CAR_PARK_IDENTITY, carPark.getCarParkIdentity());
-                values.put(BucksContract.CarPark.TOTAL_PARKING_CAPACITY, carPark.getTotalParkingCapacity());
-                values.put(BucksContract.CarPark.ALMOST_FULL_INCREASING, carPark.getAlmostFullIncreasing());
-                values.put(BucksContract.CarPark.ALMOST_FULL_DECREASING, carPark.getAlmostFullDecreasing());
+                values.put(BucksContract.CarPark.COLUMN_RADIUS, carPark.getRadius());
+                values.put(BucksContract.CarPark.COLUMN_LATITUDE, carPark.getLatitude());
+                values.put(BucksContract.CarPark.COLUMN_LONGITUDE, carPark.getLongitude());
+                values.put(BucksContract.CarPark.COLUMN_ENTRANCE_FULL, carPark.getEntranceFull());
+                values.put(BucksContract.CarPark.COLUMN_FULL_INCREASING, carPark.getFullIncreasing());
+                values.put(BucksContract.CarPark.COLUMN_FULL_DECREASING, carPark.getFullDecreasing());
+                values.put(BucksContract.CarPark.COLUMN_CAR_PARK_IDENTITY,
+                        carPark.getCarParkIdentity());
+                values.put(BucksContract.CarPark.COLUMN_TOTAL_PARKING_CAPACITY,
+                        carPark.getTotalParkingCapacity());
+                values.put(BucksContract.CarPark.COLUMN_ALMOST_FULL_INCREASING,
+                        carPark.getAlmostFullIncreasing());
+                values.put(BucksContract.CarPark.COLUMN_ALMOST_FULL_DECREASING,
+                        carPark.getAlmostFullDecreasing());
                 contentResolver.insert(BucksProvider.CAR_PARK_URI, values);
             }
         }

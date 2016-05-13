@@ -1,11 +1,17 @@
 package net.uk.onetransport.android.county.bucks.locations;
 
+import android.content.ContentResolver;
+import android.content.ContentValues;
+import android.content.Context;
+
 import com.interdigital.android.dougal.resource.Container;
 import com.interdigital.android.dougal.resource.ContentInstance;
 import com.interdigital.android.dougal.resource.Resource;
 import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
 import net.uk.onetransport.android.county.bucks.BaseArray;
+import net.uk.onetransport.android.county.bucks.provider.BucksContract;
+import net.uk.onetransport.android.county.bucks.provider.BucksProvider;
 
 public class PredefinedLinkLocationArray extends BaseArray implements DougalCallback {
 
@@ -49,6 +55,33 @@ public class PredefinedLinkLocationArray extends BaseArray implements DougalCall
             String content = ((ContentInstance) resource).getContent();
             predefinedLinkLocations = GSON.fromJson(content, PredefinedLinkLocation[].class);
             predefinedLinkLocationArrayCallback.onPredefinedLinkLocationArrayReady(id, this);
+        }
+    }
+
+    public void insertIntoProvider(Context context) {
+        if (predefinedLinkLocations != null && predefinedLinkLocations.length > 0) {
+            ContentResolver contentResolver = context.getContentResolver();
+            ContentValues values = new ContentValues();
+            for (PredefinedLinkLocation predefinedLinkLocation : predefinedLinkLocations) {
+                values.clear();
+                values.put(BucksContract.SegmentLocation.COLUMN_LOCATION_ID,
+                        predefinedLinkLocation.getLocationId());
+                values.put(BucksContract.SegmentLocation.COLUMN_TO_LATITUDE,
+                        predefinedLinkLocation.getToLatitude());
+                values.put(BucksContract.SegmentLocation.COLUMN_TO_LONGITUDE,
+                        predefinedLinkLocation.getToLongitude());
+                values.put(BucksContract.SegmentLocation.COLUMN_FROM_LATITUDE,
+                        predefinedLinkLocation.getFromLatitude());
+                values.put(BucksContract.SegmentLocation.COLUMN_FROM_LONGITUDE,
+                        predefinedLinkLocation.getFromLongitude());
+                values.put(BucksContract.SegmentLocation.COLUMN_TO_DESCRIPTOR,
+                        predefinedLinkLocation.getToDescriptor());
+                values.put(BucksContract.SegmentLocation.COLUMN_FROM_DESCRIPTOR,
+                        predefinedLinkLocation.getFromDescriptor());
+                values.put(BucksContract.SegmentLocation.COLUMN_TPEG_DIRECTION,
+                        predefinedLinkLocation.getTpegDirection());
+                contentResolver.insert(BucksProvider.SEGMENT_LOCATION_URI, values);
+            }
         }
     }
 
