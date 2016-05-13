@@ -1,5 +1,6 @@
 package net.uk.onetransport.android.test.onetransporttest;
 
+import android.content.Context;
 import android.os.AsyncTask;
 
 import com.interdigital.android.dougal.resource.Resource;
@@ -13,12 +14,14 @@ import net.uk.onetransport.android.test.onetransporttest.tests.bucks.locations.G
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.locations.GetPredefinedSectionLocationsArrayTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.locations.GetPredefinedTrLocationsArrayTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.locations.GetPredefinedVmsLocationsArrayTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksCarParkInsertTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.trafficflow.GetTrafficFlowArrayTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.vms.GetVariableMessageSignArrayTest;
 
 public class RunnerTask extends AsyncTask<Void, Object[], Void>
         implements DougalCallback {
 
+    private Context context;
     private ReportAdapter reportAdapter;
     private OneTransportTest[] oneTransportTests = {
             new ApplicationEntityCreateTest(),
@@ -29,12 +32,14 @@ public class RunnerTask extends AsyncTask<Void, Object[], Void>
             new GetPredefinedVmsLocationsArrayTest(),
             new GetVariableMessageSignArrayTest(),
             new GetTrafficFlowArrayTest(),
+            new BucksCarParkInsertTest(),
             new ApplicationEntityDeleteTest()
     };
     private int testNum = 0;
     private String currentTest;
 
-    public RunnerTask(ReportAdapter reportAdapter) {
+    public RunnerTask(Context context, ReportAdapter reportAdapter) {
+        this.context = context;
         this.reportAdapter = reportAdapter;
     }
 
@@ -99,5 +104,9 @@ public class RunnerTask extends AsyncTask<Void, Object[], Void>
         if (testNum < oneTransportTests.length) {
             oneTransportTests[testNum].startAsync(this);
         }
+    }
+
+    public Context getContext() {
+        return context;
     }
 }

@@ -15,7 +15,7 @@ public class PredefinedVmsLocationArray extends BaseArray implements DougalCallb
     private PredefinedVmsLocationArrayCallback predefinedVmsLocationArrayCallback;
     private int id;
 
-    public PredefinedVmsLocationArray() {
+    private PredefinedVmsLocationArray() {
     }
 
     public PredefinedVmsLocationArray(PredefinedVmsLocation[] predefinedVmsLocations) {

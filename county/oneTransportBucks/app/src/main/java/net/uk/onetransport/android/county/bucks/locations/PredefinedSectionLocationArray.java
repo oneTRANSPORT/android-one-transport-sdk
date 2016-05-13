@@ -15,7 +15,7 @@ public class PredefinedSectionLocationArray extends BaseArray implements DougalC
     private PredefinedSectionLocationArrayCallback predefinedSectionLocationArrayCallback;
     private int id;
 
-    public PredefinedSectionLocationArray() {
+    private PredefinedSectionLocationArray() {
     }
 
     public PredefinedSectionLocationArray(PredefinedSectionLocation[] predefinedSectionLocations) {

@@ -1,5 +1,9 @@
 package net.uk.onetransport.android.county.bucks.carparks;
 
+import android.content.ContentResolver;
+import android.content.ContentValues;
+import android.content.Context;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.interdigital.android.dougal.resource.Container;
@@ -8,6 +12,8 @@ import com.interdigital.android.dougal.resource.Resource;
 import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
 import net.uk.onetransport.android.county.bucks.BaseArray;
+import net.uk.onetransport.android.county.bucks.provider.BucksContract;
+import net.uk.onetransport.android.county.bucks.provider.BucksProvider;
 
 public class CarParkArray extends BaseArray implements DougalCallback {
 
@@ -17,7 +23,7 @@ public class CarParkArray extends BaseArray implements DougalCallback {
     private CarParkArrayCallback carParkArrayCallback;
     private int id;
 
-    public CarParkArray() {
+    private CarParkArray() {
     }
 
     public CarParkArray(CarPark[] carParks) {
@@ -50,6 +56,27 @@ public class CarParkArray extends BaseArray implements DougalCallback {
             Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
             carParks = gson.fromJson(content, CarPark[].class);
             carParkArrayCallback.onCarParkArrayReady(id, this);
+        }
+    }
+
+    public void insertIntoProvider(Context context) {
+        if (carParks != null && carParks.length > 0) {
+            ContentResolver contentResolver = context.getContentResolver();
+            ContentValues values = new ContentValues();
+            for (CarPark carPark : carParks) {
+                values.clear();
+                values.put(BucksContract.CarPark.RADIUS, carPark.getRadius());
+                values.put(BucksContract.CarPark.LATITUDE, carPark.getLatitude());
+                values.put(BucksContract.CarPark.LONGITUDE, carPark.getLongitude());
+                values.put(BucksContract.CarPark.ENTRANCE_FULL, carPark.getEntranceFull());
+                values.put(BucksContract.CarPark.FULL_INCREASING, carPark.getFullIncreasing());
+                values.put(BucksContract.CarPark.FULL_DECREASING, carPark.getFullDecreasing());
+                values.put(BucksContract.CarPark.CAR_PARK_IDENTITY, carPark.getCarParkIdentity());
+                values.put(BucksContract.CarPark.TOTAL_PARKING_CAPACITY, carPark.getTotalParkingCapacity());
+                values.put(BucksContract.CarPark.ALMOST_FULL_INCREASING, carPark.getAlmostFullIncreasing());
+                values.put(BucksContract.CarPark.ALMOST_FULL_DECREASING, carPark.getAlmostFullDecreasing());
+                contentResolver.insert(BucksProvider.CAR_PARK_URI, values);
+            }
         }
     }
 

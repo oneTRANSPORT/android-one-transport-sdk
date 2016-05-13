@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-public class RunnerFragment extends Fragment{
+public class RunnerFragment extends Fragment {
 
 
     private ReportAdapter reportAdapter;
@@ -21,7 +21,7 @@ public class RunnerFragment extends Fragment{
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
         reportAdapter = new ReportAdapter(getContext(), getResources());
-        new RunnerTask(reportAdapter).execute();
+        new RunnerTask(getContext().getApplicationContext(), reportAdapter).execute();
     }
 
     @Override

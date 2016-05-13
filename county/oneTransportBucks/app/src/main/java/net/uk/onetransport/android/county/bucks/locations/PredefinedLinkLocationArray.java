@@ -15,7 +15,7 @@ public class PredefinedLinkLocationArray extends BaseArray implements DougalCall
     private PredefinedLinkLocationArrayCallback predefinedLinkLocationArrayCallback;
     private int id;
 
-    public PredefinedLinkLocationArray() {
+    private PredefinedLinkLocationArray() {
     }
 
     public PredefinedLinkLocationArray(PredefinedLinkLocation[] predefinedLinkLocations) {

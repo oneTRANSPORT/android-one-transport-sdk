@@ -15,7 +15,7 @@ public class PredefinedTrLocationArray extends BaseArray implements DougalCallba
     private PredefinedTrLocationArrayCallback predefinedTrLocationArrayCallback;
     private int id;
 
-    public PredefinedTrLocationArray() {
+    private PredefinedTrLocationArray() {
     }
 
     public PredefinedTrLocationArray(PredefinedTrLocation[] predefinedTrLocations) {
