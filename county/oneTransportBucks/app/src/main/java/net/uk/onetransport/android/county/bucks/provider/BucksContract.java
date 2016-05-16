@@ -42,6 +42,16 @@ public class BucksContract {
                     + SegmentLocation.COLUMN_TPEG_DIRECTION + " TEXT NOT NULL"
                     + ");";
 
+    public static final String CREATE_VARIABLE_MESSAGE_SIGN_TABLE =
+            "CREATE TABLE IF NOT EXISTS " + VariableMessageSign.TABLE_NAME + " ("
+                    + VariableMessageSign._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    + VariableMessageSign.COLUMN_LOCATION_REFERENCE + " TEXT NOT NULL,"
+                    + VariableMessageSign.COLUMN_NUMBER_OF_CHARACTERS + " INTEGER NOT NULL,"
+                    + VariableMessageSign.COLUMN_NUMBER_OF_ROWS + " INTEGER NOT NULL,"
+                    + VariableMessageSign.COLUMN_VMS_LEGENDS + " TEXT NOT NULL,"
+                    + VariableMessageSign.COLUMN_VMS_TYPE + " TEXT NOT NULL"
+                    + ");";
+
     private BucksContract() {
     }
 
@@ -80,4 +90,15 @@ public class BucksContract {
         public static final String COLUMN_TO_DESCRIPTOR = "to_descriptor";
         public static final String COLUMN_TPEG_DIRECTION = "tpeg_direction";
     }
+
+    public static final class VariableMessageSign implements BaseColumns {
+        public static final String TABLE_NAME = "variable_message_sign";
+        public static final String COLUMN_LOCATION_REFERENCE = "location_reference";
+        public static final String COLUMN_NUMBER_OF_CHARACTERS = "number_of_characters";
+        public static final String COLUMN_NUMBER_OF_ROWS = "number_of_rows";
+        // Store the rows of data as pipe-separated text in one row.
+        public static final String COLUMN_VMS_LEGENDS = "vms_legends";
+        public static final String COLUMN_VMS_TYPE = "vms_type";
+    }
+
 }

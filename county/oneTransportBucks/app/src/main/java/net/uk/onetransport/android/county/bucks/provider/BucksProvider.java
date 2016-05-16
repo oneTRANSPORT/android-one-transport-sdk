@@ -11,21 +11,26 @@ import android.net.Uri;
 
 import static net.uk.onetransport.android.county.bucks.provider.BucksContract.CarPark;
 import static net.uk.onetransport.android.county.bucks.provider.BucksContract.SegmentLocation;
+import static net.uk.onetransport.android.county.bucks.provider.BucksContract.VariableMessageSign;
 import static net.uk.onetransport.android.county.bucks.provider.BucksContract.VmsLocation;
 
 public class BucksProvider extends ContentProvider {
 
     public static final String AUTHORITY = "net.uk.oneTransport.android.county.bucks.provider";
     public static final String AUTHORITY_URI = "content://" + AUTHORITY + "/";
+
     public static final Uri CAR_PARK_URI = Uri.parse(AUTHORITY_URI + CarPark.TABLE_NAME);
     public static final Uri VMS_LOCATION_URI = Uri.parse(AUTHORITY_URI
             + VmsLocation.TABLE_NAME);
     public static final Uri SEGMENT_LOCATION_URI = Uri.parse(AUTHORITY_URI
             + SegmentLocation.TABLE_NAME);
+    public static final Uri VARIABLE_MESSAGE_SIGN_URI = Uri.parse(AUTHORITY_URI
+            + VariableMessageSign.TABLE_NAME);
 
     // Content MIME types.
     private static final String MIME_DIR_PREFIX = "vnd.android.cursor.dir/vnd." + AUTHORITY + ".";
     private static final String MIME_ITEM_PREFIX = "vnd.android.cursor.item/vnd." + AUTHORITY + ".";
+
     private static final String CAR_PARKS_MIME_TYPE = MIME_DIR_PREFIX
             + CarPark.TABLE_NAME;
     private static final String CAR_PARK_ID_MIME_TYPE = MIME_ITEM_PREFIX
@@ -38,6 +43,10 @@ public class BucksProvider extends ContentProvider {
             + SegmentLocation.TABLE_NAME;
     private static final String SEGMENT_LOCATION_ID_MIME_TYPE = MIME_ITEM_PREFIX
             + SegmentLocation.TABLE_NAME;
+    private static final String VARIABLE_MESSAGE_SIGNS_MIME_TYPE = MIME_DIR_PREFIX
+            + VariableMessageSign.TABLE_NAME;
+    private static final String VARIABLE_MESSAGE_SIGN_ID_MIME_TYPE = MIME_ITEM_PREFIX
+            + VariableMessageSign.TABLE_NAME;
 
     // Uri matching
     private static final int CAR_PARKS = 1;
@@ -46,6 +55,8 @@ public class BucksProvider extends ContentProvider {
     private static final int VMS_LOCATION_ID = 4;
     private static final int SEGMENT_LOCATIONS = 5;
     private static final int SEGMENT_LOCATION_ID = 6;
+    private static final int VARIABLE_MESSAGE_SIGNS = 7;
+    private static final int VARIABLE_MESSAGE_SIGN_ID = 8;
 
     private static UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
@@ -57,7 +68,12 @@ public class BucksProvider extends ContentProvider {
         uriMatcher.addURI(AUTHORITY, VmsLocation.TABLE_NAME, VMS_LOCATIONS);
         uriMatcher.addURI(AUTHORITY, VmsLocation.TABLE_NAME + "/#", VMS_LOCATION_ID);
         uriMatcher.addURI(AUTHORITY, SegmentLocation.TABLE_NAME, SEGMENT_LOCATIONS);
-        uriMatcher.addURI(AUTHORITY, SegmentLocation.TABLE_NAME + "/#", SEGMENT_LOCATION_ID);
+        uriMatcher.addURI(AUTHORITY, SegmentLocation.TABLE_NAME + "/#",
+                SEGMENT_LOCATION_ID);
+        uriMatcher.addURI(AUTHORITY, VariableMessageSign.TABLE_NAME,
+                VARIABLE_MESSAGE_SIGNS);
+        uriMatcher.addURI(AUTHORITY, VariableMessageSign.TABLE_NAME + "/#",
+                VARIABLE_MESSAGE_SIGN_ID);
     }
 
     @Override
@@ -81,6 +97,10 @@ public class BucksProvider extends ContentProvider {
                 return SEGMENT_LOCATIONS_MIME_TYPE;
             case SEGMENT_LOCATION_ID:
                 return SEGMENT_LOCATION_ID_MIME_TYPE;
+            case VARIABLE_MESSAGE_SIGNS:
+                return VARIABLE_MESSAGE_SIGNS_MIME_TYPE;
+            case VARIABLE_MESSAGE_SIGN_ID:
+                return VARIABLE_MESSAGE_SIGN_ID_MIME_TYPE;
         }
         return null;
     }
@@ -103,6 +123,10 @@ public class BucksProvider extends ContentProvider {
                 id = db.insert(SegmentLocation.TABLE_NAME, null, values);
                 contentResolver.notifyChange(SEGMENT_LOCATION_URI, null);
                 return ContentUris.withAppendedId(SEGMENT_LOCATION_URI, id);
+            case VARIABLE_MESSAGE_SIGNS:
+                id = db.insert(VariableMessageSign.TABLE_NAME, null, values);
+                contentResolver.notifyChange(VARIABLE_MESSAGE_SIGN_URI, null);
+                return ContentUris.withAppendedId(VARIABLE_MESSAGE_SIGN_URI, id);
         }
         return null;
     }
@@ -143,6 +167,17 @@ public class BucksProvider extends ContentProvider {
                         SegmentLocation._ID + "=?", new String[]{uri.getLastPathSegment()}, null, null, sortOrder);
                 cursor.setNotificationUri(contentResolver, SEGMENT_LOCATION_URI);
                 return cursor;
+            case VARIABLE_MESSAGE_SIGNS:
+                cursor = db.query(VariableMessageSign.TABLE_NAME, projection,
+                        selection, selectionArgs, null, null, sortOrder);
+                cursor.setNotificationUri(contentResolver, VARIABLE_MESSAGE_SIGN_URI);
+                return cursor;
+            case VARIABLE_MESSAGE_SIGN_ID:
+                cursor = db.query(VariableMessageSign.TABLE_NAME, projection,
+                        VariableMessageSign._ID + "=?", new String[]{uri.getLastPathSegment()}, null, null,
+                        sortOrder);
+                cursor.setNotificationUri(contentResolver, VARIABLE_MESSAGE_SIGN_URI);
+                return cursor;
         }
         return null;
     }
@@ -179,6 +214,15 @@ public class BucksProvider extends ContentProvider {
                         new String[]{uri.getLastPathSegment()});
                 contentResolver.notifyChange(SEGMENT_LOCATION_URI, null);
                 return rows;
+            case VARIABLE_MESSAGE_SIGNS:
+                rows = db.update(VariableMessageSign.TABLE_NAME, values, selection, selectionArgs);
+                contentResolver.notifyChange(VARIABLE_MESSAGE_SIGN_URI, null);
+                return rows;
+            case VARIABLE_MESSAGE_SIGN_ID:
+                rows = db.update(VariableMessageSign.TABLE_NAME, values, VariableMessageSign._ID + "=?",
+                        new String[]{uri.getLastPathSegment()});
+                contentResolver.notifyChange(VARIABLE_MESSAGE_SIGN_URI, null);
+                return rows;
         }
         return 0;
     }
@@ -200,6 +244,10 @@ public class BucksProvider extends ContentProvider {
             case SEGMENT_LOCATIONS:
                 rows = db.delete(SegmentLocation.TABLE_NAME, selection, selectionArgs);
                 contentResolver.notifyChange(SEGMENT_LOCATION_URI, null);
+                break;
+            case VARIABLE_MESSAGE_SIGNS:
+                rows = db.delete(VariableMessageSign.TABLE_NAME, selection, selectionArgs);
+                contentResolver.notifyChange(VARIABLE_MESSAGE_SIGN_URI, null);
                 break;
         }
         return rows;
