@@ -4,8 +4,6 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.interdigital.android.dougal.resource.Container;
 import com.interdigital.android.dougal.resource.ContentInstance;
 import com.interdigital.android.dougal.resource.Resource;
@@ -51,11 +49,13 @@ public class CarParkArray extends BaseArray implements DougalCallback {
         if (throwable != null) {
             carParkArrayCallback.onCarParkArrayError(id, throwable);
         } else {
-            String content = ((ContentInstance) resource).getContent();
-            // TODO Use one instance of Gson everywhere.
-            Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
-            carParks = gson.fromJson(content, CarPark[].class);
-            carParkArrayCallback.onCarParkArrayReady(id, this);
+            try {
+                String content = ((ContentInstance) resource).getContent();
+                carParks = GSON.fromJson(content, CarPark[].class);
+                carParkArrayCallback.onCarParkArrayReady(id, this);
+            } catch (Exception e) {
+                carParkArrayCallback.onCarParkArrayError(id, e);
+            }
         }
     }
 

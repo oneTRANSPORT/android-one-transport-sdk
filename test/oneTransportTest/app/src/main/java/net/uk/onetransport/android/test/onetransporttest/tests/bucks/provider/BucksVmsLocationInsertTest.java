@@ -37,9 +37,8 @@ public class BucksVmsLocationInsertTest implements OneTransportTest {
             return;
         }
         Context context = runnerTask.getContext();
-        ContentResolver contentResolver = context.getContentResolver();
-        contentResolver.delete(BucksProvider.VMS_LOCATION_URI, null, null);
         predefinedVmsLocationArray.insertIntoProvider(context);
+        ContentResolver contentResolver = context.getContentResolver();
         Cursor cursor = contentResolver.query(BucksProvider.VMS_LOCATION_URI, new String[]{
                 BucksContract.VmsLocation._ID,
                 BucksContract.VmsLocation.COLUMN_NAME,

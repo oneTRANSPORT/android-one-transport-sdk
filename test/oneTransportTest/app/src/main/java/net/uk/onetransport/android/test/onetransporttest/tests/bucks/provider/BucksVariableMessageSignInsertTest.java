@@ -1,4 +1,4 @@
-package net.uk.onetransport.android.test.onetransporttest.tests.bucks.vms;
+package net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider;
 
 import android.content.ContentResolver;
 import android.content.Context;
@@ -28,7 +28,7 @@ public class BucksVariableMessageSignInsertTest implements OneTransportTest {
     }
 
     private void insertVariableMessageSigns() throws Exception {
-        runnerTask.setCurrentTest("BUCKS variable message sign location insert");
+        runnerTask.setCurrentTest("BUCKS variable message sign insert");
         VariableMessageSignArray variableMessageSignArray = VariableMessageSignArray
                 .getVariableMessageSignArray(AE_ID, BASE_URL_CSE, USER_NAME, PASSWORD);
         if (variableMessageSignArray.getVariableMessageSigns() == null
@@ -37,9 +37,8 @@ public class BucksVariableMessageSignInsertTest implements OneTransportTest {
             return;
         }
         Context context = runnerTask.getContext();
-        ContentResolver contentResolver = context.getContentResolver();
-        contentResolver.delete(BucksProvider.VARIABLE_MESSAGE_SIGN_URI, null, null);
         variableMessageSignArray.insertIntoProvider(context);
+        ContentResolver contentResolver = context.getContentResolver();
         Cursor cursor = contentResolver.query(BucksProvider.VARIABLE_MESSAGE_SIGN_URI,
                 new String[]{
                         BucksContract.VariableMessageSign._ID,

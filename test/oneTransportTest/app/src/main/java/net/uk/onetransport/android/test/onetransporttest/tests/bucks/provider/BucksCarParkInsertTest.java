@@ -36,9 +36,8 @@ public class BucksCarParkInsertTest implements OneTransportTest {
             return;
         }
         Context context = runnerTask.getContext();
-        ContentResolver contentResolver = context.getContentResolver();
-        contentResolver.delete(BucksProvider.CAR_PARK_URI, null, null);
         carParkArray.insertIntoProvider(context);
+        ContentResolver contentResolver = context.getContentResolver();
         Cursor cursor = contentResolver.query(BucksProvider.CAR_PARK_URI, new String[]{
                 BucksContract.CarPark._ID,
                 BucksContract.CarPark.COLUMN_CAR_PARK_IDENTITY,

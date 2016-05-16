@@ -51,9 +51,13 @@ public class VariableMessageSignArray extends BaseArray implements DougalCallbac
         if (throwable != null) {
             variableMessageSignArrayCallback.onVariableMessageSignArrayError(id, throwable);
         } else {
-            String content = ((ContentInstance) resource).getContent();
-            variableMessageSigns = GSON.fromJson(content, VariableMessageSign[].class);
-            variableMessageSignArrayCallback.onVariableMessageSignArrayReady(id, this);
+            try {
+                String content = ((ContentInstance) resource).getContent();
+                variableMessageSigns = GSON.fromJson(content, VariableMessageSign[].class);
+                variableMessageSignArrayCallback.onVariableMessageSignArrayReady(id, this);
+            } catch (Exception e) {
+                variableMessageSignArrayCallback.onVariableMessageSignArrayError(id, e);
+            }
         }
     }
 

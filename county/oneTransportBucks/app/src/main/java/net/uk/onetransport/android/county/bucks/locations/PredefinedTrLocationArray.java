@@ -52,9 +52,13 @@ public class PredefinedTrLocationArray extends BaseArray implements DougalCallba
         if (throwable != null) {
             predefinedTrLocationArrayCallback.onPredefinedTrLocationArrayError(id, throwable);
         } else {
-            String content = ((ContentInstance) resource).getContent();
-            predefinedTrLocations = GSON.fromJson(content, PredefinedTrLocation[].class);
-            predefinedTrLocationArrayCallback.onPredefinedTrLocationArrayReady(id, this);
+            try {
+                String content = ((ContentInstance) resource).getContent();
+                predefinedTrLocations = GSON.fromJson(content, PredefinedTrLocation[].class);
+                predefinedTrLocationArrayCallback.onPredefinedTrLocationArrayReady(id, this);
+            } catch (Exception e) {
+                predefinedTrLocationArrayCallback.onPredefinedTrLocationArrayError(id, e);
+            }
         }
     }
 
@@ -66,8 +70,8 @@ public class PredefinedTrLocationArray extends BaseArray implements DougalCallba
                 values.clear();
                 values.put(BucksContract.SegmentLocation.COLUMN_LOCATION_ID,
                         predefinedTrLocation.getLocationId());
-                        values.put(BucksContract.SegmentLocation.COLUMN_TO_LATITUDE,
-                                predefinedTrLocation.getToLatitude());
+                values.put(BucksContract.SegmentLocation.COLUMN_TO_LATITUDE,
+                        predefinedTrLocation.getToLatitude());
                 values.put(BucksContract.SegmentLocation.COLUMN_TO_LONGITUDE,
                         predefinedTrLocation.getToLongitude());
                 values.put(BucksContract.SegmentLocation.COLUMN_FROM_LATITUDE,

@@ -41,7 +41,6 @@ public class BucksContract {
                     + SegmentLocation.COLUMN_TO_DESCRIPTOR + " TEXT NOT NULL,"
                     + SegmentLocation.COLUMN_TPEG_DIRECTION + " TEXT NOT NULL"
                     + ");";
-
     public static final String CREATE_VARIABLE_MESSAGE_SIGN_TABLE =
             "CREATE TABLE IF NOT EXISTS " + VariableMessageSign.TABLE_NAME + " ("
                     + VariableMessageSign._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -50,6 +49,16 @@ public class BucksContract {
                     + VariableMessageSign.COLUMN_NUMBER_OF_ROWS + " INTEGER NOT NULL,"
                     + VariableMessageSign.COLUMN_VMS_LEGENDS + " TEXT NOT NULL,"
                     + VariableMessageSign.COLUMN_VMS_TYPE + " TEXT NOT NULL"
+                    + ");";
+    public static final String CREATE_TRAFFIC_FLOW_TABLE =
+            "CREATE TABLE IF NOT EXISTS " + TrafficFlow.TABLE_NAME + " ("
+                    + TrafficFlow._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    + TrafficFlow.COLUMN_LOCATION_REFERENCE + " TEXT NOT NULL,"
+                    + TrafficFlow.COLUMN_VEHICLE_FLOW + " INTEGER NOT NULL,"
+                    + TrafficFlow.COLUMN_AVERAGE_VEHICLE_SPEED + " REAL NOT NULL,"
+                    + TrafficFlow.COLUMN_TRAVEL_TIME + " INTEGER NOT NULL,"
+                    + TrafficFlow.COLUMN_FREE_FLOW_SPEED + " INTEGER NOT NULL,"
+                    + TrafficFlow.COLUMN_FREE_FLOW_TRAVEL_TIME + " INTEGER NOT NULL"
                     + ");";
 
     private BucksContract() {
@@ -99,6 +108,16 @@ public class BucksContract {
         // Store the rows of data as pipe-separated text in one row.
         public static final String COLUMN_VMS_LEGENDS = "vms_legends";
         public static final String COLUMN_VMS_TYPE = "vms_type";
+    }
+
+    public static final class TrafficFlow implements BaseColumns {
+        public static final String TABLE_NAME = "traffic_flow";
+        public static final String COLUMN_LOCATION_REFERENCE = "location_reference";
+        public static final String COLUMN_VEHICLE_FLOW = "vehicle_flow";
+        public static final String COLUMN_AVERAGE_VEHICLE_SPEED = "average_vehicle_speed";
+        public static final String COLUMN_TRAVEL_TIME = "travel_time";
+        public static final String COLUMN_FREE_FLOW_SPEED = "free_flow_speed";
+        public static final String COLUMN_FREE_FLOW_TRAVEL_TIME = "free_flow_travel_time";
     }
 
 }

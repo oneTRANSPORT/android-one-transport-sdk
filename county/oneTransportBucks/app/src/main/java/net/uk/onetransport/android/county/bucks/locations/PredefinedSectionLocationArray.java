@@ -52,9 +52,13 @@ public class PredefinedSectionLocationArray extends BaseArray implements DougalC
         if (throwable != null) {
             predefinedSectionLocationArrayCallback.onPredefinedSectionLocationArrayError(id, throwable);
         } else {
-            String content = ((ContentInstance) resource).getContent();
-            predefinedSectionLocations = GSON.fromJson(content, PredefinedSectionLocation[].class);
-            predefinedSectionLocationArrayCallback.onPredefinedSectionLocationArrayReady(id, this);
+            try {
+                String content = ((ContentInstance) resource).getContent();
+                predefinedSectionLocations = GSON.fromJson(content, PredefinedSectionLocation[].class);
+                predefinedSectionLocationArrayCallback.onPredefinedSectionLocationArrayReady(id, this);
+            } catch (Exception e) {
+                predefinedSectionLocationArrayCallback.onPredefinedSectionLocationArrayError(id, e);
+            }
         }
     }
 

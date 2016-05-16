@@ -19,6 +19,7 @@ public class BucksDbHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(BucksContract.CREATE_VMS_LOCATION_TABLE);
         sqLiteDatabase.execSQL(BucksContract.CREATE_SEGMENT_LOCATION_TABLE);
         sqLiteDatabase.execSQL(BucksContract.CREATE_VARIABLE_MESSAGE_SIGN_TABLE);
+        sqLiteDatabase.execSQL(BucksContract.CREATE_TRAFFIC_FLOW_TABLE);
         Log.i("BucksDbHelper", "DB File = " + sqLiteDatabase.getPath());
     }
 

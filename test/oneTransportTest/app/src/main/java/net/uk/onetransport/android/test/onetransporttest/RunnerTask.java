@@ -14,11 +14,17 @@ import net.uk.onetransport.android.test.onetransporttest.tests.bucks.locations.G
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.locations.GetPredefinedSectionLocationsArrayTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.locations.GetPredefinedTrLocationsArrayTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.locations.GetPredefinedVmsLocationsArrayTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksCarParkDeleteTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksCarParkInsertTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksSegmentLocationDeleteTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksSegmentLocationInsertTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksTrafficFlowDeleteTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksTrafficFlowInsertTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksVariableMessageSignDeleteTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksVariableMessageSignInsertTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksVmsLocationDeleteTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksVmsLocationInsertTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.trafficflow.GetTrafficFlowArrayTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bucks.vms.BucksVariableMessageSignInsertTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.vms.GetVariableMessageSignArrayTest;
 
 public class RunnerTask extends AsyncTask<Void, Object[], Void>
@@ -35,10 +41,16 @@ public class RunnerTask extends AsyncTask<Void, Object[], Void>
             new GetPredefinedVmsLocationsArrayTest(),
             new GetVariableMessageSignArrayTest(),
             new GetTrafficFlowArrayTest(),
+            new BucksCarParkDeleteTest(),
+            new BucksVmsLocationDeleteTest(),
+            new BucksSegmentLocationDeleteTest(),
+            new BucksVariableMessageSignDeleteTest(),
+            new BucksTrafficFlowDeleteTest(),
             new BucksCarParkInsertTest(),
             new BucksVmsLocationInsertTest(),
             new BucksSegmentLocationInsertTest(),
             new BucksVariableMessageSignInsertTest(),
+            new BucksTrafficFlowInsertTest(),
             new ApplicationEntityDeleteTest()
     };
     private int testNum = 0;

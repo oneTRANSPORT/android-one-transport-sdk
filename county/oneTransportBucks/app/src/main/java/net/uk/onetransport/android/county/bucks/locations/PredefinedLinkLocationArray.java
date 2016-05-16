@@ -29,7 +29,7 @@ public class PredefinedLinkLocationArray extends BaseArray implements DougalCall
     }
 
     public static PredefinedLinkLocationArray getPredefinedLinkLocationArray(String aeId, String baseUrl,
-                                                                         String userName, String password) throws Exception {
+                                                                             String userName, String password) throws Exception {
         ContentInstance contentInstance = Container.retrieveLatest(aeId, baseUrl, RETRIEVE_PATH,
                 userName, password);
         String content = contentInstance.getContent();
@@ -37,8 +37,8 @@ public class PredefinedLinkLocationArray extends BaseArray implements DougalCall
     }
 
     public static void getPredefinedLinkLocationArrayAsync(String aeId, String baseUrl, String userName,
-                                                       String password,
-                                                       PredefinedLinkLocationArrayCallback predefinedLinkLocationArrayCallback,
+                                                           String password,
+                                                           PredefinedLinkLocationArrayCallback predefinedLinkLocationArrayCallback,
                                                            int id) {
         PredefinedLinkLocationArray predefinedLinkLocationArray = new PredefinedLinkLocationArray();
         predefinedLinkLocationArray.predefinedLinkLocationArrayCallback = predefinedLinkLocationArrayCallback;
@@ -52,9 +52,13 @@ public class PredefinedLinkLocationArray extends BaseArray implements DougalCall
         if (throwable != null) {
             predefinedLinkLocationArrayCallback.onPredefinedLinkLocationArrayError(id, throwable);
         } else {
-            String content = ((ContentInstance) resource).getContent();
-            predefinedLinkLocations = GSON.fromJson(content, PredefinedLinkLocation[].class);
-            predefinedLinkLocationArrayCallback.onPredefinedLinkLocationArrayReady(id, this);
+            try {
+                String content = ((ContentInstance) resource).getContent();
+                predefinedLinkLocations = GSON.fromJson(content, PredefinedLinkLocation[].class);
+                predefinedLinkLocationArrayCallback.onPredefinedLinkLocationArrayReady(id, this);
+            } catch (Exception e) {
+                predefinedLinkLocationArrayCallback.onPredefinedLinkLocationArrayError(id, e);
+            }
         }
     }
 

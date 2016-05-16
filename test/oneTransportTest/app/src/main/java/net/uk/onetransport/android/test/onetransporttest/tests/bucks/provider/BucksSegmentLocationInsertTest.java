@@ -39,9 +39,8 @@ public class BucksSegmentLocationInsertTest implements OneTransportTest {
             return;
         }
         Context context = runnerTask.getContext();
-        ContentResolver contentResolver = context.getContentResolver();
-        contentResolver.delete(BucksProvider.SEGMENT_LOCATION_URI, null, null);
         predefinedTrLocationArray.insertIntoProvider(context);
+        ContentResolver contentResolver = context.getContentResolver();
 
         PredefinedLinkLocationArray predefinedLinkLocationArray = PredefinedLinkLocationArray
                 .getPredefinedLinkLocationArray(AE_ID, BASE_URL_CSE, USER_NAME, PASSWORD);

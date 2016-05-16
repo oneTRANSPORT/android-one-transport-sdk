@@ -52,9 +52,13 @@ public class PredefinedVmsLocationArray extends BaseArray implements DougalCallb
         if (throwable != null) {
             predefinedVmsLocationArrayCallback.onPredefinedVmsLocationArrayError(id, throwable);
         } else {
-            String content = ((ContentInstance) resource).getContent();
-            predefinedVmsLocations = GSON.fromJson(content, PredefinedVmsLocation[].class);
-            predefinedVmsLocationArrayCallback.onPredefinedVmsLocationArrayReady(id, this);
+            try {
+                String content = ((ContentInstance) resource).getContent();
+                predefinedVmsLocations = GSON.fromJson(content, PredefinedVmsLocation[].class);
+                predefinedVmsLocationArrayCallback.onPredefinedVmsLocationArrayReady(id, this);
+            } catch (Exception e) {
+                predefinedVmsLocationArrayCallback.onPredefinedVmsLocationArrayError(id, e);
+            }
         }
     }
 
