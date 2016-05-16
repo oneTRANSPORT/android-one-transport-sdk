@@ -4,7 +4,7 @@ import android.provider.BaseColumns;
 
 public class BucksContract {
 
-    // Initialisation.
+    // Table initialisation.
     public static final String CREATE_CAR_PARK_TABLE =
             "CREATE TABLE IF NOT EXISTS " + CarPark.TABLE_NAME + " ("
                     + CarPark._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -60,6 +60,42 @@ public class BucksContract {
                     + TrafficFlow.COLUMN_FREE_FLOW_SPEED + " INTEGER NOT NULL,"
                     + TrafficFlow.COLUMN_FREE_FLOW_TRAVEL_TIME + " INTEGER NOT NULL"
                     + ");";
+    // Views using location as a key.
+    public static final String CREATE_VMS_LOCATION_VIEW =
+            "CREATE VIEW IF NOT EXISTS " + VmsJoinLocation.TABLE_NAME + " AS SELECT "
+                    + VariableMessageSign.TABLE_NAME + "." + VariableMessageSign._ID
+                    + " as " + VariableMessageSign._ID + ","
+                    + VmsJoinLocation.COLUMN_NUMBER_OF_CHARACTERS + ","
+                    + VmsJoinLocation.COLUMN_NUMBER_OF_ROWS + ","
+                    + VmsJoinLocation.COLUMN_VMS_LEGENDS + ","
+                    + VmsJoinLocation.COLUMN_VMS_TYPE + ","
+                    + VmsJoinLocation.COLUMN_LOCATION_REFERENCE + ","
+                    + VmsJoinLocation.COLUMN_LATITUDE + ","
+                    + VmsJoinLocation.COLUMN_LONGITUDE + ","
+                    + VmsJoinLocation.COLUMN_DESCRIPTOR + ","
+                    + VmsJoinLocation.COLUMN_TPEG_DIRECTION
+                    + " FROM " + VariableMessageSign.TABLE_NAME + "," + VmsLocation.TABLE_NAME
+                    + " WHERE " + VariableMessageSign.COLUMN_LOCATION_REFERENCE
+                    + "=" + VmsLocation.COLUMN_LOCATION_ID + ";";
+    public static final String CREATE_TRAFFIC_FLOW_LOCATION_VIEW =
+            "CREATE VIEW IF NOT EXISTS " + TrafficFlowJoinLocation.TABLE_NAME + " AS SELECT "
+                    + TrafficFlow.TABLE_NAME + "." + TrafficFlow._ID
+                    + " as " + TrafficFlow._ID + ","
+                    + TrafficFlowJoinLocation.COLUMN_VEHICLE_FLOW + ","
+                    + TrafficFlowJoinLocation.COLUMN_AVERAGE_VEHICLE_SPEED + ","
+                    + TrafficFlowJoinLocation.COLUMN_TRAVEL_TIME + ","
+                    + TrafficFlowJoinLocation.COLUMN_FREE_FLOW_SPEED + ","
+                    + TrafficFlowJoinLocation.COLUMN_FREE_FLOW_TRAVEL_TIME + ","
+                    + TrafficFlowJoinLocation.COLUMN_FROM_LATITUDE + ","
+                    + TrafficFlowJoinLocation.COLUMN_FROM_LONGITUDE + ","
+                    + TrafficFlowJoinLocation.COLUMN_TO_LATITUDE + ","
+                    + TrafficFlowJoinLocation.COLUMN_TO_LONGITUDE + ","
+                    + TrafficFlowJoinLocation.COLUMN_FROM_DESCRIPTOR + ","
+                    + TrafficFlowJoinLocation.COLUMN_TO_DESCRIPTOR + ","
+                    + TrafficFlowJoinLocation.COLUMN_TPEG_DIRECTION
+                    + " FROM " + TrafficFlow.TABLE_NAME + "," + SegmentLocation.TABLE_NAME
+                    + " WHERE " + TrafficFlow.COLUMN_LOCATION_REFERENCE
+                    + "=" + SegmentLocation.COLUMN_LOCATION_ID + ";";
 
     private BucksContract() {
     }
@@ -120,4 +156,32 @@ public class BucksContract {
         public static final String COLUMN_FREE_FLOW_TRAVEL_TIME = "free_flow_travel_time";
     }
 
+    public static final class VmsJoinLocation implements BaseColumns {
+        public static final String TABLE_NAME = "vms_join_location";
+        public static final String COLUMN_NUMBER_OF_CHARACTERS = "number_of_characters";
+        public static final String COLUMN_NUMBER_OF_ROWS = "number_of_rows";
+        public static final String COLUMN_VMS_LEGENDS = "vms_legends";
+        public static final String COLUMN_VMS_TYPE = "vms_type";
+        public static final String COLUMN_LOCATION_REFERENCE = "location_reference";
+        public static final String COLUMN_LATITUDE = "latitude";
+        public static final String COLUMN_LONGITUDE = "longitude";
+        public static final String COLUMN_DESCRIPTOR = "descriptor";
+        public static final String COLUMN_TPEG_DIRECTION = "tpeg_direction";
+    }
+
+    public static final class TrafficFlowJoinLocation implements BaseColumns {
+        public static final String TABLE_NAME = "traffic_flow_join_location";
+        public static final String COLUMN_VEHICLE_FLOW = "vehicle_flow";
+        public static final String COLUMN_AVERAGE_VEHICLE_SPEED = "average_vehicle_speed";
+        public static final String COLUMN_TRAVEL_TIME = "travel_time";
+        public static final String COLUMN_FREE_FLOW_SPEED = "free_flow_speed";
+        public static final String COLUMN_FREE_FLOW_TRAVEL_TIME = "free_flow_travel_time";
+        public static final String COLUMN_FROM_LATITUDE = "from_latitude";
+        public static final String COLUMN_FROM_LONGITUDE = "from_longitude";
+        public static final String COLUMN_TO_LATITUDE = "to_latitude";
+        public static final String COLUMN_TO_LONGITUDE = "to_longitude";
+        public static final String COLUMN_FROM_DESCRIPTOR = "from_descriptor";
+        public static final String COLUMN_TO_DESCRIPTOR = "to_descriptor";
+        public static final String COLUMN_TPEG_DIRECTION = "tpeg_direction";
+    }
 }
