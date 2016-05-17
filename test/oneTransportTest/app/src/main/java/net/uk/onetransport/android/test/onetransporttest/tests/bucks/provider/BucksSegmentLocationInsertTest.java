@@ -1,6 +1,5 @@
 package net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider;
 
-import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 
@@ -10,8 +9,6 @@ import net.uk.onetransport.android.county.bucks.locations.PredefinedLinkLocation
 import net.uk.onetransport.android.county.bucks.locations.PredefinedSectionLocationArray;
 import net.uk.onetransport.android.county.bucks.locations.PredefinedTrLocationArray;
 import net.uk.onetransport.android.county.bucks.provider.BucksContentHelper;
-import net.uk.onetransport.android.county.bucks.provider.BucksContract;
-import net.uk.onetransport.android.county.bucks.provider.BucksProvider;
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
 import net.uk.onetransport.android.test.onetransporttest.tests.OneTransportTest;
 
@@ -42,7 +39,6 @@ public class BucksSegmentLocationInsertTest implements OneTransportTest {
         Context context = runnerTask.getContext();
         BucksContentHelper.insertIntoProvider(context,
                 predefinedTrLocationArray.getPredefinedTrLocations());
-        ContentResolver contentResolver = context.getContentResolver();
 
         PredefinedLinkLocationArray predefinedLinkLocationArray = PredefinedLinkLocationArray
                 .getPredefinedLinkLocationArray(AE_ID, BASE_URL_CSE, USER_NAME, PASSWORD);
@@ -62,20 +58,12 @@ public class BucksSegmentLocationInsertTest implements OneTransportTest {
             return;
         }
         BucksContentHelper.insertIntoProvider(context,
-                predefinedLinkLocationArray.getPredefinedLinkLocations());
-
-        Cursor cursor = contentResolver.query(BucksProvider.SEGMENT_LOCATION_URI, new String[]{
-                BucksContract.SegmentLocation._ID,
-                BucksContract.SegmentLocation.COLUMN_LOCATION_ID,
-                BucksContract.SegmentLocation.COLUMN_TO_LATITUDE,
-                BucksContract.SegmentLocation.COLUMN_TO_LONGITUDE,
-                BucksContract.SegmentLocation.COLUMN_FROM_LATITUDE,
-                BucksContract.SegmentLocation.COLUMN_FROM_LONGITUDE,
-                BucksContract.SegmentLocation.COLUMN_TO_DESCRIPTOR,
-                BucksContract.SegmentLocation.COLUMN_FROM_DESCRIPTOR,
-                BucksContract.SegmentLocation.COLUMN_TPEG_DIRECTION
-        }, null, null, BucksContract.SegmentLocation.COLUMN_LOCATION_ID);
-        if (cursor == null || cursor.getCount() == 0) {
+                predefinedSectionLocationArray.getPredefinedSectionLocations());
+        Cursor cursor = BucksContentHelper.getSegmentLocations(context);
+        if (cursor == null
+                || cursor.getCount() != predefinedLinkLocationArray.getPredefinedLinkLocations().length
+                + predefinedSectionLocationArray.getPredefinedSectionLocations().length
+                + predefinedTrLocationArray.getPredefinedTrLocations().length) {
             runnerTask.report("BUCKS segment location insert ... FAILED.", COLOUR_FAILED);
             if (cursor != null) {
                 cursor.close();

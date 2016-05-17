@@ -1,6 +1,5 @@
 package net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider;
 
-import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 
@@ -8,8 +7,6 @@ import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
 import net.uk.onetransport.android.county.bucks.locations.PredefinedVmsLocationArray;
 import net.uk.onetransport.android.county.bucks.provider.BucksContentHelper;
-import net.uk.onetransport.android.county.bucks.provider.BucksContract;
-import net.uk.onetransport.android.county.bucks.provider.BucksProvider;
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
 import net.uk.onetransport.android.test.onetransporttest.tests.OneTransportTest;
 
@@ -40,16 +37,7 @@ public class BucksVmsLocationInsertTest implements OneTransportTest {
         Context context = runnerTask.getContext();
         BucksContentHelper.insertIntoProvider(context,
                 predefinedVmsLocationArray.getPredefinedVmsLocations());
-        ContentResolver contentResolver = context.getContentResolver();
-        Cursor cursor = contentResolver.query(BucksProvider.VMS_LOCATION_URI, new String[]{
-                BucksContract.VmsLocation._ID,
-                BucksContract.VmsLocation.COLUMN_NAME,
-                BucksContract.VmsLocation.COLUMN_LOCATION_ID,
-                BucksContract.VmsLocation.COLUMN_LATITUDE,
-                BucksContract.VmsLocation.COLUMN_LONGITUDE,
-                BucksContract.VmsLocation.COLUMN_DESCRIPTOR,
-                BucksContract.VmsLocation.COLUMN_TPEG_DIRECTION
-        }, null, null, BucksContract.VmsLocation.COLUMN_NAME);
+        Cursor cursor = BucksContentHelper.getVmsLocations(context);
         if (cursor != null) {
             if (cursor.getCount() > 0) {
                 runnerTask.report("BUCKS vms location insert ... PASSED.", COLOUR_PASSED);

@@ -1,14 +1,11 @@
 package net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider;
 
-import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 
 import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
 import net.uk.onetransport.android.county.bucks.provider.BucksContentHelper;
-import net.uk.onetransport.android.county.bucks.provider.BucksContract;
-import net.uk.onetransport.android.county.bucks.provider.BucksProvider;
 import net.uk.onetransport.android.county.bucks.variablemessagesigns.VariableMessageSignArray;
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
 import net.uk.onetransport.android.test.onetransporttest.tests.OneTransportTest;
@@ -40,16 +37,7 @@ public class BucksVariableMessageSignInsertTest implements OneTransportTest {
         Context context = runnerTask.getContext();
         BucksContentHelper.insertIntoProvider(context,
                 variableMessageSignArray.getVariableMessageSigns());
-        ContentResolver contentResolver = context.getContentResolver();
-        Cursor cursor = contentResolver.query(BucksProvider.VARIABLE_MESSAGE_SIGN_URI,
-                new String[]{
-                        BucksContract.VariableMessageSign._ID,
-                        BucksContract.VariableMessageSign.COLUMN_LOCATION_REFERENCE,
-                        BucksContract.VariableMessageSign.COLUMN_NUMBER_OF_CHARACTERS,
-                        BucksContract.VariableMessageSign.COLUMN_NUMBER_OF_ROWS,
-                        BucksContract.VariableMessageSign.COLUMN_VMS_LEGENDS,
-                        BucksContract.VariableMessageSign.COLUMN_VMS_TYPE
-                }, null, null, BucksContract.VariableMessageSign.COLUMN_LOCATION_REFERENCE);
+        Cursor cursor = BucksContentHelper.getVariableMessageSigns(context);
         if (cursor != null) {
             if (cursor.getCount() > 0) {
                 runnerTask.report("BUCKS variable message sign insert ... PASSED.", COLOUR_PASSED);

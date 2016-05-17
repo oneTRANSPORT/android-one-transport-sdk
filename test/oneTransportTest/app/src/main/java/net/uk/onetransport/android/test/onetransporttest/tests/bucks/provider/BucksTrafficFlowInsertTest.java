@@ -1,14 +1,11 @@
 package net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider;
 
-import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 
 import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
 import net.uk.onetransport.android.county.bucks.provider.BucksContentHelper;
-import net.uk.onetransport.android.county.bucks.provider.BucksContract;
-import net.uk.onetransport.android.county.bucks.provider.BucksProvider;
 import net.uk.onetransport.android.county.bucks.trafficflow.TrafficFlowArray;
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
 import net.uk.onetransport.android.test.onetransporttest.tests.OneTransportTest;
@@ -37,22 +34,16 @@ public class BucksTrafficFlowInsertTest implements OneTransportTest {
             return;
         }
         Context context = runnerTask.getContext();
-        BucksContentHelper.insertIntoProvider(context,trafficFlowArray.getTrafficFlows());
-        ContentResolver contentResolver = context.getContentResolver();
-        Cursor cursor = contentResolver.query(BucksProvider.TRAFFIC_FLOW_URI, new String[]{
-                BucksContract.TrafficFlow._ID,
-                BucksContract.TrafficFlow.COLUMN_LOCATION_REFERENCE,
-                BucksContract.TrafficFlow.COLUMN_VEHICLE_FLOW,
-                BucksContract.TrafficFlow.COLUMN_AVERAGE_VEHICLE_SPEED,
-                BucksContract.TrafficFlow.COLUMN_TRAVEL_TIME,
-                BucksContract.TrafficFlow.COLUMN_FREE_FLOW_SPEED,
-                BucksContract.TrafficFlow.COLUMN_FREE_FLOW_TRAVEL_TIME
-        }, null, null, BucksContract.TrafficFlow.COLUMN_LOCATION_REFERENCE);
-        if (cursor != null && cursor.getCount() > 0) {
-            runnerTask.report("BUCKS traffic flow insert ... PASSED.", COLOUR_PASSED);
-        } else {
-            runnerTask.report("BUCKS traffic flow insert ... FAILED.", COLOUR_FAILED);
+        BucksContentHelper.insertIntoProvider(context, trafficFlowArray.getTrafficFlows());
+        Cursor cursor = BucksContentHelper.getTrafficFlows(context);
+        if (cursor != null) {
+            if (cursor.getCount() > 0) {
+                runnerTask.report("BUCKS traffic flow insert ... PASSED.", COLOUR_PASSED);
+                cursor.close();
+                return;
+            }
+            cursor.close();
         }
-        cursor.close();
+        runnerTask.report("BUCKS traffic flow insert ... FAILED.", COLOUR_FAILED);
     }
 }

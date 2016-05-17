@@ -1,17 +1,11 @@
 package net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider;
 
-import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 
 import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
-import net.uk.onetransport.android.county.bucks.locations.PredefinedLinkLocationArray;
-import net.uk.onetransport.android.county.bucks.locations.PredefinedSectionLocationArray;
-import net.uk.onetransport.android.county.bucks.locations.PredefinedTrLocationArray;
 import net.uk.onetransport.android.county.bucks.provider.BucksContentHelper;
-import net.uk.onetransport.android.county.bucks.provider.BucksContract;
-import net.uk.onetransport.android.county.bucks.provider.BucksProvider;
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
 import net.uk.onetransport.android.test.onetransporttest.tests.OneTransportTest;
 
@@ -39,10 +33,7 @@ public class BucksSegmentLocationDeleteTest implements OneTransportTest {
                 BucksContentHelper.DATA_TYPE_SECTION_LOCATION);
         BucksContentHelper.deleteFromProvider(context,
                 BucksContentHelper.DATA_TYPE_TR_LOCATION);
-        ContentResolver contentResolver = context.getContentResolver();
-        Cursor cursor = contentResolver.query(BucksProvider.SEGMENT_LOCATION_URI, new String[]{
-                BucksContract.SegmentLocation._ID
-        }, null, null, BucksContract.SegmentLocation.COLUMN_LOCATION_ID);
+        Cursor cursor = BucksContentHelper.getSegmentLocations(context);
         if (cursor != null) {
             if (cursor.getCount() == 0) {
                 runnerTask.report("BUCKS segment location delete ... PASSED.", COLOUR_PASSED);
@@ -51,6 +42,6 @@ public class BucksSegmentLocationDeleteTest implements OneTransportTest {
             }
             cursor.close();
         }
-        runnerTask.report("BUCKS segment location insert ... FAILED.", COLOUR_FAILED);
+        runnerTask.report("BUCKS segment location delete ... FAILED.", COLOUR_FAILED);
     }
 }

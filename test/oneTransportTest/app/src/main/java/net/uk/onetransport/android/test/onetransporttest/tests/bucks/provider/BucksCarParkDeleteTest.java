@@ -31,10 +31,7 @@ public class BucksCarParkDeleteTest implements OneTransportTest {
         runnerTask.setCurrentTest("BUCKS car park delete");
         Context context = runnerTask.getContext();
         BucksContentHelper.deleteFromProvider(context, BucksContentHelper.DATA_TYPE_CAR_PARK);
-        ContentResolver contentResolver = context.getContentResolver();
-        Cursor cursor = contentResolver.query(BucksProvider.CAR_PARK_URI, new String[]{
-                BucksContract.CarPark._ID
-        }, null, null, BucksContract.CarPark.COLUMN_CAR_PARK_IDENTITY);
+        Cursor cursor=BucksContentHelper.getCarParks(context);
         if (cursor != null) {
             if (cursor.getCount() == 0) {
                 runnerTask.report("BUCKS car park delete ... PASSED.", COLOUR_PASSED);

@@ -26,8 +26,10 @@ public class BucksProvider extends ContentProvider {
             + VmsLocation.TABLE_NAME);
     public static final Uri SEGMENT_LOCATION_URI = Uri.parse(AUTHORITY_URI
             + SegmentLocation.TABLE_NAME);
+// TODO Use join table instead.
     public static final Uri VARIABLE_MESSAGE_SIGN_URI = Uri.parse(AUTHORITY_URI
             + VariableMessageSign.TABLE_NAME);
+    // TODO Use join table instead.
     public static final Uri TRAFFIC_FLOW_URI = Uri.parse(AUTHORITY_URI
             + TrafficFlow.TABLE_NAME);
 

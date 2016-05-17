@@ -3,6 +3,7 @@ package net.uk.onetransport.android.county.bucks.provider;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.support.annotation.IntDef;
 
 import net.uk.onetransport.android.county.bucks.carparks.CarPark;
@@ -213,6 +214,76 @@ public class BucksContentHelper {
                 contentResolver.insert(BucksProvider.VARIABLE_MESSAGE_SIGN_URI, values);
             }
         }
+    }
+
+    public static Cursor getSegmentLocations(Context context) {
+        return context.getContentResolver().query(BucksProvider.SEGMENT_LOCATION_URI,
+                new String[]{
+                        BucksContract.SegmentLocation._ID,
+                        BucksContract.SegmentLocation.COLUMN_LOCATION_ID,
+                        BucksContract.SegmentLocation.COLUMN_TO_LATITUDE,
+                        BucksContract.SegmentLocation.COLUMN_TO_LONGITUDE,
+                        BucksContract.SegmentLocation.COLUMN_FROM_LATITUDE,
+                        BucksContract.SegmentLocation.COLUMN_FROM_LONGITUDE,
+                        BucksContract.SegmentLocation.COLUMN_TO_DESCRIPTOR,
+                        BucksContract.SegmentLocation.COLUMN_FROM_DESCRIPTOR,
+                        BucksContract.SegmentLocation.COLUMN_TPEG_DIRECTION
+                }, null, null, BucksContract.SegmentLocation.COLUMN_LOCATION_ID);
+    }
+
+    public static Cursor getVmsLocations(Context context) {
+        return context.getContentResolver().query(BucksProvider.VMS_LOCATION_URI,
+                new String[]{
+                        BucksContract.VmsLocation._ID,
+                        BucksContract.VmsLocation.COLUMN_NAME,
+                        BucksContract.VmsLocation.COLUMN_LOCATION_ID,
+                        BucksContract.VmsLocation.COLUMN_LATITUDE,
+                        BucksContract.VmsLocation.COLUMN_LONGITUDE,
+                        BucksContract.VmsLocation.COLUMN_DESCRIPTOR,
+                        BucksContract.VmsLocation.COLUMN_TPEG_DIRECTION
+                }, null, null, BucksContract.VmsLocation.COLUMN_NAME);
+    }
+
+    public static Cursor getCarParks(Context context) {
+        return context.getContentResolver().query(BucksProvider.CAR_PARK_URI,
+                new String[]{
+                        BucksContract.CarPark._ID,
+                        BucksContract.CarPark.COLUMN_CAR_PARK_IDENTITY,
+                        BucksContract.CarPark.COLUMN_TOTAL_PARKING_CAPACITY,
+                        BucksContract.CarPark.COLUMN_ALMOST_FULL_DECREASING,
+                        BucksContract.CarPark.COLUMN_ALMOST_FULL_INCREASING,
+                        BucksContract.CarPark.COLUMN_FULL_DECREASING,
+                        BucksContract.CarPark.COLUMN_FULL_INCREASING,
+                        BucksContract.CarPark.COLUMN_ENTRANCE_FULL,
+                        BucksContract.CarPark.COLUMN_RADIUS,
+                        BucksContract.CarPark.COLUMN_LATITUDE,
+                        BucksContract.CarPark.COLUMN_LONGITUDE
+                }, null, null, BucksContract.CarPark.COLUMN_CAR_PARK_IDENTITY);
+    }
+
+    public static Cursor getTrafficFlows(Context context) {
+        return context.getContentResolver().query(BucksProvider.TRAFFIC_FLOW_URI,
+                new String[]{
+                        BucksContract.TrafficFlow._ID,
+                        BucksContract.TrafficFlow.COLUMN_LOCATION_REFERENCE,
+                        BucksContract.TrafficFlow.COLUMN_VEHICLE_FLOW,
+                        BucksContract.TrafficFlow.COLUMN_AVERAGE_VEHICLE_SPEED,
+                        BucksContract.TrafficFlow.COLUMN_TRAVEL_TIME,
+                        BucksContract.TrafficFlow.COLUMN_FREE_FLOW_SPEED,
+                        BucksContract.TrafficFlow.COLUMN_FREE_FLOW_TRAVEL_TIME
+                }, null, null, BucksContract.TrafficFlow.COLUMN_LOCATION_REFERENCE);
+    }
+
+    public static Cursor getVariableMessageSigns(Context context) {
+        return context.getContentResolver().query(BucksProvider.VARIABLE_MESSAGE_SIGN_URI,
+                new String[]{
+                        BucksContract.VariableMessageSign._ID,
+                        BucksContract.VariableMessageSign.COLUMN_LOCATION_REFERENCE,
+                        BucksContract.VariableMessageSign.COLUMN_NUMBER_OF_CHARACTERS,
+                        BucksContract.VariableMessageSign.COLUMN_NUMBER_OF_ROWS,
+                        BucksContract.VariableMessageSign.COLUMN_VMS_LEGENDS,
+                        BucksContract.VariableMessageSign.COLUMN_VMS_TYPE
+                }, null, null, BucksContract.VariableMessageSign.COLUMN_LOCATION_REFERENCE);
     }
 
     public static void deleteFromProvider(Context context, @DataType int dataType) {
