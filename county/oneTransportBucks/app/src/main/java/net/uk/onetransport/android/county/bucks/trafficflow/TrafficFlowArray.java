@@ -85,6 +85,10 @@ public class TrafficFlowArray extends BaseArray implements DougalCallback {
         }
     }
 
+    public static void deleteFromProvider(Context context){
+        ContentResolver contentResolver = context.getContentResolver();
+        contentResolver.delete(BucksProvider.TRAFFIC_FLOW_URI, null, null);
+    }
 
     public TrafficFlow[] getTrafficFlows() {
         return trafficFlows;

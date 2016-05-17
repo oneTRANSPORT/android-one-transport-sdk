@@ -84,6 +84,11 @@ public class CarParkArray extends BaseArray implements DougalCallback {
         }
     }
 
+    public static void deleteFromProvider(Context context){
+        ContentResolver contentResolver = context.getContentResolver();
+        contentResolver.delete(BucksProvider.CAR_PARK_URI, null, null);
+    }
+
     public CarPark[] getCarParks() {
         return carParks;
     }

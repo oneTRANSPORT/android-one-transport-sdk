@@ -30,8 +30,9 @@ public class BucksVmsLocationDeleteTest implements OneTransportTest {
     private void deleteVmsLocations() throws Exception {
         runnerTask.setCurrentTest("BUCKS vms location delete");
         Context context = runnerTask.getContext();
+        PredefinedVmsLocationArray.deleteFromProvider(context);
         ContentResolver contentResolver = context.getContentResolver();
-        contentResolver.delete(BucksProvider.VMS_LOCATION_URI, null, null);
+        // TODO Convenience method in provider?
         Cursor cursor = contentResolver.query(BucksProvider.VMS_LOCATION_URI, new String[]{
                 BucksContract.VmsLocation._ID
         }, null, null, BucksContract.VmsLocation.COLUMN_NAME);

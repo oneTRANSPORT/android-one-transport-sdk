@@ -89,6 +89,12 @@ public class PredefinedLinkLocationArray extends BaseArray implements DougalCall
         }
     }
 
+    public static void deleteFromProvider(Context context){
+        ContentResolver contentResolver = context.getContentResolver();
+        contentResolver.delete(BucksProvider.SEGMENT_LOCATION_URI,
+                BucksContract.SegmentLocation.COLUMN_LOCATION_ID + " like 'LINKBUCK-%'", null);
+    }
+
     public PredefinedLinkLocation[] getPredefinedLinkLocations() {
         return predefinedLinkLocations;
     }

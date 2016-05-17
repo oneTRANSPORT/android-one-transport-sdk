@@ -90,6 +90,11 @@ public class VariableMessageSignArray extends BaseArray implements DougalCallbac
         }
     }
 
+    public static void deleteFromProvider(Context context){
+        ContentResolver contentResolver = context.getContentResolver();
+        contentResolver.delete(BucksProvider.VARIABLE_MESSAGE_SIGN_URI, null, null);
+    }
+
     public VariableMessageSign[] getVariableMessageSigns() {
         return variableMessageSigns;
     }

@@ -85,6 +85,11 @@ public class PredefinedVmsLocationArray extends BaseArray implements DougalCallb
         }
     }
 
+    public static void deleteFromProvider(Context context) {
+        ContentResolver contentResolver = context.getContentResolver();
+        contentResolver.delete(BucksProvider.VMS_LOCATION_URI, null, null);
+    }
+
     public PredefinedVmsLocation[] getPredefinedVmsLocations() {
         return predefinedVmsLocations;
     }

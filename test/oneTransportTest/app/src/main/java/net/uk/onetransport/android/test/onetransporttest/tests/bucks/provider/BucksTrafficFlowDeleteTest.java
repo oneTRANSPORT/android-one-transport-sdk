@@ -8,6 +8,7 @@ import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
 import net.uk.onetransport.android.county.bucks.provider.BucksContract;
 import net.uk.onetransport.android.county.bucks.provider.BucksProvider;
+import net.uk.onetransport.android.county.bucks.trafficflow.TrafficFlowArray;
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
 import net.uk.onetransport.android.test.onetransporttest.tests.OneTransportTest;
 
@@ -29,8 +30,8 @@ public class BucksTrafficFlowDeleteTest implements OneTransportTest {
     private void deleteTrafficFlow() throws Exception {
         runnerTask.setCurrentTest("BUCKS traffic flow delete");
         Context context = runnerTask.getContext();
+        TrafficFlowArray.deleteFromProvider(context);
         ContentResolver contentResolver = context.getContentResolver();
-        contentResolver.delete(BucksProvider.TRAFFIC_FLOW_URI, null, null);
         Cursor cursor = contentResolver.query(BucksProvider.TRAFFIC_FLOW_URI, new String[]{
                 BucksContract.TrafficFlow._ID
         }, null, null, BucksContract.TrafficFlow.COLUMN_LOCATION_REFERENCE);

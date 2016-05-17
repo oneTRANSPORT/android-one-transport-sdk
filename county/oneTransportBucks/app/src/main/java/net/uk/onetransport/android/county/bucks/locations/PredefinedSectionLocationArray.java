@@ -89,6 +89,12 @@ public class PredefinedSectionLocationArray extends BaseArray implements DougalC
         }
     }
 
+    public static void deleteFromProvider(Context context){
+        ContentResolver contentResolver = context.getContentResolver();
+        contentResolver.delete(BucksProvider.SEGMENT_LOCATION_URI,
+                BucksContract.SegmentLocation.COLUMN_LOCATION_ID + " like 'SECTION%'", null);
+    }
+
     public PredefinedSectionLocation[] getPredefinedSectionLocations() {
         return predefinedSectionLocations;
     }

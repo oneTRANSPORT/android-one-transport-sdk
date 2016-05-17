@@ -89,6 +89,12 @@ public class PredefinedTrLocationArray extends BaseArray implements DougalCallba
         }
     }
 
+    public static void deleteFromProvider(Context context){
+        ContentResolver contentResolver = context.getContentResolver();
+        contentResolver.delete(BucksProvider.SEGMENT_LOCATION_URI,
+                BucksContract.SegmentLocation.COLUMN_LOCATION_ID + " like 'TRBUCK-%'", null);
+    }
+
     public PredefinedTrLocation[] getPredefinedTrLocations() {
         return predefinedTrLocations;
     }

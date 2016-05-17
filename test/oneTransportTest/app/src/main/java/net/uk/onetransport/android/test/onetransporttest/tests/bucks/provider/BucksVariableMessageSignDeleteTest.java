@@ -8,6 +8,7 @@ import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
 import net.uk.onetransport.android.county.bucks.provider.BucksContract;
 import net.uk.onetransport.android.county.bucks.provider.BucksProvider;
+import net.uk.onetransport.android.county.bucks.variablemessagesigns.VariableMessageSignArray;
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
 import net.uk.onetransport.android.test.onetransporttest.tests.OneTransportTest;
 
@@ -29,8 +30,8 @@ public class BucksVariableMessageSignDeleteTest implements OneTransportTest {
     private void deleteVariableMessageSigns() throws Exception {
         runnerTask.setCurrentTest("BUCKS variable message sign delete");
         Context context = runnerTask.getContext();
+        VariableMessageSignArray.deleteFromProvider(context);
         ContentResolver contentResolver = context.getContentResolver();
-        contentResolver.delete(BucksProvider.VARIABLE_MESSAGE_SIGN_URI, null, null);
         Cursor cursor = contentResolver.query(BucksProvider.VARIABLE_MESSAGE_SIGN_URI,
                 new String[]{
                         BucksContract.VariableMessageSign._ID
