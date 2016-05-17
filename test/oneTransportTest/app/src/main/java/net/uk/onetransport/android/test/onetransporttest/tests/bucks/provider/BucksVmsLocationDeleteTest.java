@@ -6,7 +6,7 @@ import android.database.Cursor;
 
 import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
-import net.uk.onetransport.android.county.bucks.locations.PredefinedVmsLocationArray;
+import net.uk.onetransport.android.county.bucks.provider.BucksContentHelper;
 import net.uk.onetransport.android.county.bucks.provider.BucksContract;
 import net.uk.onetransport.android.county.bucks.provider.BucksProvider;
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
@@ -30,7 +30,8 @@ public class BucksVmsLocationDeleteTest implements OneTransportTest {
     private void deleteVmsLocations() throws Exception {
         runnerTask.setCurrentTest("BUCKS vms location delete");
         Context context = runnerTask.getContext();
-        PredefinedVmsLocationArray.deleteFromProvider(context);
+        BucksContentHelper.deleteFromProvider(context,
+                BucksContentHelper.DATA_TYPE_VMS_LOCATION);
         ContentResolver contentResolver = context.getContentResolver();
         // TODO Convenience method in provider?
         Cursor cursor = contentResolver.query(BucksProvider.VMS_LOCATION_URI, new String[]{

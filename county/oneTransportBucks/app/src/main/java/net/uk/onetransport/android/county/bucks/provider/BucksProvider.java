@@ -4,6 +4,7 @@ import android.content.ContentProvider;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -295,4 +296,24 @@ public class BucksProvider extends ContentProvider {
         }
         return rows;
     }
+
+    // Convenience methods for app developers.
+
+    public static Cursor getCarParksByName(Context context) {
+        ContentResolver contentResolver = context.getContentResolver();
+        return contentResolver.query(BucksProvider.CAR_PARK_URI, new String[]{
+                BucksContract.CarPark._ID,
+                BucksContract.CarPark.COLUMN_CAR_PARK_IDENTITY,
+                BucksContract.CarPark.COLUMN_TOTAL_PARKING_CAPACITY,
+                BucksContract.CarPark.COLUMN_ALMOST_FULL_DECREASING,
+                BucksContract.CarPark.COLUMN_ALMOST_FULL_INCREASING,
+                BucksContract.CarPark.COLUMN_FULL_DECREASING,
+                BucksContract.CarPark.COLUMN_FULL_INCREASING,
+                BucksContract.CarPark.COLUMN_ENTRANCE_FULL,
+                BucksContract.CarPark.COLUMN_RADIUS,
+                BucksContract.CarPark.COLUMN_LATITUDE,
+                BucksContract.CarPark.COLUMN_LONGITUDE
+        }, null, null, BucksContract.CarPark.COLUMN_CAR_PARK_IDENTITY);
+    }
+
 }

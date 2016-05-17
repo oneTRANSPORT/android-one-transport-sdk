@@ -62,39 +62,6 @@ public class PredefinedLinkLocationArray extends BaseArray implements DougalCall
         }
     }
 
-    public void insertIntoProvider(Context context) {
-        if (predefinedLinkLocations != null && predefinedLinkLocations.length > 0) {
-            ContentResolver contentResolver = context.getContentResolver();
-            ContentValues values = new ContentValues();
-            for (PredefinedLinkLocation predefinedLinkLocation : predefinedLinkLocations) {
-                values.clear();
-                values.put(BucksContract.SegmentLocation.COLUMN_LOCATION_ID,
-                        predefinedLinkLocation.getLocationId());
-                values.put(BucksContract.SegmentLocation.COLUMN_TO_LATITUDE,
-                        predefinedLinkLocation.getToLatitude());
-                values.put(BucksContract.SegmentLocation.COLUMN_TO_LONGITUDE,
-                        predefinedLinkLocation.getToLongitude());
-                values.put(BucksContract.SegmentLocation.COLUMN_FROM_LATITUDE,
-                        predefinedLinkLocation.getFromLatitude());
-                values.put(BucksContract.SegmentLocation.COLUMN_FROM_LONGITUDE,
-                        predefinedLinkLocation.getFromLongitude());
-                values.put(BucksContract.SegmentLocation.COLUMN_TO_DESCRIPTOR,
-                        predefinedLinkLocation.getToDescriptor());
-                values.put(BucksContract.SegmentLocation.COLUMN_FROM_DESCRIPTOR,
-                        predefinedLinkLocation.getFromDescriptor());
-                values.put(BucksContract.SegmentLocation.COLUMN_TPEG_DIRECTION,
-                        predefinedLinkLocation.getTpegDirection());
-                contentResolver.insert(BucksProvider.SEGMENT_LOCATION_URI, values);
-            }
-        }
-    }
-
-    public static void deleteFromProvider(Context context){
-        ContentResolver contentResolver = context.getContentResolver();
-        contentResolver.delete(BucksProvider.SEGMENT_LOCATION_URI,
-                BucksContract.SegmentLocation.COLUMN_LOCATION_ID + " like 'LINKBUCK-%'", null);
-    }
-
     public PredefinedLinkLocation[] getPredefinedLinkLocations() {
         return predefinedLinkLocations;
     }

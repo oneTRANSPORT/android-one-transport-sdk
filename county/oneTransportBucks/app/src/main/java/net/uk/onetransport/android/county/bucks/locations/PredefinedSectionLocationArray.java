@@ -62,39 +62,6 @@ public class PredefinedSectionLocationArray extends BaseArray implements DougalC
         }
     }
 
-    public void insertIntoProvider(Context context) {
-        if (predefinedSectionLocations != null && predefinedSectionLocations.length > 0) {
-            ContentResolver contentResolver = context.getContentResolver();
-            ContentValues values = new ContentValues();
-            for (PredefinedSectionLocation predefinedSectionLocation : predefinedSectionLocations) {
-                values.clear();
-                values.put(BucksContract.SegmentLocation.COLUMN_LOCATION_ID,
-                        predefinedSectionLocation.getLocationId());
-                values.put(BucksContract.SegmentLocation.COLUMN_TO_LATITUDE,
-                        predefinedSectionLocation.getToLatitude());
-                values.put(BucksContract.SegmentLocation.COLUMN_TO_LONGITUDE,
-                        predefinedSectionLocation.getToLongitude());
-                values.put(BucksContract.SegmentLocation.COLUMN_FROM_LATITUDE,
-                        predefinedSectionLocation.getFromLatitude());
-                values.put(BucksContract.SegmentLocation.COLUMN_FROM_LONGITUDE,
-                        predefinedSectionLocation.getFromLongitude());
-                values.put(BucksContract.SegmentLocation.COLUMN_TO_DESCRIPTOR,
-                        predefinedSectionLocation.getToDescriptor());
-                values.put(BucksContract.SegmentLocation.COLUMN_FROM_DESCRIPTOR,
-                        predefinedSectionLocation.getFromDescriptor());
-                values.put(BucksContract.SegmentLocation.COLUMN_TPEG_DIRECTION,
-                        predefinedSectionLocation.getTpegDirection());
-                contentResolver.insert(BucksProvider.SEGMENT_LOCATION_URI, values);
-            }
-        }
-    }
-
-    public static void deleteFromProvider(Context context){
-        ContentResolver contentResolver = context.getContentResolver();
-        contentResolver.delete(BucksProvider.SEGMENT_LOCATION_URI,
-                BucksContract.SegmentLocation.COLUMN_LOCATION_ID + " like 'SECTION%'", null);
-    }
-
     public PredefinedSectionLocation[] getPredefinedSectionLocations() {
         return predefinedSectionLocations;
     }

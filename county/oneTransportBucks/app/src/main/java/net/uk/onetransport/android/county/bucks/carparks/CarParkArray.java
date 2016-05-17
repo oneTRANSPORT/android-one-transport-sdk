@@ -59,36 +59,6 @@ public class CarParkArray extends BaseArray implements DougalCallback {
         }
     }
 
-    public void insertIntoProvider(Context context) {
-        if (carParks != null && carParks.length > 0) {
-            ContentResolver contentResolver = context.getContentResolver();
-            ContentValues values = new ContentValues();
-            for (CarPark carPark : carParks) {
-                values.clear();
-                values.put(BucksContract.CarPark.COLUMN_RADIUS, carPark.getRadius());
-                values.put(BucksContract.CarPark.COLUMN_LATITUDE, carPark.getLatitude());
-                values.put(BucksContract.CarPark.COLUMN_LONGITUDE, carPark.getLongitude());
-                values.put(BucksContract.CarPark.COLUMN_ENTRANCE_FULL, carPark.getEntranceFull());
-                values.put(BucksContract.CarPark.COLUMN_FULL_INCREASING, carPark.getFullIncreasing());
-                values.put(BucksContract.CarPark.COLUMN_FULL_DECREASING, carPark.getFullDecreasing());
-                values.put(BucksContract.CarPark.COLUMN_CAR_PARK_IDENTITY,
-                        carPark.getCarParkIdentity());
-                values.put(BucksContract.CarPark.COLUMN_TOTAL_PARKING_CAPACITY,
-                        carPark.getTotalParkingCapacity());
-                values.put(BucksContract.CarPark.COLUMN_ALMOST_FULL_INCREASING,
-                        carPark.getAlmostFullIncreasing());
-                values.put(BucksContract.CarPark.COLUMN_ALMOST_FULL_DECREASING,
-                        carPark.getAlmostFullDecreasing());
-                contentResolver.insert(BucksProvider.CAR_PARK_URI, values);
-            }
-        }
-    }
-
-    public static void deleteFromProvider(Context context){
-        ContentResolver contentResolver = context.getContentResolver();
-        contentResolver.delete(BucksProvider.CAR_PARK_URI, null, null);
-    }
-
     public CarPark[] getCarParks() {
         return carParks;
     }

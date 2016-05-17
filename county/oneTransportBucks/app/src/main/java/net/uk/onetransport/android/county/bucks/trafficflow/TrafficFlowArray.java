@@ -62,34 +62,6 @@ public class TrafficFlowArray extends BaseArray implements DougalCallback {
         }
     }
 
-    // TODO Merge different JSON objects.
-    public void insertIntoProvider(Context context) {
-        if (trafficFlows != null && trafficFlows.length > 0) {
-            ContentResolver contentResolver = context.getContentResolver();
-            ContentValues values = new ContentValues();
-            for (TrafficFlow trafficFlow : trafficFlows) {
-                values.clear();
-                values.put(BucksContract.TrafficFlow.COLUMN_LOCATION_REFERENCE,
-                        trafficFlow.getLocationReference());
-                values.put(BucksContract.TrafficFlow.COLUMN_VEHICLE_FLOW,
-                        trafficFlow.getVehicleFlow());
-                values.put(BucksContract.TrafficFlow.COLUMN_AVERAGE_VEHICLE_SPEED,
-                        trafficFlow.getAverageVehicleSpeed());
-                values.put(BucksContract.TrafficFlow.COLUMN_TRAVEL_TIME, trafficFlow.getTravelTime());
-                values.put(BucksContract.TrafficFlow.COLUMN_FREE_FLOW_SPEED,
-                        trafficFlow.getFreeFlowSpeed());
-                values.put(BucksContract.TrafficFlow.COLUMN_FREE_FLOW_TRAVEL_TIME,
-                        trafficFlow.getFreeFlowTravelTime());
-                contentResolver.insert(BucksProvider.TRAFFIC_FLOW_URI, values);
-            }
-        }
-    }
-
-    public static void deleteFromProvider(Context context){
-        ContentResolver contentResolver = context.getContentResolver();
-        contentResolver.delete(BucksProvider.TRAFFIC_FLOW_URI, null, null);
-    }
-
     public TrafficFlow[] getTrafficFlows() {
         return trafficFlows;
     }

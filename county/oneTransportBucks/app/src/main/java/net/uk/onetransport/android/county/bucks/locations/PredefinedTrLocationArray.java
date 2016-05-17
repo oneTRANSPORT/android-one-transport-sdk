@@ -62,39 +62,6 @@ public class PredefinedTrLocationArray extends BaseArray implements DougalCallba
         }
     }
 
-    public void insertIntoProvider(Context context) {
-        if (predefinedTrLocations != null && predefinedTrLocations.length > 0) {
-            ContentResolver contentResolver = context.getContentResolver();
-            ContentValues values = new ContentValues();
-            for (PredefinedTrLocation predefinedTrLocation : predefinedTrLocations) {
-                values.clear();
-                values.put(BucksContract.SegmentLocation.COLUMN_LOCATION_ID,
-                        predefinedTrLocation.getLocationId());
-                values.put(BucksContract.SegmentLocation.COLUMN_TO_LATITUDE,
-                        predefinedTrLocation.getToLatitude());
-                values.put(BucksContract.SegmentLocation.COLUMN_TO_LONGITUDE,
-                        predefinedTrLocation.getToLongitude());
-                values.put(BucksContract.SegmentLocation.COLUMN_FROM_LATITUDE,
-                        predefinedTrLocation.getFromLatitude());
-                values.put(BucksContract.SegmentLocation.COLUMN_FROM_LONGITUDE,
-                        predefinedTrLocation.getFromLongitude());
-                values.put(BucksContract.SegmentLocation.COLUMN_TO_DESCRIPTOR,
-                        predefinedTrLocation.getToDescriptor());
-                values.put(BucksContract.SegmentLocation.COLUMN_FROM_DESCRIPTOR,
-                        predefinedTrLocation.getFromDescriptor());
-                values.put(BucksContract.SegmentLocation.COLUMN_TPEG_DIRECTION,
-                        predefinedTrLocation.getTpegDirection());
-                contentResolver.insert(BucksProvider.SEGMENT_LOCATION_URI, values);
-            }
-        }
-    }
-
-    public static void deleteFromProvider(Context context){
-        ContentResolver contentResolver = context.getContentResolver();
-        contentResolver.delete(BucksProvider.SEGMENT_LOCATION_URI,
-                BucksContract.SegmentLocation.COLUMN_LOCATION_ID + " like 'TRBUCK-%'", null);
-    }
-
     public PredefinedTrLocation[] getPredefinedTrLocations() {
         return predefinedTrLocations;
     }

@@ -6,6 +6,7 @@ import android.database.Cursor;
 
 import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
+import net.uk.onetransport.android.county.bucks.provider.BucksContentHelper;
 import net.uk.onetransport.android.county.bucks.provider.BucksContract;
 import net.uk.onetransport.android.county.bucks.provider.BucksProvider;
 import net.uk.onetransport.android.county.bucks.trafficflow.TrafficFlowArray;
@@ -36,7 +37,7 @@ public class BucksTrafficFlowInsertTest implements OneTransportTest {
             return;
         }
         Context context = runnerTask.getContext();
-        trafficFlowArray.insertIntoProvider(context);
+        BucksContentHelper.insertIntoProvider(context,trafficFlowArray.getTrafficFlows());
         ContentResolver contentResolver = context.getContentResolver();
         Cursor cursor = contentResolver.query(BucksProvider.TRAFFIC_FLOW_URI, new String[]{
                 BucksContract.TrafficFlow._ID,

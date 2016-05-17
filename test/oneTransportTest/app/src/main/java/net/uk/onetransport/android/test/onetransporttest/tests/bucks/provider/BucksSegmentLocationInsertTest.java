@@ -9,6 +9,7 @@ import com.interdigital.android.dougal.resource.callback.DougalCallback;
 import net.uk.onetransport.android.county.bucks.locations.PredefinedLinkLocationArray;
 import net.uk.onetransport.android.county.bucks.locations.PredefinedSectionLocationArray;
 import net.uk.onetransport.android.county.bucks.locations.PredefinedTrLocationArray;
+import net.uk.onetransport.android.county.bucks.provider.BucksContentHelper;
 import net.uk.onetransport.android.county.bucks.provider.BucksContract;
 import net.uk.onetransport.android.county.bucks.provider.BucksProvider;
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
@@ -39,7 +40,8 @@ public class BucksSegmentLocationInsertTest implements OneTransportTest {
             return;
         }
         Context context = runnerTask.getContext();
-        predefinedTrLocationArray.insertIntoProvider(context);
+        BucksContentHelper.insertIntoProvider(context,
+                predefinedTrLocationArray.getPredefinedTrLocations());
         ContentResolver contentResolver = context.getContentResolver();
 
         PredefinedLinkLocationArray predefinedLinkLocationArray = PredefinedLinkLocationArray
@@ -49,7 +51,8 @@ public class BucksSegmentLocationInsertTest implements OneTransportTest {
             runnerTask.report("BUCKS segment location insert ... FAILED.", COLOUR_FAILED);
             return;
         }
-        predefinedLinkLocationArray.insertIntoProvider(context);
+        BucksContentHelper.insertIntoProvider(context,
+                predefinedLinkLocationArray.getPredefinedLinkLocations());
 
         PredefinedSectionLocationArray predefinedSectionLocationArray = PredefinedSectionLocationArray
                 .getPredefinedSectionLocationArray(AE_ID, BASE_URL_CSE, USER_NAME, PASSWORD);
@@ -58,7 +61,8 @@ public class BucksSegmentLocationInsertTest implements OneTransportTest {
             runnerTask.report("BUCKS segment location insert ... FAILED.", COLOUR_FAILED);
             return;
         }
-        predefinedSectionLocationArray.insertIntoProvider(context);
+        BucksContentHelper.insertIntoProvider(context,
+                predefinedLinkLocationArray.getPredefinedLinkLocations());
 
         Cursor cursor = contentResolver.query(BucksProvider.SEGMENT_LOCATION_URI, new String[]{
                 BucksContract.SegmentLocation._ID,

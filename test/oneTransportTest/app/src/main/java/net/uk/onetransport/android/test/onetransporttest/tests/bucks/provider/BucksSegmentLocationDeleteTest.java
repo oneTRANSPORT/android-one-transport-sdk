@@ -9,6 +9,7 @@ import com.interdigital.android.dougal.resource.callback.DougalCallback;
 import net.uk.onetransport.android.county.bucks.locations.PredefinedLinkLocationArray;
 import net.uk.onetransport.android.county.bucks.locations.PredefinedSectionLocationArray;
 import net.uk.onetransport.android.county.bucks.locations.PredefinedTrLocationArray;
+import net.uk.onetransport.android.county.bucks.provider.BucksContentHelper;
 import net.uk.onetransport.android.county.bucks.provider.BucksContract;
 import net.uk.onetransport.android.county.bucks.provider.BucksProvider;
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
@@ -32,9 +33,12 @@ public class BucksSegmentLocationDeleteTest implements OneTransportTest {
     private void deleteSegmentLocations() throws Exception {
         runnerTask.setCurrentTest("BUCKS segment location delete");
         Context context = runnerTask.getContext();
-        PredefinedLinkLocationArray.deleteFromProvider(context);
-        PredefinedSectionLocationArray.deleteFromProvider(context);
-        PredefinedTrLocationArray.deleteFromProvider(context);
+        BucksContentHelper.deleteFromProvider(context,
+                BucksContentHelper.DATA_TYPE_LINK_LOCATION);
+        BucksContentHelper.deleteFromProvider(context,
+                BucksContentHelper.DATA_TYPE_SECTION_LOCATION);
+        BucksContentHelper.deleteFromProvider(context,
+                BucksContentHelper.DATA_TYPE_TR_LOCATION);
         ContentResolver contentResolver = context.getContentResolver();
         Cursor cursor = contentResolver.query(BucksProvider.SEGMENT_LOCATION_URI, new String[]{
                 BucksContract.SegmentLocation._ID

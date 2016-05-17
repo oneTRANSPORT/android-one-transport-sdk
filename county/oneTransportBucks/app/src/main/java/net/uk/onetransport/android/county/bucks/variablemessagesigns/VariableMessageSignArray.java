@@ -61,40 +61,6 @@ public class VariableMessageSignArray extends BaseArray implements DougalCallbac
         }
     }
 
-    public void insertIntoProvider(Context context) {
-        if (variableMessageSigns != null && variableMessageSigns.length > 0) {
-            ContentResolver contentResolver = context.getContentResolver();
-            ContentValues values = new ContentValues();
-            StringBuffer buffer = new StringBuffer();
-            for (VariableMessageSign variableMessageSign : variableMessageSigns) {
-                values.clear();
-                values.put(BucksContract.VariableMessageSign.COLUMN_LOCATION_REFERENCE,
-                        variableMessageSign.getLocationReference());
-                values.put(BucksContract.VariableMessageSign.COLUMN_NUMBER_OF_CHARACTERS,
-                        variableMessageSign.getNumberOfCharacters());
-                values.put(BucksContract.VariableMessageSign.COLUMN_NUMBER_OF_ROWS,
-                        variableMessageSign.getNumberOfRows());
-                buffer.delete(0, buffer.length());
-                String[] vmsLegends = variableMessageSign.getVmsLegends();
-                for (int i = 0; i < vmsLegends.length; i++) {
-                    buffer.append(vmsLegends[i]);
-                    if (i < vmsLegends.length - 1) {
-                        buffer.append("|");
-                    }
-                }
-                values.put(BucksContract.VariableMessageSign.COLUMN_VMS_LEGENDS, buffer.toString());
-                values.put(BucksContract.VariableMessageSign.COLUMN_VMS_TYPE,
-                        variableMessageSign.getVmsType());
-                contentResolver.insert(BucksProvider.VARIABLE_MESSAGE_SIGN_URI, values);
-            }
-        }
-    }
-
-    public static void deleteFromProvider(Context context){
-        ContentResolver contentResolver = context.getContentResolver();
-        contentResolver.delete(BucksProvider.VARIABLE_MESSAGE_SIGN_URI, null, null);
-    }
-
     public VariableMessageSign[] getVariableMessageSigns() {
         return variableMessageSigns;
     }

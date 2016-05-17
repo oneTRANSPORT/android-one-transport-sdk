@@ -6,6 +6,7 @@ import android.database.Cursor;
 
 import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
+import net.uk.onetransport.android.county.bucks.provider.BucksContentHelper;
 import net.uk.onetransport.android.county.bucks.provider.BucksContract;
 import net.uk.onetransport.android.county.bucks.provider.BucksProvider;
 import net.uk.onetransport.android.county.bucks.variablemessagesigns.VariableMessageSignArray;
@@ -37,7 +38,8 @@ public class BucksVariableMessageSignInsertTest implements OneTransportTest {
             return;
         }
         Context context = runnerTask.getContext();
-        variableMessageSignArray.insertIntoProvider(context);
+        BucksContentHelper.insertIntoProvider(context,
+                variableMessageSignArray.getVariableMessageSigns());
         ContentResolver contentResolver = context.getContentResolver();
         Cursor cursor = contentResolver.query(BucksProvider.VARIABLE_MESSAGE_SIGN_URI,
                 new String[]{

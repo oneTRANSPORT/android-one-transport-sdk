@@ -6,7 +6,7 @@ import android.database.Cursor;
 
 import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
-import net.uk.onetransport.android.county.bucks.carparks.CarParkArray;
+import net.uk.onetransport.android.county.bucks.provider.BucksContentHelper;
 import net.uk.onetransport.android.county.bucks.provider.BucksContract;
 import net.uk.onetransport.android.county.bucks.provider.BucksProvider;
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
@@ -30,7 +30,7 @@ public class BucksCarParkDeleteTest implements OneTransportTest {
     private void deleteCarParks() throws Exception {
         runnerTask.setCurrentTest("BUCKS car park delete");
         Context context = runnerTask.getContext();
-        CarParkArray.deleteFromProvider(context);
+        BucksContentHelper.deleteFromProvider(context, BucksContentHelper.DATA_TYPE_CAR_PARK);
         ContentResolver contentResolver = context.getContentResolver();
         Cursor cursor = contentResolver.query(BucksProvider.CAR_PARK_URI, new String[]{
                 BucksContract.CarPark._ID
