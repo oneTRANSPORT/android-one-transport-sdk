@@ -286,6 +286,38 @@ public class BucksContentHelper {
                 }, null, null, BucksContract.VariableMessageSign.COLUMN_LOCATION_REFERENCE);
     }
 
+    public static Cursor getVmsJoinLocations(Context context) {
+        return context.getContentResolver().query(BucksProvider.VMS_JOIN_LOCATION_URI,
+                new String[]{
+                        BucksContract.VmsJoinLocation.COLUMN_NUMBER_OF_CHARACTERS,
+                        BucksContract.VmsJoinLocation.COLUMN_NUMBER_OF_ROWS,
+                        BucksContract.VmsJoinLocation.COLUMN_VMS_LEGENDS,
+                        BucksContract.VmsJoinLocation.COLUMN_VMS_TYPE,
+                        BucksContract.VmsJoinLocation.COLUMN_LATITUDE,
+                        BucksContract.VmsJoinLocation.COLUMN_LONGITUDE,
+                        BucksContract.VmsJoinLocation.COLUMN_DESCRIPTOR,
+                        BucksContract.VmsJoinLocation.COLUMN_TPEG_DIRECTION
+                }, null, null, BucksContract.VmsJoinLocation.COLUMN_DESCRIPTOR);
+    }
+
+    public static Cursor getTrafficFlowJoinLocations(Context context) {
+        return context.getContentResolver().query(BucksProvider.TRAFFIC_FLOW_JOIN_LOCATION_URI,
+                new String[]{
+                        BucksContract.TrafficFlowJoinLocation.COLUMN_VEHICLE_FLOW,
+                        BucksContract.TrafficFlowJoinLocation.COLUMN_AVERAGE_VEHICLE_SPEED,
+                        BucksContract.TrafficFlowJoinLocation.COLUMN_TRAVEL_TIME,
+                        BucksContract.TrafficFlowJoinLocation.COLUMN_FREE_FLOW_SPEED,
+                        BucksContract.TrafficFlowJoinLocation.COLUMN_FREE_FLOW_TRAVEL_TIME,
+                        BucksContract.TrafficFlowJoinLocation.COLUMN_FROM_LATITUDE,
+                        BucksContract.TrafficFlowJoinLocation.COLUMN_FROM_LONGITUDE,
+                        BucksContract.TrafficFlowJoinLocation.COLUMN_TO_LATITUDE,
+                        BucksContract.TrafficFlowJoinLocation.COLUMN_TO_LONGITUDE,
+                        BucksContract.TrafficFlowJoinLocation.COLUMN_FROM_DESCRIPTOR,
+                        BucksContract.TrafficFlowJoinLocation.COLUMN_TO_DESCRIPTOR,
+                        BucksContract.TrafficFlowJoinLocation.COLUMN_TPEG_DIRECTION
+                }, null, null, BucksContract.TrafficFlowJoinLocation.COLUMN_TO_DESCRIPTOR);
+    }
+
     public static void deleteFromProvider(Context context, @DataType int dataType) {
         ContentResolver contentResolver = context.getContentResolver();
         switch (dataType) {

@@ -38,7 +38,8 @@ public class VariableMessageSignArray extends BaseArray implements DougalCallbac
 
     public static void getVariableMessageSignArrayAsync(String aeId, String baseUrl, String userName,
                                                         String password,
-                                                        VariableMessageSignArrayCallback variableMessageSignArrayCallback, int id) {
+                                                        VariableMessageSignArrayCallback variableMessageSignArrayCallback,
+                                                        int id) {
         VariableMessageSignArray variableMessageSignArray = new VariableMessageSignArray();
         variableMessageSignArray.variableMessageSignArrayCallback = variableMessageSignArrayCallback;
         variableMessageSignArray.id = id;

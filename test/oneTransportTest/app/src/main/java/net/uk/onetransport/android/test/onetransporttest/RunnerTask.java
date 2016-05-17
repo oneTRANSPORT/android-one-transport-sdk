@@ -20,8 +20,10 @@ import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.Bu
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksSegmentLocationInsertTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksTrafficFlowDeleteTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksTrafficFlowInsertTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksTrafficFlowJoinQueryTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksVariableMessageSignDeleteTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksVariableMessageSignInsertTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksVmsJoinQueryTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksVmsLocationDeleteTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksVmsLocationInsertTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.trafficflow.GetTrafficFlowArrayTest;
@@ -51,6 +53,8 @@ public class RunnerTask extends AsyncTask<Void, Object[], Void>
             new BucksSegmentLocationInsertTest(),
             new BucksVariableMessageSignInsertTest(),
             new BucksTrafficFlowInsertTest(),
+            new BucksVmsJoinQueryTest(),
+            new BucksTrafficFlowJoinQueryTest(),
             new ApplicationEntityDeleteTest()
     };
     private int testNum = 0;

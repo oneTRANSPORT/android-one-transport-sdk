@@ -69,7 +69,6 @@ public class BucksContract {
                     + VmsJoinLocation.COLUMN_NUMBER_OF_ROWS + ","
                     + VmsJoinLocation.COLUMN_VMS_LEGENDS + ","
                     + VmsJoinLocation.COLUMN_VMS_TYPE + ","
-                    + VmsJoinLocation.COLUMN_LOCATION_REFERENCE + ","
                     + VmsJoinLocation.COLUMN_LATITUDE + ","
                     + VmsJoinLocation.COLUMN_LONGITUDE + ","
                     + VmsJoinLocation.COLUMN_DESCRIPTOR + ","
@@ -162,7 +161,6 @@ public class BucksContract {
         public static final String COLUMN_NUMBER_OF_ROWS = "number_of_rows";
         public static final String COLUMN_VMS_LEGENDS = "vms_legends";
         public static final String COLUMN_VMS_TYPE = "vms_type";
-        public static final String COLUMN_LOCATION_REFERENCE = "location_reference";
         public static final String COLUMN_LATITUDE = "latitude";
         public static final String COLUMN_LONGITUDE = "longitude";
         public static final String COLUMN_DESCRIPTOR = "descriptor";

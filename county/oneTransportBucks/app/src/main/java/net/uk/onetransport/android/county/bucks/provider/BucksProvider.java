@@ -13,7 +13,9 @@ import android.net.Uri;
 import static net.uk.onetransport.android.county.bucks.provider.BucksContract.CarPark;
 import static net.uk.onetransport.android.county.bucks.provider.BucksContract.SegmentLocation;
 import static net.uk.onetransport.android.county.bucks.provider.BucksContract.TrafficFlow;
+import static net.uk.onetransport.android.county.bucks.provider.BucksContract.TrafficFlowJoinLocation;
 import static net.uk.onetransport.android.county.bucks.provider.BucksContract.VariableMessageSign;
+import static net.uk.onetransport.android.county.bucks.provider.BucksContract.VmsJoinLocation;
 import static net.uk.onetransport.android.county.bucks.provider.BucksContract.VmsLocation;
 
 public class BucksProvider extends ContentProvider {
@@ -26,12 +28,14 @@ public class BucksProvider extends ContentProvider {
             + VmsLocation.TABLE_NAME);
     public static final Uri SEGMENT_LOCATION_URI = Uri.parse(AUTHORITY_URI
             + SegmentLocation.TABLE_NAME);
-// TODO Use join table instead.
     public static final Uri VARIABLE_MESSAGE_SIGN_URI = Uri.parse(AUTHORITY_URI
             + VariableMessageSign.TABLE_NAME);
-    // TODO Use join table instead.
     public static final Uri TRAFFIC_FLOW_URI = Uri.parse(AUTHORITY_URI
             + TrafficFlow.TABLE_NAME);
+    public static final Uri VMS_JOIN_LOCATION_URI = Uri.parse(AUTHORITY_URI
+            + VmsJoinLocation.TABLE_NAME);
+    public static final Uri TRAFFIC_FLOW_JOIN_LOCATION_URI = Uri.parse(AUTHORITY_URI
+            + TrafficFlowJoinLocation.TABLE_NAME);
 
     // Content MIME types.
     private static final String MIME_DIR_PREFIX = "vnd.android.cursor.dir/vnd." + AUTHORITY + ".";
@@ -57,6 +61,14 @@ public class BucksProvider extends ContentProvider {
             + TrafficFlow.TABLE_NAME;
     private static final String TRAFFIC_FLOW_ID_MIME_TYPE = MIME_ITEM_PREFIX
             + TrafficFlow.TABLE_NAME;
+    private static final String VMS_JOIN_LOCATIONS_MIME_TYPE = MIME_DIR_PREFIX
+            + VmsJoinLocation.TABLE_NAME;
+    private static final String VMS_JOIN_LOCATION_ID_MIME_TYPE = MIME_ITEM_PREFIX
+            + VmsJoinLocation.TABLE_NAME;
+    private static final String TRAFFIC_FLOWS_JOIN_LOCATIONS_MIME_TYPE = MIME_DIR_PREFIX
+            + TrafficFlowJoinLocation.TABLE_NAME;
+    private static final String TRAFFIC_FLOW_JOIN_LOCATION_ID_MIME_TYPE =
+            MIME_ITEM_PREFIX + TrafficFlowJoinLocation.TABLE_NAME;
 
     // Uri matching
     private static final int CAR_PARKS = 1;
@@ -69,6 +81,10 @@ public class BucksProvider extends ContentProvider {
     private static final int VARIABLE_MESSAGE_SIGN_ID = 8;
     private static final int TRAFFIC_FLOWS = 9;
     private static final int TRAFFIC_FLOW_ID = 10;
+    private static final int VMS_JOIN_LOCATIONS = 11;
+    private static final int VMS_JOIN_LOCATION_ID = 12;
+    private static final int TRAFFIC_FLOWS_JOIN_LOCATIONS = 13;
+    private static final int TRAFFIC_FLOW_JOIN_LOCATION_ID = 14;
 
     private static UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
@@ -87,7 +103,15 @@ public class BucksProvider extends ContentProvider {
         uriMatcher.addURI(AUTHORITY, VariableMessageSign.TABLE_NAME + "/#",
                 VARIABLE_MESSAGE_SIGN_ID);
         uriMatcher.addURI(AUTHORITY, TrafficFlow.TABLE_NAME, TRAFFIC_FLOWS);
-        uriMatcher.addURI(AUTHORITY, TrafficFlow.TABLE_NAME + "/#", TRAFFIC_FLOW_ID);
+        uriMatcher.addURI(AUTHORITY, TrafficFlow.TABLE_NAME + "/#",
+                TRAFFIC_FLOW_ID);
+        uriMatcher.addURI(AUTHORITY, VmsJoinLocation.TABLE_NAME, VMS_JOIN_LOCATIONS);
+        uriMatcher.addURI(AUTHORITY, VariableMessageSign.TABLE_NAME + "/#",
+                VMS_JOIN_LOCATION_ID);
+        uriMatcher.addURI(AUTHORITY, TrafficFlowJoinLocation.TABLE_NAME,
+                TRAFFIC_FLOWS_JOIN_LOCATIONS);
+        uriMatcher.addURI(AUTHORITY, TrafficFlowJoinLocation.TABLE_NAME + "/#",
+                TRAFFIC_FLOW_JOIN_LOCATION_ID);
     }
 
     @Override
@@ -119,6 +143,14 @@ public class BucksProvider extends ContentProvider {
                 return TRAFFIC_FLOWS_MIME_TYPE;
             case TRAFFIC_FLOW_ID:
                 return TRAFFIC_FLOW_ID_MIME_TYPE;
+            case VMS_JOIN_LOCATIONS:
+                return VMS_JOIN_LOCATIONS_MIME_TYPE;
+            case VMS_JOIN_LOCATION_ID:
+                return VMS_JOIN_LOCATION_ID_MIME_TYPE;
+            case TRAFFIC_FLOWS_JOIN_LOCATIONS:
+                return TRAFFIC_FLOWS_JOIN_LOCATIONS_MIME_TYPE;
+            case TRAFFIC_FLOW_JOIN_LOCATION_ID:
+                return TRAFFIC_FLOW_JOIN_LOCATION_ID_MIME_TYPE;
         }
         return null;
     }
@@ -211,6 +243,28 @@ public class BucksProvider extends ContentProvider {
                         sortOrder);
                 cursor.setNotificationUri(contentResolver, TRAFFIC_FLOW_URI);
                 return cursor;
+            case VMS_JOIN_LOCATIONS:
+                cursor = db.query(VmsJoinLocation.TABLE_NAME, projection,
+                        selection, selectionArgs, null, null, sortOrder);
+                cursor.setNotificationUri(contentResolver, VMS_JOIN_LOCATION_URI);
+                return cursor;
+            case VMS_JOIN_LOCATION_ID:
+                cursor = db.query(VmsJoinLocation.TABLE_NAME, projection,
+                        VmsJoinLocation._ID + "=?", new String[]{uri.getLastPathSegment()}, null, null,
+                        sortOrder);
+                cursor.setNotificationUri(contentResolver, VMS_JOIN_LOCATION_URI);
+                return cursor;
+            case TRAFFIC_FLOWS_JOIN_LOCATIONS:
+                cursor = db.query(TrafficFlowJoinLocation.TABLE_NAME, projection,
+                        selection, selectionArgs, null, null, sortOrder);
+                cursor.setNotificationUri(contentResolver, TRAFFIC_FLOW_JOIN_LOCATION_URI);
+                return cursor;
+            case TRAFFIC_FLOW_JOIN_LOCATION_ID:
+                cursor = db.query(TrafficFlowJoinLocation.TABLE_NAME, projection,
+                        TrafficFlowJoinLocation._ID + "=?", new String[]{uri.getLastPathSegment()}, null, null,
+                        sortOrder);
+                cursor.setNotificationUri(contentResolver, TRAFFIC_FLOW_JOIN_LOCATION_URI);
+                return cursor;
         }
         return null;
     }
@@ -261,8 +315,8 @@ public class BucksProvider extends ContentProvider {
                 contentResolver.notifyChange(TRAFFIC_FLOW_URI, null);
                 return rows;
             case TRAFFIC_FLOW_ID:
-                rows = db.update(TrafficFlow.TABLE_NAME, values, TrafficFlow._ID + "=?",
-                        new String[]{uri.getLastPathSegment()});
+                rows = db.update(TrafficFlow.TABLE_NAME, values,
+                        TrafficFlow._ID + "=?", new String[]{uri.getLastPathSegment()});
                 contentResolver.notifyChange(TRAFFIC_FLOW_URI, null);
                 return rows;
         }
@@ -297,25 +351,6 @@ public class BucksProvider extends ContentProvider {
                 break;
         }
         return rows;
-    }
-
-    // Convenience methods for app developers.
-
-    public static Cursor getCarParksByName(Context context) {
-        ContentResolver contentResolver = context.getContentResolver();
-        return contentResolver.query(BucksProvider.CAR_PARK_URI, new String[]{
-                BucksContract.CarPark._ID,
-                BucksContract.CarPark.COLUMN_CAR_PARK_IDENTITY,
-                BucksContract.CarPark.COLUMN_TOTAL_PARKING_CAPACITY,
-                BucksContract.CarPark.COLUMN_ALMOST_FULL_DECREASING,
-                BucksContract.CarPark.COLUMN_ALMOST_FULL_INCREASING,
-                BucksContract.CarPark.COLUMN_FULL_DECREASING,
-                BucksContract.CarPark.COLUMN_FULL_INCREASING,
-                BucksContract.CarPark.COLUMN_ENTRANCE_FULL,
-                BucksContract.CarPark.COLUMN_RADIUS,
-                BucksContract.CarPark.COLUMN_LATITUDE,
-                BucksContract.CarPark.COLUMN_LONGITUDE
-        }, null, null, BucksContract.CarPark.COLUMN_CAR_PARK_IDENTITY);
     }
 
 }
