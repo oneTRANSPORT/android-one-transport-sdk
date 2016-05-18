@@ -1,21 +1,22 @@
 package net.uk.onetransport.android.county.bucks.provider;
 
+import android.content.ContentProviderOperation;
 import android.content.ContentResolver;
-import android.content.ContentValues;
 import android.content.Context;
+import android.content.OperationApplicationException;
 import android.database.Cursor;
+import android.os.RemoteException;
 import android.support.annotation.IntDef;
 
 import net.uk.onetransport.android.county.bucks.carparks.CarPark;
-import net.uk.onetransport.android.county.bucks.locations.PredefinedLinkLocation;
-import net.uk.onetransport.android.county.bucks.locations.PredefinedSectionLocation;
-import net.uk.onetransport.android.county.bucks.locations.PredefinedTrLocation;
 import net.uk.onetransport.android.county.bucks.locations.PredefinedVmsLocation;
+import net.uk.onetransport.android.county.bucks.locations.SegmentLocation;
 import net.uk.onetransport.android.county.bucks.trafficflow.TrafficFlow;
 import net.uk.onetransport.android.county.bucks.variablemessagesigns.VariableMessageSign;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.util.ArrayList;
 
 public class BucksContentHelper {
 
@@ -34,185 +35,159 @@ public class BucksContentHelper {
     public static final int DATA_TYPE_TRAFFIC_FLOW = 6;
     public static final int DATA_TYPE_VMS = 7;
 
-    public static void insertIntoProvider(Context context, PredefinedLinkLocation[] predefinedLinkLocations) {
-        if (predefinedLinkLocations != null && predefinedLinkLocations.length > 0) {
-            ContentResolver contentResolver = context.getContentResolver();
-            ContentValues values = new ContentValues();
-            for (PredefinedLinkLocation predefinedLinkLocation : predefinedLinkLocations) {
-                values.clear();
-                values.put(BucksContract.SegmentLocation.COLUMN_LOCATION_ID,
-                        predefinedLinkLocation.getLocationId());
-                values.put(BucksContract.SegmentLocation.COLUMN_TO_LATITUDE,
-                        predefinedLinkLocation.getToLatitude());
-                values.put(BucksContract.SegmentLocation.COLUMN_TO_LONGITUDE,
-                        predefinedLinkLocation.getToLongitude());
-                values.put(BucksContract.SegmentLocation.COLUMN_FROM_LATITUDE,
-                        predefinedLinkLocation.getFromLatitude());
-                values.put(BucksContract.SegmentLocation.COLUMN_FROM_LONGITUDE,
-                        predefinedLinkLocation.getFromLongitude());
-                values.put(BucksContract.SegmentLocation.COLUMN_TO_DESCRIPTOR,
-                        predefinedLinkLocation.getToDescriptor());
-                values.put(BucksContract.SegmentLocation.COLUMN_FROM_DESCRIPTOR,
-                        predefinedLinkLocation.getFromDescriptor());
-                values.put(BucksContract.SegmentLocation.COLUMN_TPEG_DIRECTION,
-                        predefinedLinkLocation.getTpegDirection());
-                contentResolver.insert(BucksProvider.SEGMENT_LOCATION_URI, values);
+    public static void insertIntoProvider(Context context, SegmentLocation[] segmentLocations)
+            throws RemoteException, OperationApplicationException {
+        if (segmentLocations != null && segmentLocations.length > 0) {
+            ArrayList<ContentProviderOperation> operationList = new ArrayList<>();
+            for (SegmentLocation segmentLocation : segmentLocations) {
+                ContentProviderOperation operation = ContentProviderOperation
+                        .newInsert(BucksProvider.SEGMENT_LOCATION_URI)
+                        .withValue(BucksContract.SegmentLocation.COLUMN_LOCATION_ID,
+                                segmentLocation.getLocationId())
+                        .withValue(BucksContract.SegmentLocation.COLUMN_TO_LATITUDE,
+                                segmentLocation.getToLatitude())
+                        .withValue(BucksContract.SegmentLocation.COLUMN_TO_LONGITUDE,
+                                segmentLocation.getToLongitude())
+                        .withValue(BucksContract.SegmentLocation.COLUMN_FROM_LATITUDE,
+                                segmentLocation.getFromLatitude())
+                        .withValue(BucksContract.SegmentLocation.COLUMN_FROM_LONGITUDE,
+                                segmentLocation.getFromLongitude())
+                        .withValue(BucksContract.SegmentLocation.COLUMN_TO_DESCRIPTOR,
+                                segmentLocation.getToDescriptor())
+                        .withValue(BucksContract.SegmentLocation.COLUMN_FROM_DESCRIPTOR,
+                                segmentLocation.getFromDescriptor())
+                        .withValue(BucksContract.SegmentLocation.COLUMN_TPEG_DIRECTION,
+                                segmentLocation.getTpegDirection())
+                        .withYieldAllowed(true)
+                        .build();
+                operationList.add(operation);
             }
+            ContentResolver contentResolver = context.getContentResolver();
+            contentResolver.applyBatch(BucksProvider.AUTHORITY, operationList);
         }
     }
 
     public static void insertIntoProvider(Context context,
-                                          PredefinedSectionLocation[] predefinedSectionLocations) {
-        if (predefinedSectionLocations != null && predefinedSectionLocations.length > 0) {
-            ContentResolver contentResolver = context.getContentResolver();
-            ContentValues values = new ContentValues();
-            for (PredefinedSectionLocation predefinedSectionLocation : predefinedSectionLocations) {
-                values.clear();
-                values.put(BucksContract.SegmentLocation.COLUMN_LOCATION_ID,
-                        predefinedSectionLocation.getLocationId());
-                values.put(BucksContract.SegmentLocation.COLUMN_TO_LATITUDE,
-                        predefinedSectionLocation.getToLatitude());
-                values.put(BucksContract.SegmentLocation.COLUMN_TO_LONGITUDE,
-                        predefinedSectionLocation.getToLongitude());
-                values.put(BucksContract.SegmentLocation.COLUMN_FROM_LATITUDE,
-                        predefinedSectionLocation.getFromLatitude());
-                values.put(BucksContract.SegmentLocation.COLUMN_FROM_LONGITUDE,
-                        predefinedSectionLocation.getFromLongitude());
-                values.put(BucksContract.SegmentLocation.COLUMN_TO_DESCRIPTOR,
-                        predefinedSectionLocation.getToDescriptor());
-                values.put(BucksContract.SegmentLocation.COLUMN_FROM_DESCRIPTOR,
-                        predefinedSectionLocation.getFromDescriptor());
-                values.put(BucksContract.SegmentLocation.COLUMN_TPEG_DIRECTION,
-                        predefinedSectionLocation.getTpegDirection());
-                contentResolver.insert(BucksProvider.SEGMENT_LOCATION_URI, values);
-            }
-        }
-    }
-
-    public static void insertIntoProvider(Context context, PredefinedTrLocation[] predefinedTrLocations) {
-        if (predefinedTrLocations != null && predefinedTrLocations.length > 0) {
-            ContentResolver contentResolver = context.getContentResolver();
-            ContentValues values = new ContentValues();
-            for (PredefinedTrLocation predefinedTrLocation : predefinedTrLocations) {
-                values.clear();
-                values.put(BucksContract.SegmentLocation.COLUMN_LOCATION_ID,
-                        predefinedTrLocation.getLocationId());
-                values.put(BucksContract.SegmentLocation.COLUMN_TO_LATITUDE,
-                        predefinedTrLocation.getToLatitude());
-                values.put(BucksContract.SegmentLocation.COLUMN_TO_LONGITUDE,
-                        predefinedTrLocation.getToLongitude());
-                values.put(BucksContract.SegmentLocation.COLUMN_FROM_LATITUDE,
-                        predefinedTrLocation.getFromLatitude());
-                values.put(BucksContract.SegmentLocation.COLUMN_FROM_LONGITUDE,
-                        predefinedTrLocation.getFromLongitude());
-                values.put(BucksContract.SegmentLocation.COLUMN_TO_DESCRIPTOR,
-                        predefinedTrLocation.getToDescriptor());
-                values.put(BucksContract.SegmentLocation.COLUMN_FROM_DESCRIPTOR,
-                        predefinedTrLocation.getFromDescriptor());
-                values.put(BucksContract.SegmentLocation.COLUMN_TPEG_DIRECTION,
-                        predefinedTrLocation.getTpegDirection());
-                contentResolver.insert(BucksProvider.SEGMENT_LOCATION_URI, values);
-            }
-        }
-    }
-
-    public static void insertIntoProvider(Context context, PredefinedVmsLocation[] predefinedVmsLocations) {
+                                          PredefinedVmsLocation[] predefinedVmsLocations)
+            throws RemoteException, OperationApplicationException {
         if (predefinedVmsLocations != null && predefinedVmsLocations.length > 0) {
-            ContentResolver contentResolver = context.getContentResolver();
-            ContentValues values = new ContentValues();
+            ArrayList<ContentProviderOperation> operationList = new ArrayList<>();
             for (PredefinedVmsLocation predefinedVmsLocation : predefinedVmsLocations) {
-                values.clear();
-                values.put(BucksContract.VmsLocation.COLUMN_NAME,
-                        predefinedVmsLocation.getName());
-                values.put(BucksContract.VmsLocation.COLUMN_LOCATION_ID,
-                        predefinedVmsLocation.getLocationId());
-                values.put(BucksContract.VmsLocation.COLUMN_LATITUDE,
-                        predefinedVmsLocation.getLatitude());
-                values.put(BucksContract.VmsLocation.COLUMN_LONGITUDE,
-                        predefinedVmsLocation.getLongitude());
-                values.put(BucksContract.VmsLocation.COLUMN_DESCRIPTOR,
-                        predefinedVmsLocation.getDescriptor());
-                values.put(BucksContract.VmsLocation.COLUMN_TPEG_DIRECTION,
-                        predefinedVmsLocation.getTpegDirection());
-                contentResolver.insert(BucksProvider.VMS_LOCATION_URI, values);
+                ContentProviderOperation operation = ContentProviderOperation
+                        .newInsert(BucksProvider.VMS_LOCATION_URI)
+                        .withValue(BucksContract.VmsLocation.COLUMN_NAME,
+                                predefinedVmsLocation.getName())
+                        .withValue(BucksContract.VmsLocation.COLUMN_LOCATION_ID,
+                                predefinedVmsLocation.getLocationId())
+                        .withValue(BucksContract.VmsLocation.COLUMN_LATITUDE,
+                                predefinedVmsLocation.getLatitude())
+                        .withValue(BucksContract.VmsLocation.COLUMN_LONGITUDE,
+                                predefinedVmsLocation.getLongitude())
+                        .withValue(BucksContract.VmsLocation.COLUMN_DESCRIPTOR,
+                                predefinedVmsLocation.getDescriptor())
+                        .withValue(BucksContract.VmsLocation.COLUMN_TPEG_DIRECTION,
+                                predefinedVmsLocation.getTpegDirection())
+                        .withYieldAllowed(true)
+                        .build();
+                operationList.add(operation);
             }
+            ContentResolver contentResolver = context.getContentResolver();
+            contentResolver.applyBatch(BucksProvider.AUTHORITY, operationList);
         }
     }
 
-    public static void insertIntoProvider(Context context, CarPark[] carParks) {
+    public static void insertIntoProvider(Context context, CarPark[] carParks)
+            throws RemoteException, OperationApplicationException {
         if (carParks != null && carParks.length > 0) {
-            ContentResolver contentResolver = context.getContentResolver();
-            ContentValues values = new ContentValues();
+            ArrayList<ContentProviderOperation> operationList = new ArrayList<>();
             for (CarPark carPark : carParks) {
-                values.clear();
-                values.put(BucksContract.CarPark.COLUMN_RADIUS, carPark.getRadius());
-                values.put(BucksContract.CarPark.COLUMN_LATITUDE, carPark.getLatitude());
-                values.put(BucksContract.CarPark.COLUMN_LONGITUDE, carPark.getLongitude());
-                values.put(BucksContract.CarPark.COLUMN_ENTRANCE_FULL, carPark.getEntranceFull());
-                values.put(BucksContract.CarPark.COLUMN_FULL_INCREASING, carPark.getFullIncreasing());
-                values.put(BucksContract.CarPark.COLUMN_FULL_DECREASING, carPark.getFullDecreasing());
-                values.put(BucksContract.CarPark.COLUMN_CAR_PARK_IDENTITY,
-                        carPark.getCarParkIdentity());
-                values.put(BucksContract.CarPark.COLUMN_TOTAL_PARKING_CAPACITY,
-                        carPark.getTotalParkingCapacity());
-                values.put(BucksContract.CarPark.COLUMN_ALMOST_FULL_INCREASING,
-                        carPark.getAlmostFullIncreasing());
-                values.put(BucksContract.CarPark.COLUMN_ALMOST_FULL_DECREASING,
-                        carPark.getAlmostFullDecreasing());
-                contentResolver.insert(BucksProvider.CAR_PARK_URI, values);
+                ContentProviderOperation operation = ContentProviderOperation
+                        .newInsert(BucksProvider.CAR_PARK_URI)
+                        .withValue(BucksContract.CarPark.COLUMN_RADIUS, carPark.getRadius())
+                        .withValue(BucksContract.CarPark.COLUMN_LATITUDE, carPark.getLatitude())
+                        .withValue(BucksContract.CarPark.COLUMN_LONGITUDE, carPark.getLongitude())
+                        .withValue(BucksContract.CarPark.COLUMN_ENTRANCE_FULL, carPark.getEntranceFull())
+                        .withValue(BucksContract.CarPark.COLUMN_FULL_INCREASING,
+                                carPark.getFullIncreasing())
+                        .withValue(BucksContract.CarPark.COLUMN_FULL_DECREASING,
+                                carPark.getFullDecreasing())
+                        .withValue(BucksContract.CarPark.COLUMN_CAR_PARK_IDENTITY,
+                                carPark.getCarParkIdentity())
+                        .withValue(BucksContract.CarPark.COLUMN_TOTAL_PARKING_CAPACITY,
+                                carPark.getTotalParkingCapacity())
+                        .withValue(BucksContract.CarPark.COLUMN_ALMOST_FULL_INCREASING,
+                                carPark.getAlmostFullIncreasing())
+                        .withValue(BucksContract.CarPark.COLUMN_ALMOST_FULL_DECREASING,
+                                carPark.getAlmostFullDecreasing())
+                        .withYieldAllowed(true)
+                        .build();
+                operationList.add(operation);
             }
+            ContentResolver contentResolver = context.getContentResolver();
+            contentResolver.applyBatch(BucksProvider.AUTHORITY, operationList);
         }
     }
 
     // TODO Merge different JSON objects.
-    public static void insertIntoProvider(Context context, TrafficFlow[] trafficFlows) {
+    public static void insertIntoProvider(Context context, TrafficFlow[] trafficFlows)
+            throws RemoteException, OperationApplicationException {
         if (trafficFlows != null && trafficFlows.length > 0) {
-            ContentResolver contentResolver = context.getContentResolver();
-            ContentValues values = new ContentValues();
+            ArrayList<ContentProviderOperation> operationList = new ArrayList<>();
             for (TrafficFlow trafficFlow : trafficFlows) {
-                values.clear();
-                values.put(BucksContract.TrafficFlow.COLUMN_LOCATION_REFERENCE,
-                        trafficFlow.getLocationReference());
-                values.put(BucksContract.TrafficFlow.COLUMN_VEHICLE_FLOW,
-                        trafficFlow.getVehicleFlow());
-                values.put(BucksContract.TrafficFlow.COLUMN_AVERAGE_VEHICLE_SPEED,
-                        trafficFlow.getAverageVehicleSpeed());
-                values.put(BucksContract.TrafficFlow.COLUMN_TRAVEL_TIME, trafficFlow.getTravelTime());
-                values.put(BucksContract.TrafficFlow.COLUMN_FREE_FLOW_SPEED,
-                        trafficFlow.getFreeFlowSpeed());
-                values.put(BucksContract.TrafficFlow.COLUMN_FREE_FLOW_TRAVEL_TIME,
-                        trafficFlow.getFreeFlowTravelTime());
-                contentResolver.insert(BucksProvider.TRAFFIC_FLOW_URI, values);
+                ContentProviderOperation operation = ContentProviderOperation
+                        .newInsert(BucksProvider.TRAFFIC_FLOW_URI)
+                        .withValue(BucksContract.TrafficFlow.COLUMN_LOCATION_REFERENCE,
+                                trafficFlow.getLocationReference())
+                        .withValue(BucksContract.TrafficFlow.COLUMN_VEHICLE_FLOW,
+                                trafficFlow.getVehicleFlow())
+                        .withValue(BucksContract.TrafficFlow.COLUMN_AVERAGE_VEHICLE_SPEED,
+                                trafficFlow.getAverageVehicleSpeed())
+                        .withValue(BucksContract.TrafficFlow.COLUMN_TRAVEL_TIME, trafficFlow.getTravelTime())
+                        .withValue(BucksContract.TrafficFlow.COLUMN_FREE_FLOW_SPEED,
+                                trafficFlow.getFreeFlowSpeed())
+                        .withValue(BucksContract.TrafficFlow.COLUMN_FREE_FLOW_TRAVEL_TIME,
+                                trafficFlow.getFreeFlowTravelTime())
+                        .withYieldAllowed(true)
+                        .build();
+                operationList.add(operation);
             }
+            ContentResolver contentResolver = context.getContentResolver();
+            contentResolver.applyBatch(BucksProvider.AUTHORITY, operationList);
         }
     }
 
-    public static void insertIntoProvider(Context context, VariableMessageSign[] variableMessageSigns) {
+    public static void insertIntoProvider(Context context, VariableMessageSign[] variableMessageSigns)
+            throws RemoteException, OperationApplicationException {
         if (variableMessageSigns != null && variableMessageSigns.length > 0) {
-            ContentResolver contentResolver = context.getContentResolver();
-            ContentValues values = new ContentValues();
-            StringBuffer buffer = new StringBuffer();
+            StringBuilder builder = new StringBuilder();
+            ArrayList<ContentProviderOperation> operationList = new ArrayList<>();
             for (VariableMessageSign variableMessageSign : variableMessageSigns) {
-                values.clear();
-                values.put(BucksContract.VariableMessageSign.COLUMN_LOCATION_REFERENCE,
-                        variableMessageSign.getLocationReference());
-                values.put(BucksContract.VariableMessageSign.COLUMN_NUMBER_OF_CHARACTERS,
-                        variableMessageSign.getNumberOfCharacters());
-                values.put(BucksContract.VariableMessageSign.COLUMN_NUMBER_OF_ROWS,
-                        variableMessageSign.getNumberOfRows());
-                buffer.delete(0, buffer.length());
+                builder.delete(0, builder.length());
                 String[] vmsLegends = variableMessageSign.getVmsLegends();
                 for (int i = 0; i < vmsLegends.length; i++) {
-                    buffer.append(vmsLegends[i]);
+                    builder.append(vmsLegends[i]);
                     if (i < vmsLegends.length - 1) {
-                        buffer.append("|");
+                        builder.append("|");
                     }
                 }
-                values.put(BucksContract.VariableMessageSign.COLUMN_VMS_LEGENDS, buffer.toString());
-                values.put(BucksContract.VariableMessageSign.COLUMN_VMS_TYPE,
-                        variableMessageSign.getVmsType());
-                contentResolver.insert(BucksProvider.VARIABLE_MESSAGE_SIGN_URI, values);
+                ContentProviderOperation operation = ContentProviderOperation
+                        .newInsert(BucksProvider.VARIABLE_MESSAGE_SIGN_URI)
+                        .withValue(BucksContract.VariableMessageSign.COLUMN_LOCATION_REFERENCE,
+                                variableMessageSign.getLocationReference())
+                        .withValue(BucksContract.VariableMessageSign.COLUMN_NUMBER_OF_CHARACTERS,
+                                variableMessageSign.getNumberOfCharacters())
+                        .withValue(BucksContract.VariableMessageSign.COLUMN_NUMBER_OF_ROWS,
+                                variableMessageSign.getNumberOfRows())
+                        .withValue(BucksContract.VariableMessageSign.COLUMN_VMS_LEGENDS,
+                                builder.toString())
+                        .withValue(BucksContract.VariableMessageSign.COLUMN_VMS_TYPE,
+                                variableMessageSign.getVmsType())
+                        .withYieldAllowed(true)
+                        .build();
+                operationList.add(operation);
             }
+            ContentResolver contentResolver = context.getContentResolver();
+            contentResolver.applyBatch(BucksProvider.AUTHORITY, operationList);
         }
     }
 

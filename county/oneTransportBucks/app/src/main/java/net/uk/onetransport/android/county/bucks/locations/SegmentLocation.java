@@ -2,7 +2,7 @@ package net.uk.onetransport.android.county.bucks.locations;
 
 import com.google.gson.annotations.Expose;
 
-public class PredefinedLinkLocation {
+public class SegmentLocation {
 
     @Expose
     private String locationId;

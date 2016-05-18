@@ -8,6 +8,7 @@ import com.interdigital.android.dougal.resource.callback.DougalCallback;
 import net.uk.onetransport.android.county.bucks.locations.PredefinedLinkLocationArray;
 import net.uk.onetransport.android.county.bucks.locations.PredefinedSectionLocationArray;
 import net.uk.onetransport.android.county.bucks.locations.PredefinedTrLocationArray;
+import net.uk.onetransport.android.county.bucks.locations.SegmentLocationArray;
 import net.uk.onetransport.android.county.bucks.provider.BucksContentHelper;
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
 import net.uk.onetransport.android.test.onetransporttest.tests.OneTransportTest;
@@ -29,41 +30,40 @@ public class BucksSegmentLocationInsertTest implements OneTransportTest {
 
     private void insertSegmentLocations() throws Exception {
         runnerTask.setCurrentTest("BUCKS segment location insert");
-        PredefinedTrLocationArray predefinedTrLocationArray = PredefinedTrLocationArray
-                .getPredefinedTrLocationArray(AE_ID, BASE_URL_CSE, USER_NAME, PASSWORD);
-        if (predefinedTrLocationArray.getPredefinedTrLocations() == null
-                || predefinedTrLocationArray.getPredefinedTrLocations().length == 0) {
+        SegmentLocationArray predefinedTrLocationArray = PredefinedTrLocationArray
+                .getSegmentLocationArray(AE_ID, BASE_URL_CSE, USER_NAME, PASSWORD);
+        if (predefinedTrLocationArray.getSegmentLocations() == null
+                || predefinedTrLocationArray.getSegmentLocations().length == 0) {
             runnerTask.report("BUCKS segment location insert ... FAILED.", COLOUR_FAILED);
             return;
         }
         Context context = runnerTask.getContext();
-        BucksContentHelper.insertIntoProvider(context,
-                predefinedTrLocationArray.getPredefinedTrLocations());
+        BucksContentHelper.insertIntoProvider(context, predefinedTrLocationArray.getSegmentLocations());
 
-        PredefinedLinkLocationArray predefinedLinkLocationArray = PredefinedLinkLocationArray
-                .getPredefinedLinkLocationArray(AE_ID, BASE_URL_CSE, USER_NAME, PASSWORD);
-        if (predefinedLinkLocationArray.getPredefinedLinkLocations() == null
-                || predefinedLinkLocationArray.getPredefinedLinkLocations().length == 0) {
+        SegmentLocationArray predefinedLinkLocationArray = PredefinedLinkLocationArray
+                .getSegmentLocationArray(AE_ID, BASE_URL_CSE, USER_NAME, PASSWORD);
+        if (predefinedLinkLocationArray.getSegmentLocations() == null
+                || predefinedLinkLocationArray.getSegmentLocations().length == 0) {
             runnerTask.report("BUCKS segment location insert ... FAILED.", COLOUR_FAILED);
             return;
         }
         BucksContentHelper.insertIntoProvider(context,
-                predefinedLinkLocationArray.getPredefinedLinkLocations());
+                predefinedLinkLocationArray.getSegmentLocations());
 
-        PredefinedSectionLocationArray predefinedSectionLocationArray = PredefinedSectionLocationArray
-                .getPredefinedSectionLocationArray(AE_ID, BASE_URL_CSE, USER_NAME, PASSWORD);
-        if (predefinedSectionLocationArray.getPredefinedSectionLocations() == null
-                || predefinedSectionLocationArray.getPredefinedSectionLocations().length == 0) {
+        SegmentLocationArray predefinedSectionLocationArray = PredefinedSectionLocationArray
+                .getSegmentLocationArray(AE_ID, BASE_URL_CSE, USER_NAME, PASSWORD);
+        if (predefinedSectionLocationArray.getSegmentLocations() == null
+                || predefinedSectionLocationArray.getSegmentLocations().length == 0) {
             runnerTask.report("BUCKS segment location insert ... FAILED.", COLOUR_FAILED);
             return;
         }
         BucksContentHelper.insertIntoProvider(context,
-                predefinedSectionLocationArray.getPredefinedSectionLocations());
+                predefinedSectionLocationArray.getSegmentLocations());
         Cursor cursor = BucksContentHelper.getSegmentLocations(context);
         if (cursor == null
-                || cursor.getCount() != predefinedLinkLocationArray.getPredefinedLinkLocations().length
-                + predefinedSectionLocationArray.getPredefinedSectionLocations().length
-                + predefinedTrLocationArray.getPredefinedTrLocations().length) {
+                || cursor.getCount() != predefinedLinkLocationArray.getSegmentLocations().length
+                + predefinedSectionLocationArray.getSegmentLocations().length
+                + predefinedTrLocationArray.getSegmentLocations().length) {
             runnerTask.report("BUCKS segment location insert ... FAILED.", COLOUR_FAILED);
             if (cursor != null) {
                 cursor.close();
