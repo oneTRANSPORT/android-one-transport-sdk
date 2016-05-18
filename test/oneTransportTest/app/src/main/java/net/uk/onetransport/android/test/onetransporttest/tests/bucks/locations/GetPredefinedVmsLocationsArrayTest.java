@@ -22,7 +22,7 @@ public class GetPredefinedVmsLocationsArrayTest
     }
 
     public void startAsync(DougalCallback dougalCallback) {
-        runnerTask.setCurrentTest("BUCKS get predefined link locations array");
+        runnerTask.setCurrentTest("BUCKS get predefined vms locations array");
         this.dougalCallback = dougalCallback;
         PredefinedVmsLocationArray.getPredefinedVmsLocationArrayAsync(AE_ID, BASE_URL_CSE,
                 USER_NAME, PASSWORD, this, 1);
@@ -34,7 +34,7 @@ public class GetPredefinedVmsLocationsArrayTest
         if (i != 1 || predefinedVmsLocationArray == null
                 || predefinedVmsLocationArray.getPredefinedVmsLocations() == null
                 || predefinedVmsLocationArray.getPredefinedVmsLocations().length == 0) {
-            dougalCallback.getResponse(null, new Throwable("Predefined link locations array error"));
+            dougalCallback.getResponse(null, new Throwable("Predefined vms locations array error"));
         } else {
             // Just send any valid resource.
             dougalCallback.getResponse(new Resource("aeid", "resourceId", "resourceName",
@@ -44,18 +44,18 @@ public class GetPredefinedVmsLocationsArrayTest
 
     @Override
     public void onPredefinedVmsLocationArrayError(int i, Throwable throwable) {
-        dougalCallback.getResponse(null, new Throwable("Predefined link location array error"));
+        dougalCallback.getResponse(null, new Throwable("Predefined vms location array error"));
     }
 
     private void getPredefinedLocationsArray() throws Exception {
-        runnerTask.setCurrentTest("BUCKS get predefined link location array");
+        runnerTask.setCurrentTest("BUCKS get predefined vms location array");
         PredefinedVmsLocationArray predefinedVmsLocationArray = PredefinedVmsLocationArray
                 .getPredefinedVmsLocationArray(AE_ID, BASE_URL_CSE, USER_NAME, PASSWORD);
         if (predefinedVmsLocationArray.getPredefinedVmsLocations() == null
                 || predefinedVmsLocationArray.getPredefinedVmsLocations().length == 0) {
-            runnerTask.report("BUCKS get predefined link location array ... FAILED.", COLOUR_FAILED);
+            runnerTask.report("BUCKS get predefined vms location array ... FAILED.", COLOUR_FAILED);
         } else {
-            runnerTask.report("BUCKS get predefined link location array ... PASSED.", COLOUR_PASSED);
+            runnerTask.report("BUCKS get predefined vms location array ... PASSED.", COLOUR_PASSED);
         }
     }
 }

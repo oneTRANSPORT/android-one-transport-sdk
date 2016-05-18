@@ -10,10 +10,8 @@ import net.uk.onetransport.android.test.onetransporttest.tests.OneTransportTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.ae.ApplicationEntityCreateTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.ae.ApplicationEntityDeleteTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.carpark.GetCarParkArrayTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bucks.locations.GetPredefinedLinkLocationsArrayTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bucks.locations.GetPredefinedSectionLocationsArrayTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bucks.locations.GetPredefinedTrLocationsArrayTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.locations.GetPredefinedVmsLocationsArrayTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.bucks.locations.GetSegmentLocationsArrayTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksCarParkDeleteTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksCarParkInsertTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksSegmentLocationDeleteTest;
@@ -37,9 +35,7 @@ public class RunnerTask extends AsyncTask<Void, Object[], Void>
     private OneTransportTest[] oneTransportTests = {
             new ApplicationEntityCreateTest(),
             new GetCarParkArrayTest(),
-            new GetPredefinedTrLocationsArrayTest(),
-            new GetPredefinedLinkLocationsArrayTest(),
-            new GetPredefinedSectionLocationsArrayTest(),
+            new GetSegmentLocationsArrayTest(),
             new GetPredefinedVmsLocationsArrayTest(),
             new GetVariableMessageSignArrayTest(),
             new GetTrafficFlowArrayTest(),
