@@ -36,11 +36,14 @@ public class BucksCarParkInsertTest implements OneTransportTest {
         Context context = runnerTask.getContext();
         BucksContentHelper.insertIntoProvider(context, carParkArray.getCarParks());
         Cursor cursor = BucksContentHelper.getCarParks(context);
-        if (cursor != null && cursor.getCount() > 0) {
-            runnerTask.report("BUCKS car park insert ... PASSED.", COLOUR_PASSED);
-        } else {
-            runnerTask.report("BUCKS car park insert ... FAILED.", COLOUR_FAILED);
+        if (cursor != null) {
+            if (cursor.getCount() == carParkArray.getCarParks().length) {
+                runnerTask.report("BUCKS car park insert ... PASSED.", COLOUR_PASSED);
+                cursor.close();
+                return;
+            }
+            cursor.close();
         }
-        cursor.close();
+        runnerTask.report("BUCKS car park insert ... FAILED.", COLOUR_FAILED);
     }
 }

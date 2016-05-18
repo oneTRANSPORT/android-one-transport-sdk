@@ -39,7 +39,7 @@ public class BucksVmsLocationInsertTest implements OneTransportTest {
                 predefinedVmsLocationArray.getPredefinedVmsLocations());
         Cursor cursor = BucksContentHelper.getVmsLocations(context);
         if (cursor != null) {
-            if (cursor.getCount() > 0) {
+            if (cursor.getCount() == predefinedVmsLocationArray.getPredefinedVmsLocations().length) {
                 runnerTask.report("BUCKS vms location insert ... PASSED.", COLOUR_PASSED);
                 cursor.close();
                 return;

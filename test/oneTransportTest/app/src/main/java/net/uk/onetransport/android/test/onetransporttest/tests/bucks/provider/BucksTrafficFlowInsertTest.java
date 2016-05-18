@@ -37,7 +37,7 @@ public class BucksTrafficFlowInsertTest implements OneTransportTest {
         BucksContentHelper.insertIntoProvider(context, trafficFlowArray.getTrafficFlows());
         Cursor cursor = BucksContentHelper.getTrafficFlows(context);
         if (cursor != null) {
-            if (cursor.getCount() > 0) {
+            if (cursor.getCount() == trafficFlowArray.getTrafficFlows().length) {
                 runnerTask.report("BUCKS traffic flow insert ... PASSED.", COLOUR_PASSED);
                 cursor.close();
                 return;
