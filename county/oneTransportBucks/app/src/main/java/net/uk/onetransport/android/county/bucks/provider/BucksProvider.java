@@ -20,55 +20,21 @@ import static net.uk.onetransport.android.county.bucks.provider.BucksContract.Vm
 
 public class BucksProvider extends ContentProvider {
 
-    public static final String AUTHORITY = "net.uk.oneTransport.android.county.bucks.provider";
-    public static final String AUTHORITY_URI = "content://" + AUTHORITY + "/";
+    // Not final as the authority must be injected by the app.
+    public static String AUTHORITY;
+    public static String AUTHORITY_URI;
 
-    public static final Uri CAR_PARK_URI = Uri.parse(AUTHORITY_URI + CarPark.TABLE_NAME);
-    public static final Uri VMS_LOCATION_URI = Uri.parse(AUTHORITY_URI
-            + VmsLocation.TABLE_NAME);
-    public static final Uri SEGMENT_LOCATION_URI = Uri.parse(AUTHORITY_URI
-            + SegmentLocation.TABLE_NAME);
-    public static final Uri VARIABLE_MESSAGE_SIGN_URI = Uri.parse(AUTHORITY_URI
-            + VariableMessageSign.TABLE_NAME);
-    public static final Uri TRAFFIC_FLOW_URI = Uri.parse(AUTHORITY_URI
-            + TrafficFlow.TABLE_NAME);
-    public static final Uri VMS_JOIN_LOCATION_URI = Uri.parse(AUTHORITY_URI
-            + VmsJoinLocation.TABLE_NAME);
-    public static final Uri TRAFFIC_FLOW_JOIN_LOCATION_URI = Uri.parse(AUTHORITY_URI
-            + TrafficFlowJoinLocation.TABLE_NAME);
+    public static Uri CAR_PARK_URI;
+    public static Uri VMS_LOCATION_URI;
+    public static Uri SEGMENT_LOCATION_URI;
+    public static Uri VARIABLE_MESSAGE_SIGN_URI;
+    public static Uri TRAFFIC_FLOW_URI;
+    public static Uri VMS_JOIN_LOCATION_URI;
+    public static Uri TRAFFIC_FLOW_JOIN_LOCATION_URI;
 
     // Content MIME types.
-    private static final String MIME_DIR_PREFIX = "vnd.android.cursor.dir/vnd." + AUTHORITY + ".";
-    private static final String MIME_ITEM_PREFIX = "vnd.android.cursor.item/vnd." + AUTHORITY + ".";
-
-    private static final String CAR_PARKS_MIME_TYPE = MIME_DIR_PREFIX
-            + CarPark.TABLE_NAME;
-    private static final String CAR_PARK_ID_MIME_TYPE = MIME_ITEM_PREFIX
-            + CarPark.TABLE_NAME;
-    private static final String VMS_LOCATIONS_MIME_TYPE = MIME_DIR_PREFIX
-            + VmsLocation.TABLE_NAME;
-    private static final String VMS_LOCATION_ID_MIME_TYPE = MIME_ITEM_PREFIX
-            + VmsLocation.TABLE_NAME;
-    private static final String SEGMENT_LOCATIONS_MIME_TYPE = MIME_DIR_PREFIX
-            + SegmentLocation.TABLE_NAME;
-    private static final String SEGMENT_LOCATION_ID_MIME_TYPE = MIME_ITEM_PREFIX
-            + SegmentLocation.TABLE_NAME;
-    private static final String VARIABLE_MESSAGE_SIGNS_MIME_TYPE = MIME_DIR_PREFIX
-            + VariableMessageSign.TABLE_NAME;
-    private static final String VARIABLE_MESSAGE_SIGN_ID_MIME_TYPE = MIME_ITEM_PREFIX
-            + VariableMessageSign.TABLE_NAME;
-    private static final String TRAFFIC_FLOWS_MIME_TYPE = MIME_DIR_PREFIX
-            + TrafficFlow.TABLE_NAME;
-    private static final String TRAFFIC_FLOW_ID_MIME_TYPE = MIME_ITEM_PREFIX
-            + TrafficFlow.TABLE_NAME;
-    private static final String VMS_JOIN_LOCATIONS_MIME_TYPE = MIME_DIR_PREFIX
-            + VmsJoinLocation.TABLE_NAME;
-    private static final String VMS_JOIN_LOCATION_ID_MIME_TYPE = MIME_ITEM_PREFIX
-            + VmsJoinLocation.TABLE_NAME;
-    private static final String TRAFFIC_FLOWS_JOIN_LOCATIONS_MIME_TYPE = MIME_DIR_PREFIX
-            + TrafficFlowJoinLocation.TABLE_NAME;
-    private static final String TRAFFIC_FLOW_JOIN_LOCATION_ID_MIME_TYPE =
-            MIME_ITEM_PREFIX + TrafficFlowJoinLocation.TABLE_NAME;
+    private static String MIME_DIR_PREFIX;
+    private static String MIME_ITEM_PREFIX;
 
     // Uri matching
     private static final int CAR_PARKS = 1;
@@ -91,6 +57,25 @@ public class BucksProvider extends ContentProvider {
     private BucksDbHelper bucksDbHelper;
 
     public BucksProvider() {
+    }
+
+    public static void initialise(Context context) {
+        AUTHORITY = context.getPackageName() + ".bucks.provider";
+        AUTHORITY_URI = "content://" + AUTHORITY + "/";
+
+        CAR_PARK_URI = Uri.parse(AUTHORITY_URI + CarPark.TABLE_NAME);
+        VMS_LOCATION_URI = Uri.parse(AUTHORITY_URI + VmsLocation.TABLE_NAME);
+        SEGMENT_LOCATION_URI = Uri.parse(AUTHORITY_URI + SegmentLocation.TABLE_NAME);
+        VARIABLE_MESSAGE_SIGN_URI = Uri.parse(AUTHORITY_URI
+                + VariableMessageSign.TABLE_NAME);
+        TRAFFIC_FLOW_URI = Uri.parse(AUTHORITY_URI + TrafficFlow.TABLE_NAME);
+        VMS_JOIN_LOCATION_URI = Uri.parse(AUTHORITY_URI + VmsJoinLocation.TABLE_NAME);
+        TRAFFIC_FLOW_JOIN_LOCATION_URI = Uri.parse(AUTHORITY_URI
+                + TrafficFlowJoinLocation.TABLE_NAME);
+
+        MIME_DIR_PREFIX = "vnd.android.cursor.dir/vnd." + AUTHORITY + ".";
+        MIME_ITEM_PREFIX = "vnd.android.cursor.item/vnd." + AUTHORITY + ".";
+
         uriMatcher.addURI(AUTHORITY, CarPark.TABLE_NAME, CAR_PARKS);
         uriMatcher.addURI(AUTHORITY, CarPark.TABLE_NAME + "/#", CAR_PARK_ID);
         uriMatcher.addURI(AUTHORITY, VmsLocation.TABLE_NAME, VMS_LOCATIONS);
@@ -124,33 +109,33 @@ public class BucksProvider extends ContentProvider {
     public String getType(Uri uri) {
         switch (uriMatcher.match(uri)) {
             case CAR_PARKS:
-                return CAR_PARKS_MIME_TYPE;
+                return MIME_DIR_PREFIX + CarPark.TABLE_NAME;
             case CAR_PARK_ID:
-                return CAR_PARK_ID_MIME_TYPE;
+                return MIME_ITEM_PREFIX + CarPark.TABLE_NAME;
             case VMS_LOCATIONS:
-                return VMS_LOCATIONS_MIME_TYPE;
+                return MIME_DIR_PREFIX + VmsLocation.TABLE_NAME;
             case VMS_LOCATION_ID:
-                return VMS_LOCATION_ID_MIME_TYPE;
+                return MIME_ITEM_PREFIX + VmsLocation.TABLE_NAME;
             case SEGMENT_LOCATIONS:
-                return SEGMENT_LOCATIONS_MIME_TYPE;
+                return MIME_DIR_PREFIX + SegmentLocation.TABLE_NAME;
             case SEGMENT_LOCATION_ID:
-                return SEGMENT_LOCATION_ID_MIME_TYPE;
+                return MIME_ITEM_PREFIX + SegmentLocation.TABLE_NAME;
             case VARIABLE_MESSAGE_SIGNS:
-                return VARIABLE_MESSAGE_SIGNS_MIME_TYPE;
+                return MIME_DIR_PREFIX + VariableMessageSign.TABLE_NAME;
             case VARIABLE_MESSAGE_SIGN_ID:
-                return VARIABLE_MESSAGE_SIGN_ID_MIME_TYPE;
+                return MIME_ITEM_PREFIX + VariableMessageSign.TABLE_NAME;
             case TRAFFIC_FLOWS:
-                return TRAFFIC_FLOWS_MIME_TYPE;
+                return MIME_DIR_PREFIX + TrafficFlow.TABLE_NAME;
             case TRAFFIC_FLOW_ID:
-                return TRAFFIC_FLOW_ID_MIME_TYPE;
+                return MIME_ITEM_PREFIX + TrafficFlow.TABLE_NAME;
             case VMS_JOIN_LOCATIONS:
-                return VMS_JOIN_LOCATIONS_MIME_TYPE;
+                return MIME_DIR_PREFIX + VmsJoinLocation.TABLE_NAME;
             case VMS_JOIN_LOCATION_ID:
-                return VMS_JOIN_LOCATION_ID_MIME_TYPE;
+                return MIME_ITEM_PREFIX + VmsJoinLocation.TABLE_NAME;
             case TRAFFIC_FLOWS_JOIN_LOCATIONS:
-                return TRAFFIC_FLOWS_JOIN_LOCATIONS_MIME_TYPE;
+                return MIME_DIR_PREFIX + TrafficFlowJoinLocation.TABLE_NAME;
             case TRAFFIC_FLOW_JOIN_LOCATION_ID:
-                return TRAFFIC_FLOW_JOIN_LOCATION_ID_MIME_TYPE;
+                return MIME_ITEM_PREFIX + TrafficFlowJoinLocation.TABLE_NAME;
         }
         return null;
     }
