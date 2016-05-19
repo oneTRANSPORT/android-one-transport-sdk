@@ -7,6 +7,7 @@ import android.content.OperationApplicationException;
 import android.database.Cursor;
 import android.os.RemoteException;
 import android.support.annotation.IntDef;
+import android.support.annotation.NonNull;
 
 import net.uk.onetransport.android.county.bucks.carparks.CarPark;
 import net.uk.onetransport.android.county.bucks.locations.PredefinedVmsLocation;
@@ -43,9 +44,10 @@ public class BucksContentHelper {
             + "and from_latitude >= ? and from_longitude >= ? "
             + "and from_latitude <= ? and from_longitude <= ?";
 
-    public static void insertIntoProvider(Context context, SegmentLocation[] segmentLocations)
+    public static void insertIntoProvider(@NonNull Context context,
+                                          @NonNull SegmentLocation[] segmentLocations)
             throws RemoteException, OperationApplicationException {
-        if (segmentLocations != null && segmentLocations.length > 0) {
+        if (segmentLocations.length > 0) {
             ArrayList<ContentProviderOperation> operationList = new ArrayList<>();
             for (SegmentLocation segmentLocation : segmentLocations) {
                 ContentProviderOperation operation = ContentProviderOperation
@@ -75,10 +77,10 @@ public class BucksContentHelper {
         }
     }
 
-    public static void insertIntoProvider(Context context,
-                                          PredefinedVmsLocation[] predefinedVmsLocations)
+    public static void insertIntoProvider(@NonNull Context context,
+                                          @NonNull PredefinedVmsLocation[] predefinedVmsLocations)
             throws RemoteException, OperationApplicationException {
-        if (predefinedVmsLocations != null && predefinedVmsLocations.length > 0) {
+        if (predefinedVmsLocations.length > 0) {
             ArrayList<ContentProviderOperation> operationList = new ArrayList<>();
             for (PredefinedVmsLocation predefinedVmsLocation : predefinedVmsLocations) {
                 ContentProviderOperation operation = ContentProviderOperation
@@ -104,9 +106,9 @@ public class BucksContentHelper {
         }
     }
 
-    public static void insertIntoProvider(Context context, CarPark[] carParks)
+    public static void insertIntoProvider(@NonNull Context context, @NonNull CarPark[] carParks)
             throws RemoteException, OperationApplicationException {
-        if (carParks != null && carParks.length > 0) {
+        if (carParks.length > 0) {
             ArrayList<ContentProviderOperation> operationList = new ArrayList<>();
             for (CarPark carPark : carParks) {
                 ContentProviderOperation operation = ContentProviderOperation
@@ -137,9 +139,9 @@ public class BucksContentHelper {
     }
 
     // TODO Merge different JSON objects.
-    public static void insertIntoProvider(Context context, TrafficFlow[] trafficFlows)
+    public static void insertIntoProvider(@NonNull Context context, @NonNull TrafficFlow[] trafficFlows)
             throws RemoteException, OperationApplicationException {
-        if (trafficFlows != null && trafficFlows.length > 0) {
+        if (trafficFlows.length > 0) {
             ArrayList<ContentProviderOperation> operationList = new ArrayList<>();
             for (TrafficFlow trafficFlow : trafficFlows) {
                 ContentProviderOperation operation = ContentProviderOperation
@@ -164,9 +166,10 @@ public class BucksContentHelper {
         }
     }
 
-    public static void insertIntoProvider(Context context, VariableMessageSign[] variableMessageSigns)
+    public static void insertIntoProvider(@NonNull Context context,
+                                          @NonNull VariableMessageSign[] variableMessageSigns)
             throws RemoteException, OperationApplicationException {
-        if (variableMessageSigns != null && variableMessageSigns.length > 0) {
+        if (variableMessageSigns.length > 0) {
             StringBuilder builder = new StringBuilder();
             ArrayList<ContentProviderOperation> operationList = new ArrayList<>();
             for (VariableMessageSign variableMessageSign : variableMessageSigns) {
@@ -199,7 +202,7 @@ public class BucksContentHelper {
         }
     }
 
-    public static Cursor getSegmentLocations(Context context) {
+    public static Cursor getSegmentLocations(@NonNull Context context) {
         return context.getContentResolver().query(BucksProvider.SEGMENT_LOCATION_URI,
                 new String[]{
                         BucksContract.SegmentLocation._ID,
@@ -214,7 +217,7 @@ public class BucksContentHelper {
                 }, null, null, BucksContract.SegmentLocation.COLUMN_LOCATION_ID);
     }
 
-    public static Cursor getVmsLocations(Context context) {
+    public static Cursor getVmsLocations(@NonNull Context context) {
         return context.getContentResolver().query(BucksProvider.VMS_LOCATION_URI,
                 new String[]{
                         BucksContract.VmsLocation._ID,
@@ -227,7 +230,7 @@ public class BucksContentHelper {
                 }, null, null, BucksContract.VmsLocation.COLUMN_NAME);
     }
 
-    public static Cursor getCarParks(Context context) {
+    public static Cursor getCarParks(@NonNull Context context) {
         return context.getContentResolver().query(BucksProvider.CAR_PARK_URI,
                 new String[]{
                         BucksContract.CarPark._ID,
@@ -244,7 +247,7 @@ public class BucksContentHelper {
                 }, null, null, BucksContract.CarPark.COLUMN_CAR_PARK_IDENTITY);
     }
 
-    public static Cursor getCarParks(Context context, double minLatitude, double minLongitude,
+    public static Cursor getCarParks(@NonNull Context context, double minLatitude, double minLongitude,
                                      double maxLatitude, double maxLongitude) {
         return context.getContentResolver().query(BucksProvider.CAR_PARK_URI,
                 new String[]{
@@ -267,7 +270,7 @@ public class BucksContentHelper {
                 }, BucksContract.CarPark.COLUMN_CAR_PARK_IDENTITY);
     }
 
-    public static Cursor getTrafficFlows(Context context) {
+    public static Cursor getTrafficFlows(@NonNull Context context) {
         return context.getContentResolver().query(BucksProvider.TRAFFIC_FLOW_URI,
                 new String[]{
                         BucksContract.TrafficFlow._ID,
@@ -280,7 +283,7 @@ public class BucksContentHelper {
                 }, null, null, BucksContract.TrafficFlow.COLUMN_LOCATION_REFERENCE);
     }
 
-    public static Cursor getVariableMessageSigns(Context context) {
+    public static Cursor getVariableMessageSigns(@NonNull Context context) {
         return context.getContentResolver().query(BucksProvider.VARIABLE_MESSAGE_SIGN_URI,
                 new String[]{
                         BucksContract.VariableMessageSign._ID,
@@ -292,7 +295,7 @@ public class BucksContentHelper {
                 }, null, null, BucksContract.VariableMessageSign.COLUMN_LOCATION_REFERENCE);
     }
 
-    public static Cursor getVmsJoinLocations(Context context) {
+    public static Cursor getVmsJoinLocations(@NonNull Context context) {
         return context.getContentResolver().query(BucksProvider.VMS_JOIN_LOCATION_URI,
                 new String[]{
                         BucksContract.VmsJoinLocation.COLUMN_NUMBER_OF_CHARACTERS,
@@ -306,8 +309,8 @@ public class BucksContentHelper {
                 }, null, null, BucksContract.VmsJoinLocation.COLUMN_DESCRIPTOR);
     }
 
-    public static Cursor getVmsJoinLocations(Context context, double minLatitude, double minLongitude,
-                                             double maxLatitude, double maxLongitude) {
+    public static Cursor getVmsJoinLocations(@NonNull Context context, double minLatitude,
+                                             double minLongitude, double maxLatitude, double maxLongitude) {
         return context.getContentResolver().query(BucksProvider.VMS_JOIN_LOCATION_URI,
                 new String[]{
                         BucksContract.VmsJoinLocation.COLUMN_NUMBER_OF_CHARACTERS,
@@ -326,7 +329,7 @@ public class BucksContentHelper {
                 }, BucksContract.VmsJoinLocation.COLUMN_DESCRIPTOR);
     }
 
-    public static Cursor getTrafficFlowJoinLocations(Context context) {
+    public static Cursor getTrafficFlowJoinLocations(@NonNull Context context) {
         return context.getContentResolver().query(BucksProvider.TRAFFIC_FLOW_JOIN_LOCATION_URI,
                 new String[]{
                         BucksContract.TrafficFlowJoinLocation.COLUMN_VEHICLE_FLOW,
@@ -344,7 +347,7 @@ public class BucksContentHelper {
                 }, null, null, BucksContract.TrafficFlowJoinLocation.COLUMN_TO_DESCRIPTOR);
     }
 
-    public static Cursor getTrafficFlowJoinLocations(Context context, double minLatitude,
+    public static Cursor getTrafficFlowJoinLocations(@NonNull Context context, double minLatitude,
                                                      double minLongitude, double maxLatitude, double maxLongitude) {
         return context.getContentResolver().query(BucksProvider.TRAFFIC_FLOW_JOIN_LOCATION_URI,
                 new String[]{
@@ -372,7 +375,7 @@ public class BucksContentHelper {
                 }, BucksContract.TrafficFlowJoinLocation.COLUMN_TO_DESCRIPTOR);
     }
 
-    public static void deleteFromProvider(Context context, @DataType int dataType) {
+    public static void deleteFromProvider(@NonNull Context context, @DataType int dataType) {
         ContentResolver contentResolver = context.getContentResolver();
         switch (dataType) {
             case DATA_TYPE_CAR_PARK:
@@ -401,5 +404,4 @@ public class BucksContentHelper {
                 break;
         }
     }
-
 }

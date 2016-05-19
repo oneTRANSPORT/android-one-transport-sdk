@@ -9,6 +9,7 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 
 import static net.uk.onetransport.android.county.bucks.provider.BucksContract.CarPark;
 import static net.uk.onetransport.android.county.bucks.provider.BucksContract.SegmentLocation;
@@ -59,7 +60,7 @@ public class BucksProvider extends ContentProvider {
     public BucksProvider() {
     }
 
-    public static void initialise(Context context) {
+    public static void initialise(@NonNull Context context) {
         AUTHORITY = context.getPackageName() + ".bucks.provider";
         AUTHORITY_URI = "content://" + AUTHORITY + "/";
 
@@ -141,7 +142,7 @@ public class BucksProvider extends ContentProvider {
     }
 
     @Override
-    public Uri insert(Uri uri, ContentValues values) {
+    public Uri insert(@NonNull Uri uri, @NonNull ContentValues values) {
         long id;
         SQLiteDatabase db = bucksDbHelper.getWritableDatabase();
         ContentResolver contentResolver = getContext().getContentResolver();
@@ -171,7 +172,7 @@ public class BucksProvider extends ContentProvider {
     }
 
     @Override
-    public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs,
+    public Cursor query(@NonNull Uri uri, String[] projection, String selection, String[] selectionArgs,
                         String sortOrder) {
         SQLiteDatabase db = bucksDbHelper.getReadableDatabase();
         ContentResolver contentResolver = getContext().getContentResolver();
@@ -255,7 +256,7 @@ public class BucksProvider extends ContentProvider {
     }
 
     @Override
-    public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+    public int update(@NonNull Uri uri, ContentValues values, String selection, String[] selectionArgs) {
         SQLiteDatabase db = bucksDbHelper.getReadableDatabase();
         ContentResolver contentResolver = getContext().getContentResolver();
         switch (uriMatcher.match(uri)) {
@@ -309,7 +310,7 @@ public class BucksProvider extends ContentProvider {
     }
 
     @Override
-    public int delete(Uri uri, String selection, String[] selectionArgs) {
+    public int delete(@NonNull Uri uri, String selection, String[] selectionArgs) {
         SQLiteDatabase db = bucksDbHelper.getWritableDatabase();
         ContentResolver contentResolver = getContext().getContentResolver();
         int rows = 0;
