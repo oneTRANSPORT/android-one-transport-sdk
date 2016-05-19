@@ -35,6 +35,14 @@ public class BucksContentHelper {
     public static final int DATA_TYPE_TRAFFIC_FLOW = 6;
     public static final int DATA_TYPE_VMS = 7;
 
+    // Could really use the proper column identifiers here.
+    private static final String LAT_LON_BOX = "latitude >= ? and longitude >= ? "
+            + "and latitude <= ? and longitude <= ?";
+    private static final String LAT_LON_TO_FROM_BOX = "to_latitude >= ? and to_longitude >= ? "
+            + "and to_latitude <= ? and to_longitude <= ? "
+            + "and from_latitude >= ? and from_longitude >= ? "
+            + "and from_latitude <= ? and from_longitude <= ?";
+
     public static void insertIntoProvider(Context context, SegmentLocation[] segmentLocations)
             throws RemoteException, OperationApplicationException {
         if (segmentLocations != null && segmentLocations.length > 0) {
@@ -236,6 +244,29 @@ public class BucksContentHelper {
                 }, null, null, BucksContract.CarPark.COLUMN_CAR_PARK_IDENTITY);
     }
 
+    public static Cursor getCarParks(Context context, double minLatitude, double minLongitude,
+                                     double maxLatitude, double maxLongitude) {
+        return context.getContentResolver().query(BucksProvider.CAR_PARK_URI,
+                new String[]{
+                        BucksContract.CarPark._ID,
+                        BucksContract.CarPark.COLUMN_CAR_PARK_IDENTITY,
+                        BucksContract.CarPark.COLUMN_TOTAL_PARKING_CAPACITY,
+                        BucksContract.CarPark.COLUMN_ALMOST_FULL_DECREASING,
+                        BucksContract.CarPark.COLUMN_ALMOST_FULL_INCREASING,
+                        BucksContract.CarPark.COLUMN_FULL_DECREASING,
+                        BucksContract.CarPark.COLUMN_FULL_INCREASING,
+                        BucksContract.CarPark.COLUMN_ENTRANCE_FULL,
+                        BucksContract.CarPark.COLUMN_RADIUS,
+                        BucksContract.CarPark.COLUMN_LATITUDE,
+                        BucksContract.CarPark.COLUMN_LONGITUDE
+                }, LAT_LON_BOX, new String[]{
+                        String.valueOf(minLatitude),
+                        String.valueOf(minLongitude),
+                        String.valueOf(maxLatitude),
+                        String.valueOf(maxLongitude)
+                }, BucksContract.CarPark.COLUMN_CAR_PARK_IDENTITY);
+    }
+
     public static Cursor getTrafficFlows(Context context) {
         return context.getContentResolver().query(BucksProvider.TRAFFIC_FLOW_URI,
                 new String[]{
@@ -275,6 +306,26 @@ public class BucksContentHelper {
                 }, null, null, BucksContract.VmsJoinLocation.COLUMN_DESCRIPTOR);
     }
 
+    public static Cursor getVmsJoinLocations(Context context, double minLatitude, double minLongitude,
+                                             double maxLatitude, double maxLongitude) {
+        return context.getContentResolver().query(BucksProvider.VMS_JOIN_LOCATION_URI,
+                new String[]{
+                        BucksContract.VmsJoinLocation.COLUMN_NUMBER_OF_CHARACTERS,
+                        BucksContract.VmsJoinLocation.COLUMN_NUMBER_OF_ROWS,
+                        BucksContract.VmsJoinLocation.COLUMN_VMS_LEGENDS,
+                        BucksContract.VmsJoinLocation.COLUMN_VMS_TYPE,
+                        BucksContract.VmsJoinLocation.COLUMN_LATITUDE,
+                        BucksContract.VmsJoinLocation.COLUMN_LONGITUDE,
+                        BucksContract.VmsJoinLocation.COLUMN_DESCRIPTOR,
+                        BucksContract.VmsJoinLocation.COLUMN_TPEG_DIRECTION
+                }, LAT_LON_BOX, new String[]{
+                        String.valueOf(minLatitude),
+                        String.valueOf(minLongitude),
+                        String.valueOf(maxLatitude),
+                        String.valueOf(maxLongitude)
+                }, BucksContract.VmsJoinLocation.COLUMN_DESCRIPTOR);
+    }
+
     public static Cursor getTrafficFlowJoinLocations(Context context) {
         return context.getContentResolver().query(BucksProvider.TRAFFIC_FLOW_JOIN_LOCATION_URI,
                 new String[]{
@@ -291,6 +342,34 @@ public class BucksContentHelper {
                         BucksContract.TrafficFlowJoinLocation.COLUMN_TO_DESCRIPTOR,
                         BucksContract.TrafficFlowJoinLocation.COLUMN_TPEG_DIRECTION
                 }, null, null, BucksContract.TrafficFlowJoinLocation.COLUMN_TO_DESCRIPTOR);
+    }
+
+    public static Cursor getTrafficFlowJoinLocations(Context context, double minLatitude,
+                                                     double minLongitude, double maxLatitude, double maxLongitude) {
+        return context.getContentResolver().query(BucksProvider.TRAFFIC_FLOW_JOIN_LOCATION_URI,
+                new String[]{
+                        BucksContract.TrafficFlowJoinLocation.COLUMN_VEHICLE_FLOW,
+                        BucksContract.TrafficFlowJoinLocation.COLUMN_AVERAGE_VEHICLE_SPEED,
+                        BucksContract.TrafficFlowJoinLocation.COLUMN_TRAVEL_TIME,
+                        BucksContract.TrafficFlowJoinLocation.COLUMN_FREE_FLOW_SPEED,
+                        BucksContract.TrafficFlowJoinLocation.COLUMN_FREE_FLOW_TRAVEL_TIME,
+                        BucksContract.TrafficFlowJoinLocation.COLUMN_FROM_LATITUDE,
+                        BucksContract.TrafficFlowJoinLocation.COLUMN_FROM_LONGITUDE,
+                        BucksContract.TrafficFlowJoinLocation.COLUMN_TO_LATITUDE,
+                        BucksContract.TrafficFlowJoinLocation.COLUMN_TO_LONGITUDE,
+                        BucksContract.TrafficFlowJoinLocation.COLUMN_FROM_DESCRIPTOR,
+                        BucksContract.TrafficFlowJoinLocation.COLUMN_TO_DESCRIPTOR,
+                        BucksContract.TrafficFlowJoinLocation.COLUMN_TPEG_DIRECTION
+                }, LAT_LON_TO_FROM_BOX, new String[]{
+                        String.valueOf(minLatitude),
+                        String.valueOf(minLongitude),
+                        String.valueOf(maxLatitude),
+                        String.valueOf(maxLongitude),
+                        String.valueOf(minLatitude),
+                        String.valueOf(minLongitude),
+                        String.valueOf(maxLatitude),
+                        String.valueOf(maxLongitude)
+                }, BucksContract.TrafficFlowJoinLocation.COLUMN_TO_DESCRIPTOR);
     }
 
     public static void deleteFromProvider(Context context, @DataType int dataType) {

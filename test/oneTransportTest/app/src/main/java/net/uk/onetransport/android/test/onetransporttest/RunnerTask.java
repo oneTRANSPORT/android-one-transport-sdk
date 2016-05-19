@@ -12,15 +12,18 @@ import net.uk.onetransport.android.test.onetransporttest.tests.ae.ApplicationEnt
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.carpark.GetCarParkArrayTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.locations.GetPredefinedVmsLocationsArrayTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.locations.GetSegmentLocationsArrayTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksCarParkBoxQueryTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksCarParkDeleteTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksCarParkInsertTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksSegmentLocationDeleteTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksSegmentLocationInsertTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksTrafficFlowBoxQueryTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksTrafficFlowDeleteTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksTrafficFlowInsertTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksTrafficFlowJoinQueryTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksVariableMessageSignDeleteTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksVariableMessageSignInsertTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksVmsJoinLocationBoxQueryTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksVmsJoinQueryTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksVmsLocationDeleteTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksVmsLocationInsertTest;
@@ -51,6 +54,9 @@ public class RunnerTask extends AsyncTask<Void, Object[], Void>
             new BucksTrafficFlowInsertTest(),
             new BucksVmsJoinQueryTest(),
             new BucksTrafficFlowJoinQueryTest(),
+            new BucksCarParkBoxQueryTest(),
+            new BucksVmsJoinLocationBoxQueryTest(),
+            new BucksTrafficFlowBoxQueryTest(),
             new ApplicationEntityDeleteTest()
     };
     private int testNum = 0;
