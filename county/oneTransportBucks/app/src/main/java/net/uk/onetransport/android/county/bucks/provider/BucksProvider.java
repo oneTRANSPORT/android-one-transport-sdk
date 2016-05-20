@@ -11,6 +11,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 
+import net.uk.onetransport.android.county.bucks.R;
+
 import static net.uk.onetransport.android.county.bucks.provider.BucksContract.CarPark;
 import static net.uk.onetransport.android.county.bucks.provider.BucksContract.SegmentLocation;
 import static net.uk.onetransport.android.county.bucks.provider.BucksContract.TrafficFlow;
@@ -61,7 +63,8 @@ public class BucksProvider extends ContentProvider {
     }
 
     public static void initialise(@NonNull Context context) {
-        AUTHORITY = context.getPackageName() + ".bucks.provider";
+        // TODO Use string resources?  Override by app resources.
+        AUTHORITY = context.getString(R.string.provider_authority);
         AUTHORITY_URI = "content://" + AUTHORITY + "/";
 
         CAR_PARK_URI = Uri.parse(AUTHORITY_URI + CarPark.TABLE_NAME);

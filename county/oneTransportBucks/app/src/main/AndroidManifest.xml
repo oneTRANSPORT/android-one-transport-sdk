@@ -1,15 +1,47 @@
 <manifest package="net.uk.onetransport.android.county.bucks"
           xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <uses-permission
+        android:name="android.permission.INTERNET"/>
+    <!-- TODO Needed? -->
+    <uses-permission
+        android:name="android.permission.READ_SYNC_SETTINGS"/>
+    <uses-permission
+        android:name="android.permission.WRITE_SYNC_SETTINGS"/>
+    <uses-permission
+        android:name="android.permission.AUTHENTICATE_ACCOUNTS"
+        android:maxSdkVersion="22"/>
+
     <application
         android:allowBackup="true">
 
         <provider
             android:name=".provider.BucksProvider"
-            android:authorities="${applicationId}.bucks.provider"
+            android:authorities="@string/provider_authority"
             android:exported="false"
-            android:syncable="false">
+            android:syncable="true">
         </provider>
+
+        <service
+            android:name=".sync.AuthenticatorService">
+            <intent-filter>
+                <action android:name="android.accounts.AccountAuthenticator"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.accounts.AccountAuthenticator"
+                android:resource="@xml/authenticator"/>
+        </service>
+
+        <service
+            android:name=".sync.SyncService"
+            android:exported="true"
+            android:process=":sync">
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter"/>
+            </intent-filter>
+            <meta-data android:name="android.content.SyncAdapter"
+                       android:resource="@xml/syncadapter" />
+        </service>
     </application>
 
 </manifest>
