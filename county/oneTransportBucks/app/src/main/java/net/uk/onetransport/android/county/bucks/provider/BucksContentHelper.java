@@ -22,19 +22,16 @@ import java.util.ArrayList;
 public class BucksContentHelper {
 
     @Retention(RetentionPolicy.SOURCE)
-    @IntDef({DATA_TYPE_LINK_LOCATION, DATA_TYPE_SECTION_LOCATION,
-            DATA_TYPE_TR_LOCATION, DATA_TYPE_VMS_LOCATION, DATA_TYPE_CAR_PARK,
-            DATA_TYPE_VMS, DATA_TYPE_TRAFFIC_FLOW})
+    @IntDef({DATA_TYPE_SEGMENT_LOCATION, DATA_TYPE_VMS_LOCATION,
+            DATA_TYPE_CAR_PARK, DATA_TYPE_VMS, DATA_TYPE_TRAFFIC_FLOW})
     public @interface DataType {
     }
 
-    public static final int DATA_TYPE_LINK_LOCATION = 1;
-    public static final int DATA_TYPE_SECTION_LOCATION = 2;
-    public static final int DATA_TYPE_TR_LOCATION = 3;
-    public static final int DATA_TYPE_VMS_LOCATION = 4;
-    public static final int DATA_TYPE_CAR_PARK = 5;
-    public static final int DATA_TYPE_TRAFFIC_FLOW = 6;
-    public static final int DATA_TYPE_VMS = 7;
+    public static final int DATA_TYPE_SEGMENT_LOCATION = 1;
+    public static final int DATA_TYPE_VMS_LOCATION = 2;
+    public static final int DATA_TYPE_CAR_PARK = 3;
+    public static final int DATA_TYPE_TRAFFIC_FLOW = 4;
+    public static final int DATA_TYPE_VMS = 5;
 
     // Could really use the proper column identifiers here.
     private static final String LAT_LON_BOX = "latitude >= ? and longitude >= ? "
@@ -381,17 +378,8 @@ public class BucksContentHelper {
             case DATA_TYPE_CAR_PARK:
                 contentResolver.delete(BucksProvider.CAR_PARK_URI, null, null);
                 break;
-            case DATA_TYPE_LINK_LOCATION:
-                contentResolver.delete(BucksProvider.SEGMENT_LOCATION_URI,
-                        BucksContract.SegmentLocation.COLUMN_LOCATION_ID + " like 'LINKBUCK-%'", null);
-                break;
-            case DATA_TYPE_SECTION_LOCATION:
-                contentResolver.delete(BucksProvider.SEGMENT_LOCATION_URI,
-                        BucksContract.SegmentLocation.COLUMN_LOCATION_ID + " like 'SECTION%'", null);
-                break;
-            case DATA_TYPE_TR_LOCATION:
-                contentResolver.delete(BucksProvider.SEGMENT_LOCATION_URI,
-                        BucksContract.SegmentLocation.COLUMN_LOCATION_ID + " like 'TRBUCK-%'", null);
+            case DATA_TYPE_SEGMENT_LOCATION:
+                contentResolver.delete(BucksProvider.SEGMENT_LOCATION_URI, null, null);
                 break;
             case DATA_TYPE_VMS_LOCATION:
                 contentResolver.delete(BucksProvider.VMS_LOCATION_URI, null, null);

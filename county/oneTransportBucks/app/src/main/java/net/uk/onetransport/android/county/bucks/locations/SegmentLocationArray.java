@@ -1,11 +1,14 @@
 package net.uk.onetransport.android.county.bucks.locations;
 
+import android.content.Context;
+
 import com.interdigital.android.dougal.resource.Container;
 import com.interdigital.android.dougal.resource.ContentInstance;
 import com.interdigital.android.dougal.resource.Resource;
 import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
 import net.uk.onetransport.android.county.bucks.BaseArray;
+import net.uk.onetransport.android.county.bucks.R;
 
 public class SegmentLocationArray extends BaseArray implements DougalCallback {
 
@@ -27,17 +30,24 @@ public class SegmentLocationArray extends BaseArray implements DougalCallback {
         this.segmentLocations = segmentLocations;
     }
 
-    public static SegmentLocationArray getSegmentLocationArray(String aeId, String baseUrl,
-                                                               String userName, String password) throws Exception {
-        ContentInstance contentInstance = Container.retrieveLatest(aeId, baseUrl, LINK_PATH,
+    public static SegmentLocationArray getSegmentLocationArray(Context context) throws Exception {
+        String aeId = maybeCreateAe(context);
+        if (aeId == null) { // TODO Error reporting?
+            return null;
+        }
+        String cseBaseUrl = context.getString(R.string.bucks_cse_base_url);
+        String userName = context.getString(R.string.one_transport_user_name);
+        String password = context.getString(R.string.one_transport_password);
+
+        ContentInstance contentInstance = Container.retrieveLatest(aeId, cseBaseUrl, LINK_PATH,
                 userName, password);
         SegmentLocationArray linkArray = new SegmentLocationArray(
                 GSON.fromJson(contentInstance.getContent(), SegmentLocation[].class));
-        contentInstance = Container.retrieveLatest(aeId, baseUrl, SECTION_PATH,
+        contentInstance = Container.retrieveLatest(aeId, cseBaseUrl, SECTION_PATH,
                 userName, password);
         SegmentLocationArray sectionArray = new SegmentLocationArray(
                 GSON.fromJson(contentInstance.getContent(), SegmentLocation[].class));
-        contentInstance = Container.retrieveLatest(aeId, baseUrl, TR_PATH,
+        contentInstance = Container.retrieveLatest(aeId, cseBaseUrl, TR_PATH,
                 userName, password);
         SegmentLocationArray trArray = new SegmentLocationArray(
                 GSON.fromJson(contentInstance.getContent(), SegmentLocation[].class));
@@ -55,18 +65,25 @@ public class SegmentLocationArray extends BaseArray implements DougalCallback {
         return resultArray;
     }
 
-    public static void getSegmentLocationArrayAsync(String aeId, String baseUrl,
-                                                    String userName, String password,
+    public static void getSegmentLocationArrayAsync(Context context,
                                                     SegmentLocationArrayCallback segmentLocationArrayCallback, int id) {
         SegmentLocationArray segmentLocationArray = new SegmentLocationArray();
         segmentLocationArray.segmentLocationArrayCallback = segmentLocationArrayCallback;
         segmentLocationArray.id = id;
         segmentLocationArray.completed = 0;
-        Container.retrieveLatestAsync(aeId, baseUrl, LINK_PATH, userName, password,
+        String aeId = maybeCreateAe(context);
+        if (aeId == null) { // TODO Error reporting?
+            return;
+        }
+        // TODO Fold into one object?
+        String cseBaseUrl = context.getString(R.string.bucks_cse_base_url);
+        String userName = context.getString(R.string.one_transport_user_name);
+        String password = context.getString(R.string.one_transport_password);
+        Container.retrieveLatestAsync(aeId, cseBaseUrl, LINK_PATH, userName, password,
                 segmentLocationArray);
-        Container.retrieveLatestAsync(aeId, baseUrl, SECTION_PATH, userName, password,
+        Container.retrieveLatestAsync(aeId, cseBaseUrl, SECTION_PATH, userName, password,
                 segmentLocationArray);
-        Container.retrieveLatestAsync(aeId, baseUrl, TR_PATH, userName, password,
+        Container.retrieveLatestAsync(aeId, cseBaseUrl, TR_PATH, userName, password,
                 segmentLocationArray);
     }
 

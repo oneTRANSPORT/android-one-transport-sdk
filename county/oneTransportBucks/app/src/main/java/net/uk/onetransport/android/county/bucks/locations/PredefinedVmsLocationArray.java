@@ -1,7 +1,5 @@
 package net.uk.onetransport.android.county.bucks.locations;
 
-import android.content.ContentResolver;
-import android.content.ContentValues;
 import android.content.Context;
 
 import com.interdigital.android.dougal.resource.Container;
@@ -10,8 +8,7 @@ import com.interdigital.android.dougal.resource.Resource;
 import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
 import net.uk.onetransport.android.county.bucks.BaseArray;
-import net.uk.onetransport.android.county.bucks.provider.BucksContract;
-import net.uk.onetransport.android.county.bucks.provider.BucksProvider;
+import net.uk.onetransport.android.county.bucks.R;
 
 public class PredefinedVmsLocationArray extends BaseArray implements DougalCallback {
 
@@ -28,22 +25,35 @@ public class PredefinedVmsLocationArray extends BaseArray implements DougalCallb
         this.predefinedVmsLocations = predefinedVmsLocations;
     }
 
-    public static PredefinedVmsLocationArray getPredefinedVmsLocationArray(String aeId, String baseUrl,
-                                                                           String userName, String password) throws Exception {
-        ContentInstance contentInstance = Container.retrieveLatest(aeId, baseUrl, RETRIEVE_PATH,
+    public static PredefinedVmsLocationArray getPredefinedVmsLocationArray(Context context)
+            throws Exception {
+        String aeId = maybeCreateAe(context);
+        if (aeId == null) { // TODO Error reporting?
+            return null;
+        }
+        String cseBaseUrl = context.getString(R.string.bucks_cse_base_url);
+        String userName = context.getString(R.string.one_transport_user_name);
+        String password = context.getString(R.string.one_transport_password);
+        ContentInstance contentInstance = Container.retrieveLatest(aeId, cseBaseUrl, RETRIEVE_PATH,
                 userName, password);
         String content = contentInstance.getContent();
         return new PredefinedVmsLocationArray(GSON.fromJson(content, PredefinedVmsLocation[].class));
     }
 
-    public static void getPredefinedVmsLocationArrayAsync(String aeId, String baseUrl, String userName,
-                                                          String password,
+    public static void getPredefinedVmsLocationArrayAsync(Context context,
                                                           PredefinedVmsLocationArrayCallback predefinedVmsLocationArrayCallback,
                                                           int id) {
         PredefinedVmsLocationArray predefinedVmsLocationArray = new PredefinedVmsLocationArray();
         predefinedVmsLocationArray.predefinedVmsLocationArrayCallback = predefinedVmsLocationArrayCallback;
         predefinedVmsLocationArray.id = id;
-        Container.retrieveLatestAsync(aeId, baseUrl, RETRIEVE_PATH, userName, password,
+        String aeId = maybeCreateAe(context);
+        if (aeId == null) { // TODO Error reporting?
+            return;
+        }
+        String cseBaseUrl = context.getString(R.string.bucks_cse_base_url);
+        String userName = context.getString(R.string.one_transport_user_name);
+        String password = context.getString(R.string.one_transport_password);
+        Container.retrieveLatestAsync(aeId, cseBaseUrl, RETRIEVE_PATH, userName, password,
                 predefinedVmsLocationArray);
     }
 

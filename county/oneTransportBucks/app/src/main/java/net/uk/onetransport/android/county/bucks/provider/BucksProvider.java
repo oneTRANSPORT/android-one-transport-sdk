@@ -80,27 +80,29 @@ public class BucksProvider extends ContentProvider {
         MIME_DIR_PREFIX = "vnd.android.cursor.dir/vnd." + AUTHORITY + ".";
         MIME_ITEM_PREFIX = "vnd.android.cursor.item/vnd." + AUTHORITY + ".";
 
-        uriMatcher.addURI(AUTHORITY, CarPark.TABLE_NAME, CAR_PARKS);
-        uriMatcher.addURI(AUTHORITY, CarPark.TABLE_NAME + "/#", CAR_PARK_ID);
-        uriMatcher.addURI(AUTHORITY, VmsLocation.TABLE_NAME, VMS_LOCATIONS);
-        uriMatcher.addURI(AUTHORITY, VmsLocation.TABLE_NAME + "/#", VMS_LOCATION_ID);
-        uriMatcher.addURI(AUTHORITY, SegmentLocation.TABLE_NAME, SEGMENT_LOCATIONS);
-        uriMatcher.addURI(AUTHORITY, SegmentLocation.TABLE_NAME + "/#",
-                SEGMENT_LOCATION_ID);
-        uriMatcher.addURI(AUTHORITY, VariableMessageSign.TABLE_NAME,
-                VARIABLE_MESSAGE_SIGNS);
-        uriMatcher.addURI(AUTHORITY, VariableMessageSign.TABLE_NAME + "/#",
-                VARIABLE_MESSAGE_SIGN_ID);
-        uriMatcher.addURI(AUTHORITY, TrafficFlow.TABLE_NAME, TRAFFIC_FLOWS);
-        uriMatcher.addURI(AUTHORITY, TrafficFlow.TABLE_NAME + "/#",
-                TRAFFIC_FLOW_ID);
-        uriMatcher.addURI(AUTHORITY, VmsJoinLocation.TABLE_NAME, VMS_JOIN_LOCATIONS);
-        uriMatcher.addURI(AUTHORITY, VariableMessageSign.TABLE_NAME + "/#",
-                VMS_JOIN_LOCATION_ID);
-        uriMatcher.addURI(AUTHORITY, TrafficFlowJoinLocation.TABLE_NAME,
-                TRAFFIC_FLOWS_JOIN_LOCATIONS);
-        uriMatcher.addURI(AUTHORITY, TrafficFlowJoinLocation.TABLE_NAME + "/#",
-                TRAFFIC_FLOW_JOIN_LOCATION_ID);
+        if (uriMatcher.match(CAR_PARK_URI) == -1) {
+            uriMatcher.addURI(AUTHORITY, CarPark.TABLE_NAME, CAR_PARKS);
+            uriMatcher.addURI(AUTHORITY, CarPark.TABLE_NAME + "/#", CAR_PARK_ID);
+            uriMatcher.addURI(AUTHORITY, VmsLocation.TABLE_NAME, VMS_LOCATIONS);
+            uriMatcher.addURI(AUTHORITY, VmsLocation.TABLE_NAME + "/#", VMS_LOCATION_ID);
+            uriMatcher.addURI(AUTHORITY, SegmentLocation.TABLE_NAME, SEGMENT_LOCATIONS);
+            uriMatcher.addURI(AUTHORITY, SegmentLocation.TABLE_NAME + "/#",
+                    SEGMENT_LOCATION_ID);
+            uriMatcher.addURI(AUTHORITY, VariableMessageSign.TABLE_NAME,
+                    VARIABLE_MESSAGE_SIGNS);
+            uriMatcher.addURI(AUTHORITY, VariableMessageSign.TABLE_NAME + "/#",
+                    VARIABLE_MESSAGE_SIGN_ID);
+            uriMatcher.addURI(AUTHORITY, TrafficFlow.TABLE_NAME, TRAFFIC_FLOWS);
+            uriMatcher.addURI(AUTHORITY, TrafficFlow.TABLE_NAME + "/#",
+                    TRAFFIC_FLOW_ID);
+            uriMatcher.addURI(AUTHORITY, VmsJoinLocation.TABLE_NAME, VMS_JOIN_LOCATIONS);
+            uriMatcher.addURI(AUTHORITY, VariableMessageSign.TABLE_NAME + "/#",
+                    VMS_JOIN_LOCATION_ID);
+            uriMatcher.addURI(AUTHORITY, TrafficFlowJoinLocation.TABLE_NAME,
+                    TRAFFIC_FLOWS_JOIN_LOCATIONS);
+            uriMatcher.addURI(AUTHORITY, TrafficFlowJoinLocation.TABLE_NAME + "/#",
+                    TRAFFIC_FLOW_JOIN_LOCATION_ID);
+        }
     }
 
     @Override
