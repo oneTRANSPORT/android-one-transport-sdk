@@ -10,9 +10,9 @@ public interface OneTransportTest {
     String PASSWORD = "EKFYGUCC";
     //    String USER_NAME = "android";
 //    String PASSWORD = "DompAdtem9";
-    String CSE_BASE = "cse-02.onetransport.uk.net";
-    String CSE_ID = "ONET-CSE-02";
-    String CSE_NAME = "ONETCSE02";
+    String CSE_BASE = "cse-05.onetransport.uk.net";
+//    String CSE_ID = "ONET-CSE-05";
+    String CSE_NAME = "ONETCSE05";
 
     String BASE_URL = "https://" + CSE_BASE + "/";
 
@@ -23,9 +23,9 @@ public interface OneTransportTest {
     String AE_ID = "C-ONETRANSPORT-TEST";
     String APP_NAME = "C-ONETRANSPORT-TEST-APP";
 
-    String NAME = "ONETRANSPORT-TEST";
-    String APPLICATION_ID = "C-ONETRANSPORT-TEST-APP-ID";
-    String BASE_URL_CSE = BASE_URL + CSE_NAME + "/";
+//    String NAME = "ONETRANSPORT-TEST";
+//    String APPLICATION_ID = "C-ONETRANSPORT-TEST-APP-ID";
+//    String BASE_URL_CSE = BASE_URL + CSE_NAME + "/";
 
     void start(RunnerTask runnerTask) throws Exception;
 

@@ -5,6 +5,10 @@ import com.google.gson.annotations.Expose;
 public class CarPark {
 
     @Expose
+    private Integer exitRate;
+    @Expose
+    private Integer fillRate;
+    @Expose
     private String carParkIdentity;
     @Expose
     private Integer totalParkingCapacity;
@@ -19,11 +23,25 @@ public class CarPark {
     @Expose
     private Integer entranceFull;
     @Expose
-    private Double radius;
-    @Expose
     private Double latitude;
     @Expose
     private Double longitude;
+
+    public Integer getExitRate() {
+        return exitRate;
+    }
+
+    public void setExitRate(Integer exitRate) {
+        this.exitRate = exitRate;
+    }
+
+    public Integer getFillRate() {
+        return fillRate;
+    }
+
+    public void setFillRate(Integer fillRate) {
+        this.fillRate = fillRate;
+    }
 
     public String getCarParkIdentity() {
         return carParkIdentity;
@@ -79,14 +97,6 @@ public class CarPark {
 
     public void setEntranceFull(Integer entranceFull) {
         this.entranceFull = entranceFull;
-    }
-
-    public Double getRadius() {
-        return radius;
-    }
-
-    public void setRadius(Double radius) {
-        this.radius = radius;
     }
 
     public Double getLatitude() {

@@ -9,13 +9,14 @@ public class BucksContract {
             "CREATE TABLE IF NOT EXISTS " + CarPark.TABLE_NAME + " ("
                     + CarPark._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                     + CarPark.COLUMN_CAR_PARK_IDENTITY + " TEXT NOT NULL,"
+                    + CarPark.COLUMN_FILL_RATE + " INTEGER NOT NULL,"
+                    + CarPark.COLUMN_EXIT_RATE + " INTEGER NOT NULL,"
                     + CarPark.COLUMN_TOTAL_PARKING_CAPACITY + " INTEGER NOT NULL,"
                     + CarPark.COLUMN_ALMOST_FULL_INCREASING + " INTEGER NOT NULL,"
                     + CarPark.COLUMN_ALMOST_FULL_DECREASING + " INTEGER NOT NULL,"
                     + CarPark.COLUMN_FULL_DECREASING + " INTEGER NOT NULL,"
                     + CarPark.COLUMN_FULL_INCREASING + " INTEGER NOT NULL,"
                     + CarPark.COLUMN_ENTRANCE_FULL + " INTEGER NOT NULL,"
-                    + CarPark.COLUMN_RADIUS + " REAL NOT NULL,"
                     + CarPark.COLUMN_LATITUDE + " REAL NOT NULL,"
                     + CarPark.COLUMN_LONGITUDE + " REAL NOT NULL"
                     + ");";
@@ -102,13 +103,14 @@ public class BucksContract {
     public static final class CarPark implements BaseColumns {
         public static final String TABLE_NAME = "car_park";
         public static final String COLUMN_CAR_PARK_IDENTITY = "car_park_identity";
+        public static final String COLUMN_EXIT_RATE = "exit_rate";
+        public static final String COLUMN_FILL_RATE = "fill_rate";
         public static final String COLUMN_TOTAL_PARKING_CAPACITY = "total_parking_capacity";
         public static final String COLUMN_ALMOST_FULL_INCREASING = "almost_full_increasing";
         public static final String COLUMN_ALMOST_FULL_DECREASING = "almost_full_decreasing";
         public static final String COLUMN_FULL_DECREASING = "full_decreasing";
         public static final String COLUMN_FULL_INCREASING = "full_increasing";
         public static final String COLUMN_ENTRANCE_FULL = "entrance_full";
-        public static final String COLUMN_RADIUS = "radius";
         public static final String COLUMN_LATITUDE = "latitude";
         public static final String COLUMN_LONGITUDE = "longitude";
     }

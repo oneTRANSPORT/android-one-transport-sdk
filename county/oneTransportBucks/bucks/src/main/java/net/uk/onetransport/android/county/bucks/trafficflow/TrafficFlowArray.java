@@ -9,6 +9,7 @@ import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
 import net.uk.onetransport.android.county.bucks.BaseArray;
 import net.uk.onetransport.android.county.bucks.R;
+import net.uk.onetransport.android.county.bucks.storage.Prefs;
 
 public class TrafficFlowArray extends BaseArray implements DougalCallback {
 
@@ -26,7 +27,7 @@ public class TrafficFlowArray extends BaseArray implements DougalCallback {
     }
 
     public static TrafficFlowArray getTrafficFlowArray(Context context) throws Exception {
-        String aeId = maybeCreateAe(context);
+        String aeId = Prefs.getAeId(context);
         if (aeId == null) { // TODO Error reporting?
             return null;
         }
@@ -44,7 +45,7 @@ public class TrafficFlowArray extends BaseArray implements DougalCallback {
         TrafficFlowArray trafficFlowArray = new TrafficFlowArray();
         trafficFlowArray.trafficFlowArrayCallback = trafficFlowArrayCallback;
         trafficFlowArray.id = id;
-        String aeId = maybeCreateAe(context);
+        String aeId = Prefs.getAeId(context);
         if (aeId == null) { // TODO Error reporting?
             return;
         }

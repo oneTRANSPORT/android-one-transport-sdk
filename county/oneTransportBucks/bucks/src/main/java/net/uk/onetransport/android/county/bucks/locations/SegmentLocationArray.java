@@ -9,6 +9,7 @@ import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
 import net.uk.onetransport.android.county.bucks.BaseArray;
 import net.uk.onetransport.android.county.bucks.R;
+import net.uk.onetransport.android.county.bucks.storage.Prefs;
 
 public class SegmentLocationArray extends BaseArray implements DougalCallback {
 
@@ -31,7 +32,7 @@ public class SegmentLocationArray extends BaseArray implements DougalCallback {
     }
 
     public static SegmentLocationArray getSegmentLocationArray(Context context) throws Exception {
-        String aeId = maybeCreateAe(context);
+        String aeId = Prefs.getAeId(context);
         if (aeId == null) { // TODO Error reporting?
             return null;
         }
@@ -71,7 +72,7 @@ public class SegmentLocationArray extends BaseArray implements DougalCallback {
         segmentLocationArray.segmentLocationArrayCallback = segmentLocationArrayCallback;
         segmentLocationArray.id = id;
         segmentLocationArray.completed = 0;
-        String aeId = maybeCreateAe(context);
+        String aeId = Prefs.getAeId(context);
         if (aeId == null) { // TODO Error reporting?
             return;
         }

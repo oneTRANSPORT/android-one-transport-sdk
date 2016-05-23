@@ -27,12 +27,12 @@ public class BucksCarParkInsertTest implements OneTransportTest {
 
     private void insertCarParks() throws Exception {
         runnerTask.setCurrentTest("BUCKS car park insert");
-        CarParkArray carParkArray = CarParkArray.getCarParkArray(runnerTask.getContext());
+        Context context = runnerTask.getContext();
+        CarParkArray carParkArray = CarParkArray.getCarParkArray(context);
         if (carParkArray.getCarParks() == null || carParkArray.getCarParks().length == 0) {
             runnerTask.report("BUCKS car park insert ... FAILED.", COLOUR_FAILED);
             return;
         }
-        Context context = runnerTask.getContext();
         BucksContentHelper.insertIntoProvider(context, carParkArray.getCarParks());
         Cursor cursor = BucksContentHelper.getCarParks(context);
         if (cursor != null) {

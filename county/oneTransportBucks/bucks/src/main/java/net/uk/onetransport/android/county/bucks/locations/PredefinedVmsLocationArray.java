@@ -9,6 +9,7 @@ import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
 import net.uk.onetransport.android.county.bucks.BaseArray;
 import net.uk.onetransport.android.county.bucks.R;
+import net.uk.onetransport.android.county.bucks.storage.Prefs;
 
 public class PredefinedVmsLocationArray extends BaseArray implements DougalCallback {
 
@@ -27,7 +28,7 @@ public class PredefinedVmsLocationArray extends BaseArray implements DougalCallb
 
     public static PredefinedVmsLocationArray getPredefinedVmsLocationArray(Context context)
             throws Exception {
-        String aeId = maybeCreateAe(context);
+        String aeId = Prefs.getAeId(context);
         if (aeId == null) { // TODO Error reporting?
             return null;
         }
@@ -46,7 +47,7 @@ public class PredefinedVmsLocationArray extends BaseArray implements DougalCallb
         PredefinedVmsLocationArray predefinedVmsLocationArray = new PredefinedVmsLocationArray();
         predefinedVmsLocationArray.predefinedVmsLocationArrayCallback = predefinedVmsLocationArrayCallback;
         predefinedVmsLocationArray.id = id;
-        String aeId = maybeCreateAe(context);
+        String aeId = Prefs.getAeId(context);
         if (aeId == null) { // TODO Error reporting?
             return;
         }

@@ -13,6 +13,7 @@ import net.uk.onetransport.android.county.bucks.BaseArray;
 import net.uk.onetransport.android.county.bucks.R;
 import net.uk.onetransport.android.county.bucks.provider.BucksContract;
 import net.uk.onetransport.android.county.bucks.provider.BucksProvider;
+import net.uk.onetransport.android.county.bucks.storage.Prefs;
 
 public class VariableMessageSignArray extends BaseArray implements DougalCallback {
 
@@ -31,7 +32,7 @@ public class VariableMessageSignArray extends BaseArray implements DougalCallbac
 
     public static VariableMessageSignArray getVariableMessageSignArray(Context context)
             throws Exception {
-        String aeId = maybeCreateAe(context);
+        String aeId = Prefs.getAeId(context);
         if (aeId == null) { // TODO Error reporting?
             return null;
         }
@@ -50,7 +51,7 @@ public class VariableMessageSignArray extends BaseArray implements DougalCallbac
         VariableMessageSignArray variableMessageSignArray = new VariableMessageSignArray();
         variableMessageSignArray.variableMessageSignArrayCallback = variableMessageSignArrayCallback;
         variableMessageSignArray.id = id;
-        String aeId = maybeCreateAe(context);
+        String aeId = Prefs.getAeId(context);
         if (aeId == null) { // TODO Error reporting?
             return;
         }

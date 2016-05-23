@@ -110,7 +110,8 @@ public class BucksContentHelper {
             for (CarPark carPark : carParks) {
                 ContentProviderOperation operation = ContentProviderOperation
                         .newInsert(BucksProvider.CAR_PARK_URI)
-                        .withValue(BucksContract.CarPark.COLUMN_RADIUS, carPark.getRadius())
+                        .withValue(BucksContract.CarPark.COLUMN_FILL_RATE, carPark.getFillRate())
+                        .withValue(BucksContract.CarPark.COLUMN_EXIT_RATE, carPark.getExitRate())
                         .withValue(BucksContract.CarPark.COLUMN_LATITUDE, carPark.getLatitude())
                         .withValue(BucksContract.CarPark.COLUMN_LONGITUDE, carPark.getLongitude())
                         .withValue(BucksContract.CarPark.COLUMN_ENTRANCE_FULL, carPark.getEntranceFull())
@@ -238,7 +239,6 @@ public class BucksContentHelper {
                         BucksContract.CarPark.COLUMN_FULL_DECREASING,
                         BucksContract.CarPark.COLUMN_FULL_INCREASING,
                         BucksContract.CarPark.COLUMN_ENTRANCE_FULL,
-                        BucksContract.CarPark.COLUMN_RADIUS,
                         BucksContract.CarPark.COLUMN_LATITUDE,
                         BucksContract.CarPark.COLUMN_LONGITUDE
                 }, null, null, BucksContract.CarPark.COLUMN_CAR_PARK_IDENTITY);
@@ -256,7 +256,6 @@ public class BucksContentHelper {
                         BucksContract.CarPark.COLUMN_FULL_DECREASING,
                         BucksContract.CarPark.COLUMN_FULL_INCREASING,
                         BucksContract.CarPark.COLUMN_ENTRANCE_FULL,
-                        BucksContract.CarPark.COLUMN_RADIUS,
                         BucksContract.CarPark.COLUMN_LATITUDE,
                         BucksContract.CarPark.COLUMN_LONGITUDE
                 }, LAT_LON_BOX, new String[]{
