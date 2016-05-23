@@ -24,8 +24,7 @@ public class GetVariableMessageSignArrayTest
     public void startAsync(DougalCallback dougalCallback) {
         runnerTask.setCurrentTest("BUCKS get variable message sign array");
         this.dougalCallback = dougalCallback;
-        VariableMessageSignArray.getVariableMessageSignArrayAsync(AE_ID, BASE_URL_CSE,
-                USER_NAME, PASSWORD, this, 1);
+        VariableMessageSignArray.getVariableMessageSignArrayAsync(runnerTask.getContext(), this, 1);
     }
 
     @Override
@@ -50,7 +49,7 @@ public class GetVariableMessageSignArrayTest
     private void getVariableMessageSignArray() throws Exception {
         runnerTask.setCurrentTest("BUCKS get variable message sign array");
         VariableMessageSignArray variableMessageSignArray = VariableMessageSignArray
-                .getVariableMessageSignArray(AE_ID, BASE_URL_CSE, USER_NAME, PASSWORD);
+                .getVariableMessageSignArray(runnerTask.getContext());
         if (variableMessageSignArray.getVariableMessageSigns() == null
                 || variableMessageSignArray.getVariableMessageSigns().length == 0) {
             runnerTask.report("BUCKS get variable message sign array ... FAILED.", COLOUR_FAILED);

@@ -27,8 +27,7 @@ public class BucksCarParkInsertTest implements OneTransportTest {
 
     private void insertCarParks() throws Exception {
         runnerTask.setCurrentTest("BUCKS car park insert");
-        CarParkArray carParkArray = CarParkArray.getCarParkArray(AE_ID, BASE_URL_CSE,
-                USER_NAME, PASSWORD);
+        CarParkArray carParkArray = CarParkArray.getCarParkArray(runnerTask.getContext());
         if (carParkArray.getCarParks() == null || carParkArray.getCarParks().length == 0) {
             runnerTask.report("BUCKS car park insert ... FAILED.", COLOUR_FAILED);
             return;

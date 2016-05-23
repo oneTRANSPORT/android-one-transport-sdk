@@ -6,10 +6,8 @@ import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.Context;
-import android.content.OperationApplicationException;
 import android.content.SyncResult;
 import android.os.Bundle;
-import android.os.RemoteException;
 import android.util.Log;
 
 import net.uk.onetransport.android.county.bucks.R;
@@ -21,22 +19,22 @@ import net.uk.onetransport.android.county.bucks.provider.BucksProvider;
 import net.uk.onetransport.android.county.bucks.trafficflow.TrafficFlowArray;
 import net.uk.onetransport.android.county.bucks.variablemessagesigns.VariableMessageSignArray;
 
-public class SyncAdapter extends AbstractThreadedSyncAdapter {
+public class BucksSyncAdapter extends AbstractThreadedSyncAdapter {
 
     private static final String ACCOUNT = "dummyaccount";
 
     private Context context;
-    private String cseBaseUrl;
+//    private String cseBaseUrl;
     // TODO Need to find a proper authentication solution.
-    private String userName;
-    private String password;
+//    private String userName;
+//    private String password;
 
-    public SyncAdapter(Context context, boolean autoInitialize) {
+    public BucksSyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
         initialise(context);
     }
 
-    public SyncAdapter(Context context, boolean autoInitialize, boolean allowParallelSyncs) {
+    public BucksSyncAdapter(Context context, boolean autoInitialize, boolean allowParallelSyncs) {
         super(context, autoInitialize, allowParallelSyncs);
         initialise(context);
     }
@@ -48,88 +46,64 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             Log.i("SyncAdapter", "Transferring data ...");
 
             // Link segments.
-            SegmentLocationArray segmentLocationArray = null;
             try {
-                segmentLocationArray = SegmentLocationArray.getSegmentLocationArray(context);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            BucksContentHelper.deleteFromProvider(context,
-                    BucksContentHelper.DATA_TYPE_SEGMENT_LOCATION);
-            try {
+                SegmentLocationArray segmentLocationArray = SegmentLocationArray
+                        .getSegmentLocationArray(context);
+                BucksContentHelper.deleteFromProvider(context,
+                        BucksContentHelper.DATA_TYPE_SEGMENT_LOCATION);
                 BucksContentHelper.insertIntoProvider(context,
                         segmentLocationArray.getSegmentLocations());
-            } catch (RemoteException | OperationApplicationException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
             // Variable message sign locations.
-            PredefinedVmsLocationArray predefinedVmsLocationArray = null;
             try {
-                predefinedVmsLocationArray = PredefinedVmsLocationArray
+                PredefinedVmsLocationArray predefinedVmsLocationArray = PredefinedVmsLocationArray
                         .getPredefinedVmsLocationArray(context);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            BucksContentHelper.deleteFromProvider(context,
-                    BucksContentHelper.DATA_TYPE_VMS_LOCATION);
-            try {
+                BucksContentHelper.deleteFromProvider(context,
+                        BucksContentHelper.DATA_TYPE_VMS_LOCATION);
                 BucksContentHelper.insertIntoProvider(context,
                         predefinedVmsLocationArray.getPredefinedVmsLocations());
-            } catch (RemoteException | OperationApplicationException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
             // Car parks.
-            CarParkArray carParkArray = null;
             try {
-                carParkArray = CarParkArray.getCarParkArray(context);
-            } catch (Exception e) {
-                e.printStackTrace(); // TODO Error reporting.
-            }
-            BucksContentHelper.deleteFromProvider(context,
-                    BucksContentHelper.DATA_TYPE_CAR_PARK);
-            try {
+                CarParkArray carParkArray = CarParkArray.getCarParkArray(context);
+                BucksContentHelper.deleteFromProvider(context,
+                        BucksContentHelper.DATA_TYPE_CAR_PARK);
                 BucksContentHelper.insertIntoProvider(context, carParkArray.getCarParks());
-            } catch (RemoteException | OperationApplicationException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
             // Traffic flows.
-            TrafficFlowArray trafficFlowArray = null;
             try {
-                trafficFlowArray = TrafficFlowArray.getTrafficFlowArray(context);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            BucksContentHelper.deleteFromProvider(context,
-                    BucksContentHelper.DATA_TYPE_TRAFFIC_FLOW);
-            try {
+                TrafficFlowArray trafficFlowArray = TrafficFlowArray.getTrafficFlowArray(context);
+                BucksContentHelper.deleteFromProvider(context,
+                        BucksContentHelper.DATA_TYPE_TRAFFIC_FLOW);
                 BucksContentHelper.insertIntoProvider(context, trafficFlowArray.getTrafficFlows());
-            } catch (RemoteException | OperationApplicationException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
             // Variable message signs.
-            VariableMessageSignArray variableMessageSignArray = null;
             try {
-                variableMessageSignArray = VariableMessageSignArray
+                VariableMessageSignArray variableMessageSignArray = VariableMessageSignArray
                         .getVariableMessageSignArray(context);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            BucksContentHelper.deleteFromProvider(context, BucksContentHelper.DATA_TYPE_VMS);
-            try {
+                BucksContentHelper.deleteFromProvider(context, BucksContentHelper.DATA_TYPE_VMS);
                 BucksContentHelper.insertIntoProvider(context,
                         variableMessageSignArray.getVariableMessageSigns());
-            } catch (RemoteException | OperationApplicationException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
 
     public static void refresh(Context context) {
-        Account account = SyncAdapter.getAccount(context);
+        Account account = BucksSyncAdapter.getAccount(context);
         Bundle settingsBundle = new Bundle();
         settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
         settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
@@ -149,9 +123,9 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
     private void initialise(Context context) {
         this.context = context;
-        cseBaseUrl = context.getString(R.string.bucks_cse_base_url);
-        userName = context.getString(R.string.one_transport_user_name);
-        password = context.getString(R.string.one_transport_password);
+//        cseBaseUrl = context.getString(R.string.bucks_cse_base_url);
+//        userName = context.getString(R.string.one_transport_user_name);
+//        password = context.getString(R.string.one_transport_password);
         BucksProvider.initialise(context);
     }
 }

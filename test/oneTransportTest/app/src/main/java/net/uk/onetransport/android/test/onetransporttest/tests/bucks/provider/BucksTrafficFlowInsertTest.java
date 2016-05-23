@@ -27,8 +27,7 @@ public class BucksTrafficFlowInsertTest implements OneTransportTest {
 
     private void insertTrafficFlow() throws Exception {
         runnerTask.setCurrentTest("BUCKS traffic flow insert");
-        TrafficFlowArray trafficFlowArray = TrafficFlowArray.getTrafficFlowArray(AE_ID, BASE_URL_CSE,
-                USER_NAME, PASSWORD);
+        TrafficFlowArray trafficFlowArray = TrafficFlowArray.getTrafficFlowArray(runnerTask.getContext());
         if (trafficFlowArray.getTrafficFlows() == null || trafficFlowArray.getTrafficFlows().length == 0) {
             runnerTask.report("BUCKS traffic flow insert ... FAILED.", COLOUR_FAILED);
             return;

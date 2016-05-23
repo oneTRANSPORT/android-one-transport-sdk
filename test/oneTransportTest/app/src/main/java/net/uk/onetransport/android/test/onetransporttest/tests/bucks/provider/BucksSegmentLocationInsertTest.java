@@ -28,7 +28,7 @@ public class BucksSegmentLocationInsertTest implements OneTransportTest {
     private void insertSegmentLocations() throws Exception {
         runnerTask.setCurrentTest("BUCKS segment location insert");
         SegmentLocationArray segmentLocationArray = SegmentLocationArray
-                .getSegmentLocationArray(AE_ID, BASE_URL_CSE, USER_NAME, PASSWORD);
+                .getSegmentLocationArray(runnerTask.getContext());
         if (segmentLocationArray.getSegmentLocations() == null
                 || segmentLocationArray.getSegmentLocations().length == 0) {
             runnerTask.report("BUCKS segment location insert ... FAILED.", COLOUR_FAILED);

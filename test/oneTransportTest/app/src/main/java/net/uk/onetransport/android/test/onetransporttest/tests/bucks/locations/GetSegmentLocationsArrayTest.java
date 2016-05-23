@@ -24,8 +24,7 @@ public class GetSegmentLocationsArrayTest
     public void startAsync(DougalCallback dougalCallback) {
         runnerTask.setCurrentTest("BUCKS get segment locations array");
         this.dougalCallback = dougalCallback;
-        SegmentLocationArray.getSegmentLocationArrayAsync(AE_ID, BASE_URL_CSE,
-                USER_NAME, PASSWORD, this, 1);
+        SegmentLocationArray.getSegmentLocationArrayAsync(runnerTask.getContext(), this, 1);
     }
 
     @Override
@@ -49,7 +48,7 @@ public class GetSegmentLocationsArrayTest
     private void getPredefinedLocationsArray() throws Exception {
         runnerTask.setCurrentTest("BUCKS get segment location array");
         SegmentLocationArray segmentLocationArray = SegmentLocationArray
-                .getSegmentLocationArray(AE_ID, BASE_URL_CSE, USER_NAME, PASSWORD);
+                .getSegmentLocationArray(runnerTask.getContext());
         if (segmentLocationArray.getSegmentLocations() == null
                 || segmentLocationArray.getSegmentLocations().length == 0) {
             runnerTask.report("BUCKS get segment location array ... FAILED.", COLOUR_FAILED);

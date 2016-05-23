@@ -24,8 +24,7 @@ public class GetPredefinedVmsLocationsArrayTest
     public void startAsync(DougalCallback dougalCallback) {
         runnerTask.setCurrentTest("BUCKS get predefined vms locations array");
         this.dougalCallback = dougalCallback;
-        PredefinedVmsLocationArray.getPredefinedVmsLocationArrayAsync(AE_ID, BASE_URL_CSE,
-                USER_NAME, PASSWORD, this, 1);
+        PredefinedVmsLocationArray.getPredefinedVmsLocationArrayAsync(runnerTask.getContext(), this, 1);
     }
 
     @Override
@@ -50,7 +49,7 @@ public class GetPredefinedVmsLocationsArrayTest
     private void getPredefinedLocationsArray() throws Exception {
         runnerTask.setCurrentTest("BUCKS get predefined vms location array");
         PredefinedVmsLocationArray predefinedVmsLocationArray = PredefinedVmsLocationArray
-                .getPredefinedVmsLocationArray(AE_ID, BASE_URL_CSE, USER_NAME, PASSWORD);
+                .getPredefinedVmsLocationArray(runnerTask.getContext());
         if (predefinedVmsLocationArray.getPredefinedVmsLocations() == null
                 || predefinedVmsLocationArray.getPredefinedVmsLocations().length == 0) {
             runnerTask.report("BUCKS get predefined vms location array ... FAILED.", COLOUR_FAILED);

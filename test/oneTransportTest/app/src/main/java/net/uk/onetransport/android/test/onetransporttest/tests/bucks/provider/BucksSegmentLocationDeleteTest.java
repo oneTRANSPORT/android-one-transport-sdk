@@ -28,11 +28,7 @@ public class BucksSegmentLocationDeleteTest implements OneTransportTest {
         runnerTask.setCurrentTest("BUCKS segment location delete");
         Context context = runnerTask.getContext();
         BucksContentHelper.deleteFromProvider(context,
-                BucksContentHelper.DATA_TYPE_LINK_LOCATION);
-        BucksContentHelper.deleteFromProvider(context,
-                BucksContentHelper.DATA_TYPE_SECTION_LOCATION);
-        BucksContentHelper.deleteFromProvider(context,
-                BucksContentHelper.DATA_TYPE_TR_LOCATION);
+                BucksContentHelper.DATA_TYPE_SEGMENT_LOCATION);
         Cursor cursor = BucksContentHelper.getSegmentLocations(context);
         if (cursor != null) {
             if (cursor.getCount() == 0) {

@@ -23,7 +23,7 @@ public class GetCarParkArrayTest implements CarParkArrayCallback, OneTransportTe
     public void startAsync(DougalCallback dougalCallback) {
         runnerTask.setCurrentTest("BUCKS get car park array");
         this.dougalCallback = dougalCallback;
-        CarParkArray.getCarParkArrayAsync(AE_ID, BASE_URL_CSE, USER_NAME, PASSWORD, this, 1);
+        CarParkArray.getCarParkArrayAsync(runnerTask.getContext(), this, 1);
     }
 
     @Override
@@ -45,8 +45,7 @@ public class GetCarParkArrayTest implements CarParkArrayCallback, OneTransportTe
 
     private void getCarParkArray() throws Exception {
         runnerTask.setCurrentTest("BUCKS get car park array");
-        CarParkArray carParkArray = CarParkArray.getCarParkArray(AE_ID, BASE_URL_CSE,
-                USER_NAME, PASSWORD);
+        CarParkArray carParkArray = CarParkArray.getCarParkArray(runnerTask.getContext());
         if (carParkArray.getCarParks() == null || carParkArray.getCarParks().length == 0) {
             runnerTask.report("BUCKS get car park array ... FAILED.", COLOUR_FAILED);
         } else {

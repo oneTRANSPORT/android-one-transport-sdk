@@ -33,7 +33,7 @@
         </service>
 
         <service
-            android:name=".sync.SyncService"
+            android:name=".sync.BucksSyncService"
             android:exported="true"
             android:process=":sync">
             <intent-filter>

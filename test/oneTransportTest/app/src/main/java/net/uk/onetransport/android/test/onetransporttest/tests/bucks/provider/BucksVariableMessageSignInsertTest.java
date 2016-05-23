@@ -28,7 +28,7 @@ public class BucksVariableMessageSignInsertTest implements OneTransportTest {
     private void insertVariableMessageSigns() throws Exception {
         runnerTask.setCurrentTest("BUCKS variable message sign insert");
         VariableMessageSignArray variableMessageSignArray = VariableMessageSignArray
-                .getVariableMessageSignArray(AE_ID, BASE_URL_CSE, USER_NAME, PASSWORD);
+                .getVariableMessageSignArray(runnerTask.getContext());
         if (variableMessageSignArray.getVariableMessageSigns() == null
                 || variableMessageSignArray.getVariableMessageSigns().length == 0) {
             runnerTask.report("BUCKS variable message sign insert ... FAILED.", COLOUR_FAILED);

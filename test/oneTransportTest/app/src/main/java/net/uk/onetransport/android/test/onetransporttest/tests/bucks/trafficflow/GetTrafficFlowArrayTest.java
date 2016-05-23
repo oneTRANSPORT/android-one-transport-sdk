@@ -24,8 +24,7 @@ public class GetTrafficFlowArrayTest
     public void startAsync(DougalCallback dougalCallback) {
         runnerTask.setCurrentTest("BUCKS get traffic flow array");
         this.dougalCallback = dougalCallback;
-        TrafficFlowArray.getTrafficFlowArrayAsync(AE_ID, BASE_URL_CSE,
-                USER_NAME, PASSWORD, this, 1);
+        TrafficFlowArray.getTrafficFlowArrayAsync(runnerTask.getContext(), this, 1);
     }
 
     @Override
@@ -50,7 +49,7 @@ public class GetTrafficFlowArrayTest
     private void getTrafficFlowArray() throws Exception {
         runnerTask.setCurrentTest("BUCKS get traffic flow array");
         TrafficFlowArray trafficFlowArray = TrafficFlowArray
-                .getTrafficFlowArray(AE_ID, BASE_URL_CSE, USER_NAME, PASSWORD);
+                .getTrafficFlowArray(runnerTask.getContext());
         if (trafficFlowArray.getTrafficFlows() == null
                 || trafficFlowArray.getTrafficFlows().length == 0) {
             runnerTask.report("BUCKS get traffic flow array ... FAILED.", COLOUR_FAILED);

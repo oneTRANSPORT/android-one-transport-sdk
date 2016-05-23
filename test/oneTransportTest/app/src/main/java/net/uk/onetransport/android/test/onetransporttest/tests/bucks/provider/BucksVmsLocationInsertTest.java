@@ -28,7 +28,7 @@ public class BucksVmsLocationInsertTest implements OneTransportTest {
     private void insertVmsLocations() throws Exception {
         runnerTask.setCurrentTest("BUCKS vms location insert");
         PredefinedVmsLocationArray predefinedVmsLocationArray = PredefinedVmsLocationArray
-                .getPredefinedVmsLocationArray(AE_ID, BASE_URL_CSE, USER_NAME, PASSWORD);
+                .getPredefinedVmsLocationArray(runnerTask.getContext());
         if (predefinedVmsLocationArray.getPredefinedVmsLocations() == null
                 || predefinedVmsLocationArray.getPredefinedVmsLocations().length == 0) {
             runnerTask.report("BUCKS vms location insert ... FAILED.", COLOUR_FAILED);
