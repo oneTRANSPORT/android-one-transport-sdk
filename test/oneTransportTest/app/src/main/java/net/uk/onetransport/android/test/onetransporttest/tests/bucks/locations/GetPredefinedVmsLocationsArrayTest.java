@@ -26,7 +26,7 @@ public class GetPredefinedVmsLocationsArrayTest extends OneTransportTest
         runnerTask.setCurrentTest("BUCKS get predefined vms locations array");
         this.dougalCallback = dougalCallback;
         PredefinedVmsLocationArray.getPredefinedVmsLocationArrayAsync(runnerTask.getContext(),
-                getAeId(), this, 1);
+                this, 1);
     }
 
     @Override

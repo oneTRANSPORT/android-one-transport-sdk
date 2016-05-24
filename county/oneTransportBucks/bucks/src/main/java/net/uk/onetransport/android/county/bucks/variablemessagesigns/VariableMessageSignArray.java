@@ -28,8 +28,8 @@ public class VariableMessageSignArray extends BaseArray implements DougalCallbac
 
     public static VariableMessageSignArray getVariableMessageSignArray(Context context)
             throws Exception {
-        String aeId = getAeId(context);
         String cseBaseUrl = context.getString(R.string.bucks_cse_base_url);
+        String aeId = Prefs.getAeId(context);
         String userName = context.getString(R.string.one_transport_user_name);
         String password = context.getString(R.string.one_transport_password);
         ContentInstance contentInstance = Container.retrieveLatest(aeId, cseBaseUrl, RETRIEVE_PATH,
@@ -44,10 +44,10 @@ public class VariableMessageSignArray extends BaseArray implements DougalCallbac
         VariableMessageSignArray variableMessageSignArray = new VariableMessageSignArray();
         variableMessageSignArray.variableMessageSignArrayCallback = variableMessageSignArrayCallback;
         variableMessageSignArray.id = id;
-        String aeId = getAeId(context);
-        String cseBaseUrl = context.getString(R.string.bucks_cse_base_url);
+        String aeId = Prefs.getAeId(context);
         String userName = context.getString(R.string.one_transport_user_name);
         String password = context.getString(R.string.one_transport_password);
+        String cseBaseUrl = context.getString(R.string.bucks_cse_base_url);
         Container.retrieveLatestAsync(aeId, cseBaseUrl, RETRIEVE_PATH, userName, password,
                 variableMessageSignArray);
     }

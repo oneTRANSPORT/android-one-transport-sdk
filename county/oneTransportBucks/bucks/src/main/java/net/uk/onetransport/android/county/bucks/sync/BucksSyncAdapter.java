@@ -44,61 +44,62 @@ public class BucksSyncAdapter extends AbstractThreadedSyncAdapter {
                               ContentProviderClient providerClient, SyncResult syncResult) {
         if (authority.equals(BucksProvider.AUTHORITY)) {
             Log.i("SyncAdapter", "Transferring data ...");
-
-            // Link segments.
-            try {
-                SegmentLocationArray segmentLocationArray = SegmentLocationArray
-                        .getSegmentLocationArray(context);
-                BucksContentHelper.deleteFromProvider(context,
-                        BucksContentHelper.DATA_TYPE_SEGMENT_LOCATION);
-                BucksContentHelper.insertIntoProvider(context,
-                        segmentLocationArray.getSegmentLocations());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            // Variable message sign locations.
-            try {
-                PredefinedVmsLocationArray predefinedVmsLocationArray = PredefinedVmsLocationArray
-                        .getPredefinedVmsLocationArray(context);
-                BucksContentHelper.deleteFromProvider(context,
-                        BucksContentHelper.DATA_TYPE_VMS_LOCATION);
-                BucksContentHelper.insertIntoProvider(context,
-                        predefinedVmsLocationArray.getPredefinedVmsLocations());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            // Car parks.
-            try {
-                CarParkArray carParkArray = CarParkArray.getCarParkArray(context);
-                BucksContentHelper.deleteFromProvider(context,
-                        BucksContentHelper.DATA_TYPE_CAR_PARK);
-                BucksContentHelper.insertIntoProvider(context, carParkArray.getCarParks());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            // Traffic flows.
-            try {
-                TrafficFlowArray trafficFlowArray = TrafficFlowArray.getTrafficFlowArray(context);
-                BucksContentHelper.deleteFromProvider(context,
-                        BucksContentHelper.DATA_TYPE_TRAFFIC_FLOW);
-                BucksContentHelper.insertIntoProvider(context, trafficFlowArray.getTrafficFlows());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            // Variable message signs.
-            try {
-                VariableMessageSignArray variableMessageSignArray = VariableMessageSignArray
-                        .getVariableMessageSignArray(context);
-                BucksContentHelper.deleteFromProvider(context, BucksContentHelper.DATA_TYPE_VMS);
-                BucksContentHelper.insertIntoProvider(context,
-                        variableMessageSignArray.getVariableMessageSigns());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+//
+//            // Link segments.
+//            try {
+//                SegmentLocationArray segmentLocationArray = SegmentLocationArray
+//                        .getSegmentLocationArray(context, aeId, userName, password);
+//                BucksContentHelper.deleteFromProvider(context,
+//                        BucksContentHelper.DATA_TYPE_SEGMENT_LOCATION);
+//                BucksContentHelper.insertIntoProvider(context,
+//                        segmentLocationArray.getSegmentLocations());
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//
+//            // Variable message sign locations.
+//            try {
+//                PredefinedVmsLocationArray predefinedVmsLocationArray = PredefinedVmsLocationArray
+//                        .getPredefinedVmsLocationArray(context, aeId, userName, password);
+//                BucksContentHelper.deleteFromProvider(context,
+//                        BucksContentHelper.DATA_TYPE_VMS_LOCATION);
+//                BucksContentHelper.insertIntoProvider(context,
+//                        predefinedVmsLocationArray.getPredefinedVmsLocations());
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//
+//            // Car parks.
+//            try {
+//                CarParkArray carParkArray = CarParkArray.getCarParkArray(context, aeId, userName, password);
+//                BucksContentHelper.deleteFromProvider(context,
+//                        BucksContentHelper.DATA_TYPE_CAR_PARK);
+//                BucksContentHelper.insertIntoProvider(context, carParkArray.getCarParks());
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//
+//            // Traffic flows.
+//            try {
+//                TrafficFlowArray trafficFlowArray = TrafficFlowArray.getTrafficFlowArray(context, aeId,
+//                        userName, password);
+//                BucksContentHelper.deleteFromProvider(context,
+//                        BucksContentHelper.DATA_TYPE_TRAFFIC_FLOW);
+//                BucksContentHelper.insertIntoProvider(context, trafficFlowArray.getTrafficFlows());
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//
+//            // Variable message signs.
+//            try {
+//                VariableMessageSignArray variableMessageSignArray = VariableMessageSignArray
+//                        .getVariableMessageSignArray(context, aeId, userName, password);
+//                BucksContentHelper.deleteFromProvider(context, BucksContentHelper.DATA_TYPE_VMS);
+//                BucksContentHelper.insertIntoProvider(context,
+//                        variableMessageSignArray.getVariableMessageSigns());
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
         }
     }
 

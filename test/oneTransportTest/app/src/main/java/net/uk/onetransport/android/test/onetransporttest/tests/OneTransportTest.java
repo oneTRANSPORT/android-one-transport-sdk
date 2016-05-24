@@ -4,7 +4,6 @@ import android.content.Context;
 
 import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
-import net.uk.onetransport.android.county.bucks.storage.Prefs;
 import net.uk.onetransport.android.test.onetransporttest.R;
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
 
@@ -38,7 +37,7 @@ public abstract class OneTransportTest {
     public abstract void startAsync(DougalCallback dougalCallback);
 
     public String getAeId() {
-        return context.getString(R.string.bucks_ae_id_prefix) + Prefs.getInstallationId(context);
+        return context.getString(R.string.bucks_ae_id);
     }
 
     public Context getContext() {

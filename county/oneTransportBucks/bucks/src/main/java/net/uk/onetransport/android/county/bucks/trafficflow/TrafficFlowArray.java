@@ -9,6 +9,7 @@ import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
 import net.uk.onetransport.android.county.bucks.BaseArray;
 import net.uk.onetransport.android.county.bucks.R;
+import net.uk.onetransport.android.county.bucks.storage.Prefs;
 
 public class TrafficFlowArray extends BaseArray implements DougalCallback {
 
@@ -26,10 +27,10 @@ public class TrafficFlowArray extends BaseArray implements DougalCallback {
     }
 
     public static TrafficFlowArray getTrafficFlowArray(Context context) throws Exception {
-        String aeId = getAeId(context);
-        String cseBaseUrl = context.getString(R.string.bucks_cse_base_url);
+        String aeId = Prefs.getAeId(context);
         String userName = context.getString(R.string.one_transport_user_name);
         String password = context.getString(R.string.one_transport_password);
+        String cseBaseUrl = context.getString(R.string.bucks_cse_base_url);
         ContentInstance contentInstance = Container.retrieveLatest(aeId, cseBaseUrl, RETRIEVE_PATH,
                 userName, password);
         String content = contentInstance.getContent();
@@ -41,10 +42,10 @@ public class TrafficFlowArray extends BaseArray implements DougalCallback {
         TrafficFlowArray trafficFlowArray = new TrafficFlowArray();
         trafficFlowArray.trafficFlowArrayCallback = trafficFlowArrayCallback;
         trafficFlowArray.id = id;
-        String aeId = getAeId(context);
-        String cseBaseUrl = context.getString(R.string.bucks_cse_base_url);
+        String aeId = Prefs.getAeId(context);
         String userName = context.getString(R.string.one_transport_user_name);
         String password = context.getString(R.string.one_transport_password);
+        String cseBaseUrl = context.getString(R.string.bucks_cse_base_url);
         Container.retrieveLatestAsync(aeId, cseBaseUrl, RETRIEVE_PATH, userName, password,
                 trafficFlowArray);
     }

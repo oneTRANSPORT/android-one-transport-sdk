@@ -16,6 +16,10 @@ public class TrafficFlow {
     private Integer freeFlowSpeed;
     @Expose
     private Integer freeFlowTravelTime;
+    @Expose
+    private String queuePresent;
+    @Expose
+    private Integer queueSeverity;
 
     public String getLocationReference() {
         return locationReference;
@@ -63,5 +67,21 @@ public class TrafficFlow {
 
     public void setFreeFlowTravelTime(Integer freeFlowTravelTime) {
         this.freeFlowTravelTime = freeFlowTravelTime;
+    }
+
+    public String getQueuePresent() {
+        return queuePresent;
+    }
+
+    public void setQueuePresent(String queuePresent) {
+        this.queuePresent = queuePresent;
+    }
+
+    public Integer getQueueSeverity() {
+        return queueSeverity;
+    }
+
+    public void setQueueSeverity(Integer queueSeverity) {
+        this.queueSeverity = queueSeverity;
     }
 }

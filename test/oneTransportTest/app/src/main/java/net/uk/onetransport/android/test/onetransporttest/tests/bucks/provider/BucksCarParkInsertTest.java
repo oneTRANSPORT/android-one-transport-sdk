@@ -6,11 +6,12 @@ import android.database.Cursor;
 import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
 import net.uk.onetransport.android.county.bucks.carparks.CarParkArray;
+import net.uk.onetransport.android.county.bucks.carparks.CarParkArrayCallback;
 import net.uk.onetransport.android.county.bucks.provider.BucksContentHelper;
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
 import net.uk.onetransport.android.test.onetransporttest.tests.OneTransportTest;
 
-public class BucksCarParkInsertTest extends OneTransportTest {
+public class BucksCarParkInsertTest extends OneTransportTest implements CarParkArrayCallback {
 
     private RunnerTask runnerTask;
 
@@ -23,6 +24,16 @@ public class BucksCarParkInsertTest extends OneTransportTest {
     public void startAsync(DougalCallback dougalCallback) {
         runnerTask.setCurrentTest("BUCKS car park insert");
         dougalCallback.getResponse(null, new Exception("Not implemented"));
+    }
+
+    @Override
+    public void onCarParkArrayReady(int id, CarParkArray carParkArray) {
+
+    }
+
+    @Override
+    public void onCarParkArrayError(int id, Throwable throwable) {
+
     }
 
     private void insertCarParks() throws Exception {

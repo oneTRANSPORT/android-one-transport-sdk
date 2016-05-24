@@ -9,6 +9,7 @@ import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
 import net.uk.onetransport.android.county.bucks.BaseArray;
 import net.uk.onetransport.android.county.bucks.R;
+import net.uk.onetransport.android.county.bucks.storage.Prefs;
 
 public class CarParkArray extends BaseArray implements DougalCallback {
 
@@ -18,6 +19,7 @@ public class CarParkArray extends BaseArray implements DougalCallback {
     private CarPark[] carParks;
     private CarParkArrayCallback carParkArrayCallback;
     private int id;
+    private static int completed = 0;
 
     private CarParkArray() {
     }
@@ -27,10 +29,10 @@ public class CarParkArray extends BaseArray implements DougalCallback {
     }
 
     public static CarParkArray getCarParkArray(Context context) throws Exception {
-        String aeId = getAeId(context);
-        String cseBaseUrl = context.getString(R.string.bucks_cse_base_url);
+        String aeId = Prefs.getAeId(context);
         String userName = context.getString(R.string.one_transport_user_name);
         String password = context.getString(R.string.one_transport_password);
+        String cseBaseUrl = context.getString(R.string.bucks_cse_base_url);
         ContentInstance contentInstance = Container.retrieveLatest(aeId, cseBaseUrl, RETRIEVE_PATH1,
                 userName, password);
         String content = contentInstance.getContent();
@@ -47,11 +49,14 @@ public class CarParkArray extends BaseArray implements DougalCallback {
         CarParkArray carParkArray = new CarParkArray();
         carParkArray.carParkArrayCallback = carParkArrayCallback;
         carParkArray.id = id;
-        String aeId = getAeId(context);
-        String cseBaseUrl = context.getString(R.string.bucks_cse_base_url);
+        String aeId = Prefs.getAeId(context);
         String userName = context.getString(R.string.one_transport_user_name);
         String password = context.getString(R.string.one_transport_password);
+        String cseBaseUrl = context.getString(R.string.bucks_cse_base_url);
+        completed = 0;
         Container.retrieveLatestAsync(aeId, cseBaseUrl, RETRIEVE_PATH1, userName, password,
+                carParkArray);
+        Container.retrieveLatestAsync(aeId, cseBaseUrl, RETRIEVE_PATH2, userName, password,
                 carParkArray);
     }
 
@@ -60,13 +65,26 @@ public class CarParkArray extends BaseArray implements DougalCallback {
         if (throwable != null) {
             carParkArrayCallback.onCarParkArrayError(id, throwable);
         } else {
-            try {
-                String content = ((ContentInstance) resource).getContent();
-                carParks = GSON.fromJson(content, CarPark[].class);
-                carParkArrayCallback.onCarParkArrayReady(id, this);
-            } catch (Exception e) {
-                carParkArrayCallback.onCarParkArrayError(id, e);
+            if (completed == 0) {
+                try {
+                    String content = ((ContentInstance) resource).getContent();
+                    carParks = GSON.fromJson(content, CarPark[].class);
+                } catch (Exception e) {
+                    carParkArrayCallback.onCarParkArrayError(id, e);
+                }
+                completed++;
+            } else {
+                try {
+                    String content = ((ContentInstance) resource).getContent();
+                    CarPark[] carParks2 = GSON.fromJson(content, CarPark[].class);
+                    CarParkArray carParkArray2 = new CarParkArray(carParks2);
+                    merge(this, carParkArray2);
+                    carParkArrayCallback.onCarParkArrayReady(id, this);
+                } catch (Exception e) {
+                    carParkArrayCallback.onCarParkArrayError(id, e);
+                }
             }
+
         }
     }
 
