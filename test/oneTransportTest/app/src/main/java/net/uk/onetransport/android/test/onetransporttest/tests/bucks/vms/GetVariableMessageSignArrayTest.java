@@ -9,8 +9,8 @@ import net.uk.onetransport.android.county.bucks.variablemessagesigns.VariableMes
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
 import net.uk.onetransport.android.test.onetransporttest.tests.OneTransportTest;
 
-public class GetVariableMessageSignArrayTest
-        implements VariableMessageSignArrayCallback, OneTransportTest {
+public class GetVariableMessageSignArrayTest extends OneTransportTest
+        implements VariableMessageSignArrayCallback {
 
     private RunnerTask runnerTask;
     private DougalCallback dougalCallback;

@@ -9,8 +9,8 @@ import net.uk.onetransport.android.county.bucks.locations.SegmentLocationArrayCa
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
 import net.uk.onetransport.android.test.onetransporttest.tests.OneTransportTest;
 
-public class GetSegmentLocationsArrayTest
-        implements SegmentLocationArrayCallback, OneTransportTest {
+public class GetSegmentLocationsArrayTest extends OneTransportTest
+        implements SegmentLocationArrayCallback {
 
     private RunnerTask runnerTask;
     private DougalCallback dougalCallback;

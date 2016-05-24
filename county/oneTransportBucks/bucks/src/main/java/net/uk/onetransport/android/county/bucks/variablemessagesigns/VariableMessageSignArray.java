@@ -1,7 +1,5 @@
 package net.uk.onetransport.android.county.bucks.variablemessagesigns;
 
-import android.content.ContentResolver;
-import android.content.ContentValues;
 import android.content.Context;
 
 import com.interdigital.android.dougal.resource.Container;
@@ -11,8 +9,6 @@ import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
 import net.uk.onetransport.android.county.bucks.BaseArray;
 import net.uk.onetransport.android.county.bucks.R;
-import net.uk.onetransport.android.county.bucks.provider.BucksContract;
-import net.uk.onetransport.android.county.bucks.provider.BucksProvider;
 import net.uk.onetransport.android.county.bucks.storage.Prefs;
 
 public class VariableMessageSignArray extends BaseArray implements DougalCallback {
@@ -32,10 +28,7 @@ public class VariableMessageSignArray extends BaseArray implements DougalCallbac
 
     public static VariableMessageSignArray getVariableMessageSignArray(Context context)
             throws Exception {
-        String aeId = Prefs.getAeId(context);
-        if (aeId == null) { // TODO Error reporting?
-            return null;
-        }
+        String aeId = getAeId(context);
         String cseBaseUrl = context.getString(R.string.bucks_cse_base_url);
         String userName = context.getString(R.string.one_transport_user_name);
         String password = context.getString(R.string.one_transport_password);
@@ -51,10 +44,7 @@ public class VariableMessageSignArray extends BaseArray implements DougalCallbac
         VariableMessageSignArray variableMessageSignArray = new VariableMessageSignArray();
         variableMessageSignArray.variableMessageSignArrayCallback = variableMessageSignArrayCallback;
         variableMessageSignArray.id = id;
-        String aeId = Prefs.getAeId(context);
-        if (aeId == null) { // TODO Error reporting?
-            return;
-        }
+        String aeId = getAeId(context);
         String cseBaseUrl = context.getString(R.string.bucks_cse_base_url);
         String userName = context.getString(R.string.one_transport_user_name);
         String password = context.getString(R.string.one_transport_password);

@@ -8,7 +8,7 @@ import net.uk.onetransport.android.county.bucks.provider.BucksContentHelper;
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
 import net.uk.onetransport.android.test.onetransporttest.tests.OneTransportTest;
 
-public class BucksTrafficFlowJoinQueryTest implements OneTransportTest {
+public class BucksTrafficFlowJoinQueryTest extends OneTransportTest {
 
     private RunnerTask runnerTask;
 

@@ -9,7 +9,7 @@ import net.uk.onetransport.android.county.bucks.provider.BucksContentHelper;
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
 import net.uk.onetransport.android.test.onetransporttest.tests.OneTransportTest;
 
-public class BucksVariableMessageSignDeleteTest implements OneTransportTest {
+public class BucksVariableMessageSignDeleteTest extends OneTransportTest {
 
     private RunnerTask runnerTask;
 

@@ -2,7 +2,7 @@ package net.uk.onetransport.android.test.onetransporttest.tests.ae;
 
 import net.uk.onetransport.android.test.onetransporttest.tests.OneTransportTest;
 
-public interface ApplicationEntityTest extends OneTransportTest {
+public abstract class ApplicationEntityTest extends OneTransportTest {
 
     String NAME = "ONETRANSPORT-TEST";
     String APPLICATION_ID = "C-ONETRANSPORT-TEST-APP-ID";

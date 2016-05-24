@@ -10,7 +10,7 @@ import net.uk.onetransport.android.county.bucks.provider.BucksContentHelper;
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
 import net.uk.onetransport.android.test.onetransporttest.tests.OneTransportTest;
 
-public class BucksSegmentLocationInsertTest implements OneTransportTest {
+public class BucksSegmentLocationInsertTest extends OneTransportTest {
 
     private RunnerTask runnerTask;
 

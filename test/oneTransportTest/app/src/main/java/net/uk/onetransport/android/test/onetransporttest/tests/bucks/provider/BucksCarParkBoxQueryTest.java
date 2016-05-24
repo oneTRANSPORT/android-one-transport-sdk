@@ -10,7 +10,7 @@ import net.uk.onetransport.android.county.bucks.provider.BucksContract;
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
 import net.uk.onetransport.android.test.onetransporttest.tests.OneTransportTest;
 
-public class BucksCarParkBoxQueryTest implements OneTransportTest {
+public class BucksCarParkBoxQueryTest extends OneTransportTest {
 
     private static final double MIN_LATITUDE = 51.35;
     private static final double MIN_LONGITUDE = -0.82;

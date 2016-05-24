@@ -9,8 +9,8 @@ import net.uk.onetransport.android.county.bucks.locations.PredefinedVmsLocationA
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
 import net.uk.onetransport.android.test.onetransporttest.tests.OneTransportTest;
 
-public class GetPredefinedVmsLocationsArrayTest
-        implements PredefinedVmsLocationArrayCallback, OneTransportTest {
+public class GetPredefinedVmsLocationsArrayTest extends OneTransportTest
+        implements PredefinedVmsLocationArrayCallback {
 
     private RunnerTask runnerTask;
     private DougalCallback dougalCallback;
@@ -18,13 +18,15 @@ public class GetPredefinedVmsLocationsArrayTest
     @Override
     public void start(RunnerTask runnerTask) throws Exception {
         this.runnerTask = runnerTask;
+        setContext(runnerTask.getContext());
         getPredefinedLocationsArray();
     }
 
     public void startAsync(DougalCallback dougalCallback) {
         runnerTask.setCurrentTest("BUCKS get predefined vms locations array");
         this.dougalCallback = dougalCallback;
-        PredefinedVmsLocationArray.getPredefinedVmsLocationArrayAsync(runnerTask.getContext(), this, 1);
+        PredefinedVmsLocationArray.getPredefinedVmsLocationArrayAsync(runnerTask.getContext(),
+                getAeId(), this, 1);
     }
 
     @Override

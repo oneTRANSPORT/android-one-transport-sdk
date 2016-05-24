@@ -9,7 +9,7 @@ import net.uk.onetransport.android.county.bucks.provider.BucksContentHelper;
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
 import net.uk.onetransport.android.test.onetransporttest.tests.OneTransportTest;
 
-public class BucksTrafficFlowBoxQueryTest implements OneTransportTest {
+public class BucksTrafficFlowBoxQueryTest extends OneTransportTest {
 
     private static final double MIN_LATITUDE = 51.35;
     private static final double MIN_LONGITUDE = -0.82;
@@ -41,10 +41,10 @@ public class BucksTrafficFlowBoxQueryTest implements OneTransportTest {
                     double to_longitude = cursor.getDouble(cursor.getColumnIndex("longitude"));
                     double from_latitude = cursor.getDouble(cursor.getColumnIndex("latitude"));
                     double from_longitude = cursor.getDouble(cursor.getColumnIndex("longitude"));
-                        runnerTask.report("BUCKS car park box query ... FAILED.", COLOUR_FAILED);
+                    runnerTask.report("BUCKS car park box query ... FAILED.", COLOUR_FAILED);
                     if (to_latitude < MIN_LATITUDE || to_latitude > MAX_LATITUDE
                             || to_longitude < MIN_LONGITUDE || to_longitude > MAX_LONGITUDE
-                            ||from_latitude < MIN_LATITUDE || from_latitude > MAX_LATITUDE
+                            || from_latitude < MIN_LATITUDE || from_latitude > MAX_LATITUDE
                             || from_longitude < MIN_LONGITUDE || from_longitude > MAX_LONGITUDE) {
                         cursor.close();
                         return;

@@ -10,7 +10,7 @@ import net.uk.onetransport.android.county.bucks.variablemessagesigns.VariableMes
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
 import net.uk.onetransport.android.test.onetransporttest.tests.OneTransportTest;
 
-public class BucksVariableMessageSignInsertTest implements OneTransportTest {
+public class BucksVariableMessageSignInsertTest extends OneTransportTest {
 
     private RunnerTask runnerTask;
 

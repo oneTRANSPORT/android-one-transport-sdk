@@ -9,7 +9,7 @@ import net.uk.onetransport.android.county.bucks.carparks.CarParkArrayCallback;
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
 import net.uk.onetransport.android.test.onetransporttest.tests.OneTransportTest;
 
-public class GetCarParkArrayTest implements CarParkArrayCallback, OneTransportTest {
+public class GetCarParkArrayTest extends OneTransportTest implements CarParkArrayCallback {
 
     private RunnerTask runnerTask;
     private DougalCallback dougalCallback;

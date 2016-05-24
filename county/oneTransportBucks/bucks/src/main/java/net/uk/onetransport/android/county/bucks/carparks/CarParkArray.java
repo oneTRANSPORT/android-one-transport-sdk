@@ -9,7 +9,6 @@ import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
 import net.uk.onetransport.android.county.bucks.BaseArray;
 import net.uk.onetransport.android.county.bucks.R;
-import net.uk.onetransport.android.county.bucks.storage.Prefs;
 
 public class CarParkArray extends BaseArray implements DougalCallback {
 
@@ -28,10 +27,7 @@ public class CarParkArray extends BaseArray implements DougalCallback {
     }
 
     public static CarParkArray getCarParkArray(Context context) throws Exception {
-        String aeId = Prefs.getAeId(context);
-        if (aeId == null) { // TODO Error reporting?
-            return null;
-        }
+        String aeId = getAeId(context);
         String cseBaseUrl = context.getString(R.string.bucks_cse_base_url);
         String userName = context.getString(R.string.one_transport_user_name);
         String password = context.getString(R.string.one_transport_password);
@@ -46,15 +42,12 @@ public class CarParkArray extends BaseArray implements DougalCallback {
         return merge(carParkArray1, carParkArray2);
     }
 
-    public static void getCarParkArrayAsync(Context context, CarParkArrayCallback carParkArrayCallback,
-                                            int id) {
+    public static void getCarParkArrayAsync(Context context,
+                                            CarParkArrayCallback carParkArrayCallback, int id) {
         CarParkArray carParkArray = new CarParkArray();
         carParkArray.carParkArrayCallback = carParkArrayCallback;
         carParkArray.id = id;
-        String aeId = Prefs.getAeId(context);
-        if (aeId == null) { // TODO Error reporting?
-            return;
-        }
+        String aeId = getAeId(context);
         String cseBaseUrl = context.getString(R.string.bucks_cse_base_url);
         String userName = context.getString(R.string.one_transport_user_name);
         String password = context.getString(R.string.one_transport_password);

@@ -9,7 +9,6 @@ import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
 import net.uk.onetransport.android.county.bucks.BaseArray;
 import net.uk.onetransport.android.county.bucks.R;
-import net.uk.onetransport.android.county.bucks.storage.Prefs;
 
 public class SegmentLocationArray extends BaseArray implements DougalCallback {
 
@@ -31,15 +30,12 @@ public class SegmentLocationArray extends BaseArray implements DougalCallback {
         this.segmentLocations = segmentLocations;
     }
 
-    public static SegmentLocationArray getSegmentLocationArray(Context context) throws Exception {
-        String aeId = Prefs.getAeId(context);
-        if (aeId == null) { // TODO Error reporting?
-            return null;
-        }
+    public static SegmentLocationArray getSegmentLocationArray(Context context)
+            throws Exception {
+        String aeId = getAeId(context);
         String cseBaseUrl = context.getString(R.string.bucks_cse_base_url);
         String userName = context.getString(R.string.one_transport_user_name);
         String password = context.getString(R.string.one_transport_password);
-
         ContentInstance contentInstance = Container.retrieveLatest(aeId, cseBaseUrl, LINK_PATH,
                 userName, password);
         SegmentLocationArray linkArray = new SegmentLocationArray(
@@ -72,11 +68,7 @@ public class SegmentLocationArray extends BaseArray implements DougalCallback {
         segmentLocationArray.segmentLocationArrayCallback = segmentLocationArrayCallback;
         segmentLocationArray.id = id;
         segmentLocationArray.completed = 0;
-        String aeId = Prefs.getAeId(context);
-        if (aeId == null) { // TODO Error reporting?
-            return;
-        }
-        // TODO Fold into one object?
+        String aeId = getAeId(context);
         String cseBaseUrl = context.getString(R.string.bucks_cse_base_url);
         String userName = context.getString(R.string.one_transport_user_name);
         String password = context.getString(R.string.one_transport_password);

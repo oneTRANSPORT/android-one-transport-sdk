@@ -5,7 +5,7 @@ import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
 
-public class ApplicationEntityDeleteTest implements ApplicationEntityTest {
+public class ApplicationEntityDeleteTest extends ApplicationEntityTest {
 
     private RunnerTask runnerTask;
 
@@ -29,7 +29,7 @@ public class ApplicationEntityDeleteTest implements ApplicationEntityTest {
     }
 
     private ApplicationEntity getApplicationEntity() {
-        return new ApplicationEntity(AE_ID, APP_NAME, APPLICATION_ID,
-                BASE_URL, PATH_CREATE, false);
+        return new ApplicationEntity(getAeId(), APP_NAME, APPLICATION_ID, BASE_URL,
+                PATH_CREATE, false);
     }
 }

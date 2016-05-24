@@ -9,8 +9,8 @@ import net.uk.onetransport.android.county.bucks.trafficflow.TrafficFlowArrayCall
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
 import net.uk.onetransport.android.test.onetransporttest.tests.OneTransportTest;
 
-public class GetTrafficFlowArrayTest
-        implements TrafficFlowArrayCallback, OneTransportTest {
+public class GetTrafficFlowArrayTest extends OneTransportTest
+        implements TrafficFlowArrayCallback {
 
     private RunnerTask runnerTask;
     private DougalCallback dougalCallback;

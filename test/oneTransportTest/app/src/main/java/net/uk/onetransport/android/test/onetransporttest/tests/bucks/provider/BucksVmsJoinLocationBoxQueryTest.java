@@ -10,7 +10,7 @@ import net.uk.onetransport.android.county.bucks.provider.BucksContract;
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
 import net.uk.onetransport.android.test.onetransporttest.tests.OneTransportTest;
 
-public class BucksVmsJoinLocationBoxQueryTest implements OneTransportTest {
+public class BucksVmsJoinLocationBoxQueryTest extends OneTransportTest {
 
     private static final double MIN_LATITUDE = 51.39322;
     private static final double MIN_LONGITUDE = -2.59358168;

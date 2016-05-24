@@ -10,7 +10,7 @@ import net.uk.onetransport.android.county.bucks.trafficflow.TrafficFlowArray;
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
 import net.uk.onetransport.android.test.onetransporttest.tests.OneTransportTest;
 
-public class BucksTrafficFlowInsertTest implements OneTransportTest {
+public class BucksTrafficFlowInsertTest extends OneTransportTest {
 
     private RunnerTask runnerTask;
 
