@@ -29,6 +29,7 @@ import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.Bu
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksVmsJoinQueryTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksVmsLocationDeleteTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksVmsLocationInsertTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksSyncAdapterTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.trafficflow.GetTrafficFlowArrayTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.vms.GetVariableMessageSignArrayTest;
 
@@ -40,26 +41,27 @@ public class RunnerTask extends AsyncTask<Void, Object[], Void>
     private OneTransportTest[] oneTransportTests = {
             new ApplicationEntityCreateTest(),
             new GetCarParkArrayTest(),
-            new GetSegmentLocationsArrayTest(),
-            new GetPredefinedVmsLocationsArrayTest(),
-            new GetVariableMessageSignArrayTest(),
-            new GetTrafficFlowArrayTest(),
+//            new GetSegmentLocationsArrayTest(),
+//            new GetPredefinedVmsLocationsArrayTest(),
+//            new GetVariableMessageSignArrayTest(),
+//            new GetTrafficFlowArrayTest(),
             new BucksCarParkDeleteTest(),
-            new BucksVmsLocationDeleteTest(),
-            new BucksSegmentLocationDeleteTest(),
-            new BucksVariableMessageSignDeleteTest(),
-            new BucksTrafficFlowDeleteTest(),
+//            new BucksVmsLocationDeleteTest(),
+//            new BucksSegmentLocationDeleteTest(),
+//            new BucksVariableMessageSignDeleteTest(),
+//            new BucksTrafficFlowDeleteTest(),
             new BucksCarParkInsertTest(),
-            new BucksVmsLocationInsertTest(),
-            new BucksSegmentLocationInsertTest(),
-            new BucksVariableMessageSignInsertTest(),
-            new BucksTrafficFlowInsertTest(),
-            new BucksVmsJoinQueryTest(),
-            new BucksTrafficFlowJoinQueryTest(),
+//            new BucksVmsLocationInsertTest(),
+//            new BucksSegmentLocationInsertTest(),
+//            new BucksVariableMessageSignInsertTest(),
+//            new BucksTrafficFlowInsertTest(),
+//            new BucksVmsJoinQueryTest(),
+//            new BucksTrafficFlowJoinQueryTest(),
             new BucksCarParkBoxQueryTest(),
-            new BucksVmsJoinLocationBoxQueryTest(),
-            new BucksTrafficFlowBoxQueryTest(),
-            new ApplicationEntityDeleteTest()
+//            new BucksVmsJoinLocationBoxQueryTest(),
+//            new BucksTrafficFlowBoxQueryTest(),
+            new BucksSyncAdapterTest()
+//            new ApplicationEntityDeleteTest()
     };
     private int testNum = 0;
     private String currentTest;
@@ -75,8 +77,8 @@ public class RunnerTask extends AsyncTask<Void, Object[], Void>
 
     @Override
     protected Void doInBackground(Void... voids) {
-        // Create an installation id if needed.
         BucksProvider.initialise(context);
+        // Create an installation id if needed.
         CredentialHelper.initialiseCredentials(context, OneTransportTest.USER_NAME,
                 OneTransportTest.PASSWORD, "installation-id");
         // One synchronous test run and one asynchronous.

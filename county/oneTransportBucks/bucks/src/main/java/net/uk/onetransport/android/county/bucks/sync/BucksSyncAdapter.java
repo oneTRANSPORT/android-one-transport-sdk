@@ -7,6 +7,7 @@ import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.SyncResult;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -15,9 +16,18 @@ import net.uk.onetransport.android.county.bucks.carparks.CarParkArray;
 import net.uk.onetransport.android.county.bucks.locations.PredefinedVmsLocationArray;
 import net.uk.onetransport.android.county.bucks.locations.SegmentLocationArray;
 import net.uk.onetransport.android.county.bucks.provider.BucksContentHelper;
+import net.uk.onetransport.android.county.bucks.provider.BucksDbHelper;
 import net.uk.onetransport.android.county.bucks.provider.BucksProvider;
 import net.uk.onetransport.android.county.bucks.trafficflow.TrafficFlowArray;
 import net.uk.onetransport.android.county.bucks.variablemessagesigns.VariableMessageSignArray;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 public class BucksSyncAdapter extends AbstractThreadedSyncAdapter {
 
@@ -43,12 +53,15 @@ public class BucksSyncAdapter extends AbstractThreadedSyncAdapter {
     public void onPerformSync(Account account, Bundle extras, String authority,
                               ContentProviderClient providerClient, SyncResult syncResult) {
         if (authority.equals(BucksProvider.AUTHORITY)) {
-            Log.i("SyncAdapter", "Transferring data ...");
-//
+            Log.i("BucksSyncAdapter", "Transferring data ...");
+
+            // TODO    Uncomment the remaining feeds.
+            // TODO    At the moment, these are broken.
+
 //            // Link segments.
 //            try {
 //                SegmentLocationArray segmentLocationArray = SegmentLocationArray
-//                        .getSegmentLocationArray(context, aeId, userName, password);
+//                        .getSegmentLocationArray(context);
 //                BucksContentHelper.deleteFromProvider(context,
 //                        BucksContentHelper.DATA_TYPE_SEGMENT_LOCATION);
 //                BucksContentHelper.insertIntoProvider(context,
@@ -60,7 +73,7 @@ public class BucksSyncAdapter extends AbstractThreadedSyncAdapter {
 //            // Variable message sign locations.
 //            try {
 //                PredefinedVmsLocationArray predefinedVmsLocationArray = PredefinedVmsLocationArray
-//                        .getPredefinedVmsLocationArray(context, aeId, userName, password);
+//                        .getPredefinedVmsLocationArray(context);
 //                BucksContentHelper.deleteFromProvider(context,
 //                        BucksContentHelper.DATA_TYPE_VMS_LOCATION);
 //                BucksContentHelper.insertIntoProvider(context,
@@ -68,21 +81,24 @@ public class BucksSyncAdapter extends AbstractThreadedSyncAdapter {
 //            } catch (Exception e) {
 //                e.printStackTrace();
 //            }
-//
-//            // Car parks.
-//            try {
-//                CarParkArray carParkArray = CarParkArray.getCarParkArray(context, aeId, userName, password);
-//                BucksContentHelper.deleteFromProvider(context,
-//                        BucksContentHelper.DATA_TYPE_CAR_PARK);
-//                BucksContentHelper.insertIntoProvider(context, carParkArray.getCarParks());
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//
+
+            // Car parks.
+            try {
+                Log.i("BucksSyncAdapter", "Getting car parks ...");
+                CarParkArray carParkArray = CarParkArray.getCarParkArray(context);
+                Log.i("BucksSyncAdapter", "Deleting existing data ...");
+                BucksContentHelper.deleteFromProvider(context,
+                        BucksContentHelper.DATA_TYPE_CAR_PARK);
+                Log.i("BucksSyncAdapter", "Inserting new data ...");
+                BucksContentHelper.insertIntoProvider(context, carParkArray.getCarParks());
+                Log.i("BucksSyncAdapter", "All done.");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
 //            // Traffic flows.
 //            try {
-//                TrafficFlowArray trafficFlowArray = TrafficFlowArray.getTrafficFlowArray(context, aeId,
-//                        userName, password);
+//                TrafficFlowArray trafficFlowArray = TrafficFlowArray.getTrafficFlowArray(context);
 //                BucksContentHelper.deleteFromProvider(context,
 //                        BucksContentHelper.DATA_TYPE_TRAFFIC_FLOW);
 //                BucksContentHelper.insertIntoProvider(context, trafficFlowArray.getTrafficFlows());
@@ -93,7 +109,7 @@ public class BucksSyncAdapter extends AbstractThreadedSyncAdapter {
 //            // Variable message signs.
 //            try {
 //                VariableMessageSignArray variableMessageSignArray = VariableMessageSignArray
-//                        .getVariableMessageSignArray(context, aeId, userName, password);
+//                        .getVariableMessageSignArray(context);
 //                BucksContentHelper.deleteFromProvider(context, BucksContentHelper.DATA_TYPE_VMS);
 //                BucksContentHelper.insertIntoProvider(context,
 //                        variableMessageSignArray.getVariableMessageSigns());
@@ -101,7 +117,46 @@ public class BucksSyncAdapter extends AbstractThreadedSyncAdapter {
 //                e.printStackTrace();
 //            }
         }
+        // TODO    Remove this, diagnostics only.
+        BucksDbHelper bucksDbHelper = new BucksDbHelper(context);
+        SQLiteDatabase sqLiteDatabase = bucksDbHelper.getReadableDatabase();
+        File dbFile = new File(sqLiteDatabase.getPath());
+        File exportDb = new File("/sdcard/bucks-db");
+        copy(dbFile, exportDb);
+        // TODO    --------------------------------------------------
     }
+
+    // TODO    Remove this too.
+    private void copy(File src, File dst) {
+        InputStream in = null;
+        OutputStream out = null;
+        try {
+            in = new FileInputStream(src);
+            out = new FileOutputStream(dst);
+            // Transfer bytes from in to out
+            byte[] buf = new byte[8192];
+            int len;
+            while ((len = in.read(buf)) > 0) {
+                out.write(buf, 0, len);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (in != null) {
+                    in.close();
+                }
+                if (out != null) {
+                    out.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    // TODO    ----------------------------------------
 
     public static void refresh(Context context) {
         Account account = BucksSyncAdapter.getAccount(context);

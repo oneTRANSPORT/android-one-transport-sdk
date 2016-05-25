@@ -11,6 +11,7 @@
     <uses-permission
         android:name="android.permission.AUTHENTICATE_ACCOUNTS"
         android:maxSdkVersion="22"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
         android:allowBackup="true">
@@ -19,6 +20,7 @@
             android:name=".provider.BucksProvider"
             android:authorities="@string/provider_authority"
             android:exported="false"
+            android:label="BucksProvider"
             android:syncable="true">
         </provider>
 
@@ -32,15 +34,16 @@
                 android:resource="@xml/authenticator"/>
         </service>
 
+        <!--android:process=":sync"-->
         <service
             android:name=".sync.BucksSyncService"
-            android:exported="true"
-            android:process=":sync">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.content.SyncAdapter"/>
             </intent-filter>
-            <meta-data android:name="android.content.SyncAdapter"
-                       android:resource="@xml/syncadapter" />
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/syncadapter"/>
         </service>
     </application>
 

@@ -11,6 +11,7 @@ public class BucksSyncService extends Service {
 
     @Override
     public void onCreate() {
+        super.onCreate();
         synchronized (syncAdapterLock) {
             if (bucksSyncAdapter == null) {
                 bucksSyncAdapter = new BucksSyncAdapter(getApplicationContext(), true);
