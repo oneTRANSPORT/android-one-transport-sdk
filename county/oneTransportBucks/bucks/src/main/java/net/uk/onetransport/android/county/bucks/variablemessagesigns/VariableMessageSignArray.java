@@ -9,6 +9,7 @@ import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
 import net.uk.onetransport.android.county.bucks.BaseArray;
 import net.uk.onetransport.android.county.bucks.R;
+import net.uk.onetransport.android.county.bucks.authentication.CredentialHelper;
 import net.uk.onetransport.android.county.bucks.storage.Prefs;
 
 public class VariableMessageSignArray extends BaseArray implements DougalCallback {
@@ -29,9 +30,9 @@ public class VariableMessageSignArray extends BaseArray implements DougalCallbac
     public static VariableMessageSignArray getVariableMessageSignArray(Context context)
             throws Exception {
         String cseBaseUrl = context.getString(R.string.bucks_cse_base_url);
-        String aeId = Prefs.getAeId(context);
-        String userName = context.getString(R.string.one_transport_user_name);
-        String password = context.getString(R.string.one_transport_password);
+        String aeId =  "C-"+CredentialHelper.getAeId(context);
+        String userName = CredentialHelper.getAeId(context);
+        String password = CredentialHelper.getSessionToken(context);
         ContentInstance contentInstance = Container.retrieveLatest(aeId, cseBaseUrl, RETRIEVE_PATH,
                 userName, password);
         String content = contentInstance.getContent();
@@ -44,9 +45,9 @@ public class VariableMessageSignArray extends BaseArray implements DougalCallbac
         VariableMessageSignArray variableMessageSignArray = new VariableMessageSignArray();
         variableMessageSignArray.variableMessageSignArrayCallback = variableMessageSignArrayCallback;
         variableMessageSignArray.id = id;
-        String aeId = Prefs.getAeId(context);
-        String userName = context.getString(R.string.one_transport_user_name);
-        String password = context.getString(R.string.one_transport_password);
+        String aeId =  "C-"+CredentialHelper.getAeId(context);
+        String userName = CredentialHelper.getAeId(context);
+        String password = CredentialHelper.getSessionToken(context);
         String cseBaseUrl = context.getString(R.string.bucks_cse_base_url);
         Container.retrieveLatestAsync(aeId, cseBaseUrl, RETRIEVE_PATH, userName, password,
                 variableMessageSignArray);

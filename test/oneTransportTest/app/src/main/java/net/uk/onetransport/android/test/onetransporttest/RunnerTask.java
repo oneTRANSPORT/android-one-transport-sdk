@@ -6,7 +6,7 @@ import android.os.AsyncTask;
 import com.interdigital.android.dougal.resource.Resource;
 import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
-import net.uk.onetransport.android.county.bucks.authentication.Credential;
+import net.uk.onetransport.android.county.bucks.authentication.CredentialHelper;
 import net.uk.onetransport.android.county.bucks.provider.BucksProvider;
 import net.uk.onetransport.android.test.onetransporttest.tests.OneTransportTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.ae.ApplicationEntityCreateTest;
@@ -77,8 +77,8 @@ public class RunnerTask extends AsyncTask<Void, Object[], Void>
     protected Void doInBackground(Void... voids) {
         // Create an installation id if needed.
         BucksProvider.initialise(context);
-        Credential.initialiseCredentials(context,context.getString(R.string.bucks_ae_id),
-                context.getString(R.string.one_transport_password),"installation-id");
+        CredentialHelper.initialiseCredentials(context, OneTransportTest.USER_NAME,
+                OneTransportTest.PASSWORD, "installation-id");
         // One synchronous test run and one asynchronous.
         reportAdapter.setNumTests(oneTransportTests.length * 2);
         publishProgress(new Object[][]{{"", 0x0}, {"Starting tests...", 0xffffff00}, {"", 0x0}});

@@ -9,6 +9,7 @@ import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
 import net.uk.onetransport.android.county.bucks.BaseArray;
 import net.uk.onetransport.android.county.bucks.R;
+import net.uk.onetransport.android.county.bucks.authentication.CredentialHelper;
 import net.uk.onetransport.android.county.bucks.storage.Prefs;
 
 public class PredefinedVmsLocationArray extends BaseArray implements DougalCallback {
@@ -28,9 +29,9 @@ public class PredefinedVmsLocationArray extends BaseArray implements DougalCallb
 
     public static PredefinedVmsLocationArray getPredefinedVmsLocationArray(Context context)
             throws Exception {
-        String aeId = Prefs.getAeId(context);
-        String userName = context.getString(R.string.one_transport_user_name);
-        String password = context.getString(R.string.one_transport_password);
+        String aeId =  "C-"+CredentialHelper.getAeId(context);
+        String userName = CredentialHelper.getAeId(context);
+        String password = CredentialHelper.getSessionToken(context);
         String cseBaseUrl = context.getString(R.string.bucks_cse_base_url);
         ContentInstance contentInstance = Container.retrieveLatest(aeId, cseBaseUrl, RETRIEVE_PATH,
                 userName, password);
@@ -44,9 +45,9 @@ public class PredefinedVmsLocationArray extends BaseArray implements DougalCallb
         PredefinedVmsLocationArray predefinedVmsLocationArray = new PredefinedVmsLocationArray();
         predefinedVmsLocationArray.predefinedVmsLocationArrayCallback = predefinedVmsLocationArrayCallback;
         predefinedVmsLocationArray.id = id;
-        String aeId = Prefs.getAeId(context);
-        String userName = context.getString(R.string.one_transport_user_name);
-        String password = context.getString(R.string.one_transport_password);
+        String aeId =  "C-"+CredentialHelper.getAeId(context);
+        String userName = CredentialHelper.getAeId(context);
+        String password = CredentialHelper.getSessionToken(context);
         String cseBaseUrl = context.getString(R.string.bucks_cse_base_url);
         Container.retrieveLatestAsync(aeId, cseBaseUrl, RETRIEVE_PATH, userName, password,
                 predefinedVmsLocationArray);

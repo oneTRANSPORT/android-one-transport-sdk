@@ -9,6 +9,7 @@ import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
 import net.uk.onetransport.android.county.bucks.BaseArray;
 import net.uk.onetransport.android.county.bucks.R;
+import net.uk.onetransport.android.county.bucks.authentication.CredentialHelper;
 import net.uk.onetransport.android.county.bucks.storage.Prefs;
 
 public class CarParkArray extends BaseArray implements DougalCallback {
@@ -29,9 +30,9 @@ public class CarParkArray extends BaseArray implements DougalCallback {
     }
 
     public static CarParkArray getCarParkArray(Context context) throws Exception {
-        String aeId = Prefs.getAeId(context);
-        String userName = context.getString(R.string.one_transport_user_name);
-        String password = context.getString(R.string.one_transport_password);
+        String aeId = "C-"+CredentialHelper.getAeId(context);
+        String userName = CredentialHelper.getAeId(context);
+        String password = CredentialHelper.getSessionToken(context);
         String cseBaseUrl = context.getString(R.string.bucks_cse_base_url);
         ContentInstance contentInstance = Container.retrieveLatest(aeId, cseBaseUrl, RETRIEVE_PATH1,
                 userName, password);
@@ -49,9 +50,9 @@ public class CarParkArray extends BaseArray implements DougalCallback {
         CarParkArray carParkArray = new CarParkArray();
         carParkArray.carParkArrayCallback = carParkArrayCallback;
         carParkArray.id = id;
-        String aeId = Prefs.getAeId(context);
-        String userName = context.getString(R.string.one_transport_user_name);
-        String password = context.getString(R.string.one_transport_password);
+        String aeId =  "C-"+CredentialHelper.getAeId(context);
+        String userName = CredentialHelper.getAeId(context);
+        String password = CredentialHelper.getSessionToken(context);
         String cseBaseUrl = context.getString(R.string.bucks_cse_base_url);
         completed = 0;
         Container.retrieveLatestAsync(aeId, cseBaseUrl, RETRIEVE_PATH1, userName, password,

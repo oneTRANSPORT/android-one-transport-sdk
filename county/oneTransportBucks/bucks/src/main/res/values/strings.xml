@@ -8,6 +8,6 @@
     <string name="bucks_cse_base_url">https://cse-05.onetransport.uk.net/ONETCSE05/</string>
     <string name="one_transport_app_name">SampleApp-</string>
     <!-- TODO Find a permanent solution for this. -->
-    <string name="one_transport_user_name">pthomas</string>
-    <string name="one_transport_password">EKFYGUCC</string>
+    <!--<string name="one_transport_user_name">pthomas</string>-->
+    <!--<string name="one_transport_password">EKFYGUCC</string>-->
 </resources>
