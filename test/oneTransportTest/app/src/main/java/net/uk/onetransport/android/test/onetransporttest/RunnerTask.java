@@ -60,8 +60,8 @@ public class RunnerTask extends AsyncTask<Void, Object[], Void>
             new BucksCarParkBoxQueryTest(),
 //            new BucksVmsJoinLocationBoxQueryTest(),
 //            new BucksTrafficFlowBoxQueryTest(),
-            new BucksSyncAdapterTest()
-//            new ApplicationEntityDeleteTest()
+            new BucksSyncAdapterTest(),
+            new ApplicationEntityDeleteTest()
     };
     private int testNum = 0;
     private String currentTest;

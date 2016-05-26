@@ -6,6 +6,7 @@ import android.os.SystemClock;
 
 import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
+import net.uk.onetransport.android.county.bucks.carparks.CarParkArray;
 import net.uk.onetransport.android.county.bucks.provider.BucksContentHelper;
 import net.uk.onetransport.android.county.bucks.provider.BucksProvider;
 import net.uk.onetransport.android.county.bucks.sync.BucksSyncAdapter;
@@ -42,10 +43,11 @@ public class BucksSyncAdapterTest extends OneTransportTest {
         while (!adapterFinished) {
             SystemClock.sleep(1000L);
         }
+        CarParkArray carParkArray = CarParkArray.getCarParkArray(context);
         context.getContentResolver().unregisterContentObserver(adapterObserver);
         Cursor cursor = BucksContentHelper.getCarParks(context);
         if (cursor != null) {
-            if (cursor.getCount() == 14) { // TODO    Get the proper array length.
+            if (cursor.getCount() == carParkArray.getCarParks().length) {
                 runnerTask.report("BUCKS sync adapter ... PASSED.", COLOUR_PASSED);
                 cursor.close();
                 return;
