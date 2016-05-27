@@ -18,6 +18,7 @@ import net.uk.onetransport.android.county.bucks.locations.SegmentLocationArray;
 import net.uk.onetransport.android.county.bucks.provider.BucksContentHelper;
 import net.uk.onetransport.android.county.bucks.provider.BucksDbHelper;
 import net.uk.onetransport.android.county.bucks.provider.BucksProvider;
+import net.uk.onetransport.android.county.bucks.roadworks.RoadWorksArray;
 import net.uk.onetransport.android.county.bucks.trafficflow.TrafficFlowArray;
 import net.uk.onetransport.android.county.bucks.variablemessagesigns.VariableMessageSignArray;
 
@@ -55,32 +56,29 @@ public class BucksSyncAdapter extends AbstractThreadedSyncAdapter {
         if (authority.equals(BucksProvider.AUTHORITY)) {
             Log.i("BucksSyncAdapter", "Transferring data ...");
 
-            // TODO    Uncomment the remaining feeds.
-            // TODO    At the moment, these are broken.
+            // Link segments.
+            try {
+                SegmentLocationArray segmentLocationArray = SegmentLocationArray
+                        .getSegmentLocationArray(context);
+                BucksContentHelper.deleteFromProvider(context,
+                        BucksContentHelper.DATA_TYPE_SEGMENT_LOCATION);
+                BucksContentHelper.insertIntoProvider(context,
+                        segmentLocationArray.getSegmentLocations());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
-//            // Link segments.
-//            try {
-//                SegmentLocationArray segmentLocationArray = SegmentLocationArray
-//                        .getSegmentLocationArray(context);
-//                BucksContentHelper.deleteFromProvider(context,
-//                        BucksContentHelper.DATA_TYPE_SEGMENT_LOCATION);
-//                BucksContentHelper.insertIntoProvider(context,
-//                        segmentLocationArray.getSegmentLocations());
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//
-//            // Variable message sign locations.
-//            try {
-//                PredefinedVmsLocationArray predefinedVmsLocationArray = PredefinedVmsLocationArray
-//                        .getPredefinedVmsLocationArray(context);
-//                BucksContentHelper.deleteFromProvider(context,
-//                        BucksContentHelper.DATA_TYPE_VMS_LOCATION);
-//                BucksContentHelper.insertIntoProvider(context,
-//                        predefinedVmsLocationArray.getPredefinedVmsLocations());
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
+            // Variable message sign locations.
+            try {
+                PredefinedVmsLocationArray predefinedVmsLocationArray = PredefinedVmsLocationArray
+                        .getPredefinedVmsLocationArray(context);
+                BucksContentHelper.deleteFromProvider(context,
+                        BucksContentHelper.DATA_TYPE_VMS_LOCATION);
+                BucksContentHelper.insertIntoProvider(context,
+                        predefinedVmsLocationArray.getPredefinedVmsLocations());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
             // Car parks.
             try {
@@ -96,26 +94,36 @@ public class BucksSyncAdapter extends AbstractThreadedSyncAdapter {
                 e.printStackTrace();
             }
 
-//            // Traffic flows.
-//            try {
-//                TrafficFlowArray trafficFlowArray = TrafficFlowArray.getTrafficFlowArray(context);
-//                BucksContentHelper.deleteFromProvider(context,
-//                        BucksContentHelper.DATA_TYPE_TRAFFIC_FLOW);
-//                BucksContentHelper.insertIntoProvider(context, trafficFlowArray.getTrafficFlows());
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//
-//            // Variable message signs.
-//            try {
-//                VariableMessageSignArray variableMessageSignArray = VariableMessageSignArray
-//                        .getVariableMessageSignArray(context);
-//                BucksContentHelper.deleteFromProvider(context, BucksContentHelper.DATA_TYPE_VMS);
-//                BucksContentHelper.insertIntoProvider(context,
-//                        variableMessageSignArray.getVariableMessageSigns());
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
+            // Traffic flows.
+            try {
+                TrafficFlowArray trafficFlowArray = TrafficFlowArray.getTrafficFlowArray(context);
+                BucksContentHelper.deleteFromProvider(context,
+                        BucksContentHelper.DATA_TYPE_TRAFFIC_FLOW);
+                BucksContentHelper.insertIntoProvider(context, trafficFlowArray.getTrafficFlows());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            // Variable message signs.
+            try {
+                VariableMessageSignArray variableMessageSignArray = VariableMessageSignArray
+                        .getVariableMessageSignArray(context);
+                BucksContentHelper.deleteFromProvider(context, BucksContentHelper.DATA_TYPE_VMS);
+                BucksContentHelper.insertIntoProvider(context,
+                        variableMessageSignArray.getVariableMessageSigns());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            // Road works.
+            try {
+                RoadWorksArray roadWorksArray = RoadWorksArray.getRoadWorksArray(context);
+                BucksContentHelper.deleteFromProvider(context,
+                        BucksContentHelper.DATA_TYPE_ROAD_WORKS);
+                BucksContentHelper.insertIntoProvider(context, roadWorksArray.getRoadWorks());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         // TODO    Remove this, diagnostics only.
         BucksDbHelper bucksDbHelper = new BucksDbHelper(context);

@@ -20,6 +20,20 @@ public class TrafficFlow {
     private String queuePresent;
     @Expose
     private Integer queueSeverity;
+    @Expose
+    private Integer occupancy;
+    @Expose
+    private Double congestionPercent;
+    @Expose
+    private Double currentFlow;
+    @Expose
+    private Double averageSpeed;
+    @Expose
+    private String linkStatus;
+    @Expose
+    private String linkStatusType;
+    @Expose
+    private String linkTravelTime;
 
     public String getLocationReference() {
         return locationReference;
@@ -83,5 +97,61 @@ public class TrafficFlow {
 
     public void setQueueSeverity(Integer queueSeverity) {
         this.queueSeverity = queueSeverity;
+    }
+
+    public Integer getOccupancy() {
+        return occupancy;
+    }
+
+    public void setOccupancy(Integer occupancy) {
+        this.occupancy = occupancy;
+    }
+
+    public Double getCongestionPercent() {
+        return congestionPercent;
+    }
+
+    public void setCongestionPercent(Double congestionPercent) {
+        this.congestionPercent = congestionPercent;
+    }
+
+    public Double getCurrentFlow() {
+        return currentFlow;
+    }
+
+    public void setCurrentFlow(Double currentFlow) {
+        this.currentFlow = currentFlow;
+    }
+
+    public Double getAverageSpeed() {
+        return averageSpeed;
+    }
+
+    public void setAverageSpeed(Double averageSpeed) {
+        this.averageSpeed = averageSpeed;
+    }
+
+    public String getLinkStatus() {
+        return linkStatus;
+    }
+
+    public void setLinkStatus(String linkStatus) {
+        this.linkStatus = linkStatus;
+    }
+
+    public String getLinkStatusType() {
+        return linkStatusType;
+    }
+
+    public void setLinkStatusType(String linkStatusType) {
+        this.linkStatusType = linkStatusType;
+    }
+
+    public String getLinkTravelTime() {
+        return linkTravelTime;
+    }
+
+    public void setLinkTravelTime(String linkTravelTime) {
+        this.linkTravelTime = linkTravelTime;
     }
 }

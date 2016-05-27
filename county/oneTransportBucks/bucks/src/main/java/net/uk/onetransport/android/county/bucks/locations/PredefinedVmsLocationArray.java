@@ -10,11 +10,10 @@ import com.interdigital.android.dougal.resource.callback.DougalCallback;
 import net.uk.onetransport.android.county.bucks.BaseArray;
 import net.uk.onetransport.android.county.bucks.R;
 import net.uk.onetransport.android.county.bucks.authentication.CredentialHelper;
-import net.uk.onetransport.android.county.bucks.storage.Prefs;
 
 public class PredefinedVmsLocationArray extends BaseArray implements DougalCallback {
 
-    private static final String RETRIEVE_PATH = "BCCFeedImportPredefinedVmsLocation/All";
+    private static final String RETRIEVE_PATH = "BCCPredefinedLocationVmsFeedImport/All";
 
     private PredefinedVmsLocation[] predefinedVmsLocations;
     private PredefinedVmsLocationArrayCallback predefinedVmsLocationArrayCallback;
@@ -29,7 +28,7 @@ public class PredefinedVmsLocationArray extends BaseArray implements DougalCallb
 
     public static PredefinedVmsLocationArray getPredefinedVmsLocationArray(Context context)
             throws Exception {
-        String aeId =  "C-"+CredentialHelper.getAeId(context);
+        String aeId = "C-" + CredentialHelper.getAeId(context);
         String userName = CredentialHelper.getAeId(context);
         String password = CredentialHelper.getSessionToken(context);
         String cseBaseUrl = context.getString(R.string.bucks_cse_base_url);
@@ -45,7 +44,7 @@ public class PredefinedVmsLocationArray extends BaseArray implements DougalCallb
         PredefinedVmsLocationArray predefinedVmsLocationArray = new PredefinedVmsLocationArray();
         predefinedVmsLocationArray.predefinedVmsLocationArrayCallback = predefinedVmsLocationArrayCallback;
         predefinedVmsLocationArray.id = id;
-        String aeId =  "C-"+CredentialHelper.getAeId(context);
+        String aeId = "C-" + CredentialHelper.getAeId(context);
         String userName = CredentialHelper.getAeId(context);
         String password = CredentialHelper.getSessionToken(context);
         String cseBaseUrl = context.getString(R.string.bucks_cse_base_url);

@@ -14,6 +14,7 @@ import android.support.annotation.NonNull;
 import net.uk.onetransport.android.county.bucks.R;
 
 import static net.uk.onetransport.android.county.bucks.provider.BucksContract.CarPark;
+import static net.uk.onetransport.android.county.bucks.provider.BucksContract.RoadWorks;
 import static net.uk.onetransport.android.county.bucks.provider.BucksContract.SegmentLocation;
 import static net.uk.onetransport.android.county.bucks.provider.BucksContract.TrafficFlow;
 import static net.uk.onetransport.android.county.bucks.provider.BucksContract.TrafficFlowJoinLocation;
@@ -32,6 +33,7 @@ public class BucksProvider extends ContentProvider {
     public static Uri SEGMENT_LOCATION_URI;
     public static Uri VARIABLE_MESSAGE_SIGN_URI;
     public static Uri TRAFFIC_FLOW_URI;
+    public static Uri ROAD_WORKS_URI;
     public static Uri VMS_JOIN_LOCATION_URI;
     public static Uri TRAFFIC_FLOW_JOIN_LOCATION_URI;
 
@@ -50,10 +52,12 @@ public class BucksProvider extends ContentProvider {
     private static final int VARIABLE_MESSAGE_SIGN_ID = 8;
     private static final int TRAFFIC_FLOWS = 9;
     private static final int TRAFFIC_FLOW_ID = 10;
-    private static final int VMS_JOIN_LOCATIONS = 11;
-    private static final int VMS_JOIN_LOCATION_ID = 12;
-    private static final int TRAFFIC_FLOWS_JOIN_LOCATIONS = 13;
-    private static final int TRAFFIC_FLOW_JOIN_LOCATION_ID = 14;
+    private static final int ROAD_WORKS = 11;
+    private static final int ROAD_WORKS_ID = 12;
+    private static final int VMS_JOIN_LOCATIONS = 13;
+    private static final int VMS_JOIN_LOCATION_ID = 14;
+    private static final int TRAFFIC_FLOWS_JOIN_LOCATIONS = 15;
+    private static final int TRAFFIC_FLOW_JOIN_LOCATION_ID = 16;
 
     private static UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
@@ -63,7 +67,6 @@ public class BucksProvider extends ContentProvider {
     }
 
     public static void initialise(@NonNull Context context) {
-        // TODO Use string resources?  Override by app resources.
         AUTHORITY = context.getString(R.string.provider_authority);
         AUTHORITY_URI = "content://" + AUTHORITY + "/";
 
@@ -73,6 +76,7 @@ public class BucksProvider extends ContentProvider {
         VARIABLE_MESSAGE_SIGN_URI = Uri.parse(AUTHORITY_URI
                 + VariableMessageSign.TABLE_NAME);
         TRAFFIC_FLOW_URI = Uri.parse(AUTHORITY_URI + TrafficFlow.TABLE_NAME);
+        ROAD_WORKS_URI = Uri.parse(AUTHORITY_URI + RoadWorks.TABLE_NAME);
         VMS_JOIN_LOCATION_URI = Uri.parse(AUTHORITY_URI + VmsJoinLocation.TABLE_NAME);
         TRAFFIC_FLOW_JOIN_LOCATION_URI = Uri.parse(AUTHORITY_URI
                 + TrafficFlowJoinLocation.TABLE_NAME);
@@ -93,8 +97,9 @@ public class BucksProvider extends ContentProvider {
             uriMatcher.addURI(AUTHORITY, VariableMessageSign.TABLE_NAME + "/#",
                     VARIABLE_MESSAGE_SIGN_ID);
             uriMatcher.addURI(AUTHORITY, TrafficFlow.TABLE_NAME, TRAFFIC_FLOWS);
-            uriMatcher.addURI(AUTHORITY, TrafficFlow.TABLE_NAME + "/#",
-                    TRAFFIC_FLOW_ID);
+            uriMatcher.addURI(AUTHORITY, TrafficFlow.TABLE_NAME + "/#", TRAFFIC_FLOW_ID);
+            uriMatcher.addURI(AUTHORITY, RoadWorks.TABLE_NAME, ROAD_WORKS);
+            uriMatcher.addURI(AUTHORITY, RoadWorks.TABLE_NAME + "/#", ROAD_WORKS_ID);
             uriMatcher.addURI(AUTHORITY, VmsJoinLocation.TABLE_NAME, VMS_JOIN_LOCATIONS);
             uriMatcher.addURI(AUTHORITY, VariableMessageSign.TABLE_NAME + "/#",
                     VMS_JOIN_LOCATION_ID);
@@ -134,6 +139,10 @@ public class BucksProvider extends ContentProvider {
                 return MIME_DIR_PREFIX + TrafficFlow.TABLE_NAME;
             case TRAFFIC_FLOW_ID:
                 return MIME_ITEM_PREFIX + TrafficFlow.TABLE_NAME;
+            case ROAD_WORKS:
+                return MIME_DIR_PREFIX + RoadWorks.TABLE_NAME;
+            case ROAD_WORKS_ID:
+                return MIME_ITEM_PREFIX + RoadWorks.TABLE_NAME;
             case VMS_JOIN_LOCATIONS:
                 return MIME_DIR_PREFIX + VmsJoinLocation.TABLE_NAME;
             case VMS_JOIN_LOCATION_ID:
@@ -172,6 +181,10 @@ public class BucksProvider extends ContentProvider {
                 id = db.insert(TrafficFlow.TABLE_NAME, null, values);
                 contentResolver.notifyChange(TRAFFIC_FLOW_URI, null);
                 return ContentUris.withAppendedId(TRAFFIC_FLOW_URI, id);
+            case ROAD_WORKS:
+                id = db.insert(RoadWorks.TABLE_NAME, null, values);
+                contentResolver.notifyChange(ROAD_WORKS_URI, null);
+                return ContentUris.withAppendedId(ROAD_WORKS_URI, id);
         }
         return null;
     }
@@ -233,6 +246,17 @@ public class BucksProvider extends ContentProvider {
                         TrafficFlow._ID + "=?", new String[]{uri.getLastPathSegment()}, null, null,
                         sortOrder);
                 cursor.setNotificationUri(contentResolver, TRAFFIC_FLOW_URI);
+                return cursor;
+            case ROAD_WORKS:
+                cursor = db.query(RoadWorks.TABLE_NAME, projection,
+                        selection, selectionArgs, null, null, sortOrder);
+                cursor.setNotificationUri(contentResolver, ROAD_WORKS_URI);
+                return cursor;
+            case ROAD_WORKS_ID:
+                cursor = db.query(RoadWorks.TABLE_NAME, projection,
+                        RoadWorks._ID + "=?", new String[]{uri.getLastPathSegment()}, null, null,
+                        sortOrder);
+                cursor.setNotificationUri(contentResolver, ROAD_WORKS_URI);
                 return cursor;
             case VMS_JOIN_LOCATIONS:
                 cursor = db.query(VmsJoinLocation.TABLE_NAME, projection,
@@ -310,6 +334,15 @@ public class BucksProvider extends ContentProvider {
                         TrafficFlow._ID + "=?", new String[]{uri.getLastPathSegment()});
                 contentResolver.notifyChange(TRAFFIC_FLOW_URI, null);
                 return rows;
+            case ROAD_WORKS:
+                rows = db.update(RoadWorks.TABLE_NAME, values, selection, selectionArgs);
+                contentResolver.notifyChange(ROAD_WORKS_URI, null);
+                return rows;
+            case ROAD_WORKS_ID:
+                rows = db.update(RoadWorks.TABLE_NAME, values,
+                        RoadWorks._ID + "=?", new String[]{uri.getLastPathSegment()});
+                contentResolver.notifyChange(ROAD_WORKS_URI, null);
+                return rows;
         }
         return 0;
     }
@@ -339,6 +372,10 @@ public class BucksProvider extends ContentProvider {
             case TRAFFIC_FLOWS:
                 rows = db.delete(TrafficFlow.TABLE_NAME, selection, selectionArgs);
                 contentResolver.notifyChange(TRAFFIC_FLOW_URI, null);
+                break;
+            case ROAD_WORKS:
+                rows = db.delete(RoadWorks.TABLE_NAME, selection, selectionArgs);
+                contentResolver.notifyChange(ROAD_WORKS_URI, null);
                 break;
         }
         return rows;

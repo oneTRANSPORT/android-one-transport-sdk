@@ -12,6 +12,8 @@ import android.support.annotation.NonNull;
 import net.uk.onetransport.android.county.bucks.carparks.CarPark;
 import net.uk.onetransport.android.county.bucks.locations.PredefinedVmsLocation;
 import net.uk.onetransport.android.county.bucks.locations.SegmentLocation;
+import net.uk.onetransport.android.county.bucks.roadworks.Period;
+import net.uk.onetransport.android.county.bucks.roadworks.RoadWorks;
 import net.uk.onetransport.android.county.bucks.trafficflow.TrafficFlow;
 import net.uk.onetransport.android.county.bucks.variablemessagesigns.VariableMessageSign;
 
@@ -23,7 +25,8 @@ public class BucksContentHelper {
 
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({DATA_TYPE_SEGMENT_LOCATION, DATA_TYPE_VMS_LOCATION,
-            DATA_TYPE_CAR_PARK, DATA_TYPE_VMS, DATA_TYPE_TRAFFIC_FLOW})
+            DATA_TYPE_CAR_PARK, DATA_TYPE_VMS, DATA_TYPE_TRAFFIC_FLOW,
+            DATA_TYPE_ROAD_WORKS})
     public @interface DataType {
     }
 
@@ -32,6 +35,7 @@ public class BucksContentHelper {
     public static final int DATA_TYPE_CAR_PARK = 3;
     public static final int DATA_TYPE_TRAFFIC_FLOW = 4;
     public static final int DATA_TYPE_VMS = 5;
+    public static final int DATA_TYPE_ROAD_WORKS = 6;
 
     // Could really use the proper column identifiers here.
     private static final String LAT_LON_BOX = "latitude >= ? and longitude >= ? "
@@ -155,6 +159,18 @@ public class BucksContentHelper {
                                 trafficFlow.getFreeFlowSpeed())
                         .withValue(BucksContract.TrafficFlow.COLUMN_FREE_FLOW_TRAVEL_TIME,
                                 trafficFlow.getFreeFlowTravelTime())
+                        .withValue(BucksContract.TrafficFlow.COLUMN_CONGESTION_PERCENT,
+                                trafficFlow.getCongestionPercent())
+                        .withValue(BucksContract.TrafficFlow.COLUMN_CURRENT_FLOW,
+                                trafficFlow.getCurrentFlow())
+                        .withValue(BucksContract.TrafficFlow.COLUMN_AVERAGE_SPEED,
+                                trafficFlow.getAverageSpeed())
+                        .withValue(BucksContract.TrafficFlow.COLUMN_LINK_STATUS,
+                                trafficFlow.getLinkStatus())
+                        .withValue(BucksContract.TrafficFlow.COLUMN_LINK_STATUS_TYPE,
+                                trafficFlow.getLinkStatusType())
+                        .withValue(BucksContract.TrafficFlow.COLUMN_LINK_TRAVEL_TIME,
+                                trafficFlow.getLinkTravelTime())
                         .withYieldAllowed(true)
                         .build();
                 operationList.add(operation);
@@ -191,6 +207,55 @@ public class BucksContentHelper {
                                 builder.toString())
                         .withValue(BucksContract.VariableMessageSign.COLUMN_VMS_TYPE,
                                 variableMessageSign.getVmsType())
+                        .withYieldAllowed(true)
+                        .build();
+                operationList.add(operation);
+            }
+            ContentResolver contentResolver = context.getContentResolver();
+            contentResolver.applyBatch(BucksProvider.AUTHORITY, operationList);
+        }
+    }
+
+    public static void insertIntoProvider(@NonNull Context context,
+                                          @NonNull RoadWorks[] roadWorks)
+            throws RemoteException, OperationApplicationException {
+        if (roadWorks.length > 0) {
+            StringBuilder builder = new StringBuilder();
+            ArrayList<ContentProviderOperation> operationList = new ArrayList<>();
+            for (RoadWorks roadWork : roadWorks) {
+                builder.delete(0, builder.length());
+                Period[] periods = roadWork.getValidity().getPeriods();
+                for (int i = 0; i < periods.length; i++) {
+                    builder.append(periods[i].getStart());
+                    builder.append("|");
+                    builder.append(periods[i].getEnd());
+                    if (i < periods.length - 1) {
+                        builder.append("|");
+                    }
+                }
+                ContentProviderOperation operation = ContentProviderOperation
+                        .newInsert(BucksProvider.ROAD_WORKS_URI)
+                        .withValue(BucksContract.RoadWorks.COLUMN_ID, roadWork.getId())
+                        .withValue(BucksContract.RoadWorks.COLUMN_COMMENT, roadWork.getComment())
+                        .withValue(BucksContract.RoadWorks.COLUMN_EFFECT_ON_ROAD_LAYOUT,
+                                roadWork.getEffectOnRoadLayout())
+                        .withValue(BucksContract.RoadWorks.COLUMN_ROAD_MAINTENANCE_TYPE,
+                                roadWork.getRoadMaintenanceType())
+                        .withValue(BucksContract.RoadWorks.COLUMN_IMPACT_ON_TRAFFIC,
+                                roadWork.getImpactOnTraffic())
+                        .withValue(BucksContract.RoadWorks.COLUMN_TYPE, roadWork.getType())
+                        .withValue(BucksContract.RoadWorks.COLUMN_STATUS, roadWork.getValidity().getStatus())
+                        .withValue(BucksContract.RoadWorks.COLUMN_OVERALL_START_TIME,
+                                roadWork.getValidity().getOverallStartTime())
+                        .withValue(BucksContract.RoadWorks.COLUMN_OVERALL_END_TIME,
+                                roadWork.getValidity().getOverallEndTime())
+                        .withValue(BucksContract.RoadWorks.COLUMN_PERIODS, builder.toString())
+                        .withValue(BucksContract.RoadWorks.COLUMN_LOCATION_DESCRIPTION,
+                                roadWork.getLocation().getDescription())
+                        .withValue(BucksContract.RoadWorks.COLUMN_LATITUDE,
+                                roadWork.getLocation().getLatitude())
+                        .withValue(BucksContract.RoadWorks.COLUMN_LONGITUDE,
+                                roadWork.getLocation().getLongitude())
                         .withYieldAllowed(true)
                         .build();
                 operationList.add(operation);
@@ -275,7 +340,13 @@ public class BucksContentHelper {
                         BucksContract.TrafficFlow.COLUMN_AVERAGE_VEHICLE_SPEED,
                         BucksContract.TrafficFlow.COLUMN_TRAVEL_TIME,
                         BucksContract.TrafficFlow.COLUMN_FREE_FLOW_SPEED,
-                        BucksContract.TrafficFlow.COLUMN_FREE_FLOW_TRAVEL_TIME
+                        BucksContract.TrafficFlow.COLUMN_FREE_FLOW_TRAVEL_TIME,
+                        BucksContract.TrafficFlow.COLUMN_CONGESTION_PERCENT,
+                        BucksContract.TrafficFlow.COLUMN_CURRENT_FLOW,
+                        BucksContract.TrafficFlow.COLUMN_AVERAGE_SPEED,
+                        BucksContract.TrafficFlow.COLUMN_LINK_STATUS,
+                        BucksContract.TrafficFlow.COLUMN_LINK_STATUS_TYPE,
+                        BucksContract.TrafficFlow.COLUMN_LINK_TRAVEL_TIME
                 }, null, null, BucksContract.TrafficFlow.COLUMN_LOCATION_REFERENCE);
     }
 
@@ -289,6 +360,50 @@ public class BucksContentHelper {
                         BucksContract.VariableMessageSign.COLUMN_VMS_LEGENDS,
                         BucksContract.VariableMessageSign.COLUMN_VMS_TYPE
                 }, null, null, BucksContract.VariableMessageSign.COLUMN_LOCATION_REFERENCE);
+    }
+
+    public static Cursor getRoadWorks(@NonNull Context context) {
+        return context.getContentResolver().query(BucksProvider.ROAD_WORKS_URI,
+                new String[]{
+                        BucksContract.RoadWorks.COLUMN_ID,
+                        BucksContract.RoadWorks.COLUMN_COMMENT,
+                        BucksContract.RoadWorks.COLUMN_EFFECT_ON_ROAD_LAYOUT,
+                        BucksContract.RoadWorks.COLUMN_ROAD_MAINTENANCE_TYPE,
+                        BucksContract.RoadWorks.COLUMN_IMPACT_ON_TRAFFIC,
+                        BucksContract.RoadWorks.COLUMN_TYPE,
+                        BucksContract.RoadWorks.COLUMN_STATUS,
+                        BucksContract.RoadWorks.COLUMN_OVERALL_START_TIME,
+                        BucksContract.RoadWorks.COLUMN_OVERALL_END_TIME,
+                        BucksContract.RoadWorks.COLUMN_PERIODS,
+                        BucksContract.RoadWorks.COLUMN_LOCATION_DESCRIPTION,
+                        BucksContract.RoadWorks.COLUMN_LATITUDE,
+                        BucksContract.RoadWorks.COLUMN_LONGITUDE
+                }, null, null, BucksContract.RoadWorks.COLUMN_ID);
+    }
+
+    public static Cursor getRoadWorks(@NonNull Context context, double minLatitude,
+                                      double minLongitude, double maxLatitude, double maxLongitude) {
+        return context.getContentResolver().query(BucksProvider.ROAD_WORKS_URI,
+                new String[]{
+                        BucksContract.RoadWorks.COLUMN_ID,
+                        BucksContract.RoadWorks.COLUMN_COMMENT,
+                        BucksContract.RoadWorks.COLUMN_EFFECT_ON_ROAD_LAYOUT,
+                        BucksContract.RoadWorks.COLUMN_ROAD_MAINTENANCE_TYPE,
+                        BucksContract.RoadWorks.COLUMN_IMPACT_ON_TRAFFIC,
+                        BucksContract.RoadWorks.COLUMN_TYPE,
+                        BucksContract.RoadWorks.COLUMN_STATUS,
+                        BucksContract.RoadWorks.COLUMN_OVERALL_START_TIME,
+                        BucksContract.RoadWorks.COLUMN_OVERALL_END_TIME,
+                        BucksContract.RoadWorks.COLUMN_PERIODS,
+                        BucksContract.RoadWorks.COLUMN_LOCATION_DESCRIPTION,
+                        BucksContract.RoadWorks.COLUMN_LATITUDE,
+                        BucksContract.RoadWorks.COLUMN_LONGITUDE
+                }, LAT_LON_BOX, new String[]{
+                        String.valueOf(minLatitude),
+                        String.valueOf(minLongitude),
+                        String.valueOf(maxLatitude),
+                        String.valueOf(maxLongitude)
+                }, BucksContract.RoadWorks.COLUMN_ID);
     }
 
     public static Cursor getVmsJoinLocations(@NonNull Context context) {
@@ -339,7 +454,13 @@ public class BucksContentHelper {
                         BucksContract.TrafficFlowJoinLocation.COLUMN_TO_LONGITUDE,
                         BucksContract.TrafficFlowJoinLocation.COLUMN_FROM_DESCRIPTOR,
                         BucksContract.TrafficFlowJoinLocation.COLUMN_TO_DESCRIPTOR,
-                        BucksContract.TrafficFlowJoinLocation.COLUMN_TPEG_DIRECTION
+                        BucksContract.TrafficFlowJoinLocation.COLUMN_TPEG_DIRECTION,
+                        BucksContract.TrafficFlowJoinLocation.COLUMN_CONGESTION_PERCENT,
+                        BucksContract.TrafficFlowJoinLocation.COLUMN_CURRENT_FLOW,
+                        BucksContract.TrafficFlowJoinLocation.COLUMN_AVERAGE_SPEED,
+                        BucksContract.TrafficFlowJoinLocation.COLUMN_LINK_STATUS,
+                        BucksContract.TrafficFlowJoinLocation.COLUMN_LINK_STATUS_TYPE,
+                        BucksContract.TrafficFlowJoinLocation.COLUMN_LINK_TRAVEL_TIME
                 }, null, null, BucksContract.TrafficFlowJoinLocation.COLUMN_TO_DESCRIPTOR);
     }
 
@@ -358,7 +479,13 @@ public class BucksContentHelper {
                         BucksContract.TrafficFlowJoinLocation.COLUMN_TO_LONGITUDE,
                         BucksContract.TrafficFlowJoinLocation.COLUMN_FROM_DESCRIPTOR,
                         BucksContract.TrafficFlowJoinLocation.COLUMN_TO_DESCRIPTOR,
-                        BucksContract.TrafficFlowJoinLocation.COLUMN_TPEG_DIRECTION
+                        BucksContract.TrafficFlowJoinLocation.COLUMN_TPEG_DIRECTION,
+                        BucksContract.TrafficFlowJoinLocation.COLUMN_CONGESTION_PERCENT,
+                        BucksContract.TrafficFlowJoinLocation.COLUMN_CURRENT_FLOW,
+                        BucksContract.TrafficFlowJoinLocation.COLUMN_AVERAGE_SPEED,
+                        BucksContract.TrafficFlowJoinLocation.COLUMN_LINK_STATUS,
+                        BucksContract.TrafficFlowJoinLocation.COLUMN_LINK_STATUS_TYPE,
+                        BucksContract.TrafficFlowJoinLocation.COLUMN_LINK_TRAVEL_TIME
                 }, LAT_LON_TO_FROM_BOX, new String[]{
                         String.valueOf(minLatitude),
                         String.valueOf(minLongitude),
@@ -388,6 +515,9 @@ public class BucksContentHelper {
                 break;
             case DATA_TYPE_VMS:
                 contentResolver.delete(BucksProvider.VARIABLE_MESSAGE_SIGN_URI, null, null);
+                break;
+            case DATA_TYPE_ROAD_WORKS:
+                contentResolver.delete(BucksProvider.ROAD_WORKS_URI, null, null);
                 break;
         }
     }

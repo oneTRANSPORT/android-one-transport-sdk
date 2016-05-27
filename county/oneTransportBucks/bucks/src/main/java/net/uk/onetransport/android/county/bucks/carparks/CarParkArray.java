@@ -10,7 +10,6 @@ import com.interdigital.android.dougal.resource.callback.DougalCallback;
 import net.uk.onetransport.android.county.bucks.BaseArray;
 import net.uk.onetransport.android.county.bucks.R;
 import net.uk.onetransport.android.county.bucks.authentication.CredentialHelper;
-import net.uk.onetransport.android.county.bucks.storage.Prefs;
 
 public class CarParkArray extends BaseArray implements DougalCallback {
 
@@ -30,7 +29,7 @@ public class CarParkArray extends BaseArray implements DougalCallback {
     }
 
     public static CarParkArray getCarParkArray(Context context) throws Exception {
-        String aeId = "C-"+CredentialHelper.getAeId(context);
+        String aeId = "C-" + CredentialHelper.getAeId(context);
         String userName = CredentialHelper.getAeId(context);
         String password = CredentialHelper.getSessionToken(context);
         String cseBaseUrl = context.getString(R.string.bucks_cse_base_url);
@@ -42,7 +41,8 @@ public class CarParkArray extends BaseArray implements DougalCallback {
                 userName, password);
         content = contentInstance.getContent();
         CarParkArray carParkArray2 = new CarParkArray(GSON.fromJson(content, CarPark[].class));
-        return merge(carParkArray1, carParkArray2);
+        merge(carParkArray1, carParkArray2);
+        return carParkArray1;
     }
 
     public static void getCarParkArrayAsync(Context context,
@@ -50,7 +50,7 @@ public class CarParkArray extends BaseArray implements DougalCallback {
         CarParkArray carParkArray = new CarParkArray();
         carParkArray.carParkArrayCallback = carParkArrayCallback;
         carParkArray.id = id;
-        String aeId =  "C-"+CredentialHelper.getAeId(context);
+        String aeId = "C-" + CredentialHelper.getAeId(context);
         String userName = CredentialHelper.getAeId(context);
         String password = CredentialHelper.getSessionToken(context);
         String cseBaseUrl = context.getString(R.string.bucks_cse_base_url);
@@ -93,7 +93,7 @@ public class CarParkArray extends BaseArray implements DougalCallback {
         return carParks;
     }
 
-    private static CarParkArray merge(CarParkArray cpa1, CarParkArray cpa2) {
+    private static void merge(CarParkArray cpa1, CarParkArray cpa2) {
         for (CarPark cp1 : cpa1.getCarParks()) {
             for (CarPark cp2 : cpa2.getCarParks()) {
                 if (cp1.getCarParkIdentity().equals(cp2.getCarParkIdentity())) {
@@ -133,6 +133,5 @@ public class CarParkArray extends BaseArray implements DougalCallback {
                 }
             }
         }
-        return cpa1;
     }
 }

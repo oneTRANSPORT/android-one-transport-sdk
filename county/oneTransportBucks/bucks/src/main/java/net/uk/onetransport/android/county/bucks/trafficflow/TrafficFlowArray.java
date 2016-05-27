@@ -38,7 +38,12 @@ public class TrafficFlowArray extends BaseArray implements DougalCallback {
         contentInstance = Container.retrieveLatest(aeId, cseBaseUrl, RETRIEVE_PATH_EXT,
                 userName, password);
         String contentExt = contentInstance.getContent();
-        return new TrafficFlowArray(GSON.fromJson(content, TrafficFlow[].class));
+        TrafficFlowArray trafficFlowArray = new TrafficFlowArray(
+                GSON.fromJson(content, TrafficFlow[].class));
+        TrafficFlowArray trafficFlowArrayExt = new TrafficFlowArray(
+                GSON.fromJson(contentExt, TrafficFlow[].class));
+        merge(trafficFlowArray, trafficFlowArrayExt);
+        return trafficFlowArray;
     }
 
     public static void getTrafficFlowArrayAsync(Context context,
@@ -71,5 +76,20 @@ public class TrafficFlowArray extends BaseArray implements DougalCallback {
 
     public TrafficFlow[] getTrafficFlows() {
         return trafficFlows;
+    }
+
+    private static void merge(TrafficFlowArray tfa1, TrafficFlowArray tfa2) {
+        for (TrafficFlow tf1 : tfa1.getTrafficFlows()) {
+            for (TrafficFlow tf2 : tfa2.getTrafficFlows()) {
+                if (tf1.getLocationReference().equals(tf2.getLocationReference())) {
+                    if (tf2.getQueuePresent() != null) {
+                        tf1.setQueuePresent(tf2.getQueuePresent());
+                    }
+                    if (tf2.getQueueSeverity() != null) {
+                        tf1.setQueueSeverity(tf2.getQueueSeverity());
+                    }
+                }
+            }
+        }
     }
 }

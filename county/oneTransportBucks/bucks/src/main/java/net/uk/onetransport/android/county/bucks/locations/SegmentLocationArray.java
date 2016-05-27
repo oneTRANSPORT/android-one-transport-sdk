@@ -14,9 +14,9 @@ import net.uk.onetransport.android.county.bucks.storage.Prefs;
 
 public class SegmentLocationArray extends BaseArray implements DougalCallback {
 
-    private static final String LINK_PATH = "BCCFeedImportPredefinedLinkLocation/All";
-    private static final String SECTION_PATH = "BCCFeedImportPredefinedSectionLocation/All";
-    private static final String TR_PATH = "BCCFeedImportPredefinedTrLocation/All";
+    private static final String LINK_PATH = "BCCPredefinedLocationLinkFeedImport/All";
+    private static final String SECTION_PATH = "BCCPredefinedLocationSectionFeedImport/All";
+    private static final String TR_PATH = "BCCPredefinedLocationTransportRouteFeedImport/All";
 
     private SegmentLocation[] segmentLocations;
     private SegmentLocationArrayCallback segmentLocationArrayCallback;

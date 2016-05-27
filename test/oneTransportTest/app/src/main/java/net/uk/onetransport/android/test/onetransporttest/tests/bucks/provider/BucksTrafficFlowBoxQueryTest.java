@@ -37,15 +37,15 @@ public class BucksTrafficFlowBoxQueryTest extends OneTransportTest {
         if (cursor != null) {
             if (cursor.getCount() > 0 && cursor.moveToFirst()) {
                 while (!cursor.isAfterLast()) {
-                    double to_latitude = cursor.getDouble(cursor.getColumnIndex("latitude"));
-                    double to_longitude = cursor.getDouble(cursor.getColumnIndex("longitude"));
-                    double from_latitude = cursor.getDouble(cursor.getColumnIndex("latitude"));
-                    double from_longitude = cursor.getDouble(cursor.getColumnIndex("longitude"));
-                    runnerTask.report("BUCKS car park box query ... FAILED.", COLOUR_FAILED);
+                    double to_latitude = cursor.getDouble(cursor.getColumnIndex("to_latitude"));
+                    double to_longitude = cursor.getDouble(cursor.getColumnIndex("to_longitude"));
+                    double from_latitude = cursor.getDouble(cursor.getColumnIndex("from_latitude"));
+                    double from_longitude = cursor.getDouble(cursor.getColumnIndex("from_longitude"));
                     if (to_latitude < MIN_LATITUDE || to_latitude > MAX_LATITUDE
                             || to_longitude < MIN_LONGITUDE || to_longitude > MAX_LONGITUDE
                             || from_latitude < MIN_LATITUDE || from_latitude > MAX_LATITUDE
                             || from_longitude < MIN_LONGITUDE || from_longitude > MAX_LONGITUDE) {
+                        runnerTask.report("BUCKS car park box query ... FAILED.", COLOUR_FAILED);
                         cursor.close();
                         return;
                     }
