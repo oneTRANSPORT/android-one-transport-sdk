@@ -83,6 +83,11 @@ public class BucksContract {
                     + RoadWorks.COLUMN_LATITUDE + " REAL,"
                     + RoadWorks.COLUMN_LONGITUDE + " REAL"
                     + ");";
+    public static final String CREATE_LAST_UPDATED_TABLE =
+            "CREATE TABLE IF NOT EXISTS " + LastUpdated.TABLE_NAME + " ("
+                    + LastUpdated.COLUMN_LAST_UPDATE_MILLIS + " INTEGER NOT NULL"
+                    + ");";
+
     // Views using location as a key.
     public static final String CREATE_VMS_LOCATION_VIEW =
             "CREATE VIEW IF NOT EXISTS " + VmsJoinLocation.TABLE_NAME + " AS SELECT "
@@ -208,6 +213,11 @@ public class BucksContract {
         public static final String COLUMN_LONGITUDE = "longitude";
     }
 
+    public static final class LastUpdated implements BaseColumns {
+        public static final String TABLE_NAME = "last_updated";
+        public static final String COLUMN_LAST_UPDATE_MILLIS = "last_update_millis";
+    }
+
     public static final class VmsJoinLocation implements BaseColumns {
         public static final String TABLE_NAME = "vms_join_location";
         public static final String COLUMN_NUMBER_OF_CHARACTERS = "number_of_characters";
@@ -241,4 +251,5 @@ public class BucksContract {
         public static final String COLUMN_LINK_STATUS_TYPE = "link_status_type";
         public static final String COLUMN_LINK_TRAVEL_TIME = "link_travel_time";
     }
+
 }

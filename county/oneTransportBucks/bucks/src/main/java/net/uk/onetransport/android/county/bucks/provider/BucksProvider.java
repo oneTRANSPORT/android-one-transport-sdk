@@ -14,6 +14,7 @@ import android.support.annotation.NonNull;
 import net.uk.onetransport.android.county.bucks.R;
 
 import static net.uk.onetransport.android.county.bucks.provider.BucksContract.CarPark;
+import static net.uk.onetransport.android.county.bucks.provider.BucksContract.LastUpdated;
 import static net.uk.onetransport.android.county.bucks.provider.BucksContract.RoadWorks;
 import static net.uk.onetransport.android.county.bucks.provider.BucksContract.SegmentLocation;
 import static net.uk.onetransport.android.county.bucks.provider.BucksContract.TrafficFlow;
@@ -26,7 +27,7 @@ public class BucksProvider extends ContentProvider {
 
     // Not final as the authority must be injected by the app.
     public static String AUTHORITY;
-    public static String AUTHORITY_URI;
+    public static Uri AUTHORITY_URI;
 
     public static Uri CAR_PARK_URI;
     public static Uri VMS_LOCATION_URI;
@@ -34,6 +35,7 @@ public class BucksProvider extends ContentProvider {
     public static Uri VARIABLE_MESSAGE_SIGN_URI;
     public static Uri TRAFFIC_FLOW_URI;
     public static Uri ROAD_WORKS_URI;
+    public static Uri LAST_UPDATED_URI;
     public static Uri VMS_JOIN_LOCATION_URI;
     public static Uri TRAFFIC_FLOW_JOIN_LOCATION_URI;
 
@@ -54,10 +56,12 @@ public class BucksProvider extends ContentProvider {
     private static final int TRAFFIC_FLOW_ID = 10;
     private static final int ROAD_WORKS = 11;
     private static final int ROAD_WORKS_ID = 12;
-    private static final int VMS_JOIN_LOCATIONS = 13;
-    private static final int VMS_JOIN_LOCATION_ID = 14;
-    private static final int TRAFFIC_FLOWS_JOIN_LOCATIONS = 15;
-    private static final int TRAFFIC_FLOW_JOIN_LOCATION_ID = 16;
+    private static final int LAST_UPDATED = 13;
+    private static final int LAST_UPDATED_ID = 14;
+    private static final int VMS_JOIN_LOCATIONS = 15;
+    private static final int VMS_JOIN_LOCATION_ID = 16;
+    private static final int TRAFFIC_FLOWS_JOIN_LOCATIONS = 17;
+    private static final int TRAFFIC_FLOW_JOIN_LOCATION_ID = 18;
 
     private static UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
@@ -68,18 +72,21 @@ public class BucksProvider extends ContentProvider {
 
     public static void initialise(@NonNull Context context) {
         AUTHORITY = context.getString(R.string.provider_authority);
-        AUTHORITY_URI = "content://" + AUTHORITY + "/";
+        AUTHORITY_URI = Uri.parse("content://" + AUTHORITY + "/");
 
-        CAR_PARK_URI = Uri.parse(AUTHORITY_URI + CarPark.TABLE_NAME);
-        VMS_LOCATION_URI = Uri.parse(AUTHORITY_URI + VmsLocation.TABLE_NAME);
-        SEGMENT_LOCATION_URI = Uri.parse(AUTHORITY_URI + SegmentLocation.TABLE_NAME);
-        VARIABLE_MESSAGE_SIGN_URI = Uri.parse(AUTHORITY_URI
-                + VariableMessageSign.TABLE_NAME);
-        TRAFFIC_FLOW_URI = Uri.parse(AUTHORITY_URI + TrafficFlow.TABLE_NAME);
-        ROAD_WORKS_URI = Uri.parse(AUTHORITY_URI + RoadWorks.TABLE_NAME);
-        VMS_JOIN_LOCATION_URI = Uri.parse(AUTHORITY_URI + VmsJoinLocation.TABLE_NAME);
-        TRAFFIC_FLOW_JOIN_LOCATION_URI = Uri.parse(AUTHORITY_URI
-                + TrafficFlowJoinLocation.TABLE_NAME);
+        CAR_PARK_URI = Uri.withAppendedPath(AUTHORITY_URI, CarPark.TABLE_NAME);
+        VMS_LOCATION_URI = Uri.withAppendedPath(AUTHORITY_URI, VmsLocation.TABLE_NAME);
+        SEGMENT_LOCATION_URI = Uri.withAppendedPath(AUTHORITY_URI,
+                SegmentLocation.TABLE_NAME);
+        VARIABLE_MESSAGE_SIGN_URI = Uri.withAppendedPath(AUTHORITY_URI,
+                VariableMessageSign.TABLE_NAME);
+        TRAFFIC_FLOW_URI = Uri.withAppendedPath(AUTHORITY_URI, TrafficFlow.TABLE_NAME);
+        ROAD_WORKS_URI = Uri.withAppendedPath(AUTHORITY_URI, RoadWorks.TABLE_NAME);
+        LAST_UPDATED_URI = Uri.withAppendedPath(AUTHORITY_URI, LastUpdated.TABLE_NAME);
+        VMS_JOIN_LOCATION_URI = Uri.withAppendedPath(AUTHORITY_URI,
+                VmsJoinLocation.TABLE_NAME);
+        TRAFFIC_FLOW_JOIN_LOCATION_URI = Uri.withAppendedPath(AUTHORITY_URI,
+                TrafficFlowJoinLocation.TABLE_NAME);
 
         MIME_DIR_PREFIX = "vnd.android.cursor.dir/vnd." + AUTHORITY + ".";
         MIME_ITEM_PREFIX = "vnd.android.cursor.item/vnd." + AUTHORITY + ".";
@@ -100,6 +107,8 @@ public class BucksProvider extends ContentProvider {
             uriMatcher.addURI(AUTHORITY, TrafficFlow.TABLE_NAME + "/#", TRAFFIC_FLOW_ID);
             uriMatcher.addURI(AUTHORITY, RoadWorks.TABLE_NAME, ROAD_WORKS);
             uriMatcher.addURI(AUTHORITY, RoadWorks.TABLE_NAME + "/#", ROAD_WORKS_ID);
+            uriMatcher.addURI(AUTHORITY, LastUpdated.TABLE_NAME, LAST_UPDATED);
+            uriMatcher.addURI(AUTHORITY, LastUpdated.TABLE_NAME + "/#", LAST_UPDATED_ID);
             uriMatcher.addURI(AUTHORITY, VmsJoinLocation.TABLE_NAME, VMS_JOIN_LOCATIONS);
             uriMatcher.addURI(AUTHORITY, VariableMessageSign.TABLE_NAME + "/#",
                     VMS_JOIN_LOCATION_ID);
@@ -143,6 +152,10 @@ public class BucksProvider extends ContentProvider {
                 return MIME_DIR_PREFIX + RoadWorks.TABLE_NAME;
             case ROAD_WORKS_ID:
                 return MIME_ITEM_PREFIX + RoadWorks.TABLE_NAME;
+            case LAST_UPDATED:
+                return MIME_DIR_PREFIX + LastUpdated.TABLE_NAME;
+            case LAST_UPDATED_ID:
+                return MIME_ITEM_PREFIX + LastUpdated.TABLE_NAME;
             case VMS_JOIN_LOCATIONS:
                 return MIME_DIR_PREFIX + VmsJoinLocation.TABLE_NAME;
             case VMS_JOIN_LOCATION_ID:
@@ -185,6 +198,8 @@ public class BucksProvider extends ContentProvider {
                 id = db.insert(RoadWorks.TABLE_NAME, null, values);
                 contentResolver.notifyChange(ROAD_WORKS_URI, null);
                 return ContentUris.withAppendedId(ROAD_WORKS_URI, id);
+            case LAST_UPDATED:
+                throw new IllegalArgumentException("Insert not allowed into " + LastUpdated.TABLE_NAME);
         }
         return null;
     }
@@ -257,6 +272,17 @@ public class BucksProvider extends ContentProvider {
                         RoadWorks._ID + "=?", new String[]{uri.getLastPathSegment()}, null, null,
                         sortOrder);
                 cursor.setNotificationUri(contentResolver, ROAD_WORKS_URI);
+                return cursor;
+            case LAST_UPDATED:
+                cursor = db.query(LastUpdated.TABLE_NAME, projection,
+                        selection, selectionArgs, null, null, sortOrder);
+                cursor.setNotificationUri(contentResolver, LAST_UPDATED_URI);
+                return cursor;
+            case LAST_UPDATED_ID:
+                cursor = db.query(LastUpdated.TABLE_NAME, projection,
+                        LastUpdated._ID + "=?", new String[]{uri.getLastPathSegment()}, null, null,
+                        sortOrder);
+                cursor.setNotificationUri(contentResolver, LAST_UPDATED_URI);
                 return cursor;
             case VMS_JOIN_LOCATIONS:
                 cursor = db.query(VmsJoinLocation.TABLE_NAME, projection,
@@ -343,6 +369,15 @@ public class BucksProvider extends ContentProvider {
                         RoadWorks._ID + "=?", new String[]{uri.getLastPathSegment()});
                 contentResolver.notifyChange(ROAD_WORKS_URI, null);
                 return rows;
+            case LAST_UPDATED:
+                rows = db.update(LastUpdated.TABLE_NAME, values, selection, selectionArgs);
+                contentResolver.notifyChange(LAST_UPDATED_URI, null);
+                return rows;
+            case LAST_UPDATED_ID:
+                rows = db.update(LastUpdated.TABLE_NAME, values,
+                        LastUpdated._ID + "=?", new String[]{uri.getLastPathSegment()});
+                contentResolver.notifyChange(LAST_UPDATED_URI, null);
+                return rows;
         }
         return 0;
     }
@@ -377,6 +412,8 @@ public class BucksProvider extends ContentProvider {
                 rows = db.delete(RoadWorks.TABLE_NAME, selection, selectionArgs);
                 contentResolver.notifyChange(ROAD_WORKS_URI, null);
                 break;
+            case LAST_UPDATED:
+                throw new IllegalArgumentException("Delete not allowed from " + LastUpdated.TABLE_NAME);
         }
         return rows;
     }

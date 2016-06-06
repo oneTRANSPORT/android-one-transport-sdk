@@ -2,6 +2,7 @@ package net.uk.onetransport.android.county.bucks.provider;
 
 import android.content.ContentProviderOperation;
 import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.OperationApplicationException;
 import android.database.Cursor;
@@ -520,5 +521,20 @@ public class BucksContentHelper {
                 contentResolver.delete(BucksProvider.ROAD_WORKS_URI, null, null);
                 break;
         }
+    }
+
+    public static void refreshLastUpdated(@NonNull Context context) {
+        ContentResolver contentResolver = context.getContentResolver();
+        ContentValues values = new ContentValues();
+        values.put(BucksContract.LastUpdated.COLUMN_LAST_UPDATE_MILLIS,
+                System.currentTimeMillis());
+        contentResolver.update(BucksProvider.LAST_UPDATED_URI, values, null, null);
+    }
+
+    public static Cursor getLastUpdated(@NonNull Context context) {
+        return context.getContentResolver().query(BucksProvider.LAST_UPDATED_URI,
+                new String[]{
+                        BucksContract.LastUpdated.COLUMN_LAST_UPDATE_MILLIS
+                }, null, null, null);
     }
 }

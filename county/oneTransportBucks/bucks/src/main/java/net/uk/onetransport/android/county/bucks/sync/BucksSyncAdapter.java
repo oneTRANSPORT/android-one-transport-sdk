@@ -124,6 +124,13 @@ public class BucksSyncAdapter extends AbstractThreadedSyncAdapter {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+
+            // Signal refresh complete.
+            try {
+                BucksContentHelper.refreshLastUpdated(context);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         // TODO    Remove this, diagnostics only.
         BucksDbHelper bucksDbHelper = new BucksDbHelper(context);
