@@ -200,9 +200,9 @@ public class BucksContract {
         public static final String TABLE_NAME = "road_works";
         public static final String COLUMN_ID = "id";
         public static final String COLUMN_COMMENT = "comment";
-        public static final String COLUMN_EFFECT_ON_ROAD_LAYOUT = "effectOnRoadLayout";
-        public static final String COLUMN_ROAD_MAINTENANCE_TYPE = "roadMaintenanceType";
-        public static final String COLUMN_IMPACT_ON_TRAFFIC = "impactOnTraffic";
+        public static final String COLUMN_EFFECT_ON_ROAD_LAYOUT = "effect_on_road_layout";
+        public static final String COLUMN_ROAD_MAINTENANCE_TYPE = "road_maintenance_type";
+        public static final String COLUMN_IMPACT_ON_TRAFFIC = "impact_on_traffic";
         public static final String COLUMN_TYPE = "type";
         public static final String COLUMN_STATUS = "status";
         public static final String COLUMN_OVERALL_START_TIME = "overall_start_time";
