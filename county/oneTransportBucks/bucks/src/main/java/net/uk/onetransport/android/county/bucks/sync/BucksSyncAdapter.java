@@ -33,12 +33,15 @@ import java.io.OutputStream;
 public class BucksSyncAdapter extends AbstractThreadedSyncAdapter {
 
     private static final String ACCOUNT = "dummyaccount";
+    private static final String EXTRAS_VMS = "net.uk.onetransport.android.county.bucks.sync.VMS";
+    private static final String EXTRAS_CAR_PARKS =
+            "net.uk.onetransport.android.county.bucks.sync.CAR_PARKS";
+    private static final String EXTRAS_TRAFFIC_FLOW =
+            "net.uk.onetransport.android.county.bucks.sync.TRAFFIC_FLOW";
+    private static final String EXTRAS_ROAD_WORKS =
+            "net.uk.onetransport.android.county.bucks.sync.ROAD_WORKS";
 
     private Context context;
-//    private String cseBaseUrl;
-    // TODO Need to find a proper authentication solution.
-//    private String userName;
-//    private String password;
 
     public BucksSyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
@@ -57,74 +60,80 @@ public class BucksSyncAdapter extends AbstractThreadedSyncAdapter {
             Log.i("BucksSyncAdapter", "Transferring data ...");
 
             // Link segments.
-            try {
-                SegmentLocationArray segmentLocationArray = SegmentLocationArray
-                        .getSegmentLocationArray(context);
-                BucksContentHelper.deleteFromProvider(context,
-                        BucksContentHelper.DATA_TYPE_SEGMENT_LOCATION);
-                BucksContentHelper.insertIntoProvider(context,
-                        segmentLocationArray.getSegmentLocations());
-            } catch (Exception e) {
-                e.printStackTrace();
+            if (extras.getBoolean(EXTRAS_TRAFFIC_FLOW, false)) {
+                try {
+                    SegmentLocationArray segmentLocationArray = SegmentLocationArray
+                            .getSegmentLocationArray(context);
+                    BucksContentHelper.deleteFromProvider(context,
+                            BucksContentHelper.DATA_TYPE_SEGMENT_LOCATION);
+                    BucksContentHelper.insertIntoProvider(context,
+                            segmentLocationArray.getSegmentLocations());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
-
             // Variable message sign locations.
-            try {
-                PredefinedVmsLocationArray predefinedVmsLocationArray = PredefinedVmsLocationArray
-                        .getPredefinedVmsLocationArray(context);
-                BucksContentHelper.deleteFromProvider(context,
-                        BucksContentHelper.DATA_TYPE_VMS_LOCATION);
-                BucksContentHelper.insertIntoProvider(context,
-                        predefinedVmsLocationArray.getPredefinedVmsLocations());
-            } catch (Exception e) {
-                e.printStackTrace();
+            if (extras.getBoolean(EXTRAS_VMS, false)) {
+                try {
+                    PredefinedVmsLocationArray predefinedVmsLocationArray = PredefinedVmsLocationArray
+                            .getPredefinedVmsLocationArray(context);
+                    BucksContentHelper.deleteFromProvider(context,
+                            BucksContentHelper.DATA_TYPE_VMS_LOCATION);
+                    BucksContentHelper.insertIntoProvider(context,
+                            predefinedVmsLocationArray.getPredefinedVmsLocations());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
-
             // Car parks.
-            try {
-                Log.i("BucksSyncAdapter", "Getting car parks ...");
-                CarParkArray carParkArray = CarParkArray.getCarParkArray(context);
-                Log.i("BucksSyncAdapter", "Deleting existing data ...");
-                BucksContentHelper.deleteFromProvider(context,
-                        BucksContentHelper.DATA_TYPE_CAR_PARK);
-                Log.i("BucksSyncAdapter", "Inserting new data ...");
-                BucksContentHelper.insertIntoProvider(context, carParkArray.getCarParks());
-                Log.i("BucksSyncAdapter", "All done.");
-            } catch (Exception e) {
-                e.printStackTrace();
+            if (extras.getBoolean(EXTRAS_CAR_PARKS, false)) {
+                try {
+                    Log.i("BucksSyncAdapter", "Getting car parks ...");
+                    CarParkArray carParkArray = CarParkArray.getCarParkArray(context);
+                    Log.i("BucksSyncAdapter", "Deleting existing data ...");
+                    BucksContentHelper.deleteFromProvider(context,
+                            BucksContentHelper.DATA_TYPE_CAR_PARK);
+                    Log.i("BucksSyncAdapter", "Inserting new data ...");
+                    BucksContentHelper.insertIntoProvider(context, carParkArray.getCarParks());
+                    Log.i("BucksSyncAdapter", "All done.");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
-
             // Traffic flows.
-            try {
-                TrafficFlowArray trafficFlowArray = TrafficFlowArray.getTrafficFlowArray(context);
-                BucksContentHelper.deleteFromProvider(context,
-                        BucksContentHelper.DATA_TYPE_TRAFFIC_FLOW);
-                BucksContentHelper.insertIntoProvider(context, trafficFlowArray.getTrafficFlows());
-            } catch (Exception e) {
-                e.printStackTrace();
+            if (extras.getBoolean(EXTRAS_TRAFFIC_FLOW, false)) {
+                try {
+                    TrafficFlowArray trafficFlowArray = TrafficFlowArray.getTrafficFlowArray(context);
+                    BucksContentHelper.deleteFromProvider(context,
+                            BucksContentHelper.DATA_TYPE_TRAFFIC_FLOW);
+                    BucksContentHelper.insertIntoProvider(context, trafficFlowArray.getTrafficFlows());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
-
             // Variable message signs.
-            try {
-                VariableMessageSignArray variableMessageSignArray = VariableMessageSignArray
-                        .getVariableMessageSignArray(context);
-                BucksContentHelper.deleteFromProvider(context, BucksContentHelper.DATA_TYPE_VMS);
-                BucksContentHelper.insertIntoProvider(context,
-                        variableMessageSignArray.getVariableMessageSigns());
-            } catch (Exception e) {
-                e.printStackTrace();
+            if (extras.getBoolean(EXTRAS_VMS, false)) {
+                try {
+                    VariableMessageSignArray variableMessageSignArray = VariableMessageSignArray
+                            .getVariableMessageSignArray(context);
+                    BucksContentHelper.deleteFromProvider(context, BucksContentHelper.DATA_TYPE_VMS);
+                    BucksContentHelper.insertIntoProvider(context,
+                            variableMessageSignArray.getVariableMessageSigns());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
-
             // Road works.
-            try {
-                RoadWorksArray roadWorksArray = RoadWorksArray.getRoadWorksArray(context);
-                BucksContentHelper.deleteFromProvider(context,
-                        BucksContentHelper.DATA_TYPE_ROAD_WORKS);
-                BucksContentHelper.insertIntoProvider(context, roadWorksArray.getRoadWorks());
-            } catch (Exception e) {
-                e.printStackTrace();
+            if (extras.getBoolean(EXTRAS_ROAD_WORKS, false)) {
+                try {
+                    RoadWorksArray roadWorksArray = RoadWorksArray.getRoadWorksArray(context);
+                    BucksContentHelper.deleteFromProvider(context,
+                            BucksContentHelper.DATA_TYPE_ROAD_WORKS);
+                    BucksContentHelper.insertIntoProvider(context, roadWorksArray.getRoadWorks());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
-
             // Signal refresh complete.
             try {
                 BucksContentHelper.refreshLastUpdated(context);
@@ -173,11 +182,16 @@ public class BucksSyncAdapter extends AbstractThreadedSyncAdapter {
     }
     // TODO    ----------------------------------------
 
-    public static void refresh(Context context) {
+    public static void refresh(Context context, boolean variableMessageSigns, boolean carParks,
+                               boolean trafficFlow, boolean roadWorks) {
         Account account = BucksSyncAdapter.getAccount(context);
         Bundle settingsBundle = new Bundle();
         settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
         settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
+        settingsBundle.putBoolean(EXTRAS_VMS, variableMessageSigns);
+        settingsBundle.putBoolean(EXTRAS_CAR_PARKS, carParks);
+        settingsBundle.putBoolean(EXTRAS_TRAFFIC_FLOW, trafficFlow);
+        settingsBundle.putBoolean(EXTRAS_ROAD_WORKS, roadWorks);
         ContentResolver.requestSync(account, context.getString(R.string.provider_authority),
                 settingsBundle);
     }
@@ -194,9 +208,6 @@ public class BucksSyncAdapter extends AbstractThreadedSyncAdapter {
 
     private void initialise(Context context) {
         this.context = context;
-//        cseBaseUrl = context.getString(R.string.bucks_cse_base_url);
-//        userName = context.getString(R.string.one_transport_user_name);
-//        password = context.getString(R.string.one_transport_password);
         BucksProvider.initialise(context);
     }
 }
