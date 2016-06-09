@@ -57,8 +57,6 @@ public class BucksSyncAdapter extends AbstractThreadedSyncAdapter {
     public void onPerformSync(Account account, Bundle extras, String authority,
                               ContentProviderClient providerClient, SyncResult syncResult) {
         if (authority.equals(BucksProvider.AUTHORITY)) {
-            Log.i("BucksSyncAdapter", "Transferring data ...");
-
             // Link segments.
             if (extras.getBoolean(EXTRAS_TRAFFIC_FLOW, false)) {
                 try {
@@ -88,14 +86,10 @@ public class BucksSyncAdapter extends AbstractThreadedSyncAdapter {
             // Car parks.
             if (extras.getBoolean(EXTRAS_CAR_PARKS, false)) {
                 try {
-                    Log.i("BucksSyncAdapter", "Getting car parks ...");
                     CarParkArray carParkArray = CarParkArray.getCarParkArray(context);
-                    Log.i("BucksSyncAdapter", "Deleting existing data ...");
                     BucksContentHelper.deleteFromProvider(context,
                             BucksContentHelper.DATA_TYPE_CAR_PARK);
-                    Log.i("BucksSyncAdapter", "Inserting new data ...");
                     BucksContentHelper.insertIntoProvider(context, carParkArray.getCarParks());
-                    Log.i("BucksSyncAdapter", "All done.");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -163,8 +157,6 @@ public class BucksSyncAdapter extends AbstractThreadedSyncAdapter {
             while ((len = in.read(buf)) > 0) {
                 out.write(buf, 0, len);
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
