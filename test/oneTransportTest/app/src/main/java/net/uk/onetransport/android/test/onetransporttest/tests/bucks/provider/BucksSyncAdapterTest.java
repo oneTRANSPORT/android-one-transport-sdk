@@ -10,7 +10,6 @@ import net.uk.onetransport.android.county.bucks.carparks.CarParkArray;
 import net.uk.onetransport.android.county.bucks.provider.BucksContentHelper;
 import net.uk.onetransport.android.county.bucks.provider.BucksProvider;
 import net.uk.onetransport.android.county.bucks.sync.BucksSyncAdapter;
-import net.uk.onetransport.android.county.bucks.trafficflow.TrafficFlowArray;
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
 import net.uk.onetransport.android.test.onetransporttest.tests.OneTransportTest;
 
@@ -38,7 +37,7 @@ public class BucksSyncAdapterTest extends OneTransportTest {
         AdapterObserver adapterObserver = new AdapterObserver(null, this);
         context.getContentResolver().registerContentObserver(BucksProvider.CAR_PARK_URI, true,
                 adapterObserver);
-        BucksSyncAdapter.refresh(context);
+        BucksSyncAdapter.refresh(context, true, true, true, true);
         // Now block until the adapter finishes?  Will the observer run?
         // The observer should modify adapterFinished.
         while (!adapterFinished) {

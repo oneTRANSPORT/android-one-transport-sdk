@@ -9,11 +9,9 @@ import android.content.Context;
 import android.content.SyncResult;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.util.Log;
 
 import net.uk.onetransport.android.county.bucks.R;
 import net.uk.onetransport.android.county.bucks.carparks.CarParkArray;
-import net.uk.onetransport.android.county.bucks.locations.PredefinedVmsLocationArray;
 import net.uk.onetransport.android.county.bucks.locations.SegmentLocationArray;
 import net.uk.onetransport.android.county.bucks.provider.BucksContentHelper;
 import net.uk.onetransport.android.county.bucks.provider.BucksDbHelper;
@@ -24,7 +22,6 @@ import net.uk.onetransport.android.county.bucks.variablemessagesigns.VariableMes
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -66,19 +63,6 @@ public class BucksSyncAdapter extends AbstractThreadedSyncAdapter {
                             BucksContentHelper.DATA_TYPE_SEGMENT_LOCATION);
                     BucksContentHelper.insertIntoProvider(context,
                             segmentLocationArray.getSegmentLocations());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-            // Variable message sign locations.
-            if (extras.getBoolean(EXTRAS_VMS, false)) {
-                try {
-                    PredefinedVmsLocationArray predefinedVmsLocationArray = PredefinedVmsLocationArray
-                            .getPredefinedVmsLocationArray(context);
-                    BucksContentHelper.deleteFromProvider(context,
-                            BucksContentHelper.DATA_TYPE_VMS_LOCATION);
-                    BucksContentHelper.insertIntoProvider(context,
-                            predefinedVmsLocationArray.getPredefinedVmsLocations());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

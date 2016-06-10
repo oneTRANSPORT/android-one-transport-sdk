@@ -11,7 +11,6 @@ import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 
 import net.uk.onetransport.android.county.bucks.carparks.CarPark;
-import net.uk.onetransport.android.county.bucks.locations.PredefinedVmsLocation;
 import net.uk.onetransport.android.county.bucks.locations.SegmentLocation;
 import net.uk.onetransport.android.county.bucks.roadworks.Period;
 import net.uk.onetransport.android.county.bucks.roadworks.RoadWorks;
@@ -25,14 +24,12 @@ import java.util.ArrayList;
 public class BucksContentHelper {
 
     @Retention(RetentionPolicy.SOURCE)
-    @IntDef({DATA_TYPE_SEGMENT_LOCATION, DATA_TYPE_VMS_LOCATION,
-            DATA_TYPE_CAR_PARK, DATA_TYPE_VMS, DATA_TYPE_TRAFFIC_FLOW,
-            DATA_TYPE_ROAD_WORKS})
+    @IntDef({DATA_TYPE_SEGMENT_LOCATION, DATA_TYPE_CAR_PARK, DATA_TYPE_VMS,
+            DATA_TYPE_TRAFFIC_FLOW, DATA_TYPE_ROAD_WORKS})
     public @interface DataType {
     }
 
     public static final int DATA_TYPE_SEGMENT_LOCATION = 1;
-    public static final int DATA_TYPE_VMS_LOCATION = 2;
     public static final int DATA_TYPE_CAR_PARK = 3;
     public static final int DATA_TYPE_TRAFFIC_FLOW = 4;
     public static final int DATA_TYPE_VMS = 5;
@@ -70,35 +67,6 @@ public class BucksContentHelper {
                                 segmentLocation.getFromDescriptor())
                         .withValue(BucksContract.SegmentLocation.COLUMN_TPEG_DIRECTION,
                                 segmentLocation.getTpegDirection())
-                        .withYieldAllowed(true)
-                        .build();
-                operationList.add(operation);
-            }
-            ContentResolver contentResolver = context.getContentResolver();
-            contentResolver.applyBatch(BucksProvider.AUTHORITY, operationList);
-        }
-    }
-
-    public static void insertIntoProvider(@NonNull Context context,
-                                          @NonNull PredefinedVmsLocation[] predefinedVmsLocations)
-            throws RemoteException, OperationApplicationException {
-        if (predefinedVmsLocations.length > 0) {
-            ArrayList<ContentProviderOperation> operationList = new ArrayList<>();
-            for (PredefinedVmsLocation predefinedVmsLocation : predefinedVmsLocations) {
-                ContentProviderOperation operation = ContentProviderOperation
-                        .newInsert(BucksProvider.VMS_LOCATION_URI)
-                        .withValue(BucksContract.VmsLocation.COLUMN_NAME,
-                                predefinedVmsLocation.getName())
-                        .withValue(BucksContract.VmsLocation.COLUMN_LOCATION_ID,
-                                predefinedVmsLocation.getLocationId())
-                        .withValue(BucksContract.VmsLocation.COLUMN_LATITUDE,
-                                predefinedVmsLocation.getLatitude())
-                        .withValue(BucksContract.VmsLocation.COLUMN_LONGITUDE,
-                                predefinedVmsLocation.getLongitude())
-                        .withValue(BucksContract.VmsLocation.COLUMN_DESCRIPTOR,
-                                predefinedVmsLocation.getDescriptor())
-                        .withValue(BucksContract.VmsLocation.COLUMN_TPEG_DIRECTION,
-                                predefinedVmsLocation.getTpegDirection())
                         .withYieldAllowed(true)
                         .build();
                 operationList.add(operation);
@@ -198,8 +166,10 @@ public class BucksContentHelper {
                 }
                 ContentProviderOperation operation = ContentProviderOperation
                         .newInsert(BucksProvider.VARIABLE_MESSAGE_SIGN_URI)
-                        .withValue(BucksContract.VariableMessageSign.COLUMN_LOCATION_REFERENCE,
-                                variableMessageSign.getLocationReference())
+                        .withValue(BucksContract.VariableMessageSign.COLUMN_LOCATION_ID,
+                                variableMessageSign.getLocationId())
+                        .withValue(BucksContract.VariableMessageSign.COLUMN_NAME,
+                                variableMessageSign.getName())
                         .withValue(BucksContract.VariableMessageSign.COLUMN_NUMBER_OF_CHARACTERS,
                                 variableMessageSign.getNumberOfCharacters())
                         .withValue(BucksContract.VariableMessageSign.COLUMN_NUMBER_OF_ROWS,
@@ -208,6 +178,14 @@ public class BucksContentHelper {
                                 builder.toString())
                         .withValue(BucksContract.VariableMessageSign.COLUMN_VMS_TYPE,
                                 variableMessageSign.getVmsType())
+                        .withValue(BucksContract.VariableMessageSign.COLUMN_LATITUDE,
+                                variableMessageSign.getLatitude())
+                        .withValue(BucksContract.VariableMessageSign.COLUMN_LONGITUDE,
+                                variableMessageSign.getLongitude())
+                        .withValue(BucksContract.VariableMessageSign.COLUMN_DESCRIPTOR,
+                                variableMessageSign.getDescriptor())
+                        .withValue(BucksContract.VariableMessageSign.COLUMN_TPEG_DIRECTION,
+                                variableMessageSign.getTpegDirection())
                         .withYieldAllowed(true)
                         .build();
                 operationList.add(operation);
@@ -281,19 +259,6 @@ public class BucksContentHelper {
                 }, null, null, BucksContract.SegmentLocation.COLUMN_LOCATION_ID);
     }
 
-    public static Cursor getVmsLocations(@NonNull Context context) {
-        return context.getContentResolver().query(BucksProvider.VMS_LOCATION_URI,
-                new String[]{
-                        BucksContract.VmsLocation._ID,
-                        BucksContract.VmsLocation.COLUMN_NAME,
-                        BucksContract.VmsLocation.COLUMN_LOCATION_ID,
-                        BucksContract.VmsLocation.COLUMN_LATITUDE,
-                        BucksContract.VmsLocation.COLUMN_LONGITUDE,
-                        BucksContract.VmsLocation.COLUMN_DESCRIPTOR,
-                        BucksContract.VmsLocation.COLUMN_TPEG_DIRECTION
-                }, null, null, BucksContract.VmsLocation.COLUMN_NAME);
-    }
-
     public static Cursor getCarParks(@NonNull Context context) {
         return context.getContentResolver().query(BucksProvider.CAR_PARK_URI,
                 new String[]{
@@ -355,12 +320,40 @@ public class BucksContentHelper {
         return context.getContentResolver().query(BucksProvider.VARIABLE_MESSAGE_SIGN_URI,
                 new String[]{
                         BucksContract.VariableMessageSign._ID,
-                        BucksContract.VariableMessageSign.COLUMN_LOCATION_REFERENCE,
+                        BucksContract.VariableMessageSign.COLUMN_LOCATION_ID,
+                        BucksContract.VariableMessageSign.COLUMN_NAME,
                         BucksContract.VariableMessageSign.COLUMN_NUMBER_OF_CHARACTERS,
                         BucksContract.VariableMessageSign.COLUMN_NUMBER_OF_ROWS,
                         BucksContract.VariableMessageSign.COLUMN_VMS_LEGENDS,
-                        BucksContract.VariableMessageSign.COLUMN_VMS_TYPE
-                }, null, null, BucksContract.VariableMessageSign.COLUMN_LOCATION_REFERENCE);
+                        BucksContract.VariableMessageSign.COLUMN_VMS_TYPE,
+                        BucksContract.VariableMessageSign.COLUMN_LATITUDE,
+                        BucksContract.VariableMessageSign.COLUMN_LONGITUDE,
+                        BucksContract.VariableMessageSign.COLUMN_DESCRIPTOR,
+                        BucksContract.VariableMessageSign.COLUMN_TPEG_DIRECTION
+                }, null, null, BucksContract.VariableMessageSign.COLUMN_NAME);
+    }
+
+    public static Cursor getVariableMessageSigns(@NonNull Context context, double minLatitude,
+                                                 double minLongitude, double maxLatitude, double maxLongitude) {
+        return context.getContentResolver().query(BucksProvider.VARIABLE_MESSAGE_SIGN_URI,
+                new String[]{
+                        BucksContract.VariableMessageSign._ID,
+                        BucksContract.VariableMessageSign.COLUMN_LOCATION_ID,
+                        BucksContract.VariableMessageSign.COLUMN_NAME,
+                        BucksContract.VariableMessageSign.COLUMN_NUMBER_OF_CHARACTERS,
+                        BucksContract.VariableMessageSign.COLUMN_NUMBER_OF_ROWS,
+                        BucksContract.VariableMessageSign.COLUMN_VMS_LEGENDS,
+                        BucksContract.VariableMessageSign.COLUMN_VMS_TYPE,
+                        BucksContract.VariableMessageSign.COLUMN_LATITUDE,
+                        BucksContract.VariableMessageSign.COLUMN_LONGITUDE,
+                        BucksContract.VariableMessageSign.COLUMN_DESCRIPTOR,
+                        BucksContract.VariableMessageSign.COLUMN_TPEG_DIRECTION
+                }, LAT_LON_BOX, new String[]{
+                        String.valueOf(minLatitude),
+                        String.valueOf(minLongitude),
+                        String.valueOf(maxLatitude),
+                        String.valueOf(maxLongitude)
+                }, BucksContract.VariableMessageSign.COLUMN_NAME);
     }
 
     public static Cursor getRoadWorks(@NonNull Context context) {
@@ -405,40 +398,6 @@ public class BucksContentHelper {
                         String.valueOf(maxLatitude),
                         String.valueOf(maxLongitude)
                 }, BucksContract.RoadWorks.COLUMN_ID);
-    }
-
-    public static Cursor getVmsJoinLocations(@NonNull Context context) {
-        return context.getContentResolver().query(BucksProvider.VMS_JOIN_LOCATION_URI,
-                new String[]{
-                        BucksContract.VmsJoinLocation.COLUMN_NUMBER_OF_CHARACTERS,
-                        BucksContract.VmsJoinLocation.COLUMN_NUMBER_OF_ROWS,
-                        BucksContract.VmsJoinLocation.COLUMN_VMS_LEGENDS,
-                        BucksContract.VmsJoinLocation.COLUMN_VMS_TYPE,
-                        BucksContract.VmsJoinLocation.COLUMN_LATITUDE,
-                        BucksContract.VmsJoinLocation.COLUMN_LONGITUDE,
-                        BucksContract.VmsJoinLocation.COLUMN_DESCRIPTOR,
-                        BucksContract.VmsJoinLocation.COLUMN_TPEG_DIRECTION
-                }, null, null, BucksContract.VmsJoinLocation.COLUMN_DESCRIPTOR);
-    }
-
-    public static Cursor getVmsJoinLocations(@NonNull Context context, double minLatitude,
-                                             double minLongitude, double maxLatitude, double maxLongitude) {
-        return context.getContentResolver().query(BucksProvider.VMS_JOIN_LOCATION_URI,
-                new String[]{
-                        BucksContract.VmsJoinLocation.COLUMN_NUMBER_OF_CHARACTERS,
-                        BucksContract.VmsJoinLocation.COLUMN_NUMBER_OF_ROWS,
-                        BucksContract.VmsJoinLocation.COLUMN_VMS_LEGENDS,
-                        BucksContract.VmsJoinLocation.COLUMN_VMS_TYPE,
-                        BucksContract.VmsJoinLocation.COLUMN_LATITUDE,
-                        BucksContract.VmsJoinLocation.COLUMN_LONGITUDE,
-                        BucksContract.VmsJoinLocation.COLUMN_DESCRIPTOR,
-                        BucksContract.VmsJoinLocation.COLUMN_TPEG_DIRECTION
-                }, LAT_LON_BOX, new String[]{
-                        String.valueOf(minLatitude),
-                        String.valueOf(minLongitude),
-                        String.valueOf(maxLatitude),
-                        String.valueOf(maxLongitude)
-                }, BucksContract.VmsJoinLocation.COLUMN_DESCRIPTOR);
     }
 
     public static Cursor getTrafficFlowJoinLocations(@NonNull Context context) {
@@ -507,9 +466,6 @@ public class BucksContentHelper {
                 break;
             case DATA_TYPE_SEGMENT_LOCATION:
                 contentResolver.delete(BucksProvider.SEGMENT_LOCATION_URI, null, null);
-                break;
-            case DATA_TYPE_VMS_LOCATION:
-                contentResolver.delete(BucksProvider.VMS_LOCATION_URI, null, null);
                 break;
             case DATA_TYPE_TRAFFIC_FLOW:
                 contentResolver.delete(BucksProvider.TRAFFIC_FLOW_URI, null, null);

@@ -20,16 +20,6 @@ public class BucksContract {
                     + CarPark.COLUMN_LATITUDE + " REAL NOT NULL,"
                     + CarPark.COLUMN_LONGITUDE + " REAL NOT NULL"
                     + ");";
-    public static final String CREATE_VMS_LOCATION_TABLE =
-            "CREATE TABLE IF NOT EXISTS " + VmsLocation.TABLE_NAME + " ("
-                    + VmsLocation._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-                    + VmsLocation.COLUMN_NAME + " TEXT NOT NULL,"
-                    + VmsLocation.COLUMN_LOCATION_ID + " TEXT NOT NULL,"
-                    + VmsLocation.COLUMN_LATITUDE + " REAL NOT NULL,"
-                    + VmsLocation.COLUMN_LONGITUDE + " REAL NOT NULL,"
-                    + VmsLocation.COLUMN_DESCRIPTOR + " TEXT NOT NULL,"
-                    + VmsLocation.COLUMN_TPEG_DIRECTION + " TEXT NOT NULL"
-                    + ");";
     public static final String CREATE_SEGMENT_LOCATION_TABLE =
             "CREATE TABLE IF NOT EXISTS " + SegmentLocation.TABLE_NAME + " ("
                     + SegmentLocation._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -45,11 +35,16 @@ public class BucksContract {
     public static final String CREATE_VARIABLE_MESSAGE_SIGN_TABLE =
             "CREATE TABLE IF NOT EXISTS " + VariableMessageSign.TABLE_NAME + " ("
                     + VariableMessageSign._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-                    + VariableMessageSign.COLUMN_LOCATION_REFERENCE + " TEXT NOT NULL,"
+                    + VariableMessageSign.COLUMN_LOCATION_ID + " TEXT NOT NULL,"
+                    + VariableMessageSign.COLUMN_NAME + " TEXT NOT NULL,"
                     + VariableMessageSign.COLUMN_NUMBER_OF_CHARACTERS + " INTEGER NOT NULL,"
                     + VariableMessageSign.COLUMN_NUMBER_OF_ROWS + " INTEGER NOT NULL,"
                     + VariableMessageSign.COLUMN_VMS_LEGENDS + " TEXT NOT NULL,"
-                    + VariableMessageSign.COLUMN_VMS_TYPE + " TEXT NOT NULL"
+                    + VariableMessageSign.COLUMN_VMS_TYPE + " TEXT NOT NULL,"
+                    + VariableMessageSign.COLUMN_LATITUDE + " REAL NOT NULL,"
+                    + VariableMessageSign.COLUMN_LONGITUDE + " REAL NOT NULL,"
+                    + VariableMessageSign.COLUMN_DESCRIPTOR + " TEXT NOT NULL,"
+                    + VariableMessageSign.COLUMN_TPEG_DIRECTION + " TEXT NOT NULL"
                     + ");";
     public static final String CREATE_TRAFFIC_FLOW_TABLE =
             "CREATE TABLE IF NOT EXISTS " + TrafficFlow.TABLE_NAME + " ("
@@ -89,21 +84,6 @@ public class BucksContract {
                     + ");";
 
     // Views using location as a key.
-    public static final String CREATE_VMS_LOCATION_VIEW =
-            "CREATE VIEW IF NOT EXISTS " + VmsJoinLocation.TABLE_NAME + " AS SELECT "
-                    + VariableMessageSign.TABLE_NAME + "." + VariableMessageSign._ID
-                    + " as " + VariableMessageSign._ID + ","
-                    + VmsJoinLocation.COLUMN_NUMBER_OF_CHARACTERS + ","
-                    + VmsJoinLocation.COLUMN_NUMBER_OF_ROWS + ","
-                    + VmsJoinLocation.COLUMN_VMS_LEGENDS + ","
-                    + VmsJoinLocation.COLUMN_VMS_TYPE + ","
-                    + VmsJoinLocation.COLUMN_LATITUDE + ","
-                    + VmsJoinLocation.COLUMN_LONGITUDE + ","
-                    + VmsJoinLocation.COLUMN_DESCRIPTOR + ","
-                    + VmsJoinLocation.COLUMN_TPEG_DIRECTION
-                    + " FROM " + VariableMessageSign.TABLE_NAME + "," + VmsLocation.TABLE_NAME
-                    + " WHERE " + VariableMessageSign.COLUMN_LOCATION_REFERENCE
-                    + "=" + VmsLocation.COLUMN_LOCATION_ID + ";";
     public static final String CREATE_TRAFFIC_FLOW_LOCATION_VIEW =
             "CREATE VIEW IF NOT EXISTS " + TrafficFlowJoinLocation.TABLE_NAME + " AS SELECT "
                     + TrafficFlow.TABLE_NAME + "." + TrafficFlow._ID
@@ -148,16 +128,6 @@ public class BucksContract {
         public static final String COLUMN_LONGITUDE = "longitude";
     }
 
-    public static final class VmsLocation implements BaseColumns {
-        public static final String TABLE_NAME = "vms_location";
-        public static final String COLUMN_NAME = "name";
-        public static final String COLUMN_LOCATION_ID = "location_id";
-        public static final String COLUMN_LATITUDE = "latitude";
-        public static final String COLUMN_LONGITUDE = "longitude";
-        public static final String COLUMN_DESCRIPTOR = "descriptor";
-        public static final String COLUMN_TPEG_DIRECTION = "tpeg_direction";
-    }
-
     public static final class SegmentLocation implements BaseColumns {
         public static final String TABLE_NAME = "segment_location";
         public static final String COLUMN_LOCATION_ID = "location_id";
@@ -172,12 +142,16 @@ public class BucksContract {
 
     public static final class VariableMessageSign implements BaseColumns {
         public static final String TABLE_NAME = "variable_message_sign";
-        public static final String COLUMN_LOCATION_REFERENCE = "location_reference";
+        public static final String COLUMN_LOCATION_ID = "location_id";
+        public static final String COLUMN_NAME = "name";
         public static final String COLUMN_NUMBER_OF_CHARACTERS = "number_of_characters";
         public static final String COLUMN_NUMBER_OF_ROWS = "number_of_rows";
-        // Store the rows of data as pipe-separated text in one row.
         public static final String COLUMN_VMS_LEGENDS = "vms_legends";
         public static final String COLUMN_VMS_TYPE = "vms_type";
+        public static final String COLUMN_LATITUDE = "latitude";
+        public static final String COLUMN_LONGITUDE = "longitude";
+        public static final String COLUMN_DESCRIPTOR = "descriptor";
+        public static final String COLUMN_TPEG_DIRECTION = "tpeg_direction";
     }
 
     public static final class TrafficFlow implements BaseColumns {
@@ -216,18 +190,6 @@ public class BucksContract {
     public static final class LastUpdated implements BaseColumns {
         public static final String TABLE_NAME = "last_updated";
         public static final String COLUMN_LAST_UPDATE_MILLIS = "last_update_millis";
-    }
-
-    public static final class VmsJoinLocation implements BaseColumns {
-        public static final String TABLE_NAME = "vms_join_location";
-        public static final String COLUMN_NUMBER_OF_CHARACTERS = "number_of_characters";
-        public static final String COLUMN_NUMBER_OF_ROWS = "number_of_rows";
-        public static final String COLUMN_VMS_LEGENDS = "vms_legends";
-        public static final String COLUMN_VMS_TYPE = "vms_type";
-        public static final String COLUMN_LATITUDE = "latitude";
-        public static final String COLUMN_LONGITUDE = "longitude";
-        public static final String COLUMN_DESCRIPTOR = "descriptor";
-        public static final String COLUMN_TPEG_DIRECTION = "tpeg_direction";
     }
 
     public static final class TrafficFlowJoinLocation implements BaseColumns {

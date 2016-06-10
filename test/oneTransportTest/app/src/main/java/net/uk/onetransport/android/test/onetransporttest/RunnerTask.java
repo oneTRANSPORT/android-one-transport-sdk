@@ -12,7 +12,6 @@ import net.uk.onetransport.android.test.onetransporttest.tests.OneTransportTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.ae.ApplicationEntityCreateTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.ae.ApplicationEntityDeleteTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.carpark.GetCarParkArrayTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bucks.locations.GetPredefinedVmsLocationsArrayTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.locations.GetSegmentLocationsArrayTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksCarParkBoxQueryTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksCarParkDeleteTest;
@@ -22,17 +21,15 @@ import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.Bu
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksRoadWorksInsertTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksSegmentLocationDeleteTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksSegmentLocationInsertTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksSyncAdapterTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksTrafficFlowBoxQueryTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksTrafficFlowDeleteTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksTrafficFlowInsertTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksTrafficFlowJoinQueryTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksVariableMessageSignDeleteTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksVariableMessageSignInsertTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksVmsJoinLocationBoxQueryTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksVmsJoinQueryTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksVmsLocationDeleteTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksVmsLocationInsertTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksSyncAdapterTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksVmsBoxQueryTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksVmsQueryTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.roadworks.GetRoadWorksArrayTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.trafficflow.GetTrafficFlowArrayTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.vms.GetVariableMessageSignArrayTest;
@@ -46,26 +43,23 @@ public class RunnerTask extends AsyncTask<Void, Object[], Void>
             new ApplicationEntityCreateTest(),
             new GetCarParkArrayTest(),
             new GetSegmentLocationsArrayTest(),
-            new GetPredefinedVmsLocationsArrayTest(),
             new GetVariableMessageSignArrayTest(),
             new GetTrafficFlowArrayTest(),
             new GetRoadWorksArrayTest(),
             new BucksCarParkDeleteTest(),
-            new BucksVmsLocationDeleteTest(),
             new BucksSegmentLocationDeleteTest(),
             new BucksVariableMessageSignDeleteTest(),
             new BucksTrafficFlowDeleteTest(),
             new BucksRoadWorksDeleteTest(),
             new BucksCarParkInsertTest(),
-            new BucksVmsLocationInsertTest(),
             new BucksSegmentLocationInsertTest(),
             new BucksVariableMessageSignInsertTest(),
             new BucksTrafficFlowInsertTest(),
             new BucksRoadWorksInsertTest(),
-            new BucksVmsJoinQueryTest(),
+            new BucksVmsQueryTest(),
             new BucksTrafficFlowJoinQueryTest(),
             new BucksCarParkBoxQueryTest(),
-            new BucksVmsJoinLocationBoxQueryTest(),
+            new BucksVmsBoxQueryTest(),
             new BucksTrafficFlowBoxQueryTest(),
             new BucksRoadWorksBoxQueryTest(),
             new BucksSyncAdapterTest(),
