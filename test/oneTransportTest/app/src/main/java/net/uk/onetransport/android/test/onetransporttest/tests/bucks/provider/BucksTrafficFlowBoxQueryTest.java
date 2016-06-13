@@ -32,7 +32,7 @@ public class BucksTrafficFlowBoxQueryTest extends OneTransportTest {
     private void trafficFlowBoxQuery() throws Exception {
         runnerTask.setCurrentTest("BUCKS traffic flow box query");
         Context context = runnerTask.getContext();
-        Cursor cursor = BucksContentHelper.getTrafficFlowJoinLocations(context, MIN_LATITUDE, MIN_LONGITUDE,
+        Cursor cursor = BucksContentHelper.getTrafficFlows(context, MIN_LATITUDE, MIN_LONGITUDE,
                 MAX_LATITUDE, MAX_LONGITUDE);
         if (cursor != null) {
             if (cursor.getCount() > 0 && cursor.moveToFirst()) {
@@ -45,18 +45,18 @@ public class BucksTrafficFlowBoxQueryTest extends OneTransportTest {
                             || to_longitude < MIN_LONGITUDE || to_longitude > MAX_LONGITUDE
                             || from_latitude < MIN_LATITUDE || from_latitude > MAX_LATITUDE
                             || from_longitude < MIN_LONGITUDE || from_longitude > MAX_LONGITUDE) {
-                        runnerTask.report("BUCKS car park box query ... FAILED.", COLOUR_FAILED);
+                        runnerTask.report("BUCKS traffic flow box query ... FAILED.", COLOUR_FAILED);
                         cursor.close();
                         return;
                     }
                     cursor.moveToNext();
                 }
-                runnerTask.report("BUCKS car park box query ... PASSED.", COLOUR_PASSED);
+                runnerTask.report("BUCKS traffic flow box query ... PASSED.", COLOUR_PASSED);
                 cursor.close();
                 return;
             }
             cursor.close();
         }
-        runnerTask.report("BUCKS car park box query ... FAILED.", COLOUR_FAILED);
+        runnerTask.report("BUCKS traffic flow box query ... FAILED.", COLOUR_FAILED);
     }
 }

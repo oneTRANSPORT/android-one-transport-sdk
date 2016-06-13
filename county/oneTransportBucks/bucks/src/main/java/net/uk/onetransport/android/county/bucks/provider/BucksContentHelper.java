@@ -11,7 +11,6 @@ import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 
 import net.uk.onetransport.android.county.bucks.carparks.CarPark;
-import net.uk.onetransport.android.county.bucks.locations.SegmentLocation;
 import net.uk.onetransport.android.county.bucks.roadworks.Period;
 import net.uk.onetransport.android.county.bucks.roadworks.RoadWorks;
 import net.uk.onetransport.android.county.bucks.trafficflow.TrafficFlow;
@@ -24,12 +23,11 @@ import java.util.ArrayList;
 public class BucksContentHelper {
 
     @Retention(RetentionPolicy.SOURCE)
-    @IntDef({DATA_TYPE_SEGMENT_LOCATION, DATA_TYPE_CAR_PARK, DATA_TYPE_VMS,
-            DATA_TYPE_TRAFFIC_FLOW, DATA_TYPE_ROAD_WORKS})
+    @IntDef({DATA_TYPE_CAR_PARK, DATA_TYPE_VMS, DATA_TYPE_TRAFFIC_FLOW,
+            DATA_TYPE_ROAD_WORKS})
     public @interface DataType {
     }
 
-    public static final int DATA_TYPE_SEGMENT_LOCATION = 1;
     public static final int DATA_TYPE_CAR_PARK = 3;
     public static final int DATA_TYPE_TRAFFIC_FLOW = 4;
     public static final int DATA_TYPE_VMS = 5;
@@ -42,39 +40,6 @@ public class BucksContentHelper {
             + "and to_latitude <= ? and to_longitude <= ? "
             + "and from_latitude >= ? and from_longitude >= ? "
             + "and from_latitude <= ? and from_longitude <= ?";
-
-    public static void insertIntoProvider(@NonNull Context context,
-                                          @NonNull SegmentLocation[] segmentLocations)
-            throws RemoteException, OperationApplicationException {
-        if (segmentLocations.length > 0) {
-            ArrayList<ContentProviderOperation> operationList = new ArrayList<>();
-            for (SegmentLocation segmentLocation : segmentLocations) {
-                ContentProviderOperation operation = ContentProviderOperation
-                        .newInsert(BucksProvider.SEGMENT_LOCATION_URI)
-                        .withValue(BucksContract.SegmentLocation.COLUMN_LOCATION_ID,
-                                segmentLocation.getLocationId())
-                        .withValue(BucksContract.SegmentLocation.COLUMN_TO_LATITUDE,
-                                segmentLocation.getToLatitude())
-                        .withValue(BucksContract.SegmentLocation.COLUMN_TO_LONGITUDE,
-                                segmentLocation.getToLongitude())
-                        .withValue(BucksContract.SegmentLocation.COLUMN_FROM_LATITUDE,
-                                segmentLocation.getFromLatitude())
-                        .withValue(BucksContract.SegmentLocation.COLUMN_FROM_LONGITUDE,
-                                segmentLocation.getFromLongitude())
-                        .withValue(BucksContract.SegmentLocation.COLUMN_TO_DESCRIPTOR,
-                                segmentLocation.getToDescriptor())
-                        .withValue(BucksContract.SegmentLocation.COLUMN_FROM_DESCRIPTOR,
-                                segmentLocation.getFromDescriptor())
-                        .withValue(BucksContract.SegmentLocation.COLUMN_TPEG_DIRECTION,
-                                segmentLocation.getTpegDirection())
-                        .withYieldAllowed(true)
-                        .build();
-                operationList.add(operation);
-            }
-            ContentResolver contentResolver = context.getContentResolver();
-            contentResolver.applyBatch(BucksProvider.AUTHORITY, operationList);
-        }
-    }
 
     public static void insertIntoProvider(@NonNull Context context, @NonNull CarPark[] carParks)
             throws RemoteException, OperationApplicationException {
@@ -109,7 +74,6 @@ public class BucksContentHelper {
         }
     }
 
-    // TODO Merge different JSON objects.
     public static void insertIntoProvider(@NonNull Context context, @NonNull TrafficFlow[] trafficFlows)
             throws RemoteException, OperationApplicationException {
         if (trafficFlows.length > 0) {
@@ -117,13 +81,28 @@ public class BucksContentHelper {
             for (TrafficFlow trafficFlow : trafficFlows) {
                 ContentProviderOperation operation = ContentProviderOperation
                         .newInsert(BucksProvider.TRAFFIC_FLOW_URI)
-                        .withValue(BucksContract.TrafficFlow.COLUMN_LOCATION_REFERENCE,
-                                trafficFlow.getLocationReference())
+                        .withValue(BucksContract.TrafficFlow.COLUMN_LOCATION_ID,
+                                trafficFlow.getLocationId())
+                        .withValue(BucksContract.TrafficFlow.COLUMN_FROM_DESCRIPTOR,
+                                trafficFlow.getFromDescriptor())
+                        .withValue(BucksContract.TrafficFlow.COLUMN_FROM_LATITUDE,
+                                trafficFlow.getFromLatitude())
+                        .withValue(BucksContract.TrafficFlow.COLUMN_FROM_LONGITUDE,
+                                trafficFlow.getFromLongitude())
+                        .withValue(BucksContract.TrafficFlow.COLUMN_TO_DESCRIPTOR,
+                                trafficFlow.getToDescriptor())
+                        .withValue(BucksContract.TrafficFlow.COLUMN_TO_LATITUDE,
+                                trafficFlow.getToLatitude())
+                        .withValue(BucksContract.TrafficFlow.COLUMN_TO_LONGITUDE,
+                                trafficFlow.getToLongitude())
+                        .withValue(BucksContract.TrafficFlow.COLUMN_TPEG_DIRECTION,
+                                trafficFlow.getTpegDirection())
                         .withValue(BucksContract.TrafficFlow.COLUMN_VEHICLE_FLOW,
                                 trafficFlow.getVehicleFlow())
                         .withValue(BucksContract.TrafficFlow.COLUMN_AVERAGE_VEHICLE_SPEED,
                                 trafficFlow.getAverageVehicleSpeed())
-                        .withValue(BucksContract.TrafficFlow.COLUMN_TRAVEL_TIME, trafficFlow.getTravelTime())
+                        .withValue(BucksContract.TrafficFlow.COLUMN_TRAVEL_TIME,
+                                trafficFlow.getTravelTime())
                         .withValue(BucksContract.TrafficFlow.COLUMN_FREE_FLOW_SPEED,
                                 trafficFlow.getFreeFlowSpeed())
                         .withValue(BucksContract.TrafficFlow.COLUMN_FREE_FLOW_TRAVEL_TIME,
@@ -140,6 +119,12 @@ public class BucksContentHelper {
                                 trafficFlow.getLinkStatusType())
                         .withValue(BucksContract.TrafficFlow.COLUMN_LINK_TRAVEL_TIME,
                                 trafficFlow.getLinkTravelTime())
+                        .withValue(BucksContract.TrafficFlow.COLUMN_QUEUE_PRESENT,
+                                trafficFlow.getQueuePresent())
+                        .withValue(BucksContract.TrafficFlow.COLUMN_QUEUE_SEVERITY,
+                                trafficFlow.getQueueSeverity())
+                        .withValue(BucksContract.TrafficFlow.COLUMN_OCCUPANCY,
+                                trafficFlow.getOccupancy())
                         .withYieldAllowed(true)
                         .build();
                 operationList.add(operation);
@@ -244,21 +229,6 @@ public class BucksContentHelper {
         }
     }
 
-    public static Cursor getSegmentLocations(@NonNull Context context) {
-        return context.getContentResolver().query(BucksProvider.SEGMENT_LOCATION_URI,
-                new String[]{
-                        BucksContract.SegmentLocation._ID,
-                        BucksContract.SegmentLocation.COLUMN_LOCATION_ID,
-                        BucksContract.SegmentLocation.COLUMN_TO_LATITUDE,
-                        BucksContract.SegmentLocation.COLUMN_TO_LONGITUDE,
-                        BucksContract.SegmentLocation.COLUMN_FROM_LATITUDE,
-                        BucksContract.SegmentLocation.COLUMN_FROM_LONGITUDE,
-                        BucksContract.SegmentLocation.COLUMN_TO_DESCRIPTOR,
-                        BucksContract.SegmentLocation.COLUMN_FROM_DESCRIPTOR,
-                        BucksContract.SegmentLocation.COLUMN_TPEG_DIRECTION
-                }, null, null, BucksContract.SegmentLocation.COLUMN_LOCATION_ID);
-    }
-
     public static Cursor getCarParks(@NonNull Context context) {
         return context.getContentResolver().query(BucksProvider.CAR_PARK_URI,
                 new String[]{
@@ -301,7 +271,7 @@ public class BucksContentHelper {
         return context.getContentResolver().query(BucksProvider.TRAFFIC_FLOW_URI,
                 new String[]{
                         BucksContract.TrafficFlow._ID,
-                        BucksContract.TrafficFlow.COLUMN_LOCATION_REFERENCE,
+                        BucksContract.TrafficFlow.COLUMN_LOCATION_ID,
                         BucksContract.TrafficFlow.COLUMN_VEHICLE_FLOW,
                         BucksContract.TrafficFlow.COLUMN_AVERAGE_VEHICLE_SPEED,
                         BucksContract.TrafficFlow.COLUMN_TRAVEL_TIME,
@@ -312,8 +282,57 @@ public class BucksContentHelper {
                         BucksContract.TrafficFlow.COLUMN_AVERAGE_SPEED,
                         BucksContract.TrafficFlow.COLUMN_LINK_STATUS,
                         BucksContract.TrafficFlow.COLUMN_LINK_STATUS_TYPE,
-                        BucksContract.TrafficFlow.COLUMN_LINK_TRAVEL_TIME
-                }, null, null, BucksContract.TrafficFlow.COLUMN_LOCATION_REFERENCE);
+                        BucksContract.TrafficFlow.COLUMN_LINK_TRAVEL_TIME,
+                        BucksContract.TrafficFlow.COLUMN_QUEUE_PRESENT,
+                        BucksContract.TrafficFlow.COLUMN_QUEUE_SEVERITY,
+                        BucksContract.TrafficFlow.COLUMN_OCCUPANCY,
+                        BucksContract.TrafficFlow.COLUMN_TO_LATITUDE,
+                        BucksContract.TrafficFlow.COLUMN_TO_LONGITUDE,
+                        BucksContract.TrafficFlow.COLUMN_FROM_LATITUDE,
+                        BucksContract.TrafficFlow.COLUMN_FROM_LONGITUDE,
+                        BucksContract.TrafficFlow.COLUMN_TO_DESCRIPTOR,
+                        BucksContract.TrafficFlow.COLUMN_FROM_DESCRIPTOR,
+                        BucksContract.TrafficFlow.COLUMN_TPEG_DIRECTION
+                }, null, null, BucksContract.TrafficFlow.COLUMN_LOCATION_ID);
+    }
+
+    public static Cursor getTrafficFlows(@NonNull Context context, double minLatitude,
+                                         double minLongitude, double maxLatitude, double maxLongitude) {
+        return context.getContentResolver().query(BucksProvider.TRAFFIC_FLOW_URI,
+                new String[]{ // TODO    Use "*".
+                        BucksContract.TrafficFlow._ID,
+                        BucksContract.TrafficFlow.COLUMN_LOCATION_ID,
+                        BucksContract.TrafficFlow.COLUMN_VEHICLE_FLOW,
+                        BucksContract.TrafficFlow.COLUMN_AVERAGE_VEHICLE_SPEED,
+                        BucksContract.TrafficFlow.COLUMN_TRAVEL_TIME,
+                        BucksContract.TrafficFlow.COLUMN_FREE_FLOW_SPEED,
+                        BucksContract.TrafficFlow.COLUMN_FREE_FLOW_TRAVEL_TIME,
+                        BucksContract.TrafficFlow.COLUMN_CONGESTION_PERCENT,
+                        BucksContract.TrafficFlow.COLUMN_CURRENT_FLOW,
+                        BucksContract.TrafficFlow.COLUMN_AVERAGE_SPEED,
+                        BucksContract.TrafficFlow.COLUMN_LINK_STATUS,
+                        BucksContract.TrafficFlow.COLUMN_LINK_STATUS_TYPE,
+                        BucksContract.TrafficFlow.COLUMN_LINK_TRAVEL_TIME,
+                        BucksContract.TrafficFlow.COLUMN_QUEUE_PRESENT,
+                        BucksContract.TrafficFlow.COLUMN_QUEUE_SEVERITY,
+                        BucksContract.TrafficFlow.COLUMN_OCCUPANCY,
+                        BucksContract.TrafficFlow.COLUMN_TO_LATITUDE,
+                        BucksContract.TrafficFlow.COLUMN_TO_LONGITUDE,
+                        BucksContract.TrafficFlow.COLUMN_FROM_LATITUDE,
+                        BucksContract.TrafficFlow.COLUMN_FROM_LONGITUDE,
+                        BucksContract.TrafficFlow.COLUMN_TO_DESCRIPTOR,
+                        BucksContract.TrafficFlow.COLUMN_FROM_DESCRIPTOR,
+                        BucksContract.TrafficFlow.COLUMN_TPEG_DIRECTION
+                }, LAT_LON_TO_FROM_BOX, new String[]{
+                        String.valueOf(minLatitude),
+                        String.valueOf(minLongitude),
+                        String.valueOf(maxLatitude),
+                        String.valueOf(maxLongitude),
+                        String.valueOf(minLatitude),
+                        String.valueOf(minLongitude),
+                        String.valueOf(maxLatitude),
+                        String.valueOf(maxLongitude)
+                }, BucksContract.TrafficFlow.COLUMN_LOCATION_ID);
     }
 
     public static Cursor getVariableMessageSigns(@NonNull Context context) {
@@ -400,72 +419,11 @@ public class BucksContentHelper {
                 }, BucksContract.RoadWorks.COLUMN_ID);
     }
 
-    public static Cursor getTrafficFlowJoinLocations(@NonNull Context context) {
-        return context.getContentResolver().query(BucksProvider.TRAFFIC_FLOW_JOIN_LOCATION_URI,
-                new String[]{
-                        BucksContract.TrafficFlowJoinLocation.COLUMN_VEHICLE_FLOW,
-                        BucksContract.TrafficFlowJoinLocation.COLUMN_AVERAGE_VEHICLE_SPEED,
-                        BucksContract.TrafficFlowJoinLocation.COLUMN_TRAVEL_TIME,
-                        BucksContract.TrafficFlowJoinLocation.COLUMN_FREE_FLOW_SPEED,
-                        BucksContract.TrafficFlowJoinLocation.COLUMN_FREE_FLOW_TRAVEL_TIME,
-                        BucksContract.TrafficFlowJoinLocation.COLUMN_FROM_LATITUDE,
-                        BucksContract.TrafficFlowJoinLocation.COLUMN_FROM_LONGITUDE,
-                        BucksContract.TrafficFlowJoinLocation.COLUMN_TO_LATITUDE,
-                        BucksContract.TrafficFlowJoinLocation.COLUMN_TO_LONGITUDE,
-                        BucksContract.TrafficFlowJoinLocation.COLUMN_FROM_DESCRIPTOR,
-                        BucksContract.TrafficFlowJoinLocation.COLUMN_TO_DESCRIPTOR,
-                        BucksContract.TrafficFlowJoinLocation.COLUMN_TPEG_DIRECTION,
-                        BucksContract.TrafficFlowJoinLocation.COLUMN_CONGESTION_PERCENT,
-                        BucksContract.TrafficFlowJoinLocation.COLUMN_CURRENT_FLOW,
-                        BucksContract.TrafficFlowJoinLocation.COLUMN_AVERAGE_SPEED,
-                        BucksContract.TrafficFlowJoinLocation.COLUMN_LINK_STATUS,
-                        BucksContract.TrafficFlowJoinLocation.COLUMN_LINK_STATUS_TYPE,
-                        BucksContract.TrafficFlowJoinLocation.COLUMN_LINK_TRAVEL_TIME
-                }, null, null, BucksContract.TrafficFlowJoinLocation.COLUMN_TO_DESCRIPTOR);
-    }
-
-    public static Cursor getTrafficFlowJoinLocations(@NonNull Context context, double minLatitude,
-                                                     double minLongitude, double maxLatitude, double maxLongitude) {
-        return context.getContentResolver().query(BucksProvider.TRAFFIC_FLOW_JOIN_LOCATION_URI,
-                new String[]{
-                        BucksContract.TrafficFlowJoinLocation.COLUMN_VEHICLE_FLOW,
-                        BucksContract.TrafficFlowJoinLocation.COLUMN_AVERAGE_VEHICLE_SPEED,
-                        BucksContract.TrafficFlowJoinLocation.COLUMN_TRAVEL_TIME,
-                        BucksContract.TrafficFlowJoinLocation.COLUMN_FREE_FLOW_SPEED,
-                        BucksContract.TrafficFlowJoinLocation.COLUMN_FREE_FLOW_TRAVEL_TIME,
-                        BucksContract.TrafficFlowJoinLocation.COLUMN_FROM_LATITUDE,
-                        BucksContract.TrafficFlowJoinLocation.COLUMN_FROM_LONGITUDE,
-                        BucksContract.TrafficFlowJoinLocation.COLUMN_TO_LATITUDE,
-                        BucksContract.TrafficFlowJoinLocation.COLUMN_TO_LONGITUDE,
-                        BucksContract.TrafficFlowJoinLocation.COLUMN_FROM_DESCRIPTOR,
-                        BucksContract.TrafficFlowJoinLocation.COLUMN_TO_DESCRIPTOR,
-                        BucksContract.TrafficFlowJoinLocation.COLUMN_TPEG_DIRECTION,
-                        BucksContract.TrafficFlowJoinLocation.COLUMN_CONGESTION_PERCENT,
-                        BucksContract.TrafficFlowJoinLocation.COLUMN_CURRENT_FLOW,
-                        BucksContract.TrafficFlowJoinLocation.COLUMN_AVERAGE_SPEED,
-                        BucksContract.TrafficFlowJoinLocation.COLUMN_LINK_STATUS,
-                        BucksContract.TrafficFlowJoinLocation.COLUMN_LINK_STATUS_TYPE,
-                        BucksContract.TrafficFlowJoinLocation.COLUMN_LINK_TRAVEL_TIME
-                }, LAT_LON_TO_FROM_BOX, new String[]{
-                        String.valueOf(minLatitude),
-                        String.valueOf(minLongitude),
-                        String.valueOf(maxLatitude),
-                        String.valueOf(maxLongitude),
-                        String.valueOf(minLatitude),
-                        String.valueOf(minLongitude),
-                        String.valueOf(maxLatitude),
-                        String.valueOf(maxLongitude)
-                }, BucksContract.TrafficFlowJoinLocation.COLUMN_TO_DESCRIPTOR);
-    }
-
     public static void deleteFromProvider(@NonNull Context context, @DataType int dataType) {
         ContentResolver contentResolver = context.getContentResolver();
         switch (dataType) {
             case DATA_TYPE_CAR_PARK:
                 contentResolver.delete(BucksProvider.CAR_PARK_URI, null, null);
-                break;
-            case DATA_TYPE_SEGMENT_LOCATION:
-                contentResolver.delete(BucksProvider.SEGMENT_LOCATION_URI, null, null);
                 break;
             case DATA_TYPE_TRAFFIC_FLOW:
                 contentResolver.delete(BucksProvider.TRAFFIC_FLOW_URI, null, null);

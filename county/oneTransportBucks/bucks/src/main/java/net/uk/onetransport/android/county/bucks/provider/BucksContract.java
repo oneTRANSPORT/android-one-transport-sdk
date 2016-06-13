@@ -20,18 +20,6 @@ public class BucksContract {
                     + CarPark.COLUMN_LATITUDE + " REAL NOT NULL,"
                     + CarPark.COLUMN_LONGITUDE + " REAL NOT NULL"
                     + ");";
-    public static final String CREATE_SEGMENT_LOCATION_TABLE =
-            "CREATE TABLE IF NOT EXISTS " + SegmentLocation.TABLE_NAME + " ("
-                    + SegmentLocation._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-                    + SegmentLocation.COLUMN_LOCATION_ID + " TEXT NOT NULL,"
-                    + SegmentLocation.COLUMN_FROM_LATITUDE + " REAL NOT NULL,"
-                    + SegmentLocation.COLUMN_FROM_LONGITUDE + " REAL NOT NULL,"
-                    + SegmentLocation.COLUMN_TO_LATITUDE + " REAL NOT NULL,"
-                    + SegmentLocation.COLUMN_TO_LONGITUDE + " REAL NOT NULL,"
-                    + SegmentLocation.COLUMN_FROM_DESCRIPTOR + " TEXT NOT NULL,"
-                    + SegmentLocation.COLUMN_TO_DESCRIPTOR + " TEXT NOT NULL,"
-                    + SegmentLocation.COLUMN_TPEG_DIRECTION + " TEXT NOT NULL"
-                    + ");";
     public static final String CREATE_VARIABLE_MESSAGE_SIGN_TABLE =
             "CREATE TABLE IF NOT EXISTS " + VariableMessageSign.TABLE_NAME + " ("
                     + VariableMessageSign._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -49,7 +37,14 @@ public class BucksContract {
     public static final String CREATE_TRAFFIC_FLOW_TABLE =
             "CREATE TABLE IF NOT EXISTS " + TrafficFlow.TABLE_NAME + " ("
                     + TrafficFlow._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-                    + TrafficFlow.COLUMN_LOCATION_REFERENCE + " TEXT NOT NULL,"
+                    + TrafficFlow.COLUMN_LOCATION_ID + " TEXT NOT NULL,"
+                    + TrafficFlow.COLUMN_FROM_DESCRIPTOR + " TEXT,"
+                    + TrafficFlow.COLUMN_TO_DESCRIPTOR + " TEXT,"
+                    + TrafficFlow.COLUMN_TPEG_DIRECTION + " TEXT,"
+                    + TrafficFlow.COLUMN_FROM_LATITUDE + " REAL,"
+                    + TrafficFlow.COLUMN_FROM_LONGITUDE + " REAL,"
+                    + TrafficFlow.COLUMN_TO_LATITUDE + " REAL,"
+                    + TrafficFlow.COLUMN_TO_LONGITUDE + " REAL,"
                     + TrafficFlow.COLUMN_VEHICLE_FLOW + " INTEGER,"
                     + TrafficFlow.COLUMN_AVERAGE_VEHICLE_SPEED + " REAL,"
                     + TrafficFlow.COLUMN_TRAVEL_TIME + " INTEGER,"
@@ -60,7 +55,10 @@ public class BucksContract {
                     + TrafficFlow.COLUMN_AVERAGE_SPEED + " REAL,"
                     + TrafficFlow.COLUMN_LINK_STATUS + " TEXT,"
                     + TrafficFlow.COLUMN_LINK_STATUS_TYPE + " TEXT,"
-                    + TrafficFlow.COLUMN_LINK_TRAVEL_TIME + " TEXT"
+                    + TrafficFlow.COLUMN_LINK_TRAVEL_TIME + " TEXT,"
+                    + TrafficFlow.COLUMN_OCCUPANCY + " TEXT," // TODO    Check types.
+                    + TrafficFlow.COLUMN_QUEUE_PRESENT + " TEXT,"
+                    + TrafficFlow.COLUMN_QUEUE_SEVERITY + " TEXT"
                     + ");";
     public static final String CREATE_ROAD_WORKS_TABLE =
             "CREATE TABLE IF NOT EXISTS " + RoadWorks.TABLE_NAME + " ("
@@ -83,33 +81,6 @@ public class BucksContract {
                     + LastUpdated.COLUMN_LAST_UPDATE_MILLIS + " INTEGER NOT NULL"
                     + ");";
 
-    // Views using location as a key.
-    public static final String CREATE_TRAFFIC_FLOW_LOCATION_VIEW =
-            "CREATE VIEW IF NOT EXISTS " + TrafficFlowJoinLocation.TABLE_NAME + " AS SELECT "
-                    + TrafficFlow.TABLE_NAME + "." + TrafficFlow._ID
-                    + " as " + TrafficFlow._ID + ","
-                    + TrafficFlowJoinLocation.COLUMN_VEHICLE_FLOW + ","
-                    + TrafficFlowJoinLocation.COLUMN_AVERAGE_VEHICLE_SPEED + ","
-                    + TrafficFlowJoinLocation.COLUMN_TRAVEL_TIME + ","
-                    + TrafficFlowJoinLocation.COLUMN_FREE_FLOW_SPEED + ","
-                    + TrafficFlowJoinLocation.COLUMN_FREE_FLOW_TRAVEL_TIME + ","
-                    + TrafficFlowJoinLocation.COLUMN_FROM_LATITUDE + ","
-                    + TrafficFlowJoinLocation.COLUMN_FROM_LONGITUDE + ","
-                    + TrafficFlowJoinLocation.COLUMN_TO_LATITUDE + ","
-                    + TrafficFlowJoinLocation.COLUMN_TO_LONGITUDE + ","
-                    + TrafficFlowJoinLocation.COLUMN_FROM_DESCRIPTOR + ","
-                    + TrafficFlowJoinLocation.COLUMN_TO_DESCRIPTOR + ","
-                    + TrafficFlowJoinLocation.COLUMN_TPEG_DIRECTION + ","
-                    + TrafficFlowJoinLocation.COLUMN_CONGESTION_PERCENT + ","
-                    + TrafficFlowJoinLocation.COLUMN_CURRENT_FLOW + ","
-                    + TrafficFlowJoinLocation.COLUMN_AVERAGE_SPEED + ","
-                    + TrafficFlowJoinLocation.COLUMN_LINK_STATUS + ","
-                    + TrafficFlowJoinLocation.COLUMN_LINK_STATUS_TYPE + ","
-                    + TrafficFlowJoinLocation.COLUMN_LINK_TRAVEL_TIME
-                    + " FROM " + TrafficFlow.TABLE_NAME + "," + SegmentLocation.TABLE_NAME
-                    + " WHERE " + TrafficFlow.COLUMN_LOCATION_REFERENCE
-                    + "=" + SegmentLocation.COLUMN_LOCATION_ID + ";";
-
     private BucksContract() {
     }
 
@@ -128,18 +99,6 @@ public class BucksContract {
         public static final String COLUMN_LONGITUDE = "longitude";
     }
 
-    public static final class SegmentLocation implements BaseColumns {
-        public static final String TABLE_NAME = "segment_location";
-        public static final String COLUMN_LOCATION_ID = "location_id";
-        public static final String COLUMN_FROM_LATITUDE = "from_latitude";
-        public static final String COLUMN_FROM_LONGITUDE = "from_longitude";
-        public static final String COLUMN_TO_LATITUDE = "to_latitude";
-        public static final String COLUMN_TO_LONGITUDE = "to_longitude";
-        public static final String COLUMN_FROM_DESCRIPTOR = "from_descriptor";
-        public static final String COLUMN_TO_DESCRIPTOR = "to_descriptor";
-        public static final String COLUMN_TPEG_DIRECTION = "tpeg_direction";
-    }
-
     public static final class VariableMessageSign implements BaseColumns {
         public static final String TABLE_NAME = "variable_message_sign";
         public static final String COLUMN_LOCATION_ID = "location_id";
@@ -156,7 +115,14 @@ public class BucksContract {
 
     public static final class TrafficFlow implements BaseColumns {
         public static final String TABLE_NAME = "traffic_flow";
-        public static final String COLUMN_LOCATION_REFERENCE = "location_reference";
+        public static final String COLUMN_LOCATION_ID = "location_id";
+        public static final String COLUMN_FROM_LATITUDE = "from_latitude";
+        public static final String COLUMN_FROM_LONGITUDE = "from_longitude";
+        public static final String COLUMN_TO_LATITUDE = "to_latitude";
+        public static final String COLUMN_TO_LONGITUDE = "to_longitude";
+        public static final String COLUMN_FROM_DESCRIPTOR = "from_descriptor";
+        public static final String COLUMN_TO_DESCRIPTOR = "to_descriptor";
+        public static final String COLUMN_TPEG_DIRECTION = "tpeg_direction";
         public static final String COLUMN_VEHICLE_FLOW = "vehicle_flow";
         public static final String COLUMN_AVERAGE_VEHICLE_SPEED = "average_vehicle_speed";
         public static final String COLUMN_TRAVEL_TIME = "travel_time";
@@ -168,6 +134,9 @@ public class BucksContract {
         public static final String COLUMN_LINK_STATUS = "link_status";
         public static final String COLUMN_LINK_STATUS_TYPE = "link_status_type";
         public static final String COLUMN_LINK_TRAVEL_TIME = "link_travel_time";
+        public static final String COLUMN_OCCUPANCY = "occupancy";
+        public static final String COLUMN_QUEUE_PRESENT = "queue_present";
+        public static final String COLUMN_QUEUE_SEVERITY = "queue_severity";
     }
 
     public static final class RoadWorks implements BaseColumns {
@@ -190,28 +159,6 @@ public class BucksContract {
     public static final class LastUpdated implements BaseColumns {
         public static final String TABLE_NAME = "last_updated";
         public static final String COLUMN_LAST_UPDATE_MILLIS = "last_update_millis";
-    }
-
-    public static final class TrafficFlowJoinLocation implements BaseColumns {
-        public static final String TABLE_NAME = "traffic_flow_join_location";
-        public static final String COLUMN_VEHICLE_FLOW = "vehicle_flow";
-        public static final String COLUMN_AVERAGE_VEHICLE_SPEED = "average_vehicle_speed";
-        public static final String COLUMN_TRAVEL_TIME = "travel_time";
-        public static final String COLUMN_FREE_FLOW_SPEED = "free_flow_speed";
-        public static final String COLUMN_FREE_FLOW_TRAVEL_TIME = "free_flow_travel_time";
-        public static final String COLUMN_FROM_LATITUDE = "from_latitude";
-        public static final String COLUMN_FROM_LONGITUDE = "from_longitude";
-        public static final String COLUMN_TO_LATITUDE = "to_latitude";
-        public static final String COLUMN_TO_LONGITUDE = "to_longitude";
-        public static final String COLUMN_FROM_DESCRIPTOR = "from_descriptor";
-        public static final String COLUMN_TO_DESCRIPTOR = "to_descriptor";
-        public static final String COLUMN_TPEG_DIRECTION = "tpeg_direction";
-        public static final String COLUMN_CONGESTION_PERCENT = "congestion_percent";
-        public static final String COLUMN_CURRENT_FLOW = "current_flow";
-        public static final String COLUMN_AVERAGE_SPEED = "average_speed";
-        public static final String COLUMN_LINK_STATUS = "link_status";
-        public static final String COLUMN_LINK_STATUS_TYPE = "link_status_type";
-        public static final String COLUMN_LINK_TRAVEL_TIME = "link_travel_time";
     }
 
 }

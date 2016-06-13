@@ -5,7 +5,21 @@ import com.google.gson.annotations.Expose;
 public class TrafficFlow {
 
     @Expose
-    private String locationReference;
+    private String locationId;
+    @Expose
+    private String fromDescriptor;
+    @Expose
+    private Double fromLatitude;
+    @Expose
+    private Double fromLongitude;
+    @Expose
+    private String toDescriptor;
+    @Expose
+    private Double toLatitude;
+    @Expose
+    private Double toLongitude;
+    @Expose
+    private String tpegDirection;
     @Expose
     private Integer vehicleFlow;
     @Expose
@@ -35,12 +49,68 @@ public class TrafficFlow {
     @Expose
     private String linkTravelTime;
 
-    public String getLocationReference() {
-        return locationReference;
+    public String getLocationId() {
+        return locationId;
     }
 
-    public void setLocationReference(String locationReference) {
-        this.locationReference = locationReference;
+    public void setLocationId(String locationId) {
+        this.locationId = locationId;
+    }
+
+    public String getFromDescriptor() {
+        return fromDescriptor;
+    }
+
+    public void setFromDescriptor(String fromDescriptor) {
+        this.fromDescriptor = fromDescriptor;
+    }
+
+    public Double getFromLatitude() {
+        return fromLatitude;
+    }
+
+    public void setFromLatitude(Double fromLatitude) {
+        this.fromLatitude = fromLatitude;
+    }
+
+    public Double getFromLongitude() {
+        return fromLongitude;
+    }
+
+    public void setFromLongitude(Double fromLongitude) {
+        this.fromLongitude = fromLongitude;
+    }
+
+    public String getToDescriptor() {
+        return toDescriptor;
+    }
+
+    public void setToDescriptor(String toDescriptor) {
+        this.toDescriptor = toDescriptor;
+    }
+
+    public Double getToLatitude() {
+        return toLatitude;
+    }
+
+    public void setToLatitude(Double toLatitude) {
+        this.toLatitude = toLatitude;
+    }
+
+    public Double getToLongitude() {
+        return toLongitude;
+    }
+
+    public void setToLongitude(Double toLongitude) {
+        this.toLongitude = toLongitude;
+    }
+
+    public String getTpegDirection() {
+        return tpegDirection;
+    }
+
+    public void setTpegDirection(String tpegDirection) {
+        this.tpegDirection = tpegDirection;
     }
 
     public Integer getVehicleFlow() {

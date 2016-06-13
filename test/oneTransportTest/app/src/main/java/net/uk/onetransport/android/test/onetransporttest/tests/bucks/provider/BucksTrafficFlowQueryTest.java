@@ -8,32 +8,32 @@ import net.uk.onetransport.android.county.bucks.provider.BucksContentHelper;
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
 import net.uk.onetransport.android.test.onetransporttest.tests.OneTransportTest;
 
-public class BucksTrafficFlowJoinQueryTest extends OneTransportTest {
+public class BucksTrafficFlowQueryTest extends OneTransportTest {
 
     private RunnerTask runnerTask;
 
     @Override
     public void start(RunnerTask runnerTask) throws Exception {
         this.runnerTask = runnerTask;
-        trafficFlowJoinLocationQuery();
+        trafficFlowQuery();
     }
 
     public void startAsync(DougalCallback dougalCallback) {
-        runnerTask.setCurrentTest("BUCKS traffic flow join location query");
+        runnerTask.setCurrentTest("BUCKS traffic flow query");
         dougalCallback.getResponse(null, new Exception("Not implemented"));
     }
 
-    private void trafficFlowJoinLocationQuery() throws Exception {
-        runnerTask.setCurrentTest("BUCKS traffic flow join location query");
-        Cursor cursor = BucksContentHelper.getTrafficFlowJoinLocations(runnerTask.getContext());
+    private void trafficFlowQuery() throws Exception {
+        runnerTask.setCurrentTest("BUCKS traffic flow query");
+        Cursor cursor = BucksContentHelper.getTrafficFlows(runnerTask.getContext());
         if (cursor != null) {
             if (cursor.getCount() > 0) {
-                runnerTask.report("BUCKS traffic flow join location query ... PASSED.", COLOUR_PASSED);
+                runnerTask.report("BUCKS traffic flow query ... PASSED.", COLOUR_PASSED);
                 cursor.close();
                 return;
             }
             cursor.close();
         }
-        runnerTask.report("BUCKS traffic flow join location query ... FAILED.", COLOUR_FAILED);
+        runnerTask.report("BUCKS traffic flow query ... FAILED.", COLOUR_FAILED);
     }
 }

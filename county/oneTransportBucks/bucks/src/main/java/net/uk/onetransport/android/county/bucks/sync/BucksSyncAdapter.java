@@ -9,10 +9,10 @@ import android.content.Context;
 import android.content.SyncResult;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 
 import net.uk.onetransport.android.county.bucks.R;
 import net.uk.onetransport.android.county.bucks.carparks.CarParkArray;
-import net.uk.onetransport.android.county.bucks.locations.SegmentLocationArray;
 import net.uk.onetransport.android.county.bucks.provider.BucksContentHelper;
 import net.uk.onetransport.android.county.bucks.provider.BucksDbHelper;
 import net.uk.onetransport.android.county.bucks.provider.BucksProvider;
@@ -54,19 +54,6 @@ public class BucksSyncAdapter extends AbstractThreadedSyncAdapter {
     public void onPerformSync(Account account, Bundle extras, String authority,
                               ContentProviderClient providerClient, SyncResult syncResult) {
         if (authority.equals(BucksProvider.AUTHORITY)) {
-            // Link segments.
-            if (extras.getBoolean(EXTRAS_TRAFFIC_FLOW, false)) {
-                try {
-                    SegmentLocationArray segmentLocationArray = SegmentLocationArray
-                            .getSegmentLocationArray(context);
-                    BucksContentHelper.deleteFromProvider(context,
-                            BucksContentHelper.DATA_TYPE_SEGMENT_LOCATION);
-                    BucksContentHelper.insertIntoProvider(context,
-                            segmentLocationArray.getSegmentLocations());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
             // Car parks.
             if (extras.getBoolean(EXTRAS_CAR_PARKS, false)) {
                 try {
@@ -125,6 +112,7 @@ public class BucksSyncAdapter extends AbstractThreadedSyncAdapter {
         File dbFile = new File(sqLiteDatabase.getPath());
         File exportDb = new File("/sdcard/bucks-db");
         copy(dbFile, exportDb);
+        Log.i("BucksSyncAdapter", "Copying DB.");
         // TODO    --------------------------------------------------
     }
 
