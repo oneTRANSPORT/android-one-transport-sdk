@@ -15,14 +15,15 @@ import net.uk.onetransport.android.county.bucks.authentication.CredentialHelper;
 public class TrafficFlowArray extends BaseArray implements DougalCallback {
 
     private static final String RETRIEVE_PATH_LINK = "FeedImportMerger/Link/All";
-    private static final String RETRIEVE_PATH_TR = "FeedImportMerger/Tr/All";
+    // The TR feed contains very little data at the moment.
+//    private static final String RETRIEVE_PATH_TR = "FeedImportMerger/Tr/All";
     private static final String RETRIEVE_PATH_SECTION = "FeedImportMerger/Section/All";
 
     private TrafficFlow[] trafficFlows;
     private TrafficFlowArrayCallback trafficFlowArrayCallback;
     private int id;
     private int completed = 0;
-    private ContentInstance[] contentInstances = new ContentInstance[3];
+    private ContentInstance[] contentInstances = new ContentInstance[2];
 
     public TrafficFlowArray() {
     }
@@ -40,18 +41,18 @@ public class TrafficFlowArray extends BaseArray implements DougalCallback {
                 RETRIEVE_PATH_LINK, userName, password);
         String content = contentInstance.getContent();
         TrafficFlow[] trafficFlowsLink = GSON.fromJson(content, TrafficFlow[].class);
-        contentInstance = Container.retrieveLatest(aeId, cseBaseUrl, RETRIEVE_PATH_TR,
-                userName, password);
-        content = contentInstance.getContent();
-        TrafficFlow[] trafficFlowsTr = GSON.fromJson(content, TrafficFlow[].class);
+// TR contains very little data so ignored for now.
+//        contentInstance = Container.retrieveLatest(aeId, cseBaseUrl, RETRIEVE_PATH_TR,
+//                userName, password);
+//        content = contentInstance.getContent();
+//        TrafficFlow[] trafficFlowsTr = GSON.fromJson(content, TrafficFlow[].class);
         contentInstance = Container.retrieveLatest(aeId, cseBaseUrl, RETRIEVE_PATH_SECTION,
                 userName, password);
         content = contentInstance.getContent();
         TrafficFlow[] trafficFlowsSection = GSON.fromJson(content, TrafficFlow[].class);
-        TrafficFlow[] trafficFlowsAll = mergeTrafficFlows(trafficFlowsLink, trafficFlowsTr, trafficFlowsSection);
+        TrafficFlow[] trafficFlowsAll = mergeTrafficFlows(trafficFlowsLink, trafficFlowsSection);
         return new TrafficFlowArray(trafficFlowsAll);
     }
-
 
     public static void getTrafficFlowArrayAsync(Context context,
                                                 TrafficFlowArrayCallback trafficFlowArrayCallback, int id) {
@@ -64,8 +65,9 @@ public class TrafficFlowArray extends BaseArray implements DougalCallback {
         String cseBaseUrl = context.getString(R.string.bucks_cse_base_url);
         Container.retrieveLatestAsync(aeId, cseBaseUrl, RETRIEVE_PATH_LINK, userName, password,
                 trafficFlowArray);
-        Container.retrieveLatestAsync(aeId, cseBaseUrl, RETRIEVE_PATH_TR, userName, password,
-                trafficFlowArray);
+// Removed for now.
+//        Container.retrieveLatestAsync(aeId, cseBaseUrl, RETRIEVE_PATH_TR, userName, password,
+//                trafficFlowArray);
         Container.retrieveLatestAsync(aeId, cseBaseUrl, RETRIEVE_PATH_SECTION, userName, password,
                 trafficFlowArray);
     }
@@ -76,14 +78,14 @@ public class TrafficFlowArray extends BaseArray implements DougalCallback {
             trafficFlowArrayCallback.onTrafficFlowArrayError(id, throwable);
         } else {
             contentInstances[completed++] = (ContentInstance) resource;
-            if (completed == 3) {
+            if (completed == 2) {
                 try {
-                    TrafficFlow[][] trafficFlowsAll = new TrafficFlow[3][];
-                    for (int i = 0; i < 3; i++) {
+                    TrafficFlow[][] trafficFlowsAll = new TrafficFlow[2][];
+                    for (int i = 0; i < 2; i++) {
                         String content = contentInstances[i].getContent();
                         trafficFlowsAll[i] = GSON.fromJson(content, TrafficFlow[].class);
                     }
-                    trafficFlows = mergeTrafficFlows(trafficFlowsAll[0], trafficFlowsAll[1], trafficFlowsAll[2]);
+                    trafficFlows = mergeTrafficFlows(trafficFlowsAll[0], trafficFlowsAll[1]);
                     trafficFlowArrayCallback.onTrafficFlowArrayReady(id, this);
                 } catch (Exception e) {
                     trafficFlowArrayCallback.onTrafficFlowArrayError(id, e);
@@ -102,13 +104,12 @@ public class TrafficFlowArray extends BaseArray implements DougalCallback {
 
     @NonNull
     private static TrafficFlow[] mergeTrafficFlows(TrafficFlow[] trafficFlowsLink,
-                                                   TrafficFlow[] trafficFlowsTr, TrafficFlow[] trafficFlowsSection) {
-        TrafficFlow[] trafficFlowsAll = new TrafficFlow[trafficFlowsLink.length + trafficFlowsTr.length
+                                                   TrafficFlow[] trafficFlowsSection) {
+        TrafficFlow[] trafficFlowsAll = new TrafficFlow[trafficFlowsLink.length
                 + trafficFlowsSection.length];
         System.arraycopy(trafficFlowsLink, 0, trafficFlowsAll, 0, trafficFlowsLink.length);
-        System.arraycopy(trafficFlowsTr, 0, trafficFlowsAll, trafficFlowsLink.length, trafficFlowsTr.length);
-        System.arraycopy(trafficFlowsSection, 0, trafficFlowsAll,
-                trafficFlowsLink.length + trafficFlowsTr.length, trafficFlowsSection.length);
+        System.arraycopy(trafficFlowsSection, 0, trafficFlowsAll, trafficFlowsLink.length,
+                trafficFlowsSection.length);
         return trafficFlowsAll;
     }
 }
