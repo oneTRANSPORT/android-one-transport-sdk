@@ -231,35 +231,13 @@ public class BucksContentHelper {
 
     public static Cursor getCarParks(@NonNull Context context) {
         return context.getContentResolver().query(BucksProvider.CAR_PARK_URI,
-                new String[]{
-                        BucksContract.CarPark._ID,
-                        BucksContract.CarPark.COLUMN_CAR_PARK_IDENTITY,
-                        BucksContract.CarPark.COLUMN_TOTAL_PARKING_CAPACITY,
-                        BucksContract.CarPark.COLUMN_ALMOST_FULL_DECREASING,
-                        BucksContract.CarPark.COLUMN_ALMOST_FULL_INCREASING,
-                        BucksContract.CarPark.COLUMN_FULL_DECREASING,
-                        BucksContract.CarPark.COLUMN_FULL_INCREASING,
-                        BucksContract.CarPark.COLUMN_ENTRANCE_FULL,
-                        BucksContract.CarPark.COLUMN_LATITUDE,
-                        BucksContract.CarPark.COLUMN_LONGITUDE
-                }, null, null, BucksContract.CarPark.COLUMN_CAR_PARK_IDENTITY);
+                new String[]{"*"}, null, null, BucksContract.CarPark.COLUMN_CAR_PARK_IDENTITY);
     }
 
     public static Cursor getCarParks(@NonNull Context context, double minLatitude, double minLongitude,
                                      double maxLatitude, double maxLongitude) {
         return context.getContentResolver().query(BucksProvider.CAR_PARK_URI,
-                new String[]{
-                        BucksContract.CarPark._ID,
-                        BucksContract.CarPark.COLUMN_CAR_PARK_IDENTITY,
-                        BucksContract.CarPark.COLUMN_TOTAL_PARKING_CAPACITY,
-                        BucksContract.CarPark.COLUMN_ALMOST_FULL_DECREASING,
-                        BucksContract.CarPark.COLUMN_ALMOST_FULL_INCREASING,
-                        BucksContract.CarPark.COLUMN_FULL_DECREASING,
-                        BucksContract.CarPark.COLUMN_FULL_INCREASING,
-                        BucksContract.CarPark.COLUMN_ENTRANCE_FULL,
-                        BucksContract.CarPark.COLUMN_LATITUDE,
-                        BucksContract.CarPark.COLUMN_LONGITUDE
-                }, LAT_LON_BOX, new String[]{
+                new String[]{"*"}, LAT_LON_BOX, new String[]{
                         String.valueOf(minLatitude),
                         String.valueOf(minLongitude),
                         String.valueOf(maxLatitude),
@@ -269,61 +247,13 @@ public class BucksContentHelper {
 
     public static Cursor getTrafficFlows(@NonNull Context context) {
         return context.getContentResolver().query(BucksProvider.TRAFFIC_FLOW_URI,
-                new String[]{
-                        BucksContract.TrafficFlow._ID,
-                        BucksContract.TrafficFlow.COLUMN_LOCATION_ID,
-                        BucksContract.TrafficFlow.COLUMN_VEHICLE_FLOW,
-                        BucksContract.TrafficFlow.COLUMN_AVERAGE_VEHICLE_SPEED,
-                        BucksContract.TrafficFlow.COLUMN_TRAVEL_TIME,
-                        BucksContract.TrafficFlow.COLUMN_FREE_FLOW_SPEED,
-                        BucksContract.TrafficFlow.COLUMN_FREE_FLOW_TRAVEL_TIME,
-                        BucksContract.TrafficFlow.COLUMN_CONGESTION_PERCENT,
-                        BucksContract.TrafficFlow.COLUMN_CURRENT_FLOW,
-                        BucksContract.TrafficFlow.COLUMN_AVERAGE_SPEED,
-                        BucksContract.TrafficFlow.COLUMN_LINK_STATUS,
-                        BucksContract.TrafficFlow.COLUMN_LINK_STATUS_TYPE,
-                        BucksContract.TrafficFlow.COLUMN_LINK_TRAVEL_TIME,
-                        BucksContract.TrafficFlow.COLUMN_QUEUE_PRESENT,
-                        BucksContract.TrafficFlow.COLUMN_QUEUE_SEVERITY,
-                        BucksContract.TrafficFlow.COLUMN_OCCUPANCY,
-                        BucksContract.TrafficFlow.COLUMN_TO_LATITUDE,
-                        BucksContract.TrafficFlow.COLUMN_TO_LONGITUDE,
-                        BucksContract.TrafficFlow.COLUMN_FROM_LATITUDE,
-                        BucksContract.TrafficFlow.COLUMN_FROM_LONGITUDE,
-                        BucksContract.TrafficFlow.COLUMN_TO_DESCRIPTOR,
-                        BucksContract.TrafficFlow.COLUMN_FROM_DESCRIPTOR,
-                        BucksContract.TrafficFlow.COLUMN_TPEG_DIRECTION
-                }, null, null, BucksContract.TrafficFlow.COLUMN_LOCATION_ID);
+                new String[]{"*"}, null, null, BucksContract.TrafficFlow.COLUMN_LOCATION_ID);
     }
 
     public static Cursor getTrafficFlows(@NonNull Context context, double minLatitude,
                                          double minLongitude, double maxLatitude, double maxLongitude) {
         return context.getContentResolver().query(BucksProvider.TRAFFIC_FLOW_URI,
-                new String[]{ // TODO    Use "*".
-                        BucksContract.TrafficFlow._ID,
-                        BucksContract.TrafficFlow.COLUMN_LOCATION_ID,
-                        BucksContract.TrafficFlow.COLUMN_VEHICLE_FLOW,
-                        BucksContract.TrafficFlow.COLUMN_AVERAGE_VEHICLE_SPEED,
-                        BucksContract.TrafficFlow.COLUMN_TRAVEL_TIME,
-                        BucksContract.TrafficFlow.COLUMN_FREE_FLOW_SPEED,
-                        BucksContract.TrafficFlow.COLUMN_FREE_FLOW_TRAVEL_TIME,
-                        BucksContract.TrafficFlow.COLUMN_CONGESTION_PERCENT,
-                        BucksContract.TrafficFlow.COLUMN_CURRENT_FLOW,
-                        BucksContract.TrafficFlow.COLUMN_AVERAGE_SPEED,
-                        BucksContract.TrafficFlow.COLUMN_LINK_STATUS,
-                        BucksContract.TrafficFlow.COLUMN_LINK_STATUS_TYPE,
-                        BucksContract.TrafficFlow.COLUMN_LINK_TRAVEL_TIME,
-                        BucksContract.TrafficFlow.COLUMN_QUEUE_PRESENT,
-                        BucksContract.TrafficFlow.COLUMN_QUEUE_SEVERITY,
-                        BucksContract.TrafficFlow.COLUMN_OCCUPANCY,
-                        BucksContract.TrafficFlow.COLUMN_TO_LATITUDE,
-                        BucksContract.TrafficFlow.COLUMN_TO_LONGITUDE,
-                        BucksContract.TrafficFlow.COLUMN_FROM_LATITUDE,
-                        BucksContract.TrafficFlow.COLUMN_FROM_LONGITUDE,
-                        BucksContract.TrafficFlow.COLUMN_TO_DESCRIPTOR,
-                        BucksContract.TrafficFlow.COLUMN_FROM_DESCRIPTOR,
-                        BucksContract.TrafficFlow.COLUMN_TPEG_DIRECTION
-                }, LAT_LON_TO_FROM_BOX, new String[]{
+                new String[]{"*"}, LAT_LON_TO_FROM_BOX, new String[]{
                         String.valueOf(minLatitude),
                         String.valueOf(minLongitude),
                         String.valueOf(maxLatitude),
@@ -337,37 +267,13 @@ public class BucksContentHelper {
 
     public static Cursor getVariableMessageSigns(@NonNull Context context) {
         return context.getContentResolver().query(BucksProvider.VARIABLE_MESSAGE_SIGN_URI,
-                new String[]{
-                        BucksContract.VariableMessageSign._ID,
-                        BucksContract.VariableMessageSign.COLUMN_LOCATION_ID,
-                        BucksContract.VariableMessageSign.COLUMN_NAME,
-                        BucksContract.VariableMessageSign.COLUMN_NUMBER_OF_CHARACTERS,
-                        BucksContract.VariableMessageSign.COLUMN_NUMBER_OF_ROWS,
-                        BucksContract.VariableMessageSign.COLUMN_VMS_LEGENDS,
-                        BucksContract.VariableMessageSign.COLUMN_VMS_TYPE,
-                        BucksContract.VariableMessageSign.COLUMN_LATITUDE,
-                        BucksContract.VariableMessageSign.COLUMN_LONGITUDE,
-                        BucksContract.VariableMessageSign.COLUMN_DESCRIPTOR,
-                        BucksContract.VariableMessageSign.COLUMN_TPEG_DIRECTION
-                }, null, null, BucksContract.VariableMessageSign.COLUMN_NAME);
+                new String[]{"*"}, null, null, BucksContract.VariableMessageSign.COLUMN_NAME);
     }
 
     public static Cursor getVariableMessageSigns(@NonNull Context context, double minLatitude,
                                                  double minLongitude, double maxLatitude, double maxLongitude) {
         return context.getContentResolver().query(BucksProvider.VARIABLE_MESSAGE_SIGN_URI,
-                new String[]{
-                        BucksContract.VariableMessageSign._ID,
-                        BucksContract.VariableMessageSign.COLUMN_LOCATION_ID,
-                        BucksContract.VariableMessageSign.COLUMN_NAME,
-                        BucksContract.VariableMessageSign.COLUMN_NUMBER_OF_CHARACTERS,
-                        BucksContract.VariableMessageSign.COLUMN_NUMBER_OF_ROWS,
-                        BucksContract.VariableMessageSign.COLUMN_VMS_LEGENDS,
-                        BucksContract.VariableMessageSign.COLUMN_VMS_TYPE,
-                        BucksContract.VariableMessageSign.COLUMN_LATITUDE,
-                        BucksContract.VariableMessageSign.COLUMN_LONGITUDE,
-                        BucksContract.VariableMessageSign.COLUMN_DESCRIPTOR,
-                        BucksContract.VariableMessageSign.COLUMN_TPEG_DIRECTION
-                }, LAT_LON_BOX, new String[]{
+                new String[]{"*"}, LAT_LON_BOX, new String[]{
                         String.valueOf(minLatitude),
                         String.valueOf(minLongitude),
                         String.valueOf(maxLatitude),
@@ -377,41 +283,13 @@ public class BucksContentHelper {
 
     public static Cursor getRoadWorks(@NonNull Context context) {
         return context.getContentResolver().query(BucksProvider.ROAD_WORKS_URI,
-                new String[]{
-                        BucksContract.RoadWorks.COLUMN_ID,
-                        BucksContract.RoadWorks.COLUMN_COMMENT,
-                        BucksContract.RoadWorks.COLUMN_EFFECT_ON_ROAD_LAYOUT,
-                        BucksContract.RoadWorks.COLUMN_ROAD_MAINTENANCE_TYPE,
-                        BucksContract.RoadWorks.COLUMN_IMPACT_ON_TRAFFIC,
-                        BucksContract.RoadWorks.COLUMN_TYPE,
-                        BucksContract.RoadWorks.COLUMN_STATUS,
-                        BucksContract.RoadWorks.COLUMN_OVERALL_START_TIME,
-                        BucksContract.RoadWorks.COLUMN_OVERALL_END_TIME,
-                        BucksContract.RoadWorks.COLUMN_PERIODS,
-                        BucksContract.RoadWorks.COLUMN_LOCATION_DESCRIPTION,
-                        BucksContract.RoadWorks.COLUMN_LATITUDE,
-                        BucksContract.RoadWorks.COLUMN_LONGITUDE
-                }, null, null, BucksContract.RoadWorks.COLUMN_ID);
+                new String[]{"*"}, null, null, BucksContract.RoadWorks.COLUMN_ID);
     }
 
     public static Cursor getRoadWorks(@NonNull Context context, double minLatitude,
                                       double minLongitude, double maxLatitude, double maxLongitude) {
         return context.getContentResolver().query(BucksProvider.ROAD_WORKS_URI,
-                new String[]{
-                        BucksContract.RoadWorks.COLUMN_ID,
-                        BucksContract.RoadWorks.COLUMN_COMMENT,
-                        BucksContract.RoadWorks.COLUMN_EFFECT_ON_ROAD_LAYOUT,
-                        BucksContract.RoadWorks.COLUMN_ROAD_MAINTENANCE_TYPE,
-                        BucksContract.RoadWorks.COLUMN_IMPACT_ON_TRAFFIC,
-                        BucksContract.RoadWorks.COLUMN_TYPE,
-                        BucksContract.RoadWorks.COLUMN_STATUS,
-                        BucksContract.RoadWorks.COLUMN_OVERALL_START_TIME,
-                        BucksContract.RoadWorks.COLUMN_OVERALL_END_TIME,
-                        BucksContract.RoadWorks.COLUMN_PERIODS,
-                        BucksContract.RoadWorks.COLUMN_LOCATION_DESCRIPTION,
-                        BucksContract.RoadWorks.COLUMN_LATITUDE,
-                        BucksContract.RoadWorks.COLUMN_LONGITUDE
-                }, LAT_LON_BOX, new String[]{
+                new String[]{"*"}, LAT_LON_BOX, new String[]{
                         String.valueOf(minLatitude),
                         String.valueOf(minLongitude),
                         String.valueOf(maxLatitude),
