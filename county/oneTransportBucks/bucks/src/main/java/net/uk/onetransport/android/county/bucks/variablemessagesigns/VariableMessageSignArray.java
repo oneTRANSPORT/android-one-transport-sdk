@@ -14,8 +14,7 @@ import net.uk.onetransport.android.county.bucks.storage.Prefs;
 
 public class VariableMessageSignArray extends BaseArray implements DougalCallback {
 
-//    private static final String RETRIEVE_PATH = "BCCSignSettingFeedImport/All";
-    private static final String RETRIEVE_PATH = "FeedImportMerger/Vms/All";
+    private static final String RETRIEVE_PATH = "BCCFeedImportMerger/Vms/All";
 
     private VariableMessageSign[] variableMessageSigns;
     private VariableMessageSignArrayCallback variableMessageSignArrayCallback;

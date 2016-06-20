@@ -14,10 +14,10 @@ import net.uk.onetransport.android.county.bucks.authentication.CredentialHelper;
 
 public class TrafficFlowArray extends BaseArray implements DougalCallback {
 
-    private static final String RETRIEVE_PATH_LINK = "FeedImportMerger/Link/All";
+    private static final String RETRIEVE_PATH_LINK = "BCCFeedImportMerger/Link/All";
     // The TR feed contains very little data at the moment.
 //    private static final String RETRIEVE_PATH_TR = "FeedImportMerger/Tr/All";
-    private static final String RETRIEVE_PATH_SECTION = "FeedImportMerger/Section/All";
+    private static final String RETRIEVE_PATH_SECTION = "BCCFeedImportMerger/Section/All";
 
     private TrafficFlow[] trafficFlows;
     private TrafficFlowArrayCallback trafficFlowArrayCallback;
