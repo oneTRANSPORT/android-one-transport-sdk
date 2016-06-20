@@ -13,9 +13,9 @@ public abstract class OneTransportTest {
     public static final String PASSWORD = "EKFYGUCC";
     //    String USER_NAME = "android";
 //    String PASSWORD = "DompAdtem9";
-    public static final String CSE_BASE = "cse-05.onetransport.uk.net";
+    public static final String CSE_BASE = "cse-01.onetransport.uk.net";
     //    String CSE_ID = "ONET-CSE-05";
-    public static final String CSE_NAME = "ONETCSE05";
+    public static final String CSE_NAME = "ONETCSE01";
 
     public static final String BASE_URL = "https://" + CSE_BASE + "/";
 
