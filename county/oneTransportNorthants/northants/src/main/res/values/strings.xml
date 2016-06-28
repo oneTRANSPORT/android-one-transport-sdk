@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">oneTransport Northants SDK</string>
+    <string name="provider_authority">net.uk.onetransport.android.county.northants.provider</string>
+    <string name="sync_account_type">northants.county.android.onetransport.uk.net</string>
+    <string name="northants_ae_id">C-TEST-ORANGE</string>
+    <string name="northants_base_url">https://cse-01.onetransport.uk.net/</string>
+    <string name="northants_cse_name">ONETCSE01</string>
+    <string name="northants_cse_base_url">https://cse-01.onetransport.uk.net/ONETCSE01/</string>
+    <string name="one_transport_app_name">SampleApp-</string>
+</resources>
