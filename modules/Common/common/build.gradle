@@ -2,7 +2,7 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    buildToolsVersion "24.0.0"
 
     defaultConfig {
         minSdkVersion 15
@@ -18,7 +18,7 @@ android {
     }
 }
 
-repositories {
+ repositories {
     flatDir {
         dirs 'libs'
     }
@@ -27,9 +27,8 @@ repositories {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.1.1'
+    compile 'com.android.support:appcompat-v7:23.4.0'
     compile 'com.interdigital.android:dougal-debug:1.0.0@aar'
-    compile 'com.interdigital.android.modules:common-debug:1.0.0@aar'
     compile 'com.google.code.gson:gson:2.5'
     compile 'com.squareup.retrofit2:retrofit:2.0.1'
     compile 'com.squareup.retrofit2:converter-gson:2.0.1'

@@ -76,10 +76,6 @@ public class BucksContract {
                     + RoadWorks.COLUMN_LATITUDE + " REAL,"
                     + RoadWorks.COLUMN_LONGITUDE + " REAL"
                     + ");";
-    public static final String CREATE_LAST_UPDATED_TABLE =
-            "CREATE TABLE IF NOT EXISTS " + LastUpdated.TABLE_NAME + " ("
-                    + LastUpdated.COLUMN_LAST_UPDATE_MILLIS + " INTEGER NOT NULL"
-                    + ");";
 
     private BucksContract() {
     }
@@ -155,10 +151,4 @@ public class BucksContract {
         public static final String COLUMN_LATITUDE = "latitude";
         public static final String COLUMN_LONGITUDE = "longitude";
     }
-
-    public static final class LastUpdated implements BaseColumns {
-        public static final String TABLE_NAME = "last_updated";
-        public static final String COLUMN_LAST_UPDATE_MILLIS = "last_update_millis";
-    }
-
 }
