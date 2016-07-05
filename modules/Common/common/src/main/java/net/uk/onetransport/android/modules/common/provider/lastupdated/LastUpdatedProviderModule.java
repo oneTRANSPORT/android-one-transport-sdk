@@ -17,7 +17,7 @@ import static net.uk.onetransport.android.modules.common.provider.lastupdated.La
 
 public class LastUpdatedProviderModule implements ProviderModule {
 
-    private static Uri LAST_UPDATED_URI;
+    public static Uri LAST_UPDATED_URI;
     // Uri matching
     private static int LAST_UPDATED;
     private static int LAST_UPDATED_ID;
