@@ -12,7 +12,7 @@ public class CommonDbHelper extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "bucks-db";
 
-    private HashSet<ProviderModule> providerModuleSet=new HashSet<>();
+    private HashSet<ProviderModule> providerModuleSet = new HashSet<>();
 
     public CommonDbHelper(Context context, ArrayList<ProviderModule> providerModules) {
         super(context, DB_NAME, null, 1);
@@ -21,8 +21,6 @@ public class CommonDbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        sqLiteDatabase.execSQL(CommonContract.CREATE_LAST_UPDATED_TABLE);
-        sqLiteDatabase.execSQL(CommonContract.INIT_LAST_UPDATED);
         for (ProviderModule module : providerModuleSet) {
             module.createDatabase(sqLiteDatabase);
         }

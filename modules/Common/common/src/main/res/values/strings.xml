@@ -7,4 +7,6 @@
     <string name="bucks_cse_name">ONETCSE01</string>
     <string name="bucks_cse_base_url">https://cse-01.onetransport.uk.net/ONETCSE01/</string>
     <string name="one_transport_app_name">SampleApp-</string>
+    <string name="error_insert_not_allowed">Insert not allowed into </string>
+    <string name="error_delete_not_allowed">Delete not allowed from </string>
 </resources>
