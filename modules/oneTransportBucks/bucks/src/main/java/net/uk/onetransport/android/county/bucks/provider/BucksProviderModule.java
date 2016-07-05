@@ -3,11 +3,11 @@ package net.uk.onetransport.android.county.bucks.provider;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
-import android.support.annotation.NonNull;
 
 import net.uk.onetransport.android.modules.common.provider.ProviderModule;
 
@@ -34,6 +34,12 @@ public class BucksProviderModule implements ProviderModule {
     private static int TRAFFIC_FLOW_ID;
     private static int ROAD_WORKS;
     private static int ROAD_WORKS_ID;
+
+    private Context context;
+
+    public BucksProviderModule(Context context) {
+        this.context = context;
+    }
 
     @Override
     public void createDatabase(SQLiteDatabase sqLiteDatabase) {
@@ -111,43 +117,162 @@ public class BucksProviderModule implements ProviderModule {
     }
 
     @Override
-    public Uri insert(int match, ContentValues contentValues) {
+    public Uri insert(int match, ContentValues contentValues, SQLiteDatabase sqLiteDatabase) {
         long id;
-        SQLiteDatabase db = bucksDbHelper.getWritableDatabase();
-        ContentResolver contentResolver = getContext().getContentResolver();
-        switch (uriMatcher.match(uri)) {
-            case CAR_PARKS:
-                id = db.insert(CarPark.TABLE_NAME, null, contentValues);
-                contentResolver.notifyChange(CAR_PARK_URI, null);
-                return ContentUris.withAppendedId(CAR_PARK_URI, id);
-            case VARIABLE_MESSAGE_SIGNS:
-                id = db.insert(VariableMessageSign.TABLE_NAME, null, contentValues);
-                contentResolver.notifyChange(VARIABLE_MESSAGE_SIGN_URI, null);
-                return ContentUris.withAppendedId(VARIABLE_MESSAGE_SIGN_URI, id);
-            case TRAFFIC_FLOWS:
-                id = db.insert(TrafficFlow.TABLE_NAME, null, contentValues);
-                contentResolver.notifyChange(TRAFFIC_FLOW_URI, null);
-                return ContentUris.withAppendedId(TRAFFIC_FLOW_URI, id);
-            case ROAD_WORKS:
-                id = db.insert(RoadWorks.TABLE_NAME, null, contentValues);
-                contentResolver.notifyChange(ROAD_WORKS_URI, null);
-                return ContentUris.withAppendedId(ROAD_WORKS_URI, id);
+        ContentResolver contentResolver = context.getContentResolver();
+        if (match == CAR_PARKS) {
+            id = sqLiteDatabase.insert(CarPark.TABLE_NAME, null, contentValues);
+            contentResolver.notifyChange(CAR_PARK_URI, null);
+            return ContentUris.withAppendedId(CAR_PARK_URI, id);
+        }
+        if (match == VARIABLE_MESSAGE_SIGNS) {
+            id = sqLiteDatabase.insert(VariableMessageSign.TABLE_NAME, null, contentValues);
+            contentResolver.notifyChange(VARIABLE_MESSAGE_SIGN_URI, null);
+            return ContentUris.withAppendedId(VARIABLE_MESSAGE_SIGN_URI, id);
+        }
+        if (match == TRAFFIC_FLOWS) {
+            id = sqLiteDatabase.insert(TrafficFlow.TABLE_NAME, null, contentValues);
+            contentResolver.notifyChange(TRAFFIC_FLOW_URI, null);
+            return ContentUris.withAppendedId(TRAFFIC_FLOW_URI, id);
+        }
+        if (match == ROAD_WORKS) {
+            id = sqLiteDatabase.insert(RoadWorks.TABLE_NAME, null, contentValues);
+            contentResolver.notifyChange(ROAD_WORKS_URI, null);
+            return ContentUris.withAppendedId(ROAD_WORKS_URI, id);
         }
         return null;
     }
 
     @Override
-    public Cursor query(@NonNull Uri uri, String[] strings, String s, String[] strings1, String s1) {
+    public Cursor query(Uri uri, int match, String[] projection, String selection, String[] selectionArgs,
+                        String sortOrder, SQLiteDatabase sqLiteDatabase) {
+        ContentResolver contentResolver = context.getContentResolver();
+        if (match == CAR_PARKS) {
+            Cursor cursor = sqLiteDatabase.query(CarPark.TABLE_NAME, projection,
+                    selection, selectionArgs, null, null, sortOrder);
+            cursor.setNotificationUri(contentResolver, CAR_PARK_URI);
+            return cursor;
+        }
+        if (match == CAR_PARK_ID) {
+            Cursor cursor = sqLiteDatabase.query(CarPark.TABLE_NAME, projection,
+                    CarPark._ID + "=?", new String[]{uri.getLastPathSegment()}, null, null, sortOrder);
+            cursor.setNotificationUri(contentResolver, CAR_PARK_URI);
+            return cursor;
+        }
+        if (match == VARIABLE_MESSAGE_SIGNS) {
+            Cursor cursor = sqLiteDatabase.query(VariableMessageSign.TABLE_NAME, projection,
+                    selection, selectionArgs, null, null, sortOrder);
+            cursor.setNotificationUri(contentResolver, VARIABLE_MESSAGE_SIGN_URI);
+            return cursor;
+        }
+        if (match == VARIABLE_MESSAGE_SIGN_ID) {
+            Cursor cursor = sqLiteDatabase.query(VariableMessageSign.TABLE_NAME, projection,
+                    VariableMessageSign._ID + "=?", new String[]{uri.getLastPathSegment()}, null, null,
+                    sortOrder);
+            cursor.setNotificationUri(contentResolver, VARIABLE_MESSAGE_SIGN_URI);
+            return cursor;
+        }
+        if (match == TRAFFIC_FLOWS) {
+            Cursor cursor = sqLiteDatabase.query(TrafficFlow.TABLE_NAME, projection,
+                    selection, selectionArgs, null, null, sortOrder);
+            cursor.setNotificationUri(contentResolver, TRAFFIC_FLOW_URI);
+            return cursor;
+        }
+        if (match == TRAFFIC_FLOW_ID) {
+            Cursor cursor = sqLiteDatabase.query(TrafficFlow.TABLE_NAME, projection,
+                    TrafficFlow._ID + "=?", new String[]{uri.getLastPathSegment()}, null, null,
+                    sortOrder);
+            cursor.setNotificationUri(contentResolver, TRAFFIC_FLOW_URI);
+            return cursor;
+        }
+        if (match == ROAD_WORKS) {
+            Cursor cursor = sqLiteDatabase.query(RoadWorks.TABLE_NAME, projection,
+                    selection, selectionArgs, null, null, sortOrder);
+            cursor.setNotificationUri(contentResolver, ROAD_WORKS_URI);
+            return cursor;
+        }
+        if (match == ROAD_WORKS_ID) {
+            Cursor cursor = sqLiteDatabase.query(RoadWorks.TABLE_NAME, projection,
+                    RoadWorks._ID + "=?", new String[]{uri.getLastPathSegment()}, null, null,
+                    sortOrder);
+            cursor.setNotificationUri(contentResolver, ROAD_WORKS_URI);
+            return cursor;
+        }
         return null;
     }
 
     @Override
-    public int update(@NonNull Uri uri, ContentValues contentValues, String s, String[] strings) {
+    public int update(Uri uri, int match, ContentValues values, String selection, String[] selectionArgs,
+                      SQLiteDatabase sqLiteDatabase) {
+        ContentResolver contentResolver = context.getContentResolver();
+        if (match == CAR_PARKS) {
+            int rows = sqLiteDatabase.update(CarPark.TABLE_NAME, values, selection, selectionArgs);
+            contentResolver.notifyChange(CAR_PARK_URI, null);
+            return rows;
+        }
+        if (match == CAR_PARK_ID) {
+            int rows = sqLiteDatabase.update(CarPark.TABLE_NAME, values, CarPark._ID + "=?",
+                    new String[]{uri.getLastPathSegment()});
+            contentResolver.notifyChange(CAR_PARK_URI, null);
+            return rows;
+        }
+        if (match == VARIABLE_MESSAGE_SIGNS) {
+            int rows = sqLiteDatabase.update(VariableMessageSign.TABLE_NAME, values, selection,
+                    selectionArgs);
+            contentResolver.notifyChange(VARIABLE_MESSAGE_SIGN_URI, null);
+            return rows;
+        }
+        if (match == VARIABLE_MESSAGE_SIGN_ID) {
+            int rows = sqLiteDatabase.update(VariableMessageSign.TABLE_NAME, values,
+                    VariableMessageSign._ID + "=?", new String[]{uri.getLastPathSegment()});
+            contentResolver.notifyChange(VARIABLE_MESSAGE_SIGN_URI, null);
+            return rows;
+        }
+        if (match == TRAFFIC_FLOWS) {
+            int rows = sqLiteDatabase.update(TrafficFlow.TABLE_NAME, values, selection, selectionArgs);
+            contentResolver.notifyChange(TRAFFIC_FLOW_URI, null);
+            return rows;
+        }
+        if (match == TRAFFIC_FLOW_ID) {
+            int rows = sqLiteDatabase.update(TrafficFlow.TABLE_NAME, values,
+                    TrafficFlow._ID + "=?", new String[]{uri.getLastPathSegment()});
+            contentResolver.notifyChange(TRAFFIC_FLOW_URI, null);
+            return rows;
+        }
+        if (match == ROAD_WORKS) {
+            int rows = sqLiteDatabase.update(RoadWorks.TABLE_NAME, values, selection, selectionArgs);
+            contentResolver.notifyChange(ROAD_WORKS_URI, null);
+            return rows;
+        }
+        if (match == ROAD_WORKS_ID) {
+            int rows = sqLiteDatabase.update(RoadWorks.TABLE_NAME, values,
+                    RoadWorks._ID + "=?", new String[]{uri.getLastPathSegment()});
+            contentResolver.notifyChange(ROAD_WORKS_URI, null);
+            return rows;
+        }
         return 0;
     }
 
     @Override
-    public int delete(@NonNull Uri uri, String s, String[] strings) {
-        return 0;
+    public int delete(int match, String selection, String[] selectionArgs, SQLiteDatabase sqLiteDatabase) {
+        ContentResolver contentResolver = context.getContentResolver();
+        int rows = 0;
+        if (match == CAR_PARKS) {
+            rows = sqLiteDatabase.delete(CarPark.TABLE_NAME, selection, selectionArgs);
+            contentResolver.notifyChange(CAR_PARK_URI, null);
+        }
+        if (match == VARIABLE_MESSAGE_SIGNS) {
+            rows = sqLiteDatabase.delete(VariableMessageSign.TABLE_NAME, selection, selectionArgs);
+            contentResolver.notifyChange(VARIABLE_MESSAGE_SIGN_URI, null);
+        }
+        if (match == TRAFFIC_FLOWS) {
+            rows = sqLiteDatabase.delete(TrafficFlow.TABLE_NAME, selection, selectionArgs);
+            contentResolver.notifyChange(TRAFFIC_FLOW_URI, null);
+        }
+        if (match == ROAD_WORKS) {
+            rows = sqLiteDatabase.delete(RoadWorks.TABLE_NAME, selection, selectionArgs);
+            contentResolver.notifyChange(ROAD_WORKS_URI, null);
+        }
+        return rows;
     }
 }
