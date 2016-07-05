@@ -20,11 +20,12 @@ import static net.uk.onetransport.android.county.bucks.provider.BucksContract.Va
 
 public class BucksProviderModule implements ProviderModule {
 
-    private static Uri AUTHORITY_URI;
-    private static Uri CAR_PARK_URI;
-    private static Uri VARIABLE_MESSAGE_SIGN_URI;
-    private static Uri TRAFFIC_FLOW_URI;
-    private static Uri ROAD_WORKS_URI;
+    public static String AUTHORITY;
+    public static Uri AUTHORITY_URI;
+    public static Uri CAR_PARK_URI;
+    public static Uri VARIABLE_MESSAGE_SIGN_URI;
+    public static Uri TRAFFIC_FLOW_URI;
+    public static Uri ROAD_WORKS_URI;
     // Uri matching
     private static int CAR_PARKS;
     private static int CAR_PARK_ID;
@@ -52,6 +53,7 @@ public class BucksProviderModule implements ProviderModule {
     @Override
     public void addUris(UriMatcher uriMatcher, ArrayList<ProviderModule> providerModules,
                         String authority) {
+        AUTHORITY = authority;
         AUTHORITY_URI = Uri.parse("content://" + authority + "/");
         CAR_PARK_URI = Uri.withAppendedPath(AUTHORITY_URI, CarPark.TABLE_NAME);
         VARIABLE_MESSAGE_SIGN_URI = Uri.withAppendedPath(AUTHORITY_URI,
