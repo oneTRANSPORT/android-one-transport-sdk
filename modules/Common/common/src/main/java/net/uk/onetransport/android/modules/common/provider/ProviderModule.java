@@ -5,7 +5,6 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
-import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
 
@@ -18,12 +17,13 @@ public interface ProviderModule {
 
     String getType(int match, String mimeDirPrefix, String mimeItemPrefix);
 
-    Uri insert(@NonNull Uri uri, ContentValues values);
+    Uri insert(int match, ContentValues values, SQLiteDatabase sqLiteDatabase);
 
-    Cursor query(@NonNull Uri uri, String[] projection, String selection, String[] selectionArgs,
-                 String sortOrder);
+    Cursor query(Uri uri, int match, String[] projection, String selection, String[] selectionArgs,
+                 String sortOrder, SQLiteDatabase sqLiteDatabase);
 
-    int update(@NonNull Uri uri, ContentValues values, String selection, String[] selectionArgs);
+    int update(Uri uri, int match, ContentValues values, String selection, String[] selectionArgs,
+               SQLiteDatabase sqLiteDatabase);
 
-    int delete(@NonNull Uri uri, String selection, String[] selectionArgs);
+    int delete(int match, String selection, String[] selectionArgs, SQLiteDatabase sqLiteDatabase);
 }

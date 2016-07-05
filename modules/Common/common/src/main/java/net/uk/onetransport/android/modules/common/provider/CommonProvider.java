@@ -75,14 +75,14 @@ public class CommonProvider extends ContentProvider {
     }
 
     @Override
-    public Uri insert(@NonNull Uri uri, ContentValues values) { // TODO    Pass db?
+    public Uri insert(@NonNull Uri uri, ContentValues values) {
         int match = uriMatcher.match(uri);
         switch (match) {
             case LAST_UPDATED:
                 throw new IllegalArgumentException("Insert not allowed into " + LastUpdated.TABLE_NAME);
         }
         SQLiteDatabase db = commonDbHelper.getWritableDatabase();
-        return providerModules.get(match).insert(uri, values);
+        return providerModules.get(match).insert(match, values, db);
     }
 
     @Override
@@ -90,7 +90,8 @@ public class CommonProvider extends ContentProvider {
                         String sortOrder) {
         SQLiteDatabase db = commonDbHelper.getReadableDatabase();
         ContentResolver contentResolver = getContext().getContentResolver();
-        switch (uriMatcher.match(uri)) {
+        int match = uriMatcher.match(uri);
+        switch (match) {
             case LAST_UPDATED:
                 Cursor cursor = db.query(LastUpdated.TABLE_NAME, projection,
                         selection, selectionArgs, null, null, sortOrder);
@@ -103,15 +104,16 @@ public class CommonProvider extends ContentProvider {
                 cursor.setNotificationUri(contentResolver, LAST_UPDATED_URI);
                 return cursor;
         }
-        return providerModules.get(uriMatcher.match(uri)).query(uri, projection, selection, selectionArgs,
-                sortOrder);
+        return providerModules.get(match).query(uri, match, projection, selection, selectionArgs, sortOrder,
+                db);
     }
 
     @Override
     public int update(@NonNull Uri uri, ContentValues values, String selection, String[] selectionArgs) {
         SQLiteDatabase db = commonDbHelper.getReadableDatabase();
         ContentResolver contentResolver = getContext().getContentResolver();
-        switch (uriMatcher.match(uri)) {
+        int match = uriMatcher.match(uri);
+        switch (match) {
             case LAST_UPDATED:
                 int rows = db.update(LastUpdated.TABLE_NAME, values, selection, selectionArgs);
                 contentResolver.notifyChange(LAST_UPDATED_URI, null);
@@ -122,23 +124,18 @@ public class CommonProvider extends ContentProvider {
                 contentResolver.notifyChange(LAST_UPDATED_URI, null);
                 return rows;
         }
-        return providerModules.get(uriMatcher.match(uri)).update(uri, values, selection, selectionArgs);
+        return providerModules.get(match).update(uri, match, values, selection, selectionArgs, db);
     }
 
     @Override
     public int delete(@NonNull Uri uri, String selection, String[] selectionArgs) {
         SQLiteDatabase db = commonDbHelper.getWritableDatabase();
-        ContentResolver contentResolver = getContext().getContentResolver();
-        int rows = 0;
-        switch (uriMatcher.match(uri)) {
-//            case CAR_PARKS:
-//                rows = db.delete(CarPark.TABLE_NAME, selection, selectionArgs);
-//                contentResolver.notifyChange(CAR_PARK_URI, null);
-//                break;
+        int match = uriMatcher.match(uri);
+        switch (match) {
             case LAST_UPDATED:
                 throw new IllegalArgumentException("Delete not allowed from " + LastUpdated.TABLE_NAME);
         }
-        return providerModules.get(uriMatcher.match(uri)).delete(uri, selection, selectionArgs);
+        return providerModules.get(match).delete(match, selection, selectionArgs, db);
     }
 
 }
