@@ -57,7 +57,7 @@ public class CommonSyncAdapter extends AbstractThreadedSyncAdapter {
             CommonDbHelper commonDbHelper = new CommonDbHelper(context, providerModules);
             SQLiteDatabase sqLiteDatabase = commonDbHelper.getReadableDatabase();
             File dbFile = new File(sqLiteDatabase.getPath());
-            File exportDb = new File("/sdcard/bucks-db");
+            File exportDb = new File("/sdcard/common-db");
             copy(dbFile, exportDb);
             Log.i("BucksSyncAdapter", "Copying DB.");
         }
