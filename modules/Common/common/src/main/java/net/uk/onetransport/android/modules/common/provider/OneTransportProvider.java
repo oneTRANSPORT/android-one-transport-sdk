@@ -17,57 +17,42 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
-public class CommonProvider extends ContentProvider {
+public class OneTransportProvider extends ContentProvider {
 
     // Not final as the authority must be injected by the app.
     public static String AUTHORITY;
     public static Uri AUTHORITY_URI;
+    // Sync adapter needs public access.
+    public static ArrayList<ProviderModule> providerModules = new ArrayList<>();
 
     // Content MIME types.
     private static String MIME_DIR_PREFIX;
     private static String MIME_ITEM_PREFIX;
 
     private static UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
-    private static ArrayList<ProviderModule> providerModules = new ArrayList<>();
     private static boolean initialised = false;
 
     private CommonDbHelper commonDbHelper;
 
-    public CommonProvider() {
+    public OneTransportProvider() {
     }
 
-//    public static void initialise(@NonNull Context context, ProviderModule[] providerModuleArray) {
-//        if (!initialised) {
-//            initialised = true;
-//            AUTHORITY = context.getString(R.string.provider_authority);
-//            AUTHORITY_URI = new Uri.Builder().scheme(ContentResolver.SCHEME_CONTENT)
-//                    .authority(AUTHORITY).build();
-//
-//            MIME_DIR_PREFIX = "vnd.android.cursor.dir/vnd." + AUTHORITY + ".";
-//            MIME_ITEM_PREFIX = "vnd.android.cursor.item/vnd." + AUTHORITY + ".";
-//
-//            // Automatically add the last updated module.
-//            LastUpdatedProviderModule lastUpdatedProviderModule =
-//                    new LastUpdatedProviderModule(context);
-//            lastUpdatedProviderModule.addUris(uriMatcher, providerModules, AUTHORITY);
-//            for (ProviderModule module : providerModuleArray) {
-//                module.addUris(uriMatcher, providerModules, AUTHORITY);
-//            }
-//        }
-//    }
-
-    @Override
-    public boolean onCreate() { // TODO    Tidy up this method.
+    public static void initialise(@NonNull Context context) {
         if (!initialised) {
             initialised = true;
-            AUTHORITY = getContext().getString(R.string.provider_authority);
+            AUTHORITY = context.getString(R.string.provider_authority);
             AUTHORITY_URI = new Uri.Builder().scheme(ContentResolver.SCHEME_CONTENT)
                     .authority(AUTHORITY).build();
 
             MIME_DIR_PREFIX = "vnd.android.cursor.dir/vnd." + AUTHORITY + ".";
             MIME_ITEM_PREFIX = "vnd.android.cursor.item/vnd." + AUTHORITY + ".";
-            addModules();
+            addModules(context, providerModules);
         }
+    }
+
+    @Override
+    public boolean onCreate() { // TODO    Tidy up this method.
+        initialise(getContext());
         commonDbHelper = new CommonDbHelper(getContext(), providerModules);
         return true;
     }

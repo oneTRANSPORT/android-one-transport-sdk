@@ -13,7 +13,7 @@ import android.util.Log;
 
 import net.uk.onetransport.android.modules.common.R;
 import net.uk.onetransport.android.modules.common.provider.CommonDbHelper;
-import net.uk.onetransport.android.modules.common.provider.CommonProvider;
+import net.uk.onetransport.android.modules.common.provider.OneTransportProvider;
 import net.uk.onetransport.android.modules.common.provider.ProviderModule;
 
 import java.io.File;
@@ -43,10 +43,7 @@ public class CommonSyncAdapter extends AbstractThreadedSyncAdapter {
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority,
                               ContentProviderClient providerClient, SyncResult syncResult) {
-        ArrayList<ProviderModule> providerModules = new ArrayList<>();
-        CommonProvider.addModules(context, providerModules);
-
-        for (ProviderModule module : providerModules) {
+        for (ProviderModule module : OneTransportProvider.providerModules) {
             if (!cancelled) {
                 module.onPerformSync(account, extras, authority, providerClient, syncResult);
             }
@@ -54,12 +51,13 @@ public class CommonSyncAdapter extends AbstractThreadedSyncAdapter {
 
         // TODO    Remove this, diagnostics only.
         if (!cancelled) {
-            CommonDbHelper commonDbHelper = new CommonDbHelper(context, providerModules);
+            CommonDbHelper commonDbHelper = new CommonDbHelper(context,
+                    OneTransportProvider.providerModules);
             SQLiteDatabase sqLiteDatabase = commonDbHelper.getReadableDatabase();
             File dbFile = new File(sqLiteDatabase.getPath());
             File exportDb = new File("/sdcard/common-db");
             copy(dbFile, exportDb);
-            Log.i("BucksSyncAdapter", "Copying DB.");
+            Log.i("OneTransportSyncAdapter", "Copying DB.");
         }
     }
 

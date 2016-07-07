@@ -17,7 +17,7 @@ import net.uk.onetransport.android.county.bucks.carparks.CarParkArray;
 import net.uk.onetransport.android.county.bucks.roadworks.RoadWorksArray;
 import net.uk.onetransport.android.county.bucks.trafficflow.TrafficFlowArray;
 import net.uk.onetransport.android.county.bucks.variablemessagesigns.VariableMessageSignArray;
-import net.uk.onetransport.android.modules.common.provider.CommonProvider;
+import net.uk.onetransport.android.modules.common.provider.OneTransportProvider;
 import net.uk.onetransport.android.modules.common.provider.ProviderModule;
 import net.uk.onetransport.android.modules.common.sync.CommonSyncAdapter;
 
@@ -300,7 +300,7 @@ public class BucksProviderModule implements ProviderModule {
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority,
                               ContentProviderClient providerClient, SyncResult syncResult) {
-        if (authority.equals(CommonProvider.AUTHORITY)) {
+        if (authority.equals(OneTransportProvider.AUTHORITY)) {
             // Car parks.
             if (extras.getBoolean(EXTRAS_CAR_PARKS, false)) {
                 try {

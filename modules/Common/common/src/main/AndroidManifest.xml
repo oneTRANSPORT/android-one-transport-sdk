@@ -16,7 +16,7 @@
         android:allowBackup="true">
 
         <provider
-            android:name=".provider.CommonProvider"
+            android:name=".provider.OneTransportProvider"
             android:authorities="@string/provider_authority"
             android:exported="false"
             android:label="CommonProvider"

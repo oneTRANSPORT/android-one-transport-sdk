@@ -10,7 +10,7 @@ import java.util.HashSet;
 
 public class CommonDbHelper extends SQLiteOpenHelper {
 
-    private static final String DB_NAME = "bucks-db";
+    private static final String DB_NAME = "one-transport-db";
 
     private HashSet<ProviderModule> providerModuleSet = new HashSet<>();
 
