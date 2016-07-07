@@ -8,8 +8,7 @@ import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
 import net.uk.onetransport.android.county.bucks.carparks.CarParkArray;
 import net.uk.onetransport.android.county.bucks.provider.BucksContentHelper;
-import net.uk.onetransport.android.county.bucks.provider.BucksProvider;
-import net.uk.onetransport.android.county.bucks.sync.BucksSyncAdapter;
+import net.uk.onetransport.android.county.bucks.provider.BucksProviderModule;
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
 import net.uk.onetransport.android.test.onetransporttest.tests.OneTransportTest;
 
@@ -35,9 +34,10 @@ public class BucksSyncAdapterTest extends OneTransportTest {
         // The sync adapter should do this anyway, but just setting the pre-condition for the test.
         BucksContentHelper.deleteFromProvider(context, BucksContentHelper.DATA_TYPE_CAR_PARK);
         AdapterObserver adapterObserver = new AdapterObserver(null, this);
-        context.getContentResolver().registerContentObserver(BucksProvider.CAR_PARK_URI, true,
+        context.getContentResolver().registerContentObserver(BucksProviderModule.CAR_PARK_URI, true,
                 adapterObserver);
-        BucksSyncAdapter.refresh(context, true, true, true, true);
+
+        BucksProviderModule.refresh(context, true, true, true, true);
         // Now block until the adapter finishes?  Will the observer run?
         // The observer should modify adapterFinished.
         while (!adapterFinished) {

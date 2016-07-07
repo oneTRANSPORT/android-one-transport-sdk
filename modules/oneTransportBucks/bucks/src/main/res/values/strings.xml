@@ -7,4 +7,6 @@
     <string name="bucks_cse_name">ONETCSE01</string>
     <string name="bucks_cse_base_url">https://cse-01.onetransport.uk.net/ONETCSE01/</string>
     <string name="one_transport_app_name">SampleApp-</string>
+    <!-- Required for common module integration. -->
+    <string name="bucks_provider_module_class">net.uk.onetransport.android.county.bucks.provider.BucksProviderModule</string>
 </resources>

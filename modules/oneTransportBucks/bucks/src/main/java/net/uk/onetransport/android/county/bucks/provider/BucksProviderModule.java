@@ -1,15 +1,25 @@
 package net.uk.onetransport.android.county.bucks.provider;
 
+import android.accounts.Account;
+import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SyncResult;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.os.Bundle;
 
+import net.uk.onetransport.android.county.bucks.carparks.CarParkArray;
+import net.uk.onetransport.android.county.bucks.roadworks.RoadWorksArray;
+import net.uk.onetransport.android.county.bucks.trafficflow.TrafficFlowArray;
+import net.uk.onetransport.android.county.bucks.variablemessagesigns.VariableMessageSignArray;
+import net.uk.onetransport.android.modules.common.provider.CommonProvider;
 import net.uk.onetransport.android.modules.common.provider.ProviderModule;
+import net.uk.onetransport.android.modules.common.sync.CommonSyncAdapter;
 
 import java.util.ArrayList;
 
@@ -26,6 +36,14 @@ public class BucksProviderModule implements ProviderModule {
     public static Uri VARIABLE_MESSAGE_SIGN_URI;
     public static Uri TRAFFIC_FLOW_URI;
     public static Uri ROAD_WORKS_URI;
+    // Sync adapter extras.
+    private static final String EXTRAS_VMS = "net.uk.onetransport.android.county.bucks.sync.VMS";
+    private static final String EXTRAS_CAR_PARKS =
+            "net.uk.onetransport.android.county.bucks.sync.CAR_PARKS";
+    private static final String EXTRAS_TRAFFIC_FLOW =
+            "net.uk.onetransport.android.county.bucks.sync.TRAFFIC_FLOW";
+    private static final String EXTRAS_ROAD_WORKS =
+            "net.uk.onetransport.android.county.bucks.sync.ROAD_WORKS";
     // Uri matching
     private static int CAR_PARKS;
     private static int CAR_PARK_ID;
@@ -35,6 +53,7 @@ public class BucksProviderModule implements ProviderModule {
     private static int TRAFFIC_FLOW_ID;
     private static int ROAD_WORKS;
     private static int ROAD_WORKS_ID;
+
 
     private Context context;
 
@@ -276,5 +295,73 @@ public class BucksProviderModule implements ProviderModule {
             contentResolver.notifyChange(ROAD_WORKS_URI, null);
         }
         return rows;
+    }
+
+    @Override
+    public void onPerformSync(Account account, Bundle extras, String authority,
+                              ContentProviderClient providerClient, SyncResult syncResult) {
+        if (authority.equals(CommonProvider.AUTHORITY)) {
+            // Car parks.
+            if (extras.getBoolean(EXTRAS_CAR_PARKS, false)) {
+                try {
+                    CarParkArray carParkArray = CarParkArray.getCarParkArray(context);
+                    BucksContentHelper.deleteFromProvider(context,
+                            BucksContentHelper.DATA_TYPE_CAR_PARK);
+                    BucksContentHelper.insertIntoProvider(context, carParkArray.getCarParks());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            // Traffic flows.
+            if (extras.getBoolean(EXTRAS_TRAFFIC_FLOW, false)) {
+                try {
+                    TrafficFlowArray trafficFlowArray = TrafficFlowArray.getTrafficFlowArray(context);
+                    BucksContentHelper.deleteFromProvider(context,
+                            BucksContentHelper.DATA_TYPE_TRAFFIC_FLOW);
+                    BucksContentHelper.insertIntoProvider(context, trafficFlowArray.getTrafficFlows());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            // Variable message signs.
+            if (extras.getBoolean(EXTRAS_VMS, false)) {
+                try {
+                    VariableMessageSignArray variableMessageSignArray = VariableMessageSignArray
+                            .getVariableMessageSignArray(context);
+                    BucksContentHelper.deleteFromProvider(context, BucksContentHelper.DATA_TYPE_VMS);
+                    BucksContentHelper.insertIntoProvider(context,
+                            variableMessageSignArray.getVariableMessageSigns());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            // Road works.
+            if (extras.getBoolean(EXTRAS_ROAD_WORKS, false)) {
+                try {
+                    RoadWorksArray roadWorksArray = RoadWorksArray.getRoadWorksArray(context);
+                    BucksContentHelper.deleteFromProvider(context,
+                            BucksContentHelper.DATA_TYPE_ROAD_WORKS);
+                    BucksContentHelper.insertIntoProvider(context, roadWorksArray.getRoadWorks());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            // Signal refresh complete.
+//            try {
+//                BucksContentHelper.refreshLastUpdated(context);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+        }
+    }
+
+    public static void refresh(Context context, boolean variableMessageSigns, boolean carParks,
+                               boolean trafficFlow, boolean roadWorks) {
+        Bundle settingsBundle = new Bundle();
+        settingsBundle.putBoolean(EXTRAS_VMS, variableMessageSigns);
+        settingsBundle.putBoolean(EXTRAS_CAR_PARKS, carParks);
+        settingsBundle.putBoolean(EXTRAS_TRAFFIC_FLOW, trafficFlow);
+        settingsBundle.putBoolean(EXTRAS_ROAD_WORKS, roadWorks);
+        CommonSyncAdapter.refresh(context, settingsBundle);
     }
 }

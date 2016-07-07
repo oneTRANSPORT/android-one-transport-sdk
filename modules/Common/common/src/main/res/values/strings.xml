@@ -2,11 +2,13 @@
     <string name="app_name">Common</string>
     <string name="provider_authority">net.uk.onetransport.android.modules.common.provider</string>
     <string name="sync_account_type">common.modules.android.onetransport.uk.net</string>
-    <string name="bucks_ae_id">C-TEST-BLACKBERRY</string>
-    <string name="bucks_base_url">https://cse-01.onetransport.uk.net/</string>
-    <string name="bucks_cse_name">ONETCSE01</string>
-    <string name="bucks_cse_base_url">https://cse-01.onetransport.uk.net/ONETCSE01/</string>
+    <!--<string name="bucks_ae_id">C-TEST-BLACKBERRY</string>-->
+    <!--<string name="bucks_base_url">https://cse-01.onetransport.uk.net/</string>-->
+    <!--<string name="bucks_cse_name">ONETCSE01</string>-->
+    <!--<string name="bucks_cse_base_url">https://cse-01.onetransport.uk.net/ONETCSE01/</string>-->
     <string name="one_transport_app_name">SampleApp-</string>
     <string name="error_insert_not_allowed">Insert not allowed into </string>
     <string name="error_delete_not_allowed">Delete not allowed from </string>
+    <!-- Set module class names, overridden by library if present. -->
+    <string name="bucks_provider_module_class" translatable="false">none</string>
 </resources>

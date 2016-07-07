@@ -317,13 +317,13 @@ public class BucksContentHelper {
         }
     }
 
-    public static void refreshLastUpdated(@NonNull Context context) {
-        ContentResolver contentResolver = context.getContentResolver();
-        ContentValues values = new ContentValues();
-        values.put(LastUpdatedContract.LastUpdated.COLUMN_LAST_UPDATE_MILLIS,
-                System.currentTimeMillis());
-        contentResolver.update(LastUpdatedProviderModule.LAST_UPDATED_URI, values, null, null);
-    }
+//    public static void refreshLastUpdated(@NonNull Context context) {
+//        ContentResolver contentResolver = context.getContentResolver();
+//        ContentValues values = new ContentValues();
+//        values.put(LastUpdatedContract.LastUpdated.COLUMN_LAST_UPDATE_MILLIS,
+//                System.currentTimeMillis());
+//        contentResolver.update(LastUpdatedProviderModule.LAST_UPDATED_URI, values, null, null);
+//    }
 
     public static Cursor getLastUpdated(@NonNull Context context) {
         return context.getContentResolver().query(LastUpdatedProviderModule.LAST_UPDATED_URI,

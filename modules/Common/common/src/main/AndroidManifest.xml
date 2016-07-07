@@ -1,12 +1,48 @@
 <manifest package="net.uk.onetransport.android.modules.common"
           xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <uses-permission
+        android:name="android.permission.INTERNET"/>
+    <!-- TODO     Probably not needed? -->
+    <!--<uses-permission-->
+    <!--android:name="android.permission.READ_SYNC_SETTINGS"/>-->
+    <!--<uses-permission-->
+    <!--android:name="android.permission.WRITE_SYNC_SETTINGS"/>-->
+    <uses-permission
+        android:name="android.permission.AUTHENTICATE_ACCOUNTS"
+        android:maxSdkVersion="22"/>
+
     <application
-        android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:supportsRtl="true"
-        android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen">
+        android:allowBackup="true">
+
+        <provider
+            android:name=".provider.CommonProvider"
+            android:authorities="@string/provider_authority"
+            android:exported="false"
+            android:label="CommonProvider"
+            android:syncable="true">
+        </provider>
+
+        <service
+            android:name=".sync.AuthenticatorService">
+            <intent-filter>
+                <action android:name="android.accounts.AccountAuthenticator"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.accounts.AccountAuthenticator"
+                android:resource="@xml/authenticator"/>
+        </service>
+
+        <service
+            android:name=".sync.CommonSyncService"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/sync_adapter"/>
+        </service>
 
     </application>
 

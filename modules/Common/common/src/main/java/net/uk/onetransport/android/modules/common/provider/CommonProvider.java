@@ -13,6 +13,8 @@ import android.support.annotation.NonNull;
 import net.uk.onetransport.android.modules.common.R;
 import net.uk.onetransport.android.modules.common.provider.lastupdated.LastUpdatedProviderModule;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 public class CommonProvider extends ContentProvider {
@@ -34,28 +36,38 @@ public class CommonProvider extends ContentProvider {
     public CommonProvider() {
     }
 
-    public static void initialise(@NonNull Context context, ProviderModule[] providerModuleArray) {
-        AUTHORITY = context.getString(R.string.provider_authority);
-        AUTHORITY_URI = new Uri.Builder().scheme(ContentResolver.SCHEME_CONTENT)
-                .authority(AUTHORITY).build();
-
-        MIME_DIR_PREFIX = "vnd.android.cursor.dir/vnd." + AUTHORITY + ".";
-        MIME_ITEM_PREFIX = "vnd.android.cursor.item/vnd." + AUTHORITY + ".";
-
-        if (!initialised) {
-            initialised = true;
-            // Automatically add the last updated module.
-            LastUpdatedProviderModule lastUpdatedProviderModule =
-                    new LastUpdatedProviderModule(context);
-            lastUpdatedProviderModule.addUris(uriMatcher, providerModules, AUTHORITY);
-            for (ProviderModule module : providerModuleArray) {
-                module.addUris(uriMatcher, providerModules, AUTHORITY);
-            }
-        }
-    }
+//    public static void initialise(@NonNull Context context, ProviderModule[] providerModuleArray) {
+//        if (!initialised) {
+//            initialised = true;
+//            AUTHORITY = context.getString(R.string.provider_authority);
+//            AUTHORITY_URI = new Uri.Builder().scheme(ContentResolver.SCHEME_CONTENT)
+//                    .authority(AUTHORITY).build();
+//
+//            MIME_DIR_PREFIX = "vnd.android.cursor.dir/vnd." + AUTHORITY + ".";
+//            MIME_ITEM_PREFIX = "vnd.android.cursor.item/vnd." + AUTHORITY + ".";
+//
+//            // Automatically add the last updated module.
+//            LastUpdatedProviderModule lastUpdatedProviderModule =
+//                    new LastUpdatedProviderModule(context);
+//            lastUpdatedProviderModule.addUris(uriMatcher, providerModules, AUTHORITY);
+//            for (ProviderModule module : providerModuleArray) {
+//                module.addUris(uriMatcher, providerModules, AUTHORITY);
+//            }
+//        }
+//    }
 
     @Override
-    public boolean onCreate() {
+    public boolean onCreate() { // TODO    Tidy up this method.
+        if (!initialised) {
+            initialised = true;
+            AUTHORITY = getContext().getString(R.string.provider_authority);
+            AUTHORITY_URI = new Uri.Builder().scheme(ContentResolver.SCHEME_CONTENT)
+                    .authority(AUTHORITY).build();
+
+            MIME_DIR_PREFIX = "vnd.android.cursor.dir/vnd." + AUTHORITY + ".";
+            MIME_ITEM_PREFIX = "vnd.android.cursor.item/vnd." + AUTHORITY + ".";
+            addModules();
+        }
         commonDbHelper = new CommonDbHelper(getContext(), providerModules);
         return true;
     }
@@ -94,6 +106,40 @@ public class CommonProvider extends ContentProvider {
         SQLiteDatabase db = commonDbHelper.getWritableDatabase();
         int match = uriMatcher.match(uri);
         return providerModules.get(match).delete(match, selection, selectionArgs, db);
+    }
+
+
+    public static void addModules(Context context, ArrayList<ProviderModule> providerModules) {
+        // Add Bucks if available.
+        String bucksModuleClass = context.getString(R.string.bucks_provider_module_class);
+        if (!bucksModuleClass.equals("none")) {
+            try {
+                Class<?> clazz = Class.forName(bucksModuleClass);
+                Constructor<?> constructor = clazz.getConstructor(Context.class);
+                ProviderModule bucksProviderModule = (ProviderModule) constructor.newInstance(
+                        context);
+                bucksProviderModule.addUris(uriMatcher, providerModules, AUTHORITY);
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            }
+        }
+        // Automatically add the last updated module to the end of the list.
+        // We want this to sync last.
+        LastUpdatedProviderModule lastUpdatedProviderModule =
+                new LastUpdatedProviderModule(context);
+        lastUpdatedProviderModule.addUris(uriMatcher, providerModules, AUTHORITY);
+    }
+
+    private void addModules() {
+        addModules(getContext(), providerModules);
     }
 
 }

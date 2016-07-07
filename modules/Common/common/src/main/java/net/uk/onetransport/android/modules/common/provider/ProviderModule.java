@@ -1,10 +1,14 @@
 package net.uk.onetransport.android.modules.common.provider;
 
+import android.accounts.Account;
+import android.content.ContentProviderClient;
 import android.content.ContentValues;
+import android.content.SyncResult;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.os.Bundle;
 
 import java.util.ArrayList;
 
@@ -26,4 +30,7 @@ public interface ProviderModule {
                SQLiteDatabase sqLiteDatabase);
 
     int delete(int match, String selection, String[] selectionArgs, SQLiteDatabase sqLiteDatabase);
+
+    void onPerformSync(Account account, Bundle extras, String authority,
+                       ContentProviderClient providerClient, SyncResult syncResult);
 }

@@ -7,7 +7,6 @@ import com.interdigital.android.dougal.resource.Resource;
 import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
 import net.uk.onetransport.android.county.bucks.authentication.CredentialHelper;
-import net.uk.onetransport.android.county.bucks.provider.BucksProvider;
 import net.uk.onetransport.android.test.onetransporttest.tests.OneTransportTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.ae.ApplicationEntityCreateTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.ae.ApplicationEntityDeleteTest;
@@ -73,7 +72,6 @@ public class RunnerTask extends AsyncTask<Void, Object[], Void>
 
     @Override
     protected Void doInBackground(Void... voids) {
-        BucksProvider.initialise(context);
         // Create an installation id if needed.
         CredentialHelper.initialiseCredentials(context, OneTransportTest.USER_NAME,
                 OneTransportTest.PASSWORD, "installation-id");
