@@ -11,7 +11,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.RemoteException;
+import android.util.Log;
 
 import net.uk.onetransport.android.modules.common.R;
 import net.uk.onetransport.android.modules.common.provider.ProviderModule;
@@ -125,11 +125,11 @@ public class LastUpdatedProviderModule implements ProviderModule {
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority,
                               ContentProviderClient providerClient, SyncResult syncResult) {
-        // TODO    Should we use the content provider client?
         ContentResolver contentResolver = context.getContentResolver();
         ContentValues values = new ContentValues();
         values.put(LastUpdatedContract.LastUpdated.COLUMN_LAST_UPDATE_MILLIS,
                 System.currentTimeMillis());
         contentResolver.update(LastUpdatedProviderModule.LAST_UPDATED_URI, values, null, null);
+        Log.i("LastUpdatedPM", "Last updated table refreshed.");
     }
 }

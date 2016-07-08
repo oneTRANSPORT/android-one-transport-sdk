@@ -46,7 +46,7 @@ public class OneTransportProvider extends ContentProvider {
 
             MIME_DIR_PREFIX = "vnd.android.cursor.dir/vnd." + AUTHORITY + ".";
             MIME_ITEM_PREFIX = "vnd.android.cursor.item/vnd." + AUTHORITY + ".";
-            addModules(context, providerModules);
+            addModules(context);
         }
     }
 
@@ -93,8 +93,7 @@ public class OneTransportProvider extends ContentProvider {
         return providerModules.get(match).delete(match, selection, selectionArgs, db);
     }
 
-
-    public static void addModules(Context context, ArrayList<ProviderModule> providerModules) {
+    public static void addModules(Context context) {
         // Add Bucks if available.
         String bucksModuleClass = context.getString(R.string.bucks_provider_module_class);
         if (!bucksModuleClass.equals("none")) {
@@ -121,10 +120,6 @@ public class OneTransportProvider extends ContentProvider {
         LastUpdatedProviderModule lastUpdatedProviderModule =
                 new LastUpdatedProviderModule(context);
         lastUpdatedProviderModule.addUris(uriMatcher, providerModules, AUTHORITY);
-    }
-
-    private void addModules() {
-        addModules(getContext(), providerModules);
     }
 
 }

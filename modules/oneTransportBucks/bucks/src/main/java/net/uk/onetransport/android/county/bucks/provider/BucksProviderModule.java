@@ -12,6 +12,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 
 import net.uk.onetransport.android.county.bucks.carparks.CarParkArray;
 import net.uk.onetransport.android.county.bucks.roadworks.RoadWorksArray;
@@ -29,6 +30,8 @@ import static net.uk.onetransport.android.county.bucks.provider.BucksContract.Tr
 import static net.uk.onetransport.android.county.bucks.provider.BucksContract.VariableMessageSign;
 
 public class BucksProviderModule implements ProviderModule {
+
+    private static final String TAG = "BucksProviderModule";
 
     public static String AUTHORITY;
     public static Uri AUTHORITY_URI;
@@ -308,6 +311,7 @@ public class BucksProviderModule implements ProviderModule {
                     BucksContentHelper.deleteFromProvider(context,
                             BucksContentHelper.DATA_TYPE_CAR_PARK);
                     BucksContentHelper.insertIntoProvider(context, carParkArray.getCarParks());
+                    Log.i(TAG,"Car parks downloaded." );
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -319,6 +323,7 @@ public class BucksProviderModule implements ProviderModule {
                     BucksContentHelper.deleteFromProvider(context,
                             BucksContentHelper.DATA_TYPE_TRAFFIC_FLOW);
                     BucksContentHelper.insertIntoProvider(context, trafficFlowArray.getTrafficFlows());
+                    Log.i(TAG,"Traffic flows downloaded." );
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -331,6 +336,7 @@ public class BucksProviderModule implements ProviderModule {
                     BucksContentHelper.deleteFromProvider(context, BucksContentHelper.DATA_TYPE_VMS);
                     BucksContentHelper.insertIntoProvider(context,
                             variableMessageSignArray.getVariableMessageSigns());
+                    Log.i(TAG,"Variable message signs downloaded." );
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -342,16 +348,11 @@ public class BucksProviderModule implements ProviderModule {
                     BucksContentHelper.deleteFromProvider(context,
                             BucksContentHelper.DATA_TYPE_ROAD_WORKS);
                     BucksContentHelper.insertIntoProvider(context, roadWorksArray.getRoadWorks());
+                    Log.i(TAG,"Road works downloaded." );
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
-            // Signal refresh complete.
-//            try {
-//                BucksContentHelper.refreshLastUpdated(context);
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
         }
     }
 
@@ -363,5 +364,6 @@ public class BucksProviderModule implements ProviderModule {
         settingsBundle.putBoolean(EXTRAS_TRAFFIC_FLOW, trafficFlow);
         settingsBundle.putBoolean(EXTRAS_ROAD_WORKS, roadWorks);
         CommonSyncAdapter.refresh(context, settingsBundle);
+        Log.i(TAG,"Bucks refresh called.");
     }
 }

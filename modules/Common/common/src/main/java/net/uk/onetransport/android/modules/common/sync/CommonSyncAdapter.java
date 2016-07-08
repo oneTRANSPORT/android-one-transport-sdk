@@ -22,7 +22,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
 
 public class CommonSyncAdapter extends AbstractThreadedSyncAdapter {
 
@@ -43,10 +42,14 @@ public class CommonSyncAdapter extends AbstractThreadedSyncAdapter {
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority,
                               ContentProviderClient providerClient, SyncResult syncResult) {
+        // Only execute each module once.
+        // TODO    Or should we execute by URI?
+        ProviderModule previousModule = null;
         for (ProviderModule module : OneTransportProvider.providerModules) {
-            if (!cancelled) {
+            if (!cancelled && module != previousModule) {
                 module.onPerformSync(account, extras, authority, providerClient, syncResult);
             }
+            previousModule = module;
         }
 
         // TODO    Remove this, diagnostics only.
@@ -80,6 +83,7 @@ public class CommonSyncAdapter extends AbstractThreadedSyncAdapter {
         settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
         ContentResolver.requestSync(account, context.getString(R.string.provider_authority),
                 settingsBundle);
+        Log.i("CommonSyncAdapter", "Common refresh called");
     }
 
     // We don't use an account for authentication, but the framework requires this to be configured.
