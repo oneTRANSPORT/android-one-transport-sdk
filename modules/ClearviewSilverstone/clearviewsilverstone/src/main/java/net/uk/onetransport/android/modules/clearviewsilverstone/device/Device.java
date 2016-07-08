@@ -16,10 +16,10 @@ public class Device {
     private String type;
     @Expose
     @SerializedName("latitude")
-    private double latitude;
+    private Double latitude;
     @Expose
     @SerializedName("longitude")
-    private double longitude;
+    private Double longitude;
     @Expose
     @SerializedName("changed")
     private String changed;

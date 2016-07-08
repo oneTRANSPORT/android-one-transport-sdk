@@ -1,4 +1,4 @@
-package net.uk.onetransport.android.modules.clearviewsilverstone.device;
+package net.uk.onetransport.android.modules.clearviewsilverstone.traffic;
 
 import android.content.Context;
 
@@ -10,80 +10,80 @@ import com.interdigital.android.dougal.resource.callback.DougalCallback;
 import net.uk.onetransport.android.modules.clearviewsilverstone.BaseArray;
 import net.uk.onetransport.android.modules.clearviewsilverstone.R;
 import net.uk.onetransport.android.modules.clearviewsilverstone.authentication.CredentialHelper;
+import net.uk.onetransport.android.modules.clearviewsilverstone.device.DeviceArray;
 
-public class DeviceArray extends BaseArray implements DougalCallback {
+public class TrafficArray extends BaseArray implements DougalCallback {
 
-    public  static final int[] DEVICE_IDS = {1745, 1746, 1747, 1748, 1749, 1750, 1751, 1752, 1753, 1754};
-    public static final String AE_NAME = "ClearviewIntelligence_VBV";
-    private static final String RETRIEVE_PREFIX = AE_NAME + "/DEVICES/DEVICE_";
+    private static final String RETRIEVE_PREFIX = DeviceArray.AE_NAME + "/DEVICE_";
 
     private static int completed = 0;
 
-    private Device[] devices;
-    private DeviceArrayCallback deviceArrayCallback;
+    private Traffic[][] traffics;
+    private TrafficArrayCallback trafficArrayCallback;
     private int id;
 
-    private DeviceArray() {
+    private TrafficArray() {
     }
 
-    public DeviceArray(Device[] devices) {
-        this.devices = devices;
+    public TrafficArray(Traffic[][] traffics) {
+        this.traffics = traffics;
     }
 
-    public static DeviceArray getDeviceArray(Context context) throws Exception {
+    public static TrafficArray getTrafficArray(Context context) throws Exception {
         String aeId = "C-" + CredentialHelper.getAeId(context);
         String userName = CredentialHelper.getAeId(context);
         String password = CredentialHelper.getSessionToken(context);
         String cseBaseUrl = context.getString(R.string.clearview_cse_base_url);
-        Device[] newDevices = new Device[DEVICE_IDS.length];
-        for (int i = 0; i < DEVICE_IDS.length; i++) {
-            int deviceId = DEVICE_IDS[i];
+        Traffic[][] newTraffics = new Traffic[DeviceArray.DEVICE_IDS.length][];
+        for (int i = 0; i < DeviceArray.DEVICE_IDS.length; i++) {
+            int deviceId = DeviceArray.DEVICE_IDS[i];
             ContentInstance contentInstance = Container.retrieveLatest(aeId, cseBaseUrl,
                     RETRIEVE_PREFIX + String.valueOf(deviceId), userName, password);
             String content = contentInstance.getContent();
-            newDevices[i] = GSON.fromJson(content, Device.class);
+            newTraffics[i] = GSON.fromJson(content, Traffic[].class);
         }
-        return new DeviceArray(newDevices);
+        return new TrafficArray(newTraffics);
     }
 
-    public static void getDeviceArrayAsync(Context context,
-                                           DeviceArrayCallback deviceArrayCallback, int id) {
-        DeviceArray deviceArray = new DeviceArray();
-        deviceArray.devices = new Device[DEVICE_IDS.length];
-        deviceArray.deviceArrayCallback = deviceArrayCallback;
-        deviceArray.id = id;
+    public static void getTrafficArrayAsync(Context context, TrafficArrayCallback trafficArrayCallback,
+                                            int id) {
+        TrafficArray trafficArray = new TrafficArray();
+        trafficArray.traffics = new Traffic[DeviceArray.DEVICE_IDS.length][];
+        trafficArray.trafficArrayCallback = trafficArrayCallback;
+        trafficArray.id = id;
         String aeId = "C-" + CredentialHelper.getAeId(context);
         String userName = CredentialHelper.getAeId(context);
         String password = CredentialHelper.getSessionToken(context);
         String cseBaseUrl = context.getString(R.string.clearview_cse_base_url);
-        for (int i = 0; i < DEVICE_IDS.length; i++) {
-            int deviceId = DEVICE_IDS[i];
+        for (int i = 0; i < DeviceArray.DEVICE_IDS.length; i++) {
+            int deviceId = DeviceArray.DEVICE_IDS[i];
             Container.retrieveLatestAsync(aeId, cseBaseUrl,
-                    RETRIEVE_PREFIX + String.valueOf(deviceId), userName, password, deviceArray);
+                    RETRIEVE_PREFIX + String.valueOf(deviceId), userName, password, trafficArray);
         }
     }
+
 
     @Override
     public void getResponse(Resource resource, Throwable throwable) {
         // TODO    Should we really only call this once?  Follow the Bucks pattern for now.
         if (throwable != null) {
-            deviceArrayCallback.onDeviceArrayError(id, throwable);
+            trafficArrayCallback.onTrafficArrayError(id, throwable);
         } else {
             try {
                 String content = ((ContentInstance) resource).getContent();
                 // TODO    There will be holes if there is a download error.
-                devices[completed] = GSON.fromJson(content, Device.class);
+                traffics[completed] = GSON.fromJson(content, Traffic[].class);
             } catch (Exception e) {
-                deviceArrayCallback.onDeviceArrayError(id, e);
+                trafficArrayCallback.onTrafficArrayError(id, e);
             }
             completed++;
-            if (completed == DEVICE_IDS.length) {
-                deviceArrayCallback.onDeviceArrayReady(id, this);
+            if (completed == DeviceArray.DEVICE_IDS.length) {
+                trafficArrayCallback.onTrafficArrayReady(id, this);
             }
         }
     }
 
-    public Device[] getDevices() {
-        return devices;
+    public Traffic[][] getTraffics() {
+        return traffics;
     }
 }
