@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">oneTransport Clearview Silverstone SDK</string>
+    <string name="clearview_ae_id">C-TEST-BANANA</string>
+    <string name="clearview_base_url">https://cse-01.onetransport.uk.net/</string>
+    <string name="clearview_cse_base_url">https://cse-01.onetransport.uk.net/ONETCSE01/</string>
+    <string name="clearview_silverstone_provider_module_class" translatable="false">net.uk.onetransport.android.modules.clearviewsilverstone.provider.ClearviewSilverstoneProviderModule</string>
+</resources>

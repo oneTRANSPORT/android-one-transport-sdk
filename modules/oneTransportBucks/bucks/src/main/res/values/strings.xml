@@ -1,12 +1,9 @@
 <resources>
     <string name="app_name">oneTransport Bucks SDK</string>
-    <string name="provider_authority">net.uk.onetransport.android.county.bucks.provider</string>
-    <string name="sync_account_type">bucks.county.android.onetransport.uk.net</string>
     <string name="bucks_ae_id">C-TEST-BANANA</string>
     <string name="bucks_base_url">https://cse-01.onetransport.uk.net/</string>
     <string name="bucks_cse_name">ONETCSE01</string>
     <string name="bucks_cse_base_url">https://cse-01.onetransport.uk.net/ONETCSE01/</string>
-    <string name="one_transport_app_name">SampleApp-</string>
     <!-- Required for common module integration. -->
     <string name="bucks_provider_module_class" translatable="false">net.uk.onetransport.android.county.bucks.provider.BucksProviderModule</string>
 </resources>
