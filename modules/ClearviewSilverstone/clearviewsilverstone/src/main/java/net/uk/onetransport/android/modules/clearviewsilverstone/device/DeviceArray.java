@@ -13,7 +13,7 @@ import net.uk.onetransport.android.modules.clearviewsilverstone.authentication.C
 
 public class DeviceArray extends BaseArray implements DougalCallback {
 
-    public  static final int[] DEVICE_IDS = {1745, 1746, 1747, 1748, 1749, 1750, 1751, 1752, 1753, 1754};
+    public static final int[] DEVICE_IDS = {1745, 1746, 1747, 1748, 1749, 1750, 1751, 1752, 1753, 1754};
     public static final String AE_NAME = "ClearviewIntelligence_VBV";
     private static final String RETRIEVE_PREFIX = AE_NAME + "/DEVICES/DEVICE_";
 
@@ -42,6 +42,7 @@ public class DeviceArray extends BaseArray implements DougalCallback {
                     RETRIEVE_PREFIX + String.valueOf(deviceId), userName, password);
             String content = contentInstance.getContent();
             newDevices[i] = GSON.fromJson(content, Device.class);
+            newDevices[i].setSensorId(deviceId);
         }
         return new DeviceArray(newDevices);
     }
@@ -73,6 +74,9 @@ public class DeviceArray extends BaseArray implements DougalCallback {
                 String content = ((ContentInstance) resource).getContent();
                 // TODO    There will be holes if there is a download error.
                 devices[completed] = GSON.fromJson(content, Device.class);
+                devices[completed].setSensorId(Integer.parseInt(
+                        resource.getRetrievePath().replaceFirst("^.*DEVICE_", "")
+                                .replaceFirst("/la$", "")));
             } catch (Exception e) {
                 deviceArrayCallback.onDeviceArrayError(id, e);
             }

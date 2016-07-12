@@ -5,6 +5,8 @@ import com.google.gson.annotations.SerializedName;
 
 public class Device {
 
+    // This field comes from the URI of the device and is not given in the JSON payload.
+    private int sensorId;
     @Expose
     @SerializedName("title")
     private String title;
@@ -23,6 +25,14 @@ public class Device {
     @Expose
     @SerializedName("changed")
     private String changed;
+
+    public int getSensorId() {
+        return sensorId;
+    }
+
+    public void setSensorId(int sensorId) {
+        this.sensorId = sensorId;
+    }
 
     public String getTitle() {
         return title;
