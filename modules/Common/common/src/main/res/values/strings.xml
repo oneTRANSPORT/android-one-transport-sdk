@@ -4,7 +4,8 @@
     <string name="error_delete_not_allowed">Delete not allowed from </string>
     <!-- Set module class names, overridden by library if present. -->
     <string name="bucks_provider_module_class" translatable="false">none</string>
-    <!-- App MUST override these three strings. -->    
+    <string name="clearview_silverstone_provider_module_class" translatable="false">none</string>
+    <!-- App MUST override these three strings. -->
     <string name="provider_authority">net.uk.onetransport.android.modules.common.provider</string>
     <string name="sync_account_type">common.modules.android.onetransport.uk.net</string>
     <string name="one_transport_app_name">SampleApp-</string>

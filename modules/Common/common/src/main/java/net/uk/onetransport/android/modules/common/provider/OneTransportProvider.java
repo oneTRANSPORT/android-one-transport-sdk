@@ -93,16 +93,27 @@ public class OneTransportProvider extends ContentProvider {
         return providerModules.get(match).delete(match, selection, selectionArgs, db);
     }
 
-    public static void addModules(Context context) {
+    private static void addModules(Context context) {
         // Add Bucks if available.
-        String bucksModuleClass = context.getString(R.string.bucks_provider_module_class);
-        if (!bucksModuleClass.equals("none")) {
+        addModule(context, R.string.bucks_provider_module_class);
+        // Add Clearview Silverstone if available.
+        addModule(context, R.string.clearview_silverstone_provider_module_class);
+        // Automatically add the last updated module to the end of the list.
+        // We want this to sync last.
+        LastUpdatedProviderModule lastUpdatedProviderModule =
+                new LastUpdatedProviderModule(context);
+        lastUpdatedProviderModule.addUris(uriMatcher, providerModules, AUTHORITY);
+    }
+
+    private static void addModule(Context context, int moduleClassResource) {
+        String moduleClass = context.getString(moduleClassResource);
+        if (!moduleClass.equals("none")) {
             try {
-                Class<?> clazz = Class.forName(bucksModuleClass);
+                Class<?> clazz = Class.forName(moduleClass);
                 Constructor<?> constructor = clazz.getConstructor(Context.class);
-                ProviderModule bucksProviderModule = (ProviderModule) constructor.newInstance(
+                ProviderModule providerModule = (ProviderModule) constructor.newInstance(
                         context);
-                bucksProviderModule.addUris(uriMatcher, providerModules, AUTHORITY);
+                providerModule.addUris(uriMatcher, providerModules, AUTHORITY);
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             } catch (NoSuchMethodException e) {
@@ -115,11 +126,5 @@ public class OneTransportProvider extends ContentProvider {
                 e.printStackTrace();
             }
         }
-        // Automatically add the last updated module to the end of the list.
-        // We want this to sync last.
-        LastUpdatedProviderModule lastUpdatedProviderModule =
-                new LastUpdatedProviderModule(context);
-        lastUpdatedProviderModule.addUris(uriMatcher, providerModules, AUTHORITY);
     }
-
 }
