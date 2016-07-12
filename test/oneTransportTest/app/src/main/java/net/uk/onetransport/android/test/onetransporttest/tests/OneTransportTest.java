@@ -30,6 +30,8 @@ public abstract class OneTransportTest {
 //    String APPLICATION_ID = "C-ONETRANSPORT-TEST-APP-ID";
 //    String BASE_URL_CSE = BASE_URL + CSE_NAME + "/";
 
+    public boolean adapterFinished = false;
+
     private Context context;
 
     public abstract void start(RunnerTask runnerTask) throws Exception;

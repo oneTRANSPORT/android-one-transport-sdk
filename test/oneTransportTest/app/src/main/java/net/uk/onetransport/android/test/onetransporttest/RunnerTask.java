@@ -6,10 +6,7 @@ import android.os.AsyncTask;
 import com.interdigital.android.dougal.resource.Resource;
 import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
-import net.uk.onetransport.android.county.bucks.authentication.CredentialHelper;
 import net.uk.onetransport.android.test.onetransporttest.tests.OneTransportTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.ae.ApplicationEntityCreateTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.ae.ApplicationEntityDeleteTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.carpark.GetCarParkArrayTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksCarParkBoxQueryTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksCarParkDeleteTest;
@@ -29,6 +26,15 @@ import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.Bu
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.roadworks.GetRoadWorksArrayTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.trafficflow.GetTrafficFlowArrayTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.vms.GetVariableMessageSignArrayTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.clearviewsilverstone.device.GetDeviceArrayTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.clearviewsilverstone.provider.CvsDeviceDeleteTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.clearviewsilverstone.provider.CvsDeviceInsertTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.clearviewsilverstone.provider.CvsDeviceQueryTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.clearviewsilverstone.provider.CvsSyncAdapterTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.clearviewsilverstone.provider.CvsTrafficGroupDeleteTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.clearviewsilverstone.provider.CvsTrafficGroupInsertTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.clearviewsilverstone.provider.CvsTrafficGroupQueryTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.clearviewsilverstone.traffic.GetTrafficGroupArrayTest;
 
 public class RunnerTask extends AsyncTask<Void, Object[], Void>
         implements DougalCallback {
@@ -36,7 +42,7 @@ public class RunnerTask extends AsyncTask<Void, Object[], Void>
     private Context context;
     private ReportAdapter reportAdapter;
     private OneTransportTest[] oneTransportTests = {
-            new ApplicationEntityCreateTest(),
+//            new ApplicationEntityCreateTest(),
             new GetCarParkArrayTest(),
             new GetVariableMessageSignArrayTest(),
             new GetTrafficFlowArrayTest(),
@@ -56,7 +62,17 @@ public class RunnerTask extends AsyncTask<Void, Object[], Void>
             new BucksTrafficFlowBoxQueryTest(),
             new BucksRoadWorksBoxQueryTest(),
             new BucksSyncAdapterTest(),
-            new ApplicationEntityDeleteTest()
+            // Clearview Silverstone.
+            new GetDeviceArrayTest(),
+            new GetTrafficGroupArrayTest(),
+            new CvsDeviceDeleteTest(),
+            new CvsTrafficGroupDeleteTest(),
+            new CvsDeviceInsertTest(),
+            new CvsTrafficGroupInsertTest(),
+            new CvsDeviceQueryTest(),
+            new CvsTrafficGroupQueryTest(),
+            new CvsSyncAdapterTest()
+//            new ApplicationEntityDeleteTest()
     };
     private int testNum = 0;
     private String currentTest;
@@ -73,8 +89,12 @@ public class RunnerTask extends AsyncTask<Void, Object[], Void>
     @Override
     protected Void doInBackground(Void... voids) {
         // Create an installation id if needed.
-        CredentialHelper.initialiseCredentials(context, OneTransportTest.USER_NAME,
-                OneTransportTest.PASSWORD, "installation-id");
+        net.uk.onetransport.android.county.bucks.authentication.CredentialHelper
+                .initialiseCredentials(context, OneTransportTest.USER_NAME,
+                        OneTransportTest.PASSWORD, "installation-id");
+        net.uk.onetransport.android.modules.clearviewsilverstone.authentication.CredentialHelper
+                .initialiseCredentials(context, OneTransportTest.USER_NAME,
+                        OneTransportTest.PASSWORD, "installation-id");
         // One synchronous test run and one asynchronous.
         reportAdapter.setNumTests(oneTransportTests.length * 2);
         publishProgress(new Object[][]{{"", 0x0}, {"Starting tests...", 0xffffff00}, {"", 0x0}});
