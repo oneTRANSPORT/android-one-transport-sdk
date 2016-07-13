@@ -215,7 +215,7 @@ public class CvsProviderModule implements ProviderModule {
                 try {
                     TrafficGroupArray trafficGroupArray = TrafficGroupArray.getTrafficGroupArray(context);
                     CvsContentHelper.deleteFromProvider(context,
-                            CvsContentHelper.DATA_TYPE_DEVICE);
+                            CvsContentHelper.DATA_TYPE_TRAFFIC);
                     CvsContentHelper.insertIntoProvider(context, trafficGroupArray.getTrafficGroups());
                 } catch (Exception e) {
                     e.printStackTrace();
