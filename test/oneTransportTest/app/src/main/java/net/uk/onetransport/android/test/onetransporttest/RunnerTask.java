@@ -7,6 +7,7 @@ import com.interdigital.android.dougal.resource.Resource;
 import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
 import net.uk.onetransport.android.test.onetransporttest.tests.OneTransportTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.vector.GetVectorArrayTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.carpark.GetCarParkArrayTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksCarParkBoxQueryTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksCarParkDeleteTest;
@@ -71,7 +72,14 @@ public class RunnerTask extends AsyncTask<Void, Object[], Void>
             new CvsTrafficGroupInsertTest(),
             new CvsDeviceQueryTest(),
             new CvsTrafficGroupQueryTest(),
-            new CvsSyncAdapterTest()
+            new CvsSyncAdapterTest(),
+            // BitCarrier Silverstone
+            // TODO    Turns out this data has expired from the CSE.  Need to add manually
+            // TODO    from Owen's previous copy.
+//            new GetNodeArrayTest(),
+//            new GetVectorArrayTest(),
+
+
 //            new ApplicationEntityDeleteTest()
     };
     private int testNum = 0;
@@ -93,6 +101,9 @@ public class RunnerTask extends AsyncTask<Void, Object[], Void>
                 .initialiseCredentials(context, OneTransportTest.USER_NAME,
                         OneTransportTest.PASSWORD, "installation-id");
         net.uk.onetransport.android.modules.clearviewsilverstone.authentication.CredentialHelper
+                .initialiseCredentials(context, OneTransportTest.USER_NAME,
+                        OneTransportTest.PASSWORD, "installation-id");
+        net.uk.onetransport.android.modules.bitcarriersilverstone.authentication.CredentialHelper
                 .initialiseCredentials(context, OneTransportTest.USER_NAME,
                         OneTransportTest.PASSWORD, "installation-id");
         // One synchronous test run and one asynchronous.
