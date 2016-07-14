@@ -4,7 +4,6 @@ import com.interdigital.android.dougal.Types;
 import com.interdigital.android.dougal.resource.Resource;
 import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
-import net.uk.onetransport.android.modules.bitcarriersilverstone.node.NodeArray;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.vector.VectorArray;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.vector.VectorArrayCallback;
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;

@@ -4,9 +4,8 @@ import com.interdigital.android.dougal.Types;
 import com.interdigital.android.dougal.resource.Resource;
 import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
-import net.uk.onetransport.android.modules.bitcarriersilverstone.node.NodeArray;
-import net.uk.onetransport.android.modules.bitcarriersilverstone.node.NodeArrayCallback;
-import net.uk.onetransport.android.modules.clearviewsilverstone.device.DeviceArray;
+import net.uk.onetransport.android.modules.bitcarriersilverstone.config.node.NodeArray;
+import net.uk.onetransport.android.modules.bitcarriersilverstone.config.node.NodeArrayCallback;
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
 import net.uk.onetransport.android.test.onetransporttest.tests.OneTransportTest;
 
