@@ -1,4 +1,4 @@
-package net.uk.onetransport.android.modules.bitcarriersilverstone.vector;
+package net.uk.onetransport.android.modules.bitcarriersilverstone.config.vector;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

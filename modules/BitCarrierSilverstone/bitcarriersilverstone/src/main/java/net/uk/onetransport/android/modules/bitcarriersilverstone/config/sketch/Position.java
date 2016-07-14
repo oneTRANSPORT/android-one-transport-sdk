@@ -12,6 +12,14 @@ public class Position {
     @SerializedName("lon")
     private Double longitude;
 
+    public Position() {
+    }
+
+    public Position(double latitude, double longitude) {
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+
     public Double getLatitude() {
         return latitude;
     }

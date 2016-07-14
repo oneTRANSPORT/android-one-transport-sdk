@@ -7,7 +7,9 @@ import com.interdigital.android.dougal.resource.Resource;
 import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
 import net.uk.onetransport.android.test.onetransporttest.tests.OneTransportTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.Sketch.GetSketchArrayTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.travelsummary.GetTravelSummaryArrayTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.vector.GetVectorStatusArrayTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.carpark.GetCarParkArrayTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksCarParkBoxQueryTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksCarParkDeleteTest;
@@ -84,7 +86,10 @@ public class RunnerTask extends AsyncTask<Void, Object[], Void>
 //            new GetSketchArrayTest(),
 //            new GetCityArrayTest(),
 //            new GetZoneArrayTest(),GetVectorArrayTest
+            // This data is still available.
             new GetTravelSummaryArrayTest(),
+            new GetVectorStatusArrayTest(),
+            new GetSketchArrayTest(),
 
 //            new ApplicationEntityDeleteTest()
     };

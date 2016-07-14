@@ -1,4 +1,4 @@
-package net.uk.onetransport.android.modules.bitcarriersilverstone.vector;
+package net.uk.onetransport.android.modules.bitcarriersilverstone.data.sketch;
 
 import android.content.Context;
 
@@ -11,56 +11,56 @@ import net.uk.onetransport.android.modules.bitcarriersilverstone.BaseArray;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.R;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.authentication.CredentialHelper;
 
-public class VectorArray extends BaseArray implements DougalCallback {
+public class SketchArray extends BaseArray implements DougalCallback {
 
-    public static final int START_VECTOR_ID = 276;
-    public static final int END_VECTOR_ID = 365;
-    public static final int NUM_VECTORS = END_VECTOR_ID - START_VECTOR_ID + 1;
-    public static final String AE_NAME = "Worldsensing";
+    private static final int[] SKETCH_IDS = {122, 128, 133, 134, 145, 146, 147, 150, 151, 152, 153, 154, 156,
+            157, 161, 165, 175, 176, 183, 193, 195, 196};
+    private static final String AE_NAME = "Worldsensing";
     private static final String RETRIEVE_PREFIX = AE_NAME
-            + "/BitCarrier/v1.0/InterdigitalDemo/installationtest/silverstone/config/vectors/v";
+            + "/BitCarrier/v1.0/InterdigitalDemo/installationtest/data/sketches/s";
 
     private static int completed = 0;
 
-    private Vector[] vectors;
-    private VectorArrayCallback vectorArrayCallback;
+    private Sketch[] sketches;
+    private SketchArrayCallback sketchArrayCallback;
     private int id; // TODO    Move to superclass?
 
-    private VectorArray() {
+    private SketchArray() {
     }
 
-    public VectorArray(Vector[] vectors) {
-        this.vectors = vectors;
+    public SketchArray(Sketch[] sketches) {
+        this.sketches = sketches;
     }
 
-    public static VectorArray getVectorArray(Context context) throws Exception {
+    public static SketchArray getSketchArray(Context context) throws Exception {
         String aeId = "C-" + CredentialHelper.getAeId(context);
         String userName = CredentialHelper.getAeId(context);
         String password = CredentialHelper.getSessionToken(context);
         String cseBaseUrl = context.getString(R.string.bitcarrier_cse_base_url);
-        Vector[] newVectors = new Vector[NUM_VECTORS];
-        for (int i = START_VECTOR_ID; i <= END_VECTOR_ID; i++) {
+        Sketch[] newSketches = new Sketch[SKETCH_IDS.length];
+        for (int i = 0; i < SKETCH_IDS.length; i++) {
             ContentInstance contentInstance = Container.retrieveLatest(aeId, cseBaseUrl,
-                    RETRIEVE_PREFIX + String.valueOf(i), userName, password);
+                    RETRIEVE_PREFIX + String.valueOf(SKETCH_IDS[i]), userName, password);
             String content = contentInstance.getContent();
-            newVectors[i] = GSON.fromJson(content, Vector.class);
+            newSketches[i] = GSON.fromJson(content, Sketch.class);
         }
-        return new VectorArray(newVectors);
+        return new SketchArray(newSketches);
     }
 
-    public static void getVectorArrayAsync(Context context,
-                                           VectorArrayCallback vectorArrayCallback, int id) {
-        VectorArray vectorArray = new VectorArray();
-        vectorArray.vectors = new Vector[NUM_VECTORS];
-        vectorArray.vectorArrayCallback = vectorArrayCallback;
-        vectorArray.id = id;
+    public static void getSketchArrayAsync(Context context,
+                                           SketchArrayCallback sketchArrayCallback, int id) {
+        SketchArray sketchArray = new SketchArray();
+        sketchArray.sketches = new Sketch[SKETCH_IDS.length];
+        sketchArray.sketchArrayCallback = sketchArrayCallback;
+        sketchArray.id = id;
         String aeId = "C-" + CredentialHelper.getAeId(context);
         String userName = CredentialHelper.getAeId(context);
         String password = CredentialHelper.getSessionToken(context);
         String cseBaseUrl = context.getString(R.string.bitcarrier_cse_base_url);
-        for (int i = START_VECTOR_ID; i <= END_VECTOR_ID; i++) {
+        for (int i = 0; i < SKETCH_IDS.length; i++) {
             Container.retrieveLatestAsync(aeId, cseBaseUrl,
-                    RETRIEVE_PREFIX + String.valueOf(i), userName, password, vectorArray);
+                    RETRIEVE_PREFIX + String.valueOf(SKETCH_IDS[i]), userName, password,
+                    sketchArray);
         }
     }
 
@@ -68,23 +68,23 @@ public class VectorArray extends BaseArray implements DougalCallback {
     public void getResponse(Resource resource, Throwable throwable) {
         // TODO    Should we really only call this once?  Follow the Bucks pattern for now.
         if (throwable != null) {
-            vectorArrayCallback.onVectorArrayError(id, throwable);
+            sketchArrayCallback.onSketchArrayError(id, throwable);
         } else {
             try {
                 String content = ((ContentInstance) resource).getContent();
                 // TODO    There will be holes if there is a download error.
-                vectors[completed] = GSON.fromJson(content, Vector.class);
+                sketches[completed] = GSON.fromJson(content, Sketch.class);
             } catch (Exception e) {
-                vectorArrayCallback.onVectorArrayError(id, e);
+                sketchArrayCallback.onSketchArrayError(id, e);
             }
             completed++;
-            if (completed == NUM_VECTORS) {
-                vectorArrayCallback.onVectorArrayReady(id, this);
+            if (completed == SKETCH_IDS.length) {
+                sketchArrayCallback.onSketchArrayReady(id, this);
             }
         }
     }
 
-    public Vector[] getVectors() {
-        return vectors;
+    public Sketch[] getSketches() {
+        return sketches;
     }
 }
