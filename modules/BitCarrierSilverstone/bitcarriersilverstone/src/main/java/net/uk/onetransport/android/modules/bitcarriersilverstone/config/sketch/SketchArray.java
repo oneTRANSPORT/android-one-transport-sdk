@@ -7,7 +7,7 @@ import com.interdigital.android.dougal.resource.ContentInstance;
 import com.interdigital.android.dougal.resource.Resource;
 import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
-import net.uk.onetransport.android.modules.bitcarriersilverstone.BaseArray;
+import net.uk.onetransport.android.modules.bitcarriersilverstone.generic.BaseArray;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.R;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.authentication.CredentialHelper;
 
