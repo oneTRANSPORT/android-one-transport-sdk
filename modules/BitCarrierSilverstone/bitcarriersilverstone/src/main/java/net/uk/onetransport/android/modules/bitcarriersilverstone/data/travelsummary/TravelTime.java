@@ -1,4 +1,4 @@
-package net.uk.onetransport.android.modules.bitcarriersilverstone.data.traveltime;
+package net.uk.onetransport.android.modules.bitcarriersilverstone.data.travelsummary;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

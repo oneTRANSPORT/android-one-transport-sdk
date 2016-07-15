@@ -6,26 +6,26 @@ import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
 import net.uk.onetransport.android.modules.clearviewsilverstone.traffic.TrafficGroupArray;
 import net.uk.onetransport.android.modules.clearviewsilverstone.traffic.TrafficGroupArrayCallback;
+import net.uk.onetransport.android.test.onetransporttest.RunnerFragment;
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
 import net.uk.onetransport.android.test.onetransporttest.tests.OneTransportTest;
 
 public class GetTrafficGroupArrayTest extends OneTransportTest
         implements TrafficGroupArrayCallback {
 
-    private RunnerTask runnerTask;
     private DougalCallback dougalCallback;
 
     @Override
     public void start(RunnerTask runnerTask) throws Exception {
-        this.runnerTask = runnerTask;
-        getTrafficGroupArray();
+        getTrafficGroupArray(runnerTask);
     }
 
     @Override
     public void startAsync(DougalCallback dougalCallback) {
-        runnerTask.setCurrentTest("CVS get traffic group array");
+        ((RunnerFragment) dougalCallback).setCurrentTest("CVS get traffic group array");
         this.dougalCallback = dougalCallback;
-        TrafficGroupArray.getTrafficGroupArrayAsync(runnerTask.getContext(), this, 1);
+        TrafficGroupArray.getTrafficGroupArrayAsync(((RunnerFragment) dougalCallback).getContext(),
+                this, 1);
     }
 
     @Override
@@ -45,7 +45,7 @@ public class GetTrafficGroupArrayTest extends OneTransportTest
         dougalCallback.getResponse(null, new Throwable("Traffic group array error"));
     }
 
-    private void getTrafficGroupArray() throws Exception {
+    private void getTrafficGroupArray(RunnerTask runnerTask) throws Exception {
         runnerTask.setCurrentTest("CVS get traffic group array");
         TrafficGroupArray trafficGroupArray = TrafficGroupArray.getTrafficGroupArray(
                 runnerTask.getContext());

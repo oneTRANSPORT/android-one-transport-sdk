@@ -6,25 +6,24 @@ import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
 import net.uk.onetransport.android.county.bucks.trafficflow.TrafficFlowArray;
 import net.uk.onetransport.android.county.bucks.trafficflow.TrafficFlowArrayCallback;
+import net.uk.onetransport.android.test.onetransporttest.RunnerFragment;
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
 import net.uk.onetransport.android.test.onetransporttest.tests.OneTransportTest;
 
 public class GetTrafficFlowArrayTest extends OneTransportTest
         implements TrafficFlowArrayCallback {
 
-    private RunnerTask runnerTask;
     private DougalCallback dougalCallback;
 
     @Override
     public void start(RunnerTask runnerTask) throws Exception {
-        this.runnerTask = runnerTask;
-        getTrafficFlowArray();
+        getTrafficFlowArray(runnerTask);
     }
 
     public void startAsync(DougalCallback dougalCallback) {
-        runnerTask.setCurrentTest("BUCKS get traffic flow array");
+        ((RunnerFragment) dougalCallback).setCurrentTest("BUCKS get traffic flow array");
         this.dougalCallback = dougalCallback;
-        TrafficFlowArray.getTrafficFlowArrayAsync(runnerTask.getContext(), this, 1);
+        TrafficFlowArray.getTrafficFlowArrayAsync(((RunnerFragment) dougalCallback).getContext(), this, 1);
     }
 
     @Override
@@ -46,7 +45,7 @@ public class GetTrafficFlowArrayTest extends OneTransportTest
         dougalCallback.getResponse(null, new Throwable("Traffic flow array error"));
     }
 
-    private void getTrafficFlowArray() throws Exception {
+    private void getTrafficFlowArray(RunnerTask runnerTask) throws Exception {
         runnerTask.setCurrentTest("BUCKS get traffic flow array");
         TrafficFlowArray trafficFlowArray = TrafficFlowArray
                 .getTrafficFlowArray(runnerTask.getContext());

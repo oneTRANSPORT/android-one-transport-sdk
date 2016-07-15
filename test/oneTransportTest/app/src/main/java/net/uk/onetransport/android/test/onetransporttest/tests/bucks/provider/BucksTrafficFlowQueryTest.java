@@ -5,25 +5,23 @@ import android.database.Cursor;
 import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
 import net.uk.onetransport.android.county.bucks.provider.BucksContentHelper;
+import net.uk.onetransport.android.test.onetransporttest.RunnerFragment;
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
 import net.uk.onetransport.android.test.onetransporttest.tests.OneTransportTest;
 
 public class BucksTrafficFlowQueryTest extends OneTransportTest {
 
-    private RunnerTask runnerTask;
-
     @Override
     public void start(RunnerTask runnerTask) throws Exception {
-        this.runnerTask = runnerTask;
-        trafficFlowQuery();
+        trafficFlowQuery(runnerTask);
     }
 
     public void startAsync(DougalCallback dougalCallback) {
-        runnerTask.setCurrentTest("BUCKS traffic flow query");
+        ((RunnerFragment) dougalCallback).setCurrentTest("BUCKS traffic flow query");
         dougalCallback.getResponse(null, new Exception("Not implemented"));
     }
 
-    private void trafficFlowQuery() throws Exception {
+    private void trafficFlowQuery(RunnerTask runnerTask) throws Exception {
         runnerTask.setCurrentTest("BUCKS traffic flow query");
         Cursor cursor = BucksContentHelper.getTrafficFlows(runnerTask.getContext());
         if (cursor != null) {

@@ -7,6 +7,7 @@ import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
 import net.uk.onetransport.android.county.bucks.provider.BucksContentHelper;
 import net.uk.onetransport.android.county.bucks.provider.BucksContract;
+import net.uk.onetransport.android.test.onetransporttest.RunnerFragment;
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
 import net.uk.onetransport.android.test.onetransporttest.tests.OneTransportTest;
 
@@ -17,20 +18,17 @@ public class BucksVmsBoxQueryTest extends OneTransportTest {
     private static final double MAX_LATITUDE = 53.580616;
     private static final double MAX_LONGITUDE = 0.267483;
 
-    private RunnerTask runnerTask;
-
     @Override
     public void start(RunnerTask runnerTask) throws Exception {
-        this.runnerTask = runnerTask;
-        vmsBoxQuery();
+        vmsBoxQuery(runnerTask);
     }
 
     public void startAsync(DougalCallback dougalCallback) {
-        runnerTask.setCurrentTest("BUCKS vms box query");
+        ((RunnerFragment) dougalCallback).setCurrentTest("BUCKS vms box query");
         dougalCallback.getResponse(null, new Exception("Not implemented"));
     }
 
-    private void vmsBoxQuery() throws Exception {
+    private void vmsBoxQuery(RunnerTask runnerTask) throws Exception {
         runnerTask.setCurrentTest("BUCKS vms box query");
         Context context = runnerTask.getContext();
         Cursor cursor = BucksContentHelper.getVariableMessageSigns(context, MIN_LATITUDE,

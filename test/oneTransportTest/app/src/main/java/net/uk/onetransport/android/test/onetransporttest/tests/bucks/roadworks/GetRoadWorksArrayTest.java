@@ -6,25 +6,24 @@ import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
 import net.uk.onetransport.android.county.bucks.roadworks.RoadWorksArray;
 import net.uk.onetransport.android.county.bucks.roadworks.RoadWorksArrayCallback;
+import net.uk.onetransport.android.test.onetransporttest.RunnerFragment;
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
 import net.uk.onetransport.android.test.onetransporttest.tests.OneTransportTest;
 
 public class GetRoadWorksArrayTest extends OneTransportTest
         implements RoadWorksArrayCallback {
 
-    private RunnerTask runnerTask;
     private DougalCallback dougalCallback;
 
     @Override
     public void start(RunnerTask runnerTask) throws Exception {
-        this.runnerTask = runnerTask;
-        getRoadWorksArray();
+        getRoadWorksArray(runnerTask);
     }
 
     public void startAsync(DougalCallback dougalCallback) {
-        runnerTask.setCurrentTest("BUCKS get road works array");
+        ((RunnerFragment) dougalCallback).setCurrentTest("BUCKS get road works array");
         this.dougalCallback = dougalCallback;
-        RoadWorksArray.getRoadWorksArrayAsync(runnerTask.getContext(), this, 1);
+        RoadWorksArray.getRoadWorksArrayAsync(((RunnerFragment) dougalCallback).getContext(), this, 1);
     }
 
     @Override
@@ -45,7 +44,7 @@ public class GetRoadWorksArrayTest extends OneTransportTest
         dougalCallback.getResponse(null, new Throwable("Road works array error"));
     }
 
-    private void getRoadWorksArray() throws Exception {
+    private void getRoadWorksArray(RunnerTask runnerTask) throws Exception {
         runnerTask.setCurrentTest("BUCKS get road works array");
         RoadWorksArray roadWorksArray = RoadWorksArray.getRoadWorksArray(runnerTask.getContext());
         if (roadWorksArray.getRoadWorks() == null || roadWorksArray.getRoadWorks().length == 0) {

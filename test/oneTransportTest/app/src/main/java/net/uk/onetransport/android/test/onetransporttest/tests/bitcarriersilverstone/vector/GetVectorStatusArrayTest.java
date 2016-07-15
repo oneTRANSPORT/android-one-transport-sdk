@@ -4,29 +4,28 @@ import com.interdigital.android.dougal.Types;
 import com.interdigital.android.dougal.resource.Resource;
 import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
-import net.uk.onetransport.android.modules.bitcarriersilverstone.data.traveltime.TravelSummaryArray;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.data.vector.VectorStatusArray;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.data.vector.VectorStatusArrayCallback;
+import net.uk.onetransport.android.test.onetransporttest.RunnerFragment;
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
 import net.uk.onetransport.android.test.onetransporttest.tests.OneTransportTest;
 
 public class GetVectorStatusArrayTest extends OneTransportTest
         implements VectorStatusArrayCallback {
 
-    private RunnerTask runnerTask;
     private DougalCallback dougalCallback;
 
     @Override
     public void start(RunnerTask runnerTask) throws Exception {
-        this.runnerTask = runnerTask;
-        getVectorStatusArray();
+        getVectorStatusArray(runnerTask);
     }
 
     @Override
     public void startAsync(DougalCallback dougalCallback) {
-        runnerTask.setCurrentTest("BCS get vector status array");
+        ((RunnerFragment) dougalCallback).setCurrentTest("BCS get vector status array");
         this.dougalCallback = dougalCallback;
-        VectorStatusArray.getVectorStatusArrayAsync(runnerTask.getContext(), this, 1);
+        VectorStatusArray.getVectorStatusArrayAsync(((RunnerFragment) dougalCallback).getContext(),
+                this, 1);
     }
 
     @Override
@@ -46,7 +45,7 @@ public class GetVectorStatusArrayTest extends OneTransportTest
         dougalCallback.getResponse(null, new Throwable("Vector status array error"));
     }
 
-    private void getVectorStatusArray() throws Exception {
+    private void getVectorStatusArray(RunnerTask runnerTask) throws Exception {
         runnerTask.setCurrentTest("BCS get vector status array");
         VectorStatusArray vectorStatusArray = VectorStatusArray.getVectorStatusArray(
                 runnerTask.getContext());

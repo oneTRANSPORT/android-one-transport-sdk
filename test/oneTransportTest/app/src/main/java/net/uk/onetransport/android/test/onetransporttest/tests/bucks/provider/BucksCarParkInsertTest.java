@@ -8,35 +8,23 @@ import com.interdigital.android.dougal.resource.callback.DougalCallback;
 import net.uk.onetransport.android.county.bucks.carparks.CarParkArray;
 import net.uk.onetransport.android.county.bucks.carparks.CarParkArrayCallback;
 import net.uk.onetransport.android.county.bucks.provider.BucksContentHelper;
+import net.uk.onetransport.android.test.onetransporttest.RunnerFragment;
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
 import net.uk.onetransport.android.test.onetransporttest.tests.OneTransportTest;
 
-public class BucksCarParkInsertTest extends OneTransportTest implements CarParkArrayCallback {
-
-    private RunnerTask runnerTask;
+public class BucksCarParkInsertTest extends OneTransportTest{
 
     @Override
     public void start(RunnerTask runnerTask) throws Exception {
-        this.runnerTask = runnerTask;
-        insertCarParks();
+        insertCarParks(runnerTask);
     }
 
     public void startAsync(DougalCallback dougalCallback) {
-        runnerTask.setCurrentTest("BUCKS car park insert");
+        ((RunnerFragment)dougalCallback).setCurrentTest("BUCKS car park insert");
         dougalCallback.getResponse(null, new Exception("Not implemented"));
     }
 
-    @Override
-    public void onCarParkArrayReady(int id, CarParkArray carParkArray) {
-
-    }
-
-    @Override
-    public void onCarParkArrayError(int id, Throwable throwable) {
-
-    }
-
-    private void insertCarParks() throws Exception {
+    private void insertCarParks(RunnerTask runnerTask) throws Exception {
         runnerTask.setCurrentTest("BUCKS car park insert");
         Context context = runnerTask.getContext();
         CarParkArray carParkArray = CarParkArray.getCarParkArray(context);

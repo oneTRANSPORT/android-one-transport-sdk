@@ -7,25 +7,23 @@ import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
 import net.uk.onetransport.android.modules.clearviewsilverstone.provider.CvsContentHelper;
 import net.uk.onetransport.android.modules.clearviewsilverstone.traffic.TrafficGroupArray;
+import net.uk.onetransport.android.test.onetransporttest.RunnerFragment;
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
 import net.uk.onetransport.android.test.onetransporttest.tests.OneTransportTest;
 
 public class CvsTrafficGroupInsertTest extends OneTransportTest {
 
-    private RunnerTask runnerTask;
-
     @Override
     public void start(RunnerTask runnerTask) throws Exception {
-        this.runnerTask = runnerTask;
-        insertTrafficGroups();
+        insertTrafficGroups(runnerTask);
     }
 
     public void startAsync(DougalCallback dougalCallback) {
-        runnerTask.setCurrentTest("CVS traffic group insert");
+        ((RunnerFragment) dougalCallback).setCurrentTest("CVS traffic group insert");
         dougalCallback.getResponse(null, new Exception("Not implemented"));
     }
 
-    private void insertTrafficGroups() throws Exception {
+    private void insertTrafficGroups(RunnerTask runnerTask) throws Exception {
         runnerTask.setCurrentTest("CVS traffic group insert");
         Context context = runnerTask.getContext();
         TrafficGroupArray trafficGroupArray = TrafficGroupArray.getTrafficGroupArray(context);

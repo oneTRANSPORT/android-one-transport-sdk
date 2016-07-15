@@ -2,6 +2,7 @@ package net.uk.onetransport.android.modules.bitcarriersilverstone.data.sketch;
 
 import android.content.Context;
 
+import net.uk.onetransport.android.modules.bitcarriersilverstone.generic.Retriever;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.generic.RetrieverLoader;
 
 import java.util.ArrayList;
@@ -24,6 +25,6 @@ public class SketchRetrieverLoader extends RetrieverLoader<Sketch> implements Sk
 
     @Override
     protected Sketch fromJson(String content) {
-        return null;
+        return Retriever.GSON.fromJson(content, Sketch.class);
     }
 }

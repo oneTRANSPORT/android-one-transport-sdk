@@ -10,25 +10,23 @@ import net.uk.onetransport.android.county.bucks.carparks.CarParkArray;
 import net.uk.onetransport.android.county.bucks.provider.BucksContentHelper;
 import net.uk.onetransport.android.county.bucks.provider.BucksProviderModule;
 import net.uk.onetransport.android.modules.common.provider.lastupdated.LastUpdatedProviderModule;
+import net.uk.onetransport.android.test.onetransporttest.RunnerFragment;
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
 import net.uk.onetransport.android.test.onetransporttest.tests.OneTransportTest;
 
 public class BucksSyncAdapterTest extends OneTransportTest {
 
-    private RunnerTask runnerTask;
-
     @Override
     public void start(RunnerTask runnerTask) throws Exception {
-        this.runnerTask = runnerTask;
-        startSync();
+        startSync(runnerTask);
     }
 
     public void startAsync(DougalCallback dougalCallback) {
-        runnerTask.setCurrentTest("BUCKS sync adapter");
+        ((RunnerFragment) dougalCallback).setCurrentTest("BUCKS sync adapter");
         dougalCallback.getResponse(null, new Exception("Not implemented"));
     }
 
-    private void startSync() throws Exception {
+    private void startSync(RunnerTask runnerTask) throws Exception {
         runnerTask.setCurrentTest("BUCKS sync adapter");
         Context context = runnerTask.getContext();
         // The sync adapter should do this anyway, but just setting the pre-condition for the test.

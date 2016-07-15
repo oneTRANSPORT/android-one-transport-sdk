@@ -10,26 +10,24 @@ import net.uk.onetransport.android.modules.clearviewsilverstone.device.DeviceArr
 import net.uk.onetransport.android.modules.clearviewsilverstone.provider.CvsContentHelper;
 import net.uk.onetransport.android.modules.clearviewsilverstone.provider.CvsProviderModule;
 import net.uk.onetransport.android.modules.common.provider.lastupdated.LastUpdatedProviderModule;
+import net.uk.onetransport.android.test.onetransporttest.RunnerFragment;
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
 import net.uk.onetransport.android.test.onetransporttest.tests.OneTransportTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.AdapterObserver;
 
 public class CvsSyncAdapterTest extends OneTransportTest {
 
-    private RunnerTask runnerTask;
-
     @Override
     public void start(RunnerTask runnerTask) throws Exception {
-        this.runnerTask = runnerTask;
-        startSync();
+        startSync(runnerTask);
     }
 
     public void startAsync(DougalCallback dougalCallback) {
-        runnerTask.setCurrentTest("CVS sync adapter");
+        ((RunnerFragment) dougalCallback).setCurrentTest("CVS sync adapter");
         dougalCallback.getResponse(null, new Exception("Not implemented"));
     }
 
-    private void startSync() throws Exception {
+    private void startSync(RunnerTask runnerTask) throws Exception {
         runnerTask.setCurrentTest("CVS sync adapter");
         Context context = runnerTask.getContext();
         // The sync adapter should do this anyway, but just setting the pre-condition for the test.

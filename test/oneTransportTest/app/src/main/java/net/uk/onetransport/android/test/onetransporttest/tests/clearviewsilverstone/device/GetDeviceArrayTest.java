@@ -4,28 +4,26 @@ import com.interdigital.android.dougal.Types;
 import com.interdigital.android.dougal.resource.Resource;
 import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
-import net.uk.onetransport.android.county.bucks.carparks.CarParkArray;
 import net.uk.onetransport.android.modules.clearviewsilverstone.device.DeviceArray;
 import net.uk.onetransport.android.modules.clearviewsilverstone.device.DeviceArrayCallback;
+import net.uk.onetransport.android.test.onetransporttest.RunnerFragment;
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
 import net.uk.onetransport.android.test.onetransporttest.tests.OneTransportTest;
 
 public class GetDeviceArrayTest extends OneTransportTest implements DeviceArrayCallback {
 
-    private RunnerTask runnerTask;
     private DougalCallback dougalCallback;
 
     @Override
     public void start(RunnerTask runnerTask) throws Exception {
-        this.runnerTask = runnerTask;
-        getDeviceArray();
+        getDeviceArray(runnerTask);
     }
 
     @Override
     public void startAsync(DougalCallback dougalCallback) {
-        runnerTask.setCurrentTest("CVS get device array");
+        ((RunnerFragment) dougalCallback).setCurrentTest("CVS get device array");
         this.dougalCallback = dougalCallback;
-        DeviceArray.getDeviceArrayAsync(runnerTask.getContext(), this, 1);
+        DeviceArray.getDeviceArrayAsync(((RunnerFragment) dougalCallback).getContext(), this, 1);
     }
 
     @Override
@@ -45,7 +43,7 @@ public class GetDeviceArrayTest extends OneTransportTest implements DeviceArrayC
         dougalCallback.getResponse(null, new Throwable("Device array error"));
     }
 
-    private void getDeviceArray() throws Exception {
+    private void getDeviceArray(RunnerTask runnerTask) throws Exception {
         runnerTask.setCurrentTest("CVS get device array");
         DeviceArray deviceArray = DeviceArray.getDeviceArray(runnerTask.getContext());
         if (deviceArray.getDevices() == null || deviceArray.getDevices().length == 0) {

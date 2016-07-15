@@ -6,25 +6,25 @@ import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
 import net.uk.onetransport.android.county.bucks.variablemessagesigns.VariableMessageSignArray;
 import net.uk.onetransport.android.county.bucks.variablemessagesigns.VariableMessageSignArrayCallback;
+import net.uk.onetransport.android.test.onetransporttest.RunnerFragment;
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
 import net.uk.onetransport.android.test.onetransporttest.tests.OneTransportTest;
 
 public class GetVariableMessageSignArrayTest extends OneTransportTest
         implements VariableMessageSignArrayCallback {
 
-    private RunnerTask runnerTask;
     private DougalCallback dougalCallback;
 
     @Override
     public void start(RunnerTask runnerTask) throws Exception {
-        this.runnerTask = runnerTask;
-        getVariableMessageSignArray();
+        getVariableMessageSignArray(runnerTask);
     }
 
     public void startAsync(DougalCallback dougalCallback) {
-        runnerTask.setCurrentTest("BUCKS get variable message sign array");
+        ((RunnerFragment) dougalCallback).setCurrentTest("BUCKS get variable message sign array");
         this.dougalCallback = dougalCallback;
-        VariableMessageSignArray.getVariableMessageSignArrayAsync(runnerTask.getContext(), this, 1);
+        VariableMessageSignArray.getVariableMessageSignArrayAsync(
+                ((RunnerFragment) dougalCallback).getContext(), this, 1);
     }
 
     @Override
@@ -46,7 +46,7 @@ public class GetVariableMessageSignArrayTest extends OneTransportTest
         dougalCallback.getResponse(null, new Throwable("Variable message sign array error"));
     }
 
-    private void getVariableMessageSignArray() throws Exception {
+    private void getVariableMessageSignArray(RunnerTask runnerTask) throws Exception {
         runnerTask.setCurrentTest("BUCKS get variable message sign array");
         VariableMessageSignArray variableMessageSignArray = VariableMessageSignArray
                 .getVariableMessageSignArray(runnerTask.getContext());

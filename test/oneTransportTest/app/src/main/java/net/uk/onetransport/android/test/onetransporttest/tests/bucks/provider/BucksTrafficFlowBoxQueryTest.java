@@ -6,6 +6,7 @@ import android.database.Cursor;
 import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
 import net.uk.onetransport.android.county.bucks.provider.BucksContentHelper;
+import net.uk.onetransport.android.test.onetransporttest.RunnerFragment;
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
 import net.uk.onetransport.android.test.onetransporttest.tests.OneTransportTest;
 
@@ -16,20 +17,17 @@ public class BucksTrafficFlowBoxQueryTest extends OneTransportTest {
     private static final double MAX_LATITUDE = 51.98;
     private static final double MAX_LONGITUDE = -0.73;
 
-    private RunnerTask runnerTask;
-
     @Override
     public void start(RunnerTask runnerTask) throws Exception {
-        this.runnerTask = runnerTask;
-        trafficFlowBoxQuery();
+        trafficFlowBoxQuery(runnerTask);
     }
 
     public void startAsync(DougalCallback dougalCallback) {
-        runnerTask.setCurrentTest("BUCKS traffic flow box query");
+        ((RunnerFragment) dougalCallback).setCurrentTest("BUCKS traffic flow box query");
         dougalCallback.getResponse(null, new Exception("Not implemented"));
     }
 
-    private void trafficFlowBoxQuery() throws Exception {
+    private void trafficFlowBoxQuery(RunnerTask runnerTask) throws Exception {
         runnerTask.setCurrentTest("BUCKS traffic flow box query");
         Context context = runnerTask.getContext();
         Cursor cursor = BucksContentHelper.getTrafficFlows(context, MIN_LATITUDE, MIN_LONGITUDE,

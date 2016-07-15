@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public abstract class Retriever<T> {
 
-    protected static final Gson GSON = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+    public static final Gson GSON = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 
     public Retriever() {
     }

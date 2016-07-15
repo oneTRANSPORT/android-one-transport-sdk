@@ -5,29 +5,25 @@ import android.database.Cursor;
 
 import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
-import net.uk.onetransport.android.county.bucks.provider.BucksContentHelper;
-import net.uk.onetransport.android.county.bucks.roadworks.RoadWorksArray;
 import net.uk.onetransport.android.modules.clearviewsilverstone.device.DeviceArray;
 import net.uk.onetransport.android.modules.clearviewsilverstone.provider.CvsContentHelper;
+import net.uk.onetransport.android.test.onetransporttest.RunnerFragment;
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
 import net.uk.onetransport.android.test.onetransporttest.tests.OneTransportTest;
 
 public class CvsDeviceInsertTest extends OneTransportTest {
 
-    private RunnerTask runnerTask;
-
     @Override
     public void start(RunnerTask runnerTask) throws Exception {
-        this.runnerTask = runnerTask;
-        insertDevices();
+        insertDevices(runnerTask);
     }
 
     public void startAsync(DougalCallback dougalCallback) {
-        runnerTask.setCurrentTest("CVS device insert");
+        ((RunnerFragment) dougalCallback).setCurrentTest("CVS device insert");
         dougalCallback.getResponse(null, new Exception("Not implemented"));
     }
 
-    private void insertDevices() throws Exception {
+    private void insertDevices(RunnerTask runnerTask) throws Exception {
         runnerTask.setCurrentTest("CVS device insert");
         Context context = runnerTask.getContext();
         DeviceArray deviceArray = DeviceArray.getDeviceArray(context);

@@ -6,24 +6,23 @@ import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
 import net.uk.onetransport.android.county.bucks.carparks.CarParkArray;
 import net.uk.onetransport.android.county.bucks.carparks.CarParkArrayCallback;
+import net.uk.onetransport.android.test.onetransporttest.RunnerFragment;
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
 import net.uk.onetransport.android.test.onetransporttest.tests.OneTransportTest;
 
 public class GetCarParkArrayTest extends OneTransportTest implements CarParkArrayCallback {
 
-    private RunnerTask runnerTask;
     private DougalCallback dougalCallback;
 
     @Override
     public void start(RunnerTask runnerTask) throws Exception {
-        this.runnerTask = runnerTask;
-        getCarParkArray();
+        getCarParkArray(runnerTask);
     }
 
     public void startAsync(DougalCallback dougalCallback) {
-        runnerTask.setCurrentTest("BUCKS get car park array");
+        ((RunnerFragment) dougalCallback).setCurrentTest("BUCKS get car park array");
         this.dougalCallback = dougalCallback;
-        CarParkArray.getCarParkArrayAsync(runnerTask.getContext(), this, 1);
+        CarParkArray.getCarParkArrayAsync(((RunnerFragment) dougalCallback).getContext(), this, 1);
     }
 
     @Override
@@ -43,7 +42,7 @@ public class GetCarParkArrayTest extends OneTransportTest implements CarParkArra
         dougalCallback.getResponse(null, new Throwable("Car park array error"));
     }
 
-    private void getCarParkArray() throws Exception {
+    private void getCarParkArray(RunnerTask runnerTask) throws Exception {
         runnerTask.setCurrentTest("BUCKS get car park array");
         CarParkArray carParkArray = CarParkArray.getCarParkArray(runnerTask.getContext());
         if (carParkArray.getCarParks() == null || carParkArray.getCarParks().length == 0) {
