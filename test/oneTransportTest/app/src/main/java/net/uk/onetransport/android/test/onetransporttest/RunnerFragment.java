@@ -2,6 +2,7 @@ package net.uk.onetransport.android.test.onetransporttest;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +22,8 @@ public class RunnerFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
         reportAdapter = new ReportAdapter(getContext(), getResources());
-        new RunnerTask(getContext().getApplicationContext(), reportAdapter).execute();
+        LoaderManager loaderManager = getLoaderManager();
+        new RunnerTask(getContext().getApplicationContext(), reportAdapter, loaderManager).execute();
     }
 
     @Override

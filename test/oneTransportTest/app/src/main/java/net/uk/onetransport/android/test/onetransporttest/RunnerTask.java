@@ -2,6 +2,7 @@ package net.uk.onetransport.android.test.onetransporttest;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.support.v4.app.LoaderManager;
 
 import com.interdigital.android.dougal.resource.Resource;
 import com.interdigital.android.dougal.resource.callback.DougalCallback;
@@ -95,10 +96,12 @@ public class RunnerTask extends AsyncTask<Void, Object[], Void>
     };
     private int testNum = 0;
     private String currentTest;
+    private LoaderManager loaderManager;
 
-    public RunnerTask(Context context, ReportAdapter reportAdapter) {
+    public RunnerTask(Context context, ReportAdapter reportAdapter, LoaderManager loaderManager) {
         this.context = context;
         this.reportAdapter = reportAdapter;
+        this.loaderManager = loaderManager;
     }
 
     public void report(String text, int colour) {
@@ -177,5 +180,9 @@ public class RunnerTask extends AsyncTask<Void, Object[], Void>
 
     public Context getContext() {
         return context;
+    }
+
+    public LoaderManager getLoaderManager() {
+        return loaderManager;
     }
 }

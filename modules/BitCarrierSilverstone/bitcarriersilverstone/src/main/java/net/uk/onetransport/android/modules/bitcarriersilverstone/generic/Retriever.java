@@ -15,12 +15,11 @@ import java.util.ArrayList;
 public abstract class Retriever<T> {
 
     protected static final Gson GSON = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
-    protected static final String AE_NAME = "Worldsensing";
 
     public Retriever() {
     }
 
-    public void retrieve(Context context, ArrayList<T> list) throws Exception {
+    protected void retrieve(Context context, ArrayList<T> list) throws Exception {
         String aeId = "C-" + CredentialHelper.getAeId(context);
         String userName = CredentialHelper.getAeId(context);
         String password = CredentialHelper.getSessionToken(context);

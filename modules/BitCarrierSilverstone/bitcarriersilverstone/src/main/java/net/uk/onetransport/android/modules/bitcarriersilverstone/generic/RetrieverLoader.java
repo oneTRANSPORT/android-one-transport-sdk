@@ -1,8 +1,7 @@
 package net.uk.onetransport.android.modules.bitcarriersilverstone.generic;
 
-
-import android.content.AsyncTaskLoader;
 import android.content.Context;
+import android.support.v4.content.AsyncTaskLoader;
 
 import com.interdigital.android.dougal.resource.Container;
 import com.interdigital.android.dougal.resource.ContentInstance;
@@ -13,8 +12,6 @@ import net.uk.onetransport.android.modules.bitcarriersilverstone.authentication.
 import java.util.ArrayList;
 
 public abstract class RetrieverLoader<T> extends AsyncTaskLoader<RetrieverResult<T>> {
-
-    protected static final String AE_NAME = "Worldsensing";
 
     private ArrayList<T> ts;
 
