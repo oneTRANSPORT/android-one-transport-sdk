@@ -13,11 +13,30 @@ import java.util.ArrayList;
 
 public abstract class RetrieverLoader<T> extends AsyncTaskLoader<RetrieverResult<T>> {
 
-    private ArrayList<T> ts;
+    private RetrieverResult<T> retrieverResult;
 
-    public RetrieverLoader(Context context, ArrayList<T> ts) {
+    public RetrieverLoader(Context context) {
         super(context);
-        this.ts = ts;
+        retrieverResult = new RetrieverResult<>(new ArrayList<T>(), new ArrayList<Exception>());
+    }
+
+    @Override
+    public void deliverResult(RetrieverResult<T> retrieverResult) {
+        if (isReset()) {
+            return;
+        }
+        this.retrieverResult = retrieverResult;
+        super.deliverResult(retrieverResult);
+    }
+
+    @Override
+    protected void onStartLoading() {
+        if (retrieverResult.getTs().size() != 0) {
+            deliverResult(retrieverResult);
+        }
+        if (takeContentChanged() || retrieverResult.getTs().size() == 0) {
+            forceLoad();
+        }
     }
 
     @Override
@@ -28,18 +47,29 @@ public abstract class RetrieverLoader<T> extends AsyncTaskLoader<RetrieverResult
         String password = CredentialHelper.getSessionToken(context);
         String cseBaseUrl = context.getString(R.string.bitcarrier_cse_base_url);
         int[] ids = getIds();
-        ArrayList<Exception> exceptions = new ArrayList<>();
         for (int i = 0; i < ids.length && !isLoadInBackgroundCanceled(); i++) {
             try {
                 ContentInstance contentInstance = Container.retrieveLatest(aeId, cseBaseUrl,
                         getRetrivePrefix() + String.valueOf(ids[i]), userName, password);
                 String content = contentInstance.getContent();
-                ts.add(fromJson(content));
+                retrieverResult.getTs().add(fromJson(content));
             } catch (Exception exception) {
-                exceptions.add(exception);
+                retrieverResult.getExceptions().add(exception);
             }
         }
-        return new RetrieverResult<>(ts, exceptions);
+        return retrieverResult;
+    }
+
+    @Override
+    protected void onStopLoading() {
+        cancelLoad();
+    }
+
+    @Override
+    protected void onReset() {
+        super.onReset();
+        onStopLoading();
+        retrieverResult = new RetrieverResult<>(new ArrayList<T>(), new ArrayList<Exception>());
     }
 
     protected abstract int[] getIds();

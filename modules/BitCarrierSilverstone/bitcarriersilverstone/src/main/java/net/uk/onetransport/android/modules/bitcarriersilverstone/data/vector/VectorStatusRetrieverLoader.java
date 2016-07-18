@@ -1,21 +1,20 @@
-package net.uk.onetransport.android.modules.bitcarriersilverstone.data.sketch;
+package net.uk.onetransport.android.modules.bitcarriersilverstone.data.vector;
 
 import android.content.Context;
 
 import net.uk.onetransport.android.modules.bitcarriersilverstone.generic.Retriever;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.generic.RetrieverLoader;
 
-import java.util.ArrayList;
+public class VectorStatusRetrieverLoader extends RetrieverLoader<VectorStatus>
+        implements VectorStatusParams {
 
-public class SketchRetrieverLoader extends RetrieverLoader<Sketch> implements SketchParams {
-
-    public SketchRetrieverLoader(Context context) {
+    public VectorStatusRetrieverLoader(Context context) {
         super(context);
     }
 
     @Override
     protected int[] getIds() {
-        return SKETCH_IDS;
+        return VECTOR_IDS;
     }
 
     @Override
@@ -24,7 +23,7 @@ public class SketchRetrieverLoader extends RetrieverLoader<Sketch> implements Sk
     }
 
     @Override
-    protected Sketch fromJson(String content) {
-        return Retriever.GSON.fromJson(content, Sketch.class);
+    protected VectorStatus fromJson(String content) {
+        return Retriever.GSON.fromJson(content, VectorStatus.class);
     }
 }

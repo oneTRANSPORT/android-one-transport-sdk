@@ -11,7 +11,7 @@ public class TravelSummaryRetrieverLoader extends RetrieverLoader<TravelSummary>
         implements TravelSummaryParams {
 
     public TravelSummaryRetrieverLoader(Context context) {
-        super(context, new ArrayList<TravelSummary>());
+        super(context);
     }
 
     @Override

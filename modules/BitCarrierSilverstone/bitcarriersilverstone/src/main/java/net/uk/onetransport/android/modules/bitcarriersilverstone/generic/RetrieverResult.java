@@ -1,14 +1,13 @@
 package net.uk.onetransport.android.modules.bitcarriersilverstone.generic;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class RetrieverResult<T> {
 
-    private ArrayList<T> ts;
-    private ArrayList<Exception> exceptions;
+    private List<T> ts;
+    private List<Exception> exceptions;
 
-    public RetrieverResult(ArrayList<T> ts, ArrayList<Exception> exceptions) {
+    public RetrieverResult(List<T> ts, List<Exception> exceptions) {
         this.ts = ts;
         this.exceptions = exceptions;
     }
@@ -17,7 +16,7 @@ public class RetrieverResult<T> {
         return ts;
     }
 
-    public ArrayList<Exception> getExceptions() {
+    public List<Exception> getExceptions() {
         return exceptions;
     }
 }
