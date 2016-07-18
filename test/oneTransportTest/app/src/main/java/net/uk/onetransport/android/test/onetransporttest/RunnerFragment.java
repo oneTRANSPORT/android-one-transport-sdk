@@ -2,7 +2,6 @@ package net.uk.onetransport.android.test.onetransporttest;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.LoaderManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,10 +16,9 @@ import net.uk.onetransport.android.test.onetransporttest.tests.TestList;
 public class RunnerFragment extends Fragment implements DougalCallback {
 
     private ReportAdapter reportAdapter;
-    private TestList testList = new TestList();
-    private int testNum = 0;
+    private TestList testList;
+    private int testNum;
     private String currentTest;
-    private LoaderManager loaderManager;
     private int loaderId = 0;
 
     public RunnerFragment() {
@@ -32,6 +30,7 @@ public class RunnerFragment extends Fragment implements DougalCallback {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
         reportAdapter = new ReportAdapter(getContext(), getResources());
+        testList = new TestList();
         new RunnerTask(getContext().getApplicationContext(), reportAdapter, this, testList)
                 .execute();
     }
@@ -46,6 +45,8 @@ public class RunnerFragment extends Fragment implements DougalCallback {
     }
 
     public void startAsync() {
+        testNum = 0;
+        testList = new TestList();
         testList.oneTransportTests[testNum].startAsync(this);
     }
 
@@ -65,8 +66,9 @@ public class RunnerFragment extends Fragment implements DougalCallback {
         } else {
             report(currentTest + " async task PASSED.", OneTransportTest.COLOUR_PASSED);
         }
-//        getLoaderManager().destroyLoader(loaderId);
-        testList.oneTransportTests[testNum] = null;
+        if (testNum < testList.oneTransportTests.length) {
+            testList.oneTransportTests[testNum] = null;
+        }
         testNum++;
         if (testNum < testList.oneTransportTests.length) {
             testList.oneTransportTests[testNum].startAsync(this);
@@ -75,13 +77,6 @@ public class RunnerFragment extends Fragment implements DougalCallback {
 
     public void setCurrentTest(String currentTest) {
         this.currentTest = currentTest;
-    }
-
-    public LoaderManager getLoaderManager() {
-        if (loaderManager == null) {
-            loaderManager = getLoaderManager();
-        }
-        return loaderManager;
     }
 
     public int getUniqueLoaderId() {
