@@ -17,7 +17,7 @@ public class DeviceArray extends BaseArray implements DougalCallback {
     public static final String AE_NAME = "ClearviewIntelligence_VBV";
     private static final String RETRIEVE_PREFIX = AE_NAME + "/DEVICES/DEVICE_";
 
-    private static int completed = 0;
+    private static int completed;
 
     private Device[] devices;
     private DeviceArrayCallback deviceArrayCallback;
@@ -57,6 +57,7 @@ public class DeviceArray extends BaseArray implements DougalCallback {
         String userName = CredentialHelper.getAeId(context);
         String password = CredentialHelper.getSessionToken(context);
         String cseBaseUrl = context.getString(R.string.clearview_cse_base_url);
+        completed = 0; // TODO    Probably not a good idea.  Something else?
         for (int i = 0; i < DEVICE_IDS.length; i++) {
             int deviceId = DEVICE_IDS[i];
             Container.retrieveLatestAsync(aeId, cseBaseUrl,

@@ -18,7 +18,7 @@ public class TrafficGroupArray extends BaseArray implements DougalCallback {
 
     private static final String RETRIEVE_PREFIX = DeviceArray.AE_NAME + "/DEVICE_";
 
-    private static int completed = 0;
+    private static int completed;
 
     private TrafficGroup[] trafficGroups;
     private TrafficGroupArrayCallback trafficGroupArrayCallback;
@@ -51,7 +51,7 @@ public class TrafficGroupArray extends BaseArray implements DougalCallback {
     }
 
     public static void getTrafficGroupArrayAsync(Context context,
-                                                  TrafficGroupArrayCallback trafficGroupArrayCallback, int id) {
+                                                 TrafficGroupArrayCallback trafficGroupArrayCallback, int id) {
         TrafficGroupArray trafficGroupArray = new TrafficGroupArray();
         trafficGroupArray.trafficGroups = new TrafficGroup[DeviceArray.DEVICE_IDS.length];
         trafficGroupArray.trafficGroupArrayCallback = trafficGroupArrayCallback;
@@ -60,6 +60,7 @@ public class TrafficGroupArray extends BaseArray implements DougalCallback {
         String userName = CredentialHelper.getAeId(context);
         String password = CredentialHelper.getSessionToken(context);
         String cseBaseUrl = context.getString(R.string.clearview_cse_base_url);
+        completed = 0;
         for (int i = 0; i < DeviceArray.DEVICE_IDS.length; i++) {
             int deviceId = DeviceArray.DEVICE_IDS[i];
             Container.retrieveLatestAsync(aeId, cseBaseUrl,
