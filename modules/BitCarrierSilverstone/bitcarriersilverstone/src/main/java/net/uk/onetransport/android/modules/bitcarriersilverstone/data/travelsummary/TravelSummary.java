@@ -20,6 +20,9 @@ public class TravelSummary {
     @Expose
     @SerializedName("last")
     private Average last;
+    @Expose
+    @SerializedName("levelofservice")
+    private String levelOfService;
 
     public Integer getrId() {
         return rId;
@@ -59,5 +62,13 @@ public class TravelSummary {
 
     public void setLast(Average last) {
         this.last = last;
+    }
+
+    public String getLevelOfService() {
+        return levelOfService;
+    }
+
+    public void setLevelOfService(String levelOfService) {
+        this.levelOfService = levelOfService;
     }
 }
