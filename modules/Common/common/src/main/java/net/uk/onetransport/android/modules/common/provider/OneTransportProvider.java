@@ -98,6 +98,8 @@ public class OneTransportProvider extends ContentProvider {
         addModule(context, R.string.bucks_provider_module_class);
         // Add Clearview Silverstone if available.
         addModule(context, R.string.clearview_silverstone_provider_module_class);
+        // Add BitCarrier Silverstone if available.
+        addModule(context, R.string.bitcarrier_silverstone_provider_module_class);
         // Automatically add the last updated module to the end of the list.
         // We want this to sync last.
         LastUpdatedProviderModule lastUpdatedProviderModule =

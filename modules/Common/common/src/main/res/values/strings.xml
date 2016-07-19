@@ -5,6 +5,7 @@
     <!-- Set module class names, overridden by library if present. -->
     <string name="bucks_provider_module_class" translatable="false">none</string>
     <string name="clearview_silverstone_provider_module_class" translatable="false">none</string>
+    <string name="bitcarrier_silverstone_provider_module_class" translatable="false">none</string>
     <!-- App MUST override these three strings. -->
     <string name="provider_authority">net.uk.onetransport.android.modules.common.provider</string>
     <string name="sync_account_type">common.modules.android.onetransport.uk.net</string>
