@@ -1,0 +1,202 @@
+package net.uk.onetransport.android.modules.bitcarriersilverstone.provider;
+
+import android.content.ContentProviderOperation;
+import android.content.ContentResolver;
+import android.content.Context;
+import android.content.OperationApplicationException;
+import android.database.Cursor;
+import android.os.RemoteException;
+import android.support.annotation.IntDef;
+import android.support.annotation.NonNull;
+
+import net.uk.onetransport.android.modules.bitcarriersilverstone.data.sketch.Sketch;
+import net.uk.onetransport.android.modules.bitcarriersilverstone.data.travelsummary.TravelSummary;
+import net.uk.onetransport.android.modules.bitcarriersilverstone.data.vector.VectorStatus;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.util.ArrayList;
+
+import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneSketch;
+import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneTravelSummary;
+import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneVectorStatus;
+
+public class BcsContentHelper {
+
+    @Retention(RetentionPolicy.SOURCE)
+    @IntDef({DATA_TYPE_SKETCH, DATA_TYPE_TRAVEL_SUMMARY,
+            DATA_TYPE_VECTOR_STATUS})
+    public @interface DataType {
+    }
+
+    public static final int DATA_TYPE_SKETCH = 1;
+    public static final int DATA_TYPE_TRAVEL_SUMMARY = 2;
+    public static final int DATA_TYPE_VECTOR_STATUS = 3;
+
+    public static void insertSketchesIntoProvider(@NonNull Context context,
+                                                  @NonNull ArrayList<Sketch> sketches)
+            throws RemoteException, OperationApplicationException {
+        if (sketches.size() > 0) {
+            ArrayList<ContentProviderOperation> operationList = new ArrayList<>();
+            for (Sketch sketch : sketches) {
+                ContentProviderOperation operation = ContentProviderOperation
+                        .newInsert(BcsProviderModule.SKETCH_URI)
+                        .withValue(BitCarrierSilverstoneSketch.COLUMN_SENSOR_ID, sketch.getsId())
+                        .withValue(BitCarrierSilverstoneSketch.COLUMN_VID, sketch.getvId())
+                        .withValue(BitCarrierSilverstoneSketch.COLUMN_LICENSE, sketch.getLicense())
+                        .withValue(BitCarrierSilverstoneSketch.COLUMN_LEVEL_OF_SERVICE,
+                                sketch.getLevelOfService())
+                        .withValue(BitCarrierSilverstoneSketch.COLUMN_COORDINATES, sketch.getCoordinates())
+                        .withYieldAllowed(true)
+                        .build();
+                operationList.add(operation);
+            }
+            ContentResolver contentResolver = context.getContentResolver();
+            contentResolver.applyBatch(BcsProviderModule.AUTHORITY, operationList);
+        }
+    }
+
+    public static void insertTravelSummariesIntoProvider(@NonNull Context context,
+                                          @NonNull ArrayList<TravelSummary> travelSummaries)
+            throws RemoteException, OperationApplicationException {
+        if (travelSummaries.size() > 0) {
+            ArrayList<ContentProviderOperation> operationList = new ArrayList<>();
+            for (TravelSummary travelSummary : travelSummaries) {
+                ContentProviderOperation operation = ContentProviderOperation
+                        .newInsert(BcsProviderModule.TRAVEL_SUMMARY_URI)
+                        .withValue(BitCarrierSilverstoneTravelSummary.COLUMN_RID, travelSummary.getrId())
+                        .withValue(BitCarrierSilverstoneTravelSummary.COLUMN_TIME, travelSummary.getTime())
+                        .withValue(BitCarrierSilverstoneTravelSummary.COLUMN_LEVEL_OF_SERVICE,
+                                travelSummary.getLevelOfService())
+                        .withValue(BitCarrierSilverstoneTravelSummary.COLUMN_AVERAGE_SCORE,
+                                travelSummary.getAverage().getScore())
+                        .withValue(BitCarrierSilverstoneTravelSummary.COLUMN_AVERAGE_PUBLISH_SPEED,
+                                travelSummary.getAverage().getPublish().getSpeed())
+                        .withValue(BitCarrierSilverstoneTravelSummary.COLUMN_AVERAGE_PUBLISH_ELAPSED,
+                                travelSummary.getAverage().getPublish().getElapsed())
+                        .withValue(BitCarrierSilverstoneTravelSummary.COLUMN_AVERAGE_PUBLISH_TREND,
+                                travelSummary.getAverage().getPublish().getTrend())
+                        .withValue(BitCarrierSilverstoneTravelSummary.COLUMN_AVERAGE_PUBLISH_READINGS,
+                                travelSummary.getAverage().getPublish().getReadings())
+                        .withValue(BitCarrierSilverstoneTravelSummary.COLUMN_AVERAGE_CALCULATED_SPEED,
+                                travelSummary.getAverage().getCalculated().getSpeed())
+                        .withValue(BitCarrierSilverstoneTravelSummary.COLUMN_AVERAGE_CALCULATED_ELAPSED,
+                                travelSummary.getAverage().getCalculated().getElapsed())
+                        .withValue(BitCarrierSilverstoneTravelSummary.COLUMN_AVERAGE_CALCULATED_TREND,
+                                travelSummary.getAverage().getCalculated().getTrend())
+                        .withValue(BitCarrierSilverstoneTravelSummary.COLUMN_AVERAGE_CALCULATED_READINGS,
+                                travelSummary.getAverage().getCalculated().getReadings())
+                        .withValue(BitCarrierSilverstoneTravelSummary.COLUMN_LAST_SCORE,
+                                travelSummary.getLast().getScore())
+                        .withValue(BitCarrierSilverstoneTravelSummary.COLUMN_LAST_PUBLISH_SPEED,
+                                travelSummary.getLast().getPublish().getSpeed())
+                        .withValue(BitCarrierSilverstoneTravelSummary.COLUMN_LAST_PUBLISH_ELAPSED,
+                                travelSummary.getLast().getPublish().getElapsed())
+                        .withValue(BitCarrierSilverstoneTravelSummary.COLUMN_LAST_PUBLISH_TREND,
+                                travelSummary.getLast().getPublish().getTrend())
+                        .withValue(BitCarrierSilverstoneTravelSummary.COLUMN_LAST_PUBLISH_READINGS,
+                                travelSummary.getLast().getPublish().getReadings())
+                        .withValue(BitCarrierSilverstoneTravelSummary.COLUMN_LAST_CALCULATED_SPEED,
+                                travelSummary.getLast().getCalculated().getSpeed())
+                        .withValue(BitCarrierSilverstoneTravelSummary.COLUMN_LAST_CALCULATED_ELAPSED,
+                                travelSummary.getLast().getCalculated().getElapsed())
+                        .withValue(BitCarrierSilverstoneTravelSummary.COLUMN_LAST_CALCULATED_TREND,
+                                travelSummary.getLast().getCalculated().getTrend())
+                        .withValue(BitCarrierSilverstoneTravelSummary.COLUMN_LAST_CALCULATED_READINGS,
+                                travelSummary.getLast().getCalculated().getReadings())
+                        .withYieldAllowed(true)
+                        .build();
+                operationList.add(operation);
+            }
+            ContentResolver contentResolver = context.getContentResolver();
+            contentResolver.applyBatch(BcsProviderModule.AUTHORITY, operationList);
+        }
+    }
+
+    public static void insertVectorStatusesIntoProvider(@NonNull Context context,
+                                          @NonNull ArrayList<VectorStatus> vectorStatuses)
+            throws RemoteException, OperationApplicationException {
+        if (vectorStatuses.size() > 0) {
+            ArrayList<ContentProviderOperation> operationList = new ArrayList<>();
+            for (VectorStatus vectorStatus : vectorStatuses) {
+                ContentProviderOperation operation = ContentProviderOperation
+                        .newInsert(BcsProviderModule.TRAVEL_SUMMARY_URI)
+                        .withValue(BitCarrierSilverstoneVectorStatus.COLUMN_VID, vectorStatus.getvId())
+                        .withValue(BitCarrierSilverstoneVectorStatus.COLUMN_TIME, vectorStatus.getTime())
+                        .withValue(BitCarrierSilverstoneVectorStatus.COLUMN_LEVEL_OF_SERVICE,
+                                vectorStatus.getLevelOfService())
+                        .withValue(BitCarrierSilverstoneVectorStatus.COLUMN_AVERAGE_SCORE,
+                                vectorStatus.getAverage().getScore())
+                        .withValue(BitCarrierSilverstoneVectorStatus.COLUMN_AVERAGE_PUBLISH_SPEED,
+                                vectorStatus.getAverage().getPublish().getSpeed())
+                        .withValue(BitCarrierSilverstoneVectorStatus.COLUMN_AVERAGE_PUBLISH_ELAPSED,
+                                vectorStatus.getAverage().getPublish().getElapsed())
+                        .withValue(BitCarrierSilverstoneVectorStatus.COLUMN_AVERAGE_PUBLISH_TREND,
+                                vectorStatus.getAverage().getPublish().getTrend())
+                        .withValue(BitCarrierSilverstoneVectorStatus.COLUMN_AVERAGE_PUBLISH_READINGS,
+                                vectorStatus.getAverage().getPublish().getReadings())
+                        .withValue(BitCarrierSilverstoneVectorStatus.COLUMN_AVERAGE_CALCULATED_SPEED,
+                                vectorStatus.getAverage().getCalculated().getSpeed())
+                        .withValue(BitCarrierSilverstoneVectorStatus.COLUMN_AVERAGE_CALCULATED_ELAPSED,
+                                vectorStatus.getAverage().getCalculated().getElapsed())
+                        .withValue(BitCarrierSilverstoneVectorStatus.COLUMN_AVERAGE_CALCULATED_TREND,
+                                vectorStatus.getAverage().getCalculated().getTrend())
+                        .withValue(BitCarrierSilverstoneVectorStatus.COLUMN_AVERAGE_CALCULATED_READINGS,
+                                vectorStatus.getAverage().getCalculated().getReadings())
+                        .withValue(BitCarrierSilverstoneVectorStatus.COLUMN_LAST_SCORE,
+                                vectorStatus.getLast().getScore())
+                        .withValue(BitCarrierSilverstoneVectorStatus.COLUMN_LAST_PUBLISH_SPEED,
+                                vectorStatus.getLast().getPublish().getSpeed())
+                        .withValue(BitCarrierSilverstoneVectorStatus.COLUMN_LAST_PUBLISH_ELAPSED,
+                                vectorStatus.getLast().getPublish().getElapsed())
+                        .withValue(BitCarrierSilverstoneVectorStatus.COLUMN_LAST_PUBLISH_TREND,
+                                vectorStatus.getLast().getPublish().getTrend())
+                        .withValue(BitCarrierSilverstoneVectorStatus.COLUMN_LAST_PUBLISH_READINGS,
+                                vectorStatus.getLast().getPublish().getReadings())
+                        .withValue(BitCarrierSilverstoneVectorStatus.COLUMN_LAST_CALCULATED_SPEED,
+                                vectorStatus.getLast().getCalculated().getSpeed())
+                        .withValue(BitCarrierSilverstoneVectorStatus.COLUMN_LAST_CALCULATED_ELAPSED,
+                                vectorStatus.getLast().getCalculated().getElapsed())
+                        .withValue(BitCarrierSilverstoneVectorStatus.COLUMN_LAST_CALCULATED_TREND,
+                                vectorStatus.getLast().getCalculated().getTrend())
+                        .withValue(BitCarrierSilverstoneVectorStatus.COLUMN_LAST_CALCULATED_READINGS,
+                                vectorStatus.getLast().getCalculated().getReadings())
+                        .withYieldAllowed(true)
+                        .build();
+                operationList.add(operation);
+            }
+            ContentResolver contentResolver = context.getContentResolver();
+            contentResolver.applyBatch(BcsProviderModule.AUTHORITY, operationList);
+        }
+    }
+
+    public static Cursor getSketches(@NonNull Context context) {
+        return context.getContentResolver().query(BcsProviderModule.SKETCH_URI,
+                new String[]{"*"}, null, null, BitCarrierSilverstoneSketch.COLUMN_SENSOR_ID);
+    }
+
+    public static Cursor getTravelSummaries(@NonNull Context context) {
+        return context.getContentResolver().query(BcsProviderModule.TRAVEL_SUMMARY_URI,
+                new String[]{"*"}, null, null, BitCarrierSilverstoneTravelSummary.COLUMN_RID);
+    }
+
+    public static Cursor getVectorStatuses(@NonNull Context context) {
+        return context.getContentResolver().query(BcsProviderModule.VECTOR_STATUS_URI,
+                new String[]{"*"}, null, null, BitCarrierSilverstoneVectorStatus.COLUMN_VID);
+    }
+
+    public static void deleteFromProvider(@NonNull Context context, @DataType int dataType) {
+        ContentResolver contentResolver = context.getContentResolver();
+        switch (dataType) {
+            case DATA_TYPE_SKETCH:
+                contentResolver.delete(BcsProviderModule.SKETCH_URI, null, null);
+                break;
+            case DATA_TYPE_TRAVEL_SUMMARY:
+                contentResolver.delete(BcsProviderModule.TRAVEL_SUMMARY_URI, null, null);
+                break;
+            case DATA_TYPE_VECTOR_STATUS:
+                contentResolver.delete(BcsProviderModule.VECTOR_STATUS_URI, null, null);
+                break;
+        }
+    }
+}
