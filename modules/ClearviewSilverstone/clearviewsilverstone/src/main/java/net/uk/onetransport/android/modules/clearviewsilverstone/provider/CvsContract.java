@@ -8,19 +8,19 @@ public class CvsContract {
             "CREATE TABLE IF NOT EXISTS " + ClearviewSilverstoneDevice.TABLE_NAME + " ("
                     + ClearviewSilverstoneDevice._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                     + ClearviewSilverstoneDevice.COLUMN_SENSOR_ID + " INTEGER NOT NULL,"
-                    + ClearviewSilverstoneDevice.COLUMN_TITLE + " TEXT NOT NULL,"
-                    + ClearviewSilverstoneDevice.COLUMN_DESCRIPTION + " TEXT NOT NULL,"
-                    + ClearviewSilverstoneDevice.COLUMN_TYPE + " TEXT NOT NULL,"
-                    + ClearviewSilverstoneDevice.COLUMN_LATITUDE + " REAL NOT NULL,"
-                    + ClearviewSilverstoneDevice.COLUMN_LONGITUDE + " REAL NOT NULL,"
-                    + ClearviewSilverstoneDevice.COLUMN_CHANGED + " TEXT NOT NULL"
+                    + ClearviewSilverstoneDevice.COLUMN_TITLE + " TEXT,"
+                    + ClearviewSilverstoneDevice.COLUMN_DESCRIPTION + " TEXT,"
+                    + ClearviewSilverstoneDevice.COLUMN_TYPE + " TEXT,"
+                    + ClearviewSilverstoneDevice.COLUMN_LATITUDE + " REAL,"
+                    + ClearviewSilverstoneDevice.COLUMN_LONGITUDE + " REAL,"
+                    + ClearviewSilverstoneDevice.COLUMN_CHANGED + " TEXT"
                     + ");";
     public static final String CREATE_CLEARVIEW_SILVERSTONE_TRAFFIC_TABLE =
             "CREATE TABLE IF NOT EXISTS " + ClearviewSilverstoneTraffic.TABLE_NAME + " ("
                     + ClearviewSilverstoneTraffic._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                     + ClearviewSilverstoneTraffic.COLUMN_SENSOR_ID + " INTEGER NOT NULL,"
-                    + ClearviewSilverstoneTraffic.COLUMN_TIMESTAMP + " TEXT NOT NULL,"
-                    + ClearviewSilverstoneTraffic.COLUMN_DIRECTION + " BOOLEAN NOT NULL"
+                    + ClearviewSilverstoneTraffic.COLUMN_TIMESTAMP + " TEXT,"
+                    + ClearviewSilverstoneTraffic.COLUMN_DIRECTION + " BOOLEAN"
                     + ");";
 
     private CvsContract() {

@@ -35,7 +35,7 @@ public class BcsContract {
                     + BitCarrierSilverstoneTravelSummary.COLUMN_LAST_CALCULATED_SPEED + " REAL,"
                     + BitCarrierSilverstoneTravelSummary.COLUMN_LAST_CALCULATED_ELAPSED + " REAL,"
                     + BitCarrierSilverstoneTravelSummary.COLUMN_LAST_CALCULATED_TREND + " REAL,"
-                    + BitCarrierSilverstoneTravelSummary.COLUMN_LAST_CALCULATED_READINGS + " INTEGER NOT NULL,"
+                    + BitCarrierSilverstoneTravelSummary.COLUMN_LAST_CALCULATED_READINGS + " INTEGER,"
                     + BitCarrierSilverstoneTravelSummary.COLUMN_LEVEL_OF_SERVICE + " TEXT"
                     + ");";
     public static final String CREATE_BIT_CARRIER_VECTOR_STATUS_TABLE =
