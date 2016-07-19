@@ -1,6 +1,16 @@
 package net.uk.onetransport.android.test.onetransporttest.tests;
 
 import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.Sketch.GetSketchArrayTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.provider.BcsSketchDeleteTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.provider.BcsSketchInsertTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.provider.BcsSketchQueryTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.provider.BcsSyncAdapterTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.provider.BcsTravelSummaryDeleteTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.provider.BcsTravelSummaryInsertTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.provider.BcsTravelSummaryQueryTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.provider.BcsVectorStatusDeleteTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.provider.BcsVectorStatusInsertTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.provider.BcsVectorStatusQueryTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.travelsummary.GetTravelSummaryArrayTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.vector.GetVectorStatusArrayTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.carpark.GetCarParkArrayTest;
@@ -81,6 +91,16 @@ public class TestList {
             new GetTravelSummaryArrayTest(),
             new GetVectorStatusArrayTest(),
             new GetSketchArrayTest(),
+            new BcsSketchDeleteTest(),
+            new BcsSketchInsertTest(),
+            new BcsSketchQueryTest(),
+            new BcsTravelSummaryDeleteTest(),
+            new BcsTravelSummaryInsertTest(),
+            new BcsTravelSummaryQueryTest(),
+            new BcsVectorStatusDeleteTest(),
+            new BcsVectorStatusInsertTest(),
+            new BcsVectorStatusQueryTest(),
+            new BcsSyncAdapterTest(),
 
 //            new ApplicationEntityDeleteTest()
     };
