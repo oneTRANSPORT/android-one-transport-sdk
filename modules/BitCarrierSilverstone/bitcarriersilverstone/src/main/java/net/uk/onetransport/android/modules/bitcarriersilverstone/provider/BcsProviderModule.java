@@ -71,7 +71,7 @@ public class BcsProviderModule implements ProviderModule {
                 BitCarrierSilverstoneSketch.TABLE_NAME);
         TRAVEL_SUMMARY_URI = Uri.withAppendedPath(AUTHORITY_URI,
                 BitCarrierSilverstoneTravelSummary.TABLE_NAME);
-        SKETCH_URI = Uri.withAppendedPath(AUTHORITY_URI,
+        VECTOR_STATUS_URI = Uri.withAppendedPath(AUTHORITY_URI,
                 BitCarrierSilverstoneVectorStatus.TABLE_NAME);
 
         SKETCHES = providerModules.size();
