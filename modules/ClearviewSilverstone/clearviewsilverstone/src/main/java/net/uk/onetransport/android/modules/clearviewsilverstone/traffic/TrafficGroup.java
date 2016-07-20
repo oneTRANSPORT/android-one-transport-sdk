@@ -2,14 +2,14 @@ package net.uk.onetransport.android.modules.clearviewsilverstone.traffic;
 
 public class TrafficGroup {
 
-    private int sensorId;
+    private Integer sensorId;
     private Traffic[] traffic;
 
-    public int getSensorId() {
+    public Integer getSensorId() {
         return sensorId;
     }
 
-    public void setSensorId(int sensorId) {
+    public void setSensorId(Integer sensorId) {
         this.sensorId = sensorId;
     }
 
