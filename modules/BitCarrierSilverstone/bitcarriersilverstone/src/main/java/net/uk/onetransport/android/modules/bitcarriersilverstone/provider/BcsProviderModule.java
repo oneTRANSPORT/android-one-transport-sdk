@@ -17,6 +17,8 @@ import net.uk.onetransport.android.modules.bitcarriersilverstone.data.sketch.Ske
 import net.uk.onetransport.android.modules.bitcarriersilverstone.data.sketch.SketchRetriever;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.data.travelsummary.TravelSummary;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.data.travelsummary.TravelSummaryRetriever;
+import net.uk.onetransport.android.modules.bitcarriersilverstone.data.vector.VectorStatus;
+import net.uk.onetransport.android.modules.bitcarriersilverstone.data.vector.VectorStatusRetriever;
 import net.uk.onetransport.android.modules.common.provider.OneTransportProvider;
 import net.uk.onetransport.android.modules.common.provider.ProviderModule;
 import net.uk.onetransport.android.modules.common.sync.CommonSyncAdapter;
@@ -273,6 +275,17 @@ public class BcsProviderModule implements ProviderModule {
                     BcsContentHelper.deleteFromProvider(context,
                             BcsContentHelper.DATA_TYPE_TRAVEL_SUMMARY);
                     BcsContentHelper.insertTravelSummariesIntoProvider(context, travelSummaries);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            if (extras.getBoolean(EXTRAS_VECTOR_STATUSES, false)) {
+                try {
+                    ArrayList<VectorStatus> vectorStatuses = new VectorStatusRetriever()
+                            .retrieve(context);
+                    BcsContentHelper.deleteFromProvider(context,
+                            BcsContentHelper.DATA_TYPE_VECTOR_STATUS);
+                    BcsContentHelper.insertVectorStatusesIntoProvider(context, vectorStatuses);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
