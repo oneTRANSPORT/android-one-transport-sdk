@@ -93,6 +93,20 @@ public class CvsContentHelper {
                         + CvsContract.ClearviewSilverstoneTraffic.COLUMN_TIMESTAMP + " DESC");
     }
 
+    public static Cursor getHistory(@NonNull Context context) {
+        return context.getContentResolver().query(CvsProviderModule.HISTORY_URI,
+                new String[]{"*"}, null, null,
+                CvsContract.ClearviewSilverstoneHistory.COLUMN_SENSOR_ID + ","
+                        + CvsContract.ClearviewSilverstoneTraffic.COLUMN_TIMESTAMP + " ASC");
+    }
+
+    public static Cursor getHistoryBySensor(@NonNull Context context, int sensorId) {
+        return context.getContentResolver().query(CvsProviderModule.HISTORY_URI,
+                new String[]{"*"}, "sensor_id=?", new String[]{String.valueOf(sensorId)},
+                CvsContract.ClearviewSilverstoneHistory.COLUMN_SENSOR_ID + ","
+                        + CvsContract.ClearviewSilverstoneTraffic.COLUMN_TIMESTAMP + " ASC");
+    }
+
     public static void deleteFromProvider(@NonNull Context context, @DataType int dataType) {
         ContentResolver contentResolver = context.getContentResolver();
         switch (dataType) {

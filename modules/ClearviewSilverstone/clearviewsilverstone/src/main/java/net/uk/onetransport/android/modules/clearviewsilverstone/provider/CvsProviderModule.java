@@ -38,6 +38,7 @@ public class CvsProviderModule implements ProviderModule {
     public static Uri AUTHORITY_URI;
     public static Uri DEVICE_URI;
     public static Uri TRAFFIC_URI;
+    public static Uri HISTORY_URI;
     // Sync adapter extras.
     private static final String EXTRAS_DEVICES =
             "net.uk.onetransport.android.modules.clearviewsilverstone.sync.DEVICES";
@@ -48,6 +49,8 @@ public class CvsProviderModule implements ProviderModule {
     private static int DEVICE_ID;
     private static int TRAFFIC;
     private static int TRAFFIC_ID;
+    private static int HISTORY;
+    private static int HISTORY_ID;
 
     private Context context;
 
@@ -72,6 +75,8 @@ public class CvsProviderModule implements ProviderModule {
                 ClearviewSilverstoneDevice.TABLE_NAME);
         TRAFFIC_URI = Uri.withAppendedPath(AUTHORITY_URI,
                 ClearviewSilverstoneTraffic.TABLE_NAME);
+        HISTORY_URI = Uri.withAppendedPath(AUTHORITY_URI,
+                ClearviewSilverstoneHistory.TABLE_NAME);
 
         DEVICES = providerModules.size();
         uriMatcher.addURI(authority, ClearviewSilverstoneDevice.TABLE_NAME, DEVICES);
@@ -84,6 +89,12 @@ public class CvsProviderModule implements ProviderModule {
         providerModules.add(this);
         TRAFFIC_ID = providerModules.size();
         uriMatcher.addURI(authority, ClearviewSilverstoneTraffic.TABLE_NAME + "/#", TRAFFIC_ID);
+        providerModules.add(this);
+        HISTORY = providerModules.size();
+        uriMatcher.addURI(authority, ClearviewSilverstoneHistory.TABLE_NAME, HISTORY);
+        providerModules.add(this);
+        HISTORY_ID = providerModules.size();
+        uriMatcher.addURI(authority, ClearviewSilverstoneHistory.TABLE_NAME + "/#", HISTORY_ID);
         providerModules.add(this);
     }
 
@@ -101,7 +112,12 @@ public class CvsProviderModule implements ProviderModule {
         if (match == TRAFFIC_ID) {
             return mimeItemPrefix + ClearviewSilverstoneTraffic.TABLE_NAME;
         }
-        return null;
+        if (match == HISTORY) {
+            return mimeDirPrefix + ClearviewSilverstoneHistory.TABLE_NAME;
+        }
+        if (match == HISTORY_ID) {
+            return mimeItemPrefix + ClearviewSilverstoneHistory.TABLE_NAME;
+        }        return null;
     }
 
     @Override
@@ -118,6 +134,7 @@ public class CvsProviderModule implements ProviderModule {
             contentResolver.notifyChange(TRAFFIC_URI, null);
             return ContentUris.withAppendedId(TRAFFIC_URI, id);
         }
+        // No inserts into history table.
         return null;
     }
 
@@ -151,6 +168,19 @@ public class CvsProviderModule implements ProviderModule {
             cursor.setNotificationUri(contentResolver, TRAFFIC_URI);
             return cursor;
         }
+        if (match == HISTORY) {
+            Cursor cursor = sqLiteDatabase.query(ClearviewSilverstoneHistory.TABLE_NAME, projection,
+                    selection, selectionArgs, null, null, sortOrder);
+            cursor.setNotificationUri(contentResolver, HISTORY_URI);
+            return cursor;
+        }
+        if (match == HISTORY_ID) {
+            Cursor cursor = sqLiteDatabase.query(ClearviewSilverstoneHistory.TABLE_NAME, projection,
+                    ClearviewSilverstoneHistory._ID + "=?", new String[]{uri.getLastPathSegment()}, null, null,
+                    sortOrder);
+            cursor.setNotificationUri(contentResolver, HISTORY_URI);
+            return cursor;
+        }
         return null;
     }
 
@@ -182,6 +212,7 @@ public class CvsProviderModule implements ProviderModule {
             contentResolver.notifyChange(TRAFFIC_URI, null);
             return rows;
         }
+        // No updates for history table.
         return 0;
     }
 
@@ -197,6 +228,7 @@ public class CvsProviderModule implements ProviderModule {
             rows = sqLiteDatabase.delete(ClearviewSilverstoneTraffic.TABLE_NAME, selection, selectionArgs);
             contentResolver.notifyChange(TRAFFIC_URI, null);
         }
+        // No deletion from history table.
         return rows;
     }
 

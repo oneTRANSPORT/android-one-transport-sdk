@@ -1,6 +1,7 @@
 package net.uk.onetransport.android.test.onetransporttest.tests;
 
 import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.Sketch.GetSketchArrayTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.node.GetNodeArrayTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.provider.BcsSketchDeleteTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.provider.BcsSketchInsertTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.provider.BcsSketchQueryTest;
@@ -12,6 +13,7 @@ import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilvers
 import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.provider.BcsVectorStatusInsertTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.provider.BcsVectorStatusQueryTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.travelsummary.GetTravelSummaryArrayTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.vector.GetVectorArrayTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.vector.GetVectorStatusArrayTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.carpark.GetCarParkArrayTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksCarParkBoxQueryTest;
@@ -36,6 +38,8 @@ import net.uk.onetransport.android.test.onetransporttest.tests.clearviewsilverst
 import net.uk.onetransport.android.test.onetransporttest.tests.clearviewsilverstone.provider.CvsDeviceDeleteTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.clearviewsilverstone.provider.CvsDeviceInsertTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.clearviewsilverstone.provider.CvsDeviceQueryTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.clearviewsilverstone.provider.CvsHistoryQueryTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.clearviewsilverstone.provider.CvsHistorySensorQueryTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.clearviewsilverstone.provider.CvsSyncAdapterTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.clearviewsilverstone.provider.CvsTrafficGroupDeleteTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.clearviewsilverstone.provider.CvsTrafficGroupInsertTest;
@@ -74,6 +78,8 @@ public class TestList {
             new CvsTrafficGroupInsertTest(),
             new CvsDeviceQueryTest(),
             new CvsTrafficGroupQueryTest(),
+            new CvsHistoryQueryTest(),
+            new CvsHistorySensorQueryTest(),
             new CvsSyncAdapterTest(),
             // BitCarrier Silverstone
             // TODO    Turns out this data has expired from the CSE.  Need to add manually
@@ -83,9 +89,8 @@ public class TestList {
 //            new GetMetaVectorArrayTest(),
 //            new GetRouteArrayTest(),
 //            new GetTravelTimesArrayTest,
-//            new GetSketchArrayTest(),
 //            new GetCityArrayTest(),
-//            new GetZoneArrayTest(),GetVectorArrayTest
+//            new GetZoneArrayTest(),
 
             // This data is still available.
             new GetTravelSummaryArrayTest(),
