@@ -14,20 +14,25 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 
+import net.uk.onetransport.android.modules.clearviewsilverstone.R;
 import net.uk.onetransport.android.modules.clearviewsilverstone.device.DeviceArray;
 import net.uk.onetransport.android.modules.clearviewsilverstone.traffic.TrafficGroupArray;
 import net.uk.onetransport.android.modules.common.provider.OneTransportProvider;
 import net.uk.onetransport.android.modules.common.provider.ProviderModule;
 import net.uk.onetransport.android.modules.common.sync.CommonSyncAdapter;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-import static net.uk.onetransport.android.modules.clearviewsilverstone.provider.CvsContract.ClearviewSilverstoneTraffic;
 import static net.uk.onetransport.android.modules.clearviewsilverstone.provider.CvsContract.ClearviewSilverstoneDevice;
+import static net.uk.onetransport.android.modules.clearviewsilverstone.provider.CvsContract.ClearviewSilverstoneHistory;
+import static net.uk.onetransport.android.modules.clearviewsilverstone.provider.CvsContract.ClearviewSilverstoneTraffic;
 
 public class CvsProviderModule implements ProviderModule {
 
-    public static final String TAG="CvsProviderModule";
+    public static final String TAG = "CvsProviderModule";
 
     public static String AUTHORITY;
     public static Uri AUTHORITY_URI;
@@ -54,6 +59,8 @@ public class CvsProviderModule implements ProviderModule {
     public void createDatabase(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL(CvsContract.CREATE_CLEARVIEW_SILVERSTONE_DEVICE_TABLE);
         sqLiteDatabase.execSQL(CvsContract.CREATE_CLEARVIEW_SILVERSTONE_TRAFFIC_TABLE);
+        sqLiteDatabase.execSQL(CvsContract.CREATE_CLEARVIEW_SILVERSTONE_HISTORY_TABLE);
+        importHistory(sqLiteDatabase);
     }
 
     @Override
@@ -203,9 +210,9 @@ public class CvsProviderModule implements ProviderModule {
                     DeviceArray deviceArray = DeviceArray.getDeviceArray(context);
                     CvsContentHelper.deleteFromProvider(context,
                             CvsContentHelper.DATA_TYPE_DEVICE);
-                    Log.i(TAG,"Provider: Deleted device data.");
+                    Log.i(TAG, "Provider: Deleted device data.");
                     CvsContentHelper.insertIntoProvider(context, deviceArray.getDevices());
-                    Log.i(TAG,"Provider: Inserted new device data.");
+                    Log.i(TAG, "Provider: Inserted new device data.");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -231,4 +238,25 @@ public class CvsProviderModule implements ProviderModule {
         CommonSyncAdapter.refresh(context, settingsBundle);
     }
 
+    private void importHistory(SQLiteDatabase sqLiteDatabase) {
+        // Import historical data summary that would take too long to download.
+        BufferedReader br = new BufferedReader(new InputStreamReader(
+                context.getResources().openRawResource(R.raw.summary_import)));
+        try {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String insert = "INSERT INTO " + ClearviewSilverstoneHistory.TABLE_NAME
+                        + " VALUES (NULL," + line + ");";
+                sqLiteDatabase.execSQL(insert);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                br.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

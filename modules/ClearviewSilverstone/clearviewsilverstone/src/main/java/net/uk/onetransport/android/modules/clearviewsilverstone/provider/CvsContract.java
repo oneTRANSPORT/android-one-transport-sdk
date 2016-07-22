@@ -22,6 +22,14 @@ public class CvsContract {
                     + ClearviewSilverstoneTraffic.COLUMN_TIMESTAMP + " TEXT,"
                     + ClearviewSilverstoneTraffic.COLUMN_DIRECTION + " BOOLEAN"
                     + ");";
+    public static final String CREATE_CLEARVIEW_SILVERSTONE_HISTORY_TABLE =
+            "CREATE TABLE IF NOT EXISTS " + ClearviewSilverstoneHistory.TABLE_NAME + " ("
+                    + ClearviewSilverstoneHistory._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    + ClearviewSilverstoneHistory.COLUMN_SENSOR_ID + " INTEGER NOT NULL,"
+                    + ClearviewSilverstoneHistory.COLUMN_TIMESTAMP + " TEXT,"
+                    + ClearviewSilverstoneHistory.COLUMN_VEHICLES + " INTEGER,"
+                    + ClearviewSilverstoneTraffic.COLUMN_DIRECTION + " BOOLEAN"
+                    + ");";
 
     private CvsContract() {
     }
@@ -41,6 +49,14 @@ public class CvsContract {
         public static final String TABLE_NAME = "clearview_silverstone_traffic";
         public static final String COLUMN_SENSOR_ID = "sensor_id";
         public static final String COLUMN_TIMESTAMP = "timestamp";
+        public static final String COLUMN_DIRECTION = "direction";
+    }
+
+    public static final class ClearviewSilverstoneHistory implements BaseColumns {
+        public static final String TABLE_NAME = "clearview_silverstone_history";
+        public static final String COLUMN_SENSOR_ID = "sensor_id";
+        public static final String COLUMN_TIMESTAMP = "timestamp";
+        public static final String COLUMN_VEHICLES = "vehicles";
         public static final String COLUMN_DIRECTION = "direction";
     }
 }
