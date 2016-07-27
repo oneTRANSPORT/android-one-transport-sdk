@@ -1,0 +1,235 @@
+ClearviewIntelligence_VBV
+
+------------------------------------------------------------
+Plot locations of sensors on map with pop-up details.
+------------------------------------------------------------
+
+  DEVICES
+
+    DEVICE_1745
+
+      {"title":"Silverstone06",		"description":"Site 6, Car Park Area 50C",
+       "type":"M680",			"latitude":"52.070759",
+       "longitude":"-1.024863",		"changed":"2016-06-27 12:24:45"}
+
+    ...
+
+------------------------------------------------------------
+Show current vehicle in, out flow.
+Show sparklines of historical data, in, out, filled.
+------------------------------------------------------------
+
+  DEVICE_1745
+  ...
+  DEVICE_1754
+
+    [{"vehicleNumber":0,	"time":"2016-06-30 13:04:10",
+      "lane":2,			"subSite":1,
+      "indexMark":null,		"speed":0,
+      "length":1,		"headway":25.5,
+      "grossWeight":null,	"gap":25.5,
+      "direction":false,	"vehicleClass":0,
+      "overhang":null,		"classScheme":3,
+      "chassisHeightCode":4,	"wheelbase":null,
+      "axleData":[],		"occupancyTime":null,
+      "resultCode":null,	"deltaTime":-49600}]
+
+    ...
+
+BitCarrier
+  v1.0
+    InterdigitalDemo
+      silverstone
+        config
+
+------------------------------------------------------------
+Plot node markers on map?
+------------------------------------------------------------
+
+          nodes
+
+            n1159
+
+              {"id":"1159",		"name":"",
+               "customer_name":"2-A43 at Blisworth",
+               "zone":"1",		"road":null,
+               "pk":null,		"way":null,
+               "lat":"52.177441",	"lon":"-0.955571",
+               "cityid":"21"}
+
+            ...
+
+------------------------------------------------------------
+Plot vector colour (status) on map?
+------------------------------------------------------------
+
+          vectors
+
+            v276
+
+              {"id":"276",			"name":"276",
+               "customer_name":"2->14",		"from":"1159",
+               "to":"1165",			"distance":"6147",
+               "zone":"1",			"cityid":"21",
+               "sid":"1",			"levels":"14",
+               "green":null,			"yellow":null,
+               "avg_green":null,		"avg_yellow":null,
+               "detections_min":"1",		"has_color":"true"}
+
+            ...
+
+          metavectors
+
+            m124
+
+              {"id":"124",
+               "sequence":"1159,1166",
+               "name":"124",			"customer_name":"2->15",
+               "zone":"1",			"cityid":"21",
+               "levels":null,
+               "green":null,			"yellow":null,
+               "avg_green":null,		"avg_yellow":null,
+               "detections_min":null,		"score_min":null,
+               "has_color":"false"}
+
+            ...
+
+          routes
+
+            r133
+
+              {"id":"133",			"cityid":"21",
+               "metavector":"124",		"vector1":null,
+               "vector1_contrib":"0.00000",	"vector2":null,
+               "vector2_contrib":"0.00000",	"offset":"0",
+               "distance":null,			"ffs":null,
+               "ffs_min":null,			"route_detections_min":"0",
+               "zone":"1",			"name":"133",
+               "customer_name":"2->15",
+               "levels":null,
+               "green":null,			"yellow":null,
+               "avg_green":null,		"avg_yellow":null,
+               "ff_green":null,			"ff_yellow":null,
+               "detections_min":null,		"score_min":null,
+               "has_color":"false"}
+
+            ...
+
+          traveltimes
+
+            t1
+
+              {"id":"1",		"routeid":"133",
+               "name":"",		"customer_name":"2->15",
+               "publish":true,		"extra_offset":"0",
+               "zone":"1"}
+
+              ...
+
+------------------------------------------------------------
+Plot road locations on map?
+------------------------------------------------------------
+
+          sketches
+
+            s1
+
+              {"sid":"1",		"vid":"276",
+               "visible":true,		"zone":"1",
+               "json":"[{"lat":52.177415577542504, "lon":-0.9554690223566572},...]
+               "copyrights":null}
+
+            ...
+
+          cities
+
+            c21
+
+              {"id":"21",
+               "timezone":"Europe/London",	"name":"Silverstone"}
+
+------------------------------------------------------------
+Initialise map to zone boundary?  Adjust for correct
+aspect ratio.
+------------------------------------------------------------
+
+          zones
+
+            z1
+
+              {"id":"1","pid":null,
+               "name":"Silverstone","map":"{
+               "center":{"lat":52.10044244250729,"lon":-1.0382509544051355,"zoom":11},
+               "bounds":{"latn":52.26736958305555,"lonw":-1.3867235495714978,
+                         "lats":51.93288822690673,"lone":-0.6897783592388005}}"}
+
+        data
+
+------------------------------------------------------------
+Tap road polyline to show current and historical travel
+times, with long- and short-term averages?
+------------------------------------------------------------
+
+          traveltimes
+
+            t133
+
+              {"rid":"133","time":"2016-07-06T09:52:00Z",
+               "traveltimes":[{"tid":"1","offset":0,"from":"2","to":"15"}],
+               "average":{"score":100,
+                 "publish":{"speed":23.58269,"elapsed":1941,"trend":-65.72488},
+                 "calculated":{"speed":23.58269,"elapsed":1941,"readings":1}},
+               "last":{"score":0,"publish":{"speed":0,"elapsed":0}}}
+
+          vectors
+
+            v291
+
+            {"vid":"291"}
+
+            ...
+
+          sketches
+
+            s9
+
+              {"sid":"9","vid":"284",
+               "license":"© Mapbox © OpenStreetMap contributors",
+               "coordinates":"-0.86875,51.98309 -0.86892,51.98316 ..."}
+
+            ...
+
+Stories
+-------
+
+C l e a r v i e w
+
+2 How many cars entered and left Silverstone during the period?  (Summary)
+
+(* How many cars entered and left each car park?)
+
+1 When were the busiest periods for each car park?  (Max/min throughput)
+
+3 Keys could be car park, day, hour, minute, direction.
+
+1 Count cars filling each car park?  (Max/min occupancy)
+
+* How long do people stay, by car park?  (Not possible?)
+
+
+B i t C a r r i e r
+
+1 What is the traffic on a route / vector during a particular time?
+
+1 What is the total bandwidth of a route during the week?  (Sum over period)
+
+1 Which are peak times and how busy are they for each route?  (Max/min throughput)
+
+2 Which is the busiest route segment at a particular time?  (Compare routes)
+
+2 Where is the slowest moving traffic at a given time?  (Max/min average speed)
+
+* What is the average speed of getting to the circuit?
+
+* Do people arrive or leave faster?  (Use direction, travel times)
+

@@ -1,0 +1,10 @@
+HTTP/1.1 200 Content
+Server: nginx/1.8.1
+Date: Tue, 26 Jul 2016 13:39:39 GMT
+Content-Type: application/vnd.onem2m-res+json
+Content-Length: 394
+Connection: keep-alive
+X-M2M-RI: xyz3
+X-M2M-RSC: 2000
+
+{"m2m:cnt":{"ch":[{"#text":"/ONETCSE01/Worldsensing/BitCarrier/v1.0/InterdigitalDemo/silverstone/data/traveltimes","-nm":"traveltimes","-typ":"3"},{"#text":"/ONETCSE01/Worldsensing/BitCarrier/v1.0/InterdigitalDemo/silverstone/data/vectors","-nm":"vectors","-typ":"3"},{"#text":"/ONETCSE01/Worldsensing/BitCarrier/v1.0/InterdigitalDemo/silverstone/data/sketches","-nm":"sketches","-typ":"3"}]}}

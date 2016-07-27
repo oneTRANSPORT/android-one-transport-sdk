@@ -1,0 +1,10 @@
+HTTP/1.1 200 Content
+Server: nginx/1.8.1
+Date: Tue, 26 Jul 2016 13:24:08 GMT
+Content-Type: application/vnd.onem2m-res+json
+Content-Length: 1771
+Connection: keep-alive
+X-M2M-RI: xyz3
+X-M2M-RSC: 2000
+
+{"m2m:cnt":{"ch":[{"#text":"/ONETCSE01/Worldsensing/BitCarrier/v1.0/InterdigitalDemo/silverstone/config/nodes/n1159","-nm":"n1159","-typ":"3"},{"#text":"/ONETCSE01/Worldsensing/BitCarrier/v1.0/InterdigitalDemo/silverstone/config/nodes/n1160","-nm":"n1160","-typ":"3"},{"#text":"/ONETCSE01/Worldsensing/BitCarrier/v1.0/InterdigitalDemo/silverstone/config/nodes/n1161","-nm":"n1161","-typ":"3"},{"#text":"/ONETCSE01/Worldsensing/BitCarrier/v1.0/InterdigitalDemo/silverstone/config/nodes/n1162","-nm":"n1162","-typ":"3"},{"#text":"/ONETCSE01/Worldsensing/BitCarrier/v1.0/InterdigitalDemo/silverstone/config/nodes/n1163","-nm":"n1163","-typ":"3"},{"#text":"/ONETCSE01/Worldsensing/BitCarrier/v1.0/InterdigitalDemo/silverstone/config/nodes/n1164","-nm":"n1164","-typ":"3"},{"#text":"/ONETCSE01/Worldsensing/BitCarrier/v1.0/InterdigitalDemo/silverstone/config/nodes/n1165","-nm":"n1165","-typ":"3"},{"#text":"/ONETCSE01/Worldsensing/BitCarrier/v1.0/InterdigitalDemo/silverstone/config/nodes/n1166","-nm":"n1166","-typ":"3"},{"#text":"/ONETCSE01/Worldsensing/BitCarrier/v1.0/InterdigitalDemo/silverstone/config/nodes/n1167","-nm":"n1167","-typ":"3"},{"#text":"/ONETCSE01/Worldsensing/BitCarrier/v1.0/InterdigitalDemo/silverstone/config/nodes/n1168","-nm":"n1168","-typ":"3"},{"#text":"/ONETCSE01/Worldsensing/BitCarrier/v1.0/InterdigitalDemo/silverstone/config/nodes/n1169","-nm":"n1169","-typ":"3"},{"#text":"/ONETCSE01/Worldsensing/BitCarrier/v1.0/InterdigitalDemo/silverstone/config/nodes/n1170","-nm":"n1170","-typ":"3"},{"#text":"/ONETCSE01/Worldsensing/BitCarrier/v1.0/InterdigitalDemo/silverstone/config/nodes/n1171","-nm":"n1171","-typ":"3"},{"#text":"/ONETCSE01/Worldsensing/BitCarrier/v1.0/InterdigitalDemo/silverstone/config/nodes/n1172","-nm":"n1172","-typ":"3"}]}}

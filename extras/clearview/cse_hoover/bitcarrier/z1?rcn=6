@@ -1,0 +1,10 @@
+HTTP/1.1 200 Content
+Server: nginx/1.8.1
+Date: Tue, 26 Jul 2016 13:39:12 GMT
+Content-Type: application/vnd.onem2m-res+json
+Content-Length: 425
+Connection: keep-alive
+X-M2M-RI: xyz3
+X-M2M-RSC: 2000
+
+{"m2m:cnt":{"ch":[{"#text":"/ONETCSE01/Worldsensing/BitCarrier/v1.0/InterdigitalDemo/silverstone/config/zones/z1/cin19900615T090941645440981140493897967360","-nm":"cin19900615T090941645440981140493897967360","-typ":"4"},{"#text":"/ONETCSE01/Worldsensing/BitCarrier/v1.0/InterdigitalDemo/silverstone/config/zones/z1/cin19860904T005947526179587140043228407552","-nm":"cin19860904T005947526179587140043228407552","-typ":"4"}]}}

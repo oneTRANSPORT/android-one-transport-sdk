@@ -1,0 +1,10 @@
+HTTP/1.1 200 Content
+/config
+  nodes
+  vectors
+  metavectors
+  routes
+  traveltimes
+  sketches
+  cities
+  zones

@@ -1,0 +1,16 @@
+DROP TABLE IF EXISTS config_node;
+CREATE TABLE IF NOT EXISTS config_node (id INTEGER PRIMARY KEY, customer_name TEXT, lat REAL, lon REAL);
+INSERT INTO config_node values (1159,"2-A43 at Blisworth",52.177441,-0.955571);
+INSERT INTO config_node values (1160,"3-A508 at Grafton Regis",52.112638,-0.898515);
+INSERT INTO config_node values (1161,"6-A422/Banbury Lane Junction west of Middleton Cheney",52.072626,-1.288456);
+INSERT INTO config_node values (1162,"10-A43 / A422 / A43 / Buckingham Road, Northamptonshire",52.026619,-1.134412);
+INSERT INTO config_node values (1163,"11-A4095 / A4421, Oxfordshire",51.914591,-1.1438);
+INSERT INTO config_node values (1164,"13-B4033 / A421, Buckinghamshire",51.983193,-0.868588);
+INSERT INTO config_node values (1165,"14-A5 / Brackely Rd / Northampthon Rd.",52.133736,-0.990622);
+INSERT INTO config_node values (1166,"15-Dadford Road (North)",52.08139,-1.028702);
+INSERT INTO config_node values (1167,"20-A45 High Street / A45 Flore Hill / A5, Highways England Junction 7",52.233454,-1.075999);
+INSERT INTO config_node values (1168,"22-A413 / A422 West Street / A422 Stratford Road, Buckinghamshire",52.001999,-0.971015);
+INSERT INTO config_node values (1169,"23-High St / Bridge St / Castle St, Buckinghamshire",51.999981,-0.987868);
+INSERT INTO config_node values (1170,"25-A4421 / A421, Buckingham",51.986951,-1.071471);
+INSERT INTO config_node values (1171,"26-Silverstone Village",52.08346,-1.030698);
+INSERT INTO config_node values (1172,"27-Dadford Road (Silverstone Southern Roundabout)",52.068155,-1.025687);
