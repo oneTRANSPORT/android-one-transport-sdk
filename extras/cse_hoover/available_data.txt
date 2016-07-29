@@ -233,3 +233,67 @@ B i t C a r r i e r
 
 * Do people arrive or leave faster?  (Use direction, travel times)
 
+
+
+C  O  N  T  A  I  N  E  R     R  E  O  R  G  A  N  I  S  A  T  I  O  N
+======================================================================
+
+For a client to download the data to answer stories like those above, how will we
+organise the containers and content instances on the CSE to facilitate efficient
+download?
+
+Clearview
+---------
+
+Data: cars entering and leaving car parks at certain times.
+Keys: time, sensor ID.
+
+Top
+ |
+ +-- sensors
+ |    |
+ |    +-- sensor-1
+ |    |    |
+ |    |    +-- total-ci
+ |    |    |
+ |    |    +-- day-1-ci
+ |    |    |    |
+ |    |    |    +-- hour-1-ci
+ |    |    |    |    |
+ |    |    |    |    +-- 0-10-minutes-ci
+ |    |    |    |    |
+ |    |    |    |    +-- 11-20-minutes-ci
+ |    .    .    .    .
+ |    .    .    .    .
+ |    .    .    .    .
+ +-- total
+ |    |
+ |    +-- total-ci
+ |    |
+ |    +-- day-1-ci
+ |    |    |
+ |    |    +-- hour-1-ci
+ |    |    |    |
+ |    |    |    +-- 0-10-minutes-ci
+ |    |    |    |
+ |    |    |    +-- 11-20-minutes-ci
+ |    .    .    . 
+ |    .    .    .
+ |    .    .    .
+ +-- occupancy
+      |
+      +-- (as above)
+
+
+
+BitCarrier
+----------
+
+Divide data into hierarchical hourly summaries too?
+CSV in container?
+
+Keys: route ID, time.
+
+Top
+ |
+ +-- route 1

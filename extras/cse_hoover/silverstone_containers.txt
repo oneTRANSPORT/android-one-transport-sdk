@@ -1,0 +1,80 @@
+C  O  N  T  A  I  N  E  R     R  E  O  R  G  A  N  I  S  A  T  I  O  N
+======================================================================
+
+
+C l e a r v i e w
+
+2 How many cars entered and left Silverstone during the period?  (Summary)
+
+(* How many cars entered and left each car park?)
+
+1 When were the busiest periods for each car park?  (Max/min throughput)
+
+3 Keys could be car park, day, hour, minute, direction.
+
+1 Count cars filling each car park?  (Max/min occupancy)
+
+* How long do people stay, by car park?  (Not possible?)
+
+
+AE:
+
+  /ONETCSE01/C-clearview-silverstone-summary
+
+Paths: (rule: no mixing of containers and content instances?)
+
+The total number of car movements over the period for a given car park:
+
+  /sensors/sensorN/total/{"in":NNN,"out":NNN}
+
+Car park data divided up by 15-minute time intervals and by sensor.  At the lowest
+level, we provide the number of cars going in, out and the occupancy at the end of
+the interval.
+
+  /sensors/sensorN/day2016-07-NN/hourN/mins0-14/{"in":NNN,"out":NNN,"occupancy-end":NNN}
+  /sensors/sensorN/day2016-07-NN/hourN/mins15-29/{"in":...}
+  /sensors/sensorN/day2016-07-NN/hourN/mins30-44/{"in":...}
+  /sensors/sensorN/day2016-07-NN/hourN/mins45-59/{"in":...}
+
+Then, moving up to summarising by hour and by day, we also include the maximum and
+minimum values of each 15-minute interval, along with totals for the whole hour and day.
+
+  /sensors/sensorN/day2016-07-NN/hourN/hour/
+                                 {"total-in":NNN,"total-out":NNN,"occupancy-end":NNN,
+                                  "min-in":NNN,"min-out":NNN,"min-occupancy":NNN,
+                                  "max-in":NNN,"max-out":NNN,"max-occupancy":NNN}
+  /sensors/sensorN/day2016-07-NN/day/{"total-in":...}
+
+We can do the same thing for totals, the sum of all car park sensors.
+
+  /total/total/{"total-in":NNN,"total-out":NNN}
+  /total/day2016-07-NN/day/{"total-in":NNN,"total-out":NNN,"occupancy-end":NNN,
+                            "min-in":NNN,"min-out":NNN,"min-occupancy":NNN,
+                            "max-in":NNN,"max-out":NNN,"max-occupancy":NNN}
+  /total/day2016-07-NN/hourN/hour/{"total-in":...}
+  /total/day2016-07-NN/hourN/minsNN-NN/{"in":NNN,"out":NNN,"occupancy-end":NNN}
+
+
+
+B i t C a r r i e r
+
+1 What is the traffic on a route / vector during a particular time?
+
+1 What is the total bandwidth of a route during the week?  (Sum over period)
+
+1 Which are peak times and how busy are they for each route?  (Max/min throughput)
+
+2 Which is the busiest route segment at a particular time?  (Compare routes)
+
+2 Where is the slowest moving traffic at a given time?  (Max/min average speed)
+
+* What is the average speed of getting to the circuit?
+
+* Do people arrive or leave faster?  (Use direction, travel times)
+
+
+Keys: route ID, time.
+
+Top
+ |
+ +-- route 1
