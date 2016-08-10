@@ -1,17 +1,33 @@
 #!/usr/bin/php -q
 <?php
 
+// Create a summary for rapid import into the map app.
+//
+// One table, columns are:
+//
+// id INTEGER PRIMARY KEY,
+// rid INTEGER,
+// timestamp TEXT, tid INTEGER,
+// node_from TEXT,
+// node_to TEXT,
+// average_score INTEGER,
+// average_publish_speed REAL,
+// average_publish_elapsed REAL,
+// average_publish_trend REAL,
+// average_calculated_speed REAL,
+// average_calculated_elapsed REAL,
+// average_calculated_readings INTEGER,	not needed?
+// last_score INTEGER,
+// last_publish_speed REAL,
+// last_publish_elapsed REAL,
+// last_publish_trend REAL,
+// last_calculated_speed REAL,
+// last_calculated_elapsed REAL,
+// last_calculated_readings INTEGER	not needed?
+
 set_time_limit(0);
 
 $path = 'traveltime_cins';
-
-echo "DROP TABLE IF EXISTS data_traveltime;\n";
-echo "CREATE TABLE IF NOT EXISTS data_traveltime (id INTEGER PRIMARY KEY, rid INTEGER, timestamp TEXT, tid INTEGER, ",
-     "node_from TEXT, node_to TEXT, average_score INTEGER, average_publish_speed REAL, average_publish_elapsed REAL, ",
-     "average_publish_trend REAL, average_calculated_speed REAL, average_calculated_elapsed REAL, ",
-     "average_calculated_readings INTEGER, last_score INTEGER, last_publish_speed REAL, last_publish_elapsed REAL, ",
-     "last_publish_trend REAL, last_calculated_speed REAL, last_calculated_elapsed REAL, ",
-     "last_calculated_readings INTEGER);\n";
 
 $dh = opendir($path);
 while (($file = readdir($dh)) !== false) {
