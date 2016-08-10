@@ -13,6 +13,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 
+import net.uk.onetransport.android.modules.bitcarriersilverstone.config.node.Node;
+import net.uk.onetransport.android.modules.bitcarriersilverstone.config.node.NodeRetriever;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.data.sketch.Sketch;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.data.sketch.SketchRetriever;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.data.travelsummary.TravelSummary;
@@ -25,6 +27,7 @@ import net.uk.onetransport.android.modules.common.sync.CommonSyncAdapter;
 
 import java.util.ArrayList;
 
+import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneNode;
 import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneSketch;
 import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneTravelSummary;
 import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneVectorStatus;
@@ -36,6 +39,7 @@ public class BcsProviderModule implements ProviderModule {
     public static Uri SKETCH_URI;
     public static Uri TRAVEL_SUMMARY_URI;
     public static Uri VECTOR_STATUS_URI;
+    public static Uri NODE_URI;
     // Sync adapter extras.
     private static final String EXTRAS_SKETCHES =
             "net.uk.onetransport.android.modules.bitcarriersilverstone.sync.SKETCHES";
@@ -43,6 +47,8 @@ public class BcsProviderModule implements ProviderModule {
             "net.uk.onetransport.android.modules.bitcarriersilverstone.sync.TRAVEL_SUMMARIES";
     private static final String EXTRAS_VECTOR_STATUSES =
             "net.uk.onetransport.android.modules.bitcarriersilverstone.sync.VECTOR_STATUSES";
+    private static final String EXTRAS_NODES =
+            "net.uk.onetransport.android.modules.bitcarriersilverstone.sync.NODES";
 
     private static int SKETCHES;
     private static int SKETCH_ID;
@@ -50,6 +56,8 @@ public class BcsProviderModule implements ProviderModule {
     private static int TRAVEL_SUMMARY_ID;
     private static int VECTOR_STATUSES;
     private static int VECTOR_STATUS_ID;
+    private static int NODES;
+    private static int NODE_ID;
 
     private Context context;
 
@@ -62,6 +70,7 @@ public class BcsProviderModule implements ProviderModule {
         sqLiteDatabase.execSQL(BcsContract.CREATE_BIT_CARRIER_SKETCH_TABLE);
         sqLiteDatabase.execSQL(BcsContract.CREATE_BIT_CARRIER_TRAVEL_SUMMARY_TABLE);
         sqLiteDatabase.execSQL(BcsContract.CREATE_BIT_CARRIER_VECTOR_STATUS_TABLE);
+        sqLiteDatabase.execSQL(BcsContract.CREATE_BIT_CARRIER_NODE_TABLE);
     }
 
     @Override
@@ -75,6 +84,8 @@ public class BcsProviderModule implements ProviderModule {
                 BitCarrierSilverstoneTravelSummary.TABLE_NAME);
         VECTOR_STATUS_URI = Uri.withAppendedPath(AUTHORITY_URI,
                 BitCarrierSilverstoneVectorStatus.TABLE_NAME);
+        NODE_URI = Uri.withAppendedPath(AUTHORITY_URI,
+                BitCarrierSilverstoneNode.TABLE_NAME);
 
         SKETCHES = providerModules.size();
         uriMatcher.addURI(authority, BitCarrierSilverstoneSketch.TABLE_NAME, SKETCHES);
@@ -98,6 +109,12 @@ public class BcsProviderModule implements ProviderModule {
         uriMatcher.addURI(authority, BitCarrierSilverstoneVectorStatus.TABLE_NAME + "/#",
                 VECTOR_STATUS_ID);
         providerModules.add(this);
+        NODES = providerModules.size();
+        uriMatcher.addURI(authority, BitCarrierSilverstoneNode.TABLE_NAME, NODES);
+        providerModules.add(this);
+        NODE_ID = providerModules.size();
+        uriMatcher.addURI(authority, BitCarrierSilverstoneNode.TABLE_NAME + "/#", NODE_ID);
+        providerModules.add(this);
     }
 
     @Override
@@ -120,6 +137,12 @@ public class BcsProviderModule implements ProviderModule {
         if (match == VECTOR_STATUS_ID) {
             return mimeItemPrefix + BitCarrierSilverstoneVectorStatus.TABLE_NAME;
         }
+        if (match == NODES) {
+            return mimeDirPrefix + BitCarrierSilverstoneNode.TABLE_NAME;
+        }
+        if (match == NODE_ID) {
+            return mimeItemPrefix + BitCarrierSilverstoneNode.TABLE_NAME;
+        }
         return null;
     }
 
@@ -141,6 +164,11 @@ public class BcsProviderModule implements ProviderModule {
             id = sqLiteDatabase.insert(BitCarrierSilverstoneVectorStatus.TABLE_NAME, null, contentValues);
             contentResolver.notifyChange(VECTOR_STATUS_URI, null);
             return ContentUris.withAppendedId(VECTOR_STATUS_URI, id);
+        }
+        if (match == NODES) {
+            id = sqLiteDatabase.insert(BitCarrierSilverstoneNode.TABLE_NAME, null, contentValues);
+            contentResolver.notifyChange(NODE_URI, null);
+            return ContentUris.withAppendedId(NODE_URI, id);
         }
         return null;
     }
@@ -188,6 +216,19 @@ public class BcsProviderModule implements ProviderModule {
             cursor.setNotificationUri(contentResolver, VECTOR_STATUS_URI);
             return cursor;
         }
+        if (match == NODES) {
+            Cursor cursor = sqLiteDatabase.query(BitCarrierSilverstoneNode.TABLE_NAME, projection,
+                    selection, selectionArgs, null, null, sortOrder);
+            cursor.setNotificationUri(contentResolver, NODE_URI);
+            return cursor;
+        }
+        if (match == NODE_ID) {
+            Cursor cursor = sqLiteDatabase.query(BitCarrierSilverstoneNode.TABLE_NAME, projection,
+                    BitCarrierSilverstoneNode._ID + "=?", new String[]{uri.getLastPathSegment()}, null, null,
+                    sortOrder);
+            cursor.setNotificationUri(contentResolver, NODE_URI);
+            return cursor;
+        }
         return null;
     }
 
@@ -231,6 +272,18 @@ public class BcsProviderModule implements ProviderModule {
             contentResolver.notifyChange(VECTOR_STATUS_URI, null);
             return rows;
         }
+        if (match == NODES) {
+            int rows = sqLiteDatabase.update(BitCarrierSilverstoneNode.TABLE_NAME, values, selection,
+                    selectionArgs);
+            contentResolver.notifyChange(NODE_URI, null);
+            return rows;
+        }
+        if (match == NODE_ID) {
+            int rows = sqLiteDatabase.update(BitCarrierSilverstoneNode.TABLE_NAME, values,
+                    BitCarrierSilverstoneNode._ID + "=?", new String[]{uri.getLastPathSegment()});
+            contentResolver.notifyChange(NODE_URI, null);
+            return rows;
+        }
         return 0;
     }
 
@@ -251,6 +304,10 @@ public class BcsProviderModule implements ProviderModule {
             rows = sqLiteDatabase.delete(BitCarrierSilverstoneVectorStatus.TABLE_NAME, selection,
                     selectionArgs);
             contentResolver.notifyChange(VECTOR_STATUS_URI, null);
+        }
+        if (match == NODES) {
+            rows = sqLiteDatabase.delete(BitCarrierSilverstoneNode.TABLE_NAME, selection, selectionArgs);
+            contentResolver.notifyChange(NODE_URI, null);
         }
         return rows;
     }
@@ -290,15 +347,25 @@ public class BcsProviderModule implements ProviderModule {
                     e.printStackTrace();
                 }
             }
+            if (extras.getBoolean(EXTRAS_NODES, false)) {
+                try {
+                    ArrayList<Node> nodes = new NodeRetriever().retrieve(context);
+                    BcsContentHelper.deleteFromProvider(context, BcsContentHelper.DATA_TYPE_NODE);
+                    BcsContentHelper.insertNodesIntoProvider(context, nodes);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
     public static void refresh(Context context, boolean sketches, boolean travelSummaries,
-                               boolean vectorStatuses) {
+                               boolean vectorStatuses, boolean nodes) {
         Bundle settingsBundle = new Bundle();
         settingsBundle.putBoolean(EXTRAS_SKETCHES, sketches);
         settingsBundle.putBoolean(EXTRAS_TRAVEL_SUMMARIES, travelSummaries);
         settingsBundle.putBoolean(EXTRAS_VECTOR_STATUSES, vectorStatuses);
+        settingsBundle.putBoolean(EXTRAS_NODES, nodes);
         CommonSyncAdapter.refresh(context, settingsBundle);
     }
 }

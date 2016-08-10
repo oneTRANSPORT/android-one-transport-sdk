@@ -1,5 +1,7 @@
 package net.uk.onetransport.android.modules.bitcarriersilverstone.config.node;
 
+import android.text.TextUtils;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -38,6 +40,8 @@ public class Node {
     @Expose
     @SerializedName("cityid")
     private Integer cityId;
+    // This field is generated from the prefix of the customer name.
+    private Integer customerId;
 
     public Integer getId() {
         return id;
@@ -125,5 +129,15 @@ public class Node {
 
     public void setCityId(Integer cityId) {
         this.cityId = cityId;
+    }
+
+    public Integer getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerIdFromName() {
+        if (!TextUtils.isEmpty(customerName)) {
+            customerId = Integer.parseInt(customerName.replaceFirst("-.*", ""));
+        }
     }
 }

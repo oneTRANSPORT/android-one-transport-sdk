@@ -9,6 +9,7 @@ import android.os.RemoteException;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 
+import net.uk.onetransport.android.modules.bitcarriersilverstone.config.node.Node;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.data.sketch.Sketch;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.data.travelsummary.TravelSummary;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.data.vector.VectorStatus;
@@ -17,6 +18,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 
+import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneNode;
 import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneSketch;
 import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneTravelSummary;
 import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneVectorStatus;
@@ -25,13 +27,14 @@ public class BcsContentHelper {
 
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({DATA_TYPE_SKETCH, DATA_TYPE_TRAVEL_SUMMARY,
-            DATA_TYPE_VECTOR_STATUS})
+            DATA_TYPE_VECTOR_STATUS, DATA_TYPE_NODE})
     public @interface DataType {
     }
 
     public static final int DATA_TYPE_SKETCH = 1;
     public static final int DATA_TYPE_TRAVEL_SUMMARY = 2;
     public static final int DATA_TYPE_VECTOR_STATUS = 3;
+    public static final int DATA_TYPE_NODE = 4;
 
     public static void insertSketchesIntoProvider(@NonNull Context context,
                                                   @NonNull ArrayList<Sketch> sketches)
@@ -190,6 +193,29 @@ public class BcsContentHelper {
         }
     }
 
+    public static void insertNodesIntoProvider(@NonNull Context context,
+                                               @NonNull ArrayList<Node> nodes)
+            throws RemoteException, OperationApplicationException {
+        if (nodes.size() > 0) {
+            ArrayList<ContentProviderOperation> operationList = new ArrayList<>();
+            for (Node node : nodes) {
+                ContentProviderOperation operation = ContentProviderOperation
+                        .newInsert(BcsProviderModule.NODE_URI)
+                        .withValue(BitCarrierSilverstoneNode.COLUMN_NODE_ID, node.getId())
+                        .withValue(BitCarrierSilverstoneNode.COLUMN_CUSTOMER_ID, node.getCustomerId())
+                        .withValue(BitCarrierSilverstoneNode.COLUMN_CUSTOMER_NAME,
+                                node.getCustomerName())
+                        .withValue(BitCarrierSilverstoneNode.COLUMN_LATITUDE, node.getLatitude())
+                        .withValue(BitCarrierSilverstoneNode.COLUMN_LONGITUDE, node.getLongitude())
+                        .withYieldAllowed(true)
+                        .build();
+                operationList.add(operation);
+            }
+            ContentResolver contentResolver = context.getContentResolver();
+            contentResolver.applyBatch(BcsProviderModule.AUTHORITY, operationList);
+        }
+    }
+
     public static Cursor getSketches(@NonNull Context context) {
         return context.getContentResolver().query(BcsProviderModule.SKETCH_URI,
                 new String[]{"*"}, null, null, BitCarrierSilverstoneSketch.COLUMN_SENSOR_ID);
@@ -205,6 +231,11 @@ public class BcsContentHelper {
                 new String[]{"*"}, null, null, BitCarrierSilverstoneVectorStatus.COLUMN_VID);
     }
 
+    public static Cursor getNodes(@NonNull Context context) {
+        return context.getContentResolver().query(BcsProviderModule.NODE_URI,
+                new String[]{"*"}, null, null, BitCarrierSilverstoneNode.COLUMN_CUSTOMER_ID);
+    }
+
     public static void deleteFromProvider(@NonNull Context context, @DataType int dataType) {
         ContentResolver contentResolver = context.getContentResolver();
         switch (dataType) {
@@ -216,6 +247,9 @@ public class BcsContentHelper {
                 break;
             case DATA_TYPE_VECTOR_STATUS:
                 contentResolver.delete(BcsProviderModule.VECTOR_STATUS_URI, null, null);
+                break;
+            case DATA_TYPE_NODE:
+                contentResolver.delete(BcsProviderModule.NODE_URI, null, null);
                 break;
         }
     }

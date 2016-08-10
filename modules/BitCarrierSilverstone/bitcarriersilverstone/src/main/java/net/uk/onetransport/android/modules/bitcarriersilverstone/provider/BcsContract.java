@@ -60,8 +60,17 @@ public class BcsContract {
                     + BitCarrierSilverstoneVectorStatus.COLUMN_LAST_CALCULATED_SPEED + " REAL,"
                     + BitCarrierSilverstoneVectorStatus.COLUMN_LAST_CALCULATED_ELAPSED + " REAL,"
                     + BitCarrierSilverstoneVectorStatus.COLUMN_LAST_CALCULATED_TREND + " REAL,"
-                    + BitCarrierSilverstoneVectorStatus.COLUMN_LAST_CALCULATED_READINGS + " INTEGER NOT NULL,"
+                    + BitCarrierSilverstoneVectorStatus.COLUMN_LAST_CALCULATED_READINGS + " INTEGER,"
                     + BitCarrierSilverstoneVectorStatus.COLUMN_LEVEL_OF_SERVICE + " TEXT"
+                    + ");";
+    public static final String CREATE_BIT_CARRIER_NODE_TABLE =
+            "CREATE TABLE IF NOT EXISTS " + BitCarrierSilverstoneNode.TABLE_NAME + " ("
+                    + BitCarrierSilverstoneNode._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    + BitCarrierSilverstoneNode.COLUMN_NODE_ID + " INTEGER,"
+                    + BitCarrierSilverstoneNode.COLUMN_CUSTOMER_ID + " INTEGER,"
+                    + BitCarrierSilverstoneNode.COLUMN_CUSTOMER_NAME + " TEXT,"
+                    + BitCarrierSilverstoneNode.COLUMN_LATITUDE + " REAL,"
+                    + BitCarrierSilverstoneNode.COLUMN_LONGITUDE + " REAL"
                     + ");";
 
     private BcsContract() {
@@ -127,5 +136,17 @@ public class BcsContract {
         public static final String COLUMN_LAST_CALCULATED_TREND = "last_calculated_trend";
         public static final String COLUMN_LAST_CALCULATED_READINGS = "last_calculated_readings";
         public static final String COLUMN_LEVEL_OF_SERVICE = "level_of_service";
+    }
+
+    public static final class BitCarrierSilverstoneNode implements BaseColumns {
+        public static final String TABLE_NAME = "bit_carrier_silverstone_node";
+        public static final String COLUMN_NODE_ID = "node_id";
+        // The customer id is a prefix of the customer name.  Need to extract manually.
+        // Eg. "25-A4421 / A421, Buckingham"
+        // The id is the bit before the hyphen.
+        public static final String COLUMN_CUSTOMER_ID = "customer_id";
+        public static final String COLUMN_CUSTOMER_NAME = "customer_name";
+        public static final String COLUMN_LATITUDE = "lat";
+        public static final String COLUMN_LONGITUDE = "lon";
     }
 }
