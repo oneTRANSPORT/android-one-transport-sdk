@@ -3,29 +3,28 @@
 
 // Create a summary for rapid import into the map app.
 //
-// One table, columns are:
+// Create scratch-db, then import this:
 //
-// id INTEGER PRIMARY KEY,
-// rid INTEGER,
-// timestamp TEXT, tid INTEGER,
-// node_from TEXT,
-// node_to TEXT,
-// average_score INTEGER,
-// average_publish_speed REAL,
-// average_publish_elapsed REAL,
-// average_publish_trend REAL,
-// average_calculated_speed REAL,
-// average_calculated_elapsed REAL,
-// average_calculated_readings INTEGER,	not needed?
-// last_score INTEGER,
-// last_publish_speed REAL,
-// last_publish_elapsed REAL,
-// last_publish_trend REAL,
-// last_calculated_speed REAL,
-// last_calculated_elapsed REAL,
-// last_calculated_readings INTEGER	not needed?
+// ./summarise_data_traveltime_cins.php | sqlite3 scratch-db
+//
+// Then export group by hours:
+//
+// sqlite3 scratch-db 'select tid,date,hour,avg(score),avg(speed),avg(elapsed),avg(trend) from traveltimes
+//                     group by tid,date,hour;' > group_by_hour.txt
+//
+// Then just need to fix lines where no average trend exists by appending a zero
+// eg. with Vim :%s/|\n/|0^M/g .
+//
+// And use awk to replace | with ,
+//
+// awk -F\| '{print $1",\""$2"\","$3","$4","$5","$6","$7}' group_by_hour.txt > group_by_hour_fixed.txt
+
 
 set_time_limit(0);
+
+echo "DROP TABLE IF EXISTS traveltimes;\n";
+echo 'CREATE TABLE traveltimes (id INTEGER PRIMARY KEY, rid INTEGER, tid INTEGER, date TEXT, hour INTEGER, ',
+     "from_location TEXT, to_location TEXT, score REAL, speed REAL, elapsed REAL, trend REAL);\n";
 
 $path = 'traveltime_cins';
 
@@ -36,25 +35,23 @@ while (($file = readdir($dh)) !== false) {
     $json = json_decode($cin, true);
     $json = json_decode($json['m2m:cin']['con'], true);
     if ($json['time'] != '') {
-      $insert = 'INSERT INTO data_traveltime values (NULL,'. $json['rid'] . ',"' .
-                                                   $json['time'] . '",' .
-                                                   $json['traveltimes'][0]['tid'] . ',"' .
-                                                   $json['traveltimes'][0]['from'] . '","' .
-                                                   $json['traveltimes'][0]['to'] . '",' .
-                                                   $json['average']['score'] . ',' .
-                                                   $json['average']['publish']['speed'] . ',' .
-                                                   $json['average']['publish']['elapsed'] . ',' .
-                                                   $json['average']['publish']['trend'] . ',' .
-                                                   $json['average']['calculated']['speed'] . ',' .
-                                                   $json['average']['calculated']['elapsed'] . ',' .
-                                                   $json['average']['calculated']['readings'] . ',' .
-                                                   $json['last']['score'] . ',' .
-                                                   $json['last']['publish']['speed'] . ',' .
-                                                   $json['last']['publish']['elapsed'] . ',' .
-                                                   $json['last']['publish']['trend'] . ',' .
-                                                   $json['last']['calculated']['speed'] . ',' .
-                                                   $json['last']['calculated']['elapsed'] . ',' .
-                                                   $json['last']['calculated']['readings'] . ");\n";
+
+      $t = $json['time']; // 2016-07-06T10:11:00Z
+      $date = ereg_replace('T.*', '', $t);
+      $hour = ereg_replace(':.*', '', ereg_replace('.*T', '', $t));
+
+      $rid     = $json['rid'];
+      $tid     = $json['traveltimes'][0]['tid'];
+      $from    = $json['traveltimes'][0]['from'];
+      $to      = $json['traveltimes'][0]['to'];
+      $score   = $json['average']['score'];
+      $speed   = $json['average']['publish']['speed'];
+      $elapsed = $json['average']['publish']['elapsed'];
+      $trend   = $json['average']['publish']['trend'];
+
+      $insert = "INSERT INTO traveltimes values (NULL,$rid,$tid,'$date',$hour,'$from','$to',$score,"
+              . "$speed,$elapsed,$trend);\n";
+
       if (ereg('[0-9]', $insert)) {
         $insert = str_replace(',)', ',NULL)', $insert, $count);
         $count = 1;

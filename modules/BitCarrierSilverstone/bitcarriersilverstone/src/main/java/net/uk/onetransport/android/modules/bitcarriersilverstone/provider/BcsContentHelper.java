@@ -11,8 +11,6 @@ import android.support.annotation.NonNull;
 
 import net.uk.onetransport.android.modules.bitcarriersilverstone.config.node.Node;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.data.sketch.Sketch;
-import net.uk.onetransport.android.modules.bitcarriersilverstone.data.travelsummary.TravelSummary;
-import net.uk.onetransport.android.modules.bitcarriersilverstone.data.vector.VectorStatus;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -20,8 +18,6 @@ import java.util.ArrayList;
 
 import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneNode;
 import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneSketch;
-import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneTravelSummary;
-import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneVectorStatus;
 
 public class BcsContentHelper {
 
@@ -59,139 +55,139 @@ public class BcsContentHelper {
         }
     }
 
-    public static void insertTravelSummariesIntoProvider(@NonNull Context context,
-                                                         @NonNull ArrayList<TravelSummary> travelSummaries)
-            throws RemoteException, OperationApplicationException {
-        if (travelSummaries.size() > 0) {
-            ArrayList<ContentProviderOperation> operationList = new ArrayList<>();
-            for (TravelSummary travelSummary : travelSummaries) {
-                ContentProviderOperation.Builder builder = ContentProviderOperation
-                        .newInsert(BcsProviderModule.TRAVEL_SUMMARY_URI)
-                        .withValue(BitCarrierSilverstoneTravelSummary.COLUMN_RID, travelSummary.getrId())
-                        .withValue(BitCarrierSilverstoneTravelSummary.COLUMN_TIME, travelSummary.getTime())
-                        .withValue(BitCarrierSilverstoneTravelSummary.COLUMN_LEVEL_OF_SERVICE,
-                                travelSummary.getLevelOfService());
-                if (travelSummary.getAverage() != null) {
-                    builder.withValue(BitCarrierSilverstoneTravelSummary.COLUMN_AVERAGE_SCORE,
-                            travelSummary.getAverage().getScore());
-                    if (travelSummary.getAverage().getPublish() != null) {
-                        builder.withValue(BitCarrierSilverstoneTravelSummary.COLUMN_AVERAGE_PUBLISH_SPEED,
-                                travelSummary.getAverage().getPublish().getSpeed())
-                                .withValue(BitCarrierSilverstoneTravelSummary.COLUMN_AVERAGE_PUBLISH_ELAPSED,
-                                        travelSummary.getAverage().getPublish().getElapsed())
-                                .withValue(BitCarrierSilverstoneTravelSummary.COLUMN_AVERAGE_PUBLISH_TREND,
-                                        travelSummary.getAverage().getPublish().getTrend())
-                                .withValue(BitCarrierSilverstoneTravelSummary.COLUMN_AVERAGE_PUBLISH_READINGS,
-                                        travelSummary.getAverage().getPublish().getReadings());
-                    }
-                    if (travelSummary.getAverage().getCalculated() != null) {
-                        builder.withValue(BitCarrierSilverstoneTravelSummary.COLUMN_AVERAGE_CALCULATED_SPEED,
-                                travelSummary.getAverage().getCalculated().getSpeed())
-                                .withValue(BitCarrierSilverstoneTravelSummary.COLUMN_AVERAGE_CALCULATED_ELAPSED,
-                                        travelSummary.getAverage().getCalculated().getElapsed())
-                                .withValue(BitCarrierSilverstoneTravelSummary.COLUMN_AVERAGE_CALCULATED_TREND,
-                                        travelSummary.getAverage().getCalculated().getTrend())
-                                .withValue(BitCarrierSilverstoneTravelSummary.COLUMN_AVERAGE_CALCULATED_READINGS,
-                                        travelSummary.getAverage().getCalculated().getReadings());
-                    }
-                }
-                if (travelSummary.getLast() != null) {
-                    builder.withValue(BitCarrierSilverstoneTravelSummary.COLUMN_LAST_SCORE,
-                            travelSummary.getLast().getScore());
-                    if (travelSummary.getLast().getPublish() != null) {
-                        builder.withValue(BitCarrierSilverstoneTravelSummary.COLUMN_LAST_PUBLISH_SPEED,
-                                travelSummary.getLast().getPublish().getSpeed())
-                                .withValue(BitCarrierSilverstoneTravelSummary.COLUMN_LAST_PUBLISH_ELAPSED,
-                                        travelSummary.getLast().getPublish().getElapsed())
-                                .withValue(BitCarrierSilverstoneTravelSummary.COLUMN_LAST_PUBLISH_TREND,
-                                        travelSummary.getLast().getPublish().getTrend())
-                                .withValue(BitCarrierSilverstoneTravelSummary.COLUMN_LAST_PUBLISH_READINGS,
-                                        travelSummary.getLast().getPublish().getReadings());
-                    }
-                    if (travelSummary.getLast().getCalculated() != null) {
-                        builder.withValue(BitCarrierSilverstoneTravelSummary.COLUMN_LAST_CALCULATED_SPEED,
-                                travelSummary.getLast().getCalculated().getSpeed())
-                                .withValue(BitCarrierSilverstoneTravelSummary.COLUMN_LAST_CALCULATED_ELAPSED,
-                                        travelSummary.getLast().getCalculated().getElapsed())
-                                .withValue(BitCarrierSilverstoneTravelSummary.COLUMN_LAST_CALCULATED_TREND,
-                                        travelSummary.getLast().getCalculated().getTrend())
-                                .withValue(BitCarrierSilverstoneTravelSummary.COLUMN_LAST_CALCULATED_READINGS,
-                                        travelSummary.getLast().getCalculated().getReadings());
-                    }
-                }
-                operationList.add(builder.withYieldAllowed(true).build());
-            }
-            ContentResolver contentResolver = context.getContentResolver();
-            contentResolver.applyBatch(BcsProviderModule.AUTHORITY, operationList);
-        }
-    }
+//    public static void insertTravelSummariesIntoProvider(@NonNull Context context,
+//                                                         @NonNull ArrayList<TravelSummary> travelSummaries)
+//            throws RemoteException, OperationApplicationException {
+//        if (travelSummaries.size() > 0) {
+//            ArrayList<ContentProviderOperation> operationList = new ArrayList<>();
+//            for (TravelSummary travelSummary : travelSummaries) {
+//                ContentProviderOperation.Builder builder = ContentProviderOperation
+//                        .newInsert(BcsProviderModule.TRAVEL_SUMMARY_URI)
+//                        .withValue(BitCarrierSilverstoneTravelSummary.COLUMN_RID, travelSummary.getrId())
+//                        .withValue(BitCarrierSilverstoneTravelSummary.COLUMN_TIME, travelSummary.getTime())
+//                        .withValue(BitCarrierSilverstoneTravelSummary.COLUMN_LEVEL_OF_SERVICE,
+//                                travelSummary.getLevelOfService());
+//                if (travelSummary.getAverage() != null) {
+//                    builder.withValue(BitCarrierSilverstoneTravelSummary.COLUMN_AVERAGE_SCORE,
+//                            travelSummary.getAverage().getScore());
+//                    if (travelSummary.getAverage().getPublish() != null) {
+//                        builder.withValue(BitCarrierSilverstoneTravelSummary.COLUMN_AVERAGE_PUBLISH_SPEED,
+//                                travelSummary.getAverage().getPublish().getSpeed())
+//                                .withValue(BitCarrierSilverstoneTravelSummary.COLUMN_AVERAGE_PUBLISH_ELAPSED,
+//                                        travelSummary.getAverage().getPublish().getElapsed())
+//                                .withValue(BitCarrierSilverstoneTravelSummary.COLUMN_AVERAGE_PUBLISH_TREND,
+//                                        travelSummary.getAverage().getPublish().getTrend())
+//                                .withValue(BitCarrierSilverstoneTravelSummary.COLUMN_AVERAGE_PUBLISH_READINGS,
+//                                        travelSummary.getAverage().getPublish().getReadings());
+//                    }
+//                    if (travelSummary.getAverage().getCalculated() != null) {
+//                        builder.withValue(BitCarrierSilverstoneTravelSummary.COLUMN_AVERAGE_CALCULATED_SPEED,
+//                                travelSummary.getAverage().getCalculated().getSpeed())
+//                                .withValue(BitCarrierSilverstoneTravelSummary.COLUMN_AVERAGE_CALCULATED_ELAPSED,
+//                                        travelSummary.getAverage().getCalculated().getElapsed())
+//                                .withValue(BitCarrierSilverstoneTravelSummary.COLUMN_AVERAGE_CALCULATED_TREND,
+//                                        travelSummary.getAverage().getCalculated().getTrend())
+//                                .withValue(BitCarrierSilverstoneTravelSummary.COLUMN_AVERAGE_CALCULATED_READINGS,
+//                                        travelSummary.getAverage().getCalculated().getReadings());
+//                    }
+//                }
+//                if (travelSummary.getLast() != null) {
+//                    builder.withValue(BitCarrierSilverstoneTravelSummary.COLUMN_LAST_SCORE,
+//                            travelSummary.getLast().getScore());
+//                    if (travelSummary.getLast().getPublish() != null) {
+//                        builder.withValue(BitCarrierSilverstoneTravelSummary.COLUMN_LAST_PUBLISH_SPEED,
+//                                travelSummary.getLast().getPublish().getSpeed())
+//                                .withValue(BitCarrierSilverstoneTravelSummary.COLUMN_LAST_PUBLISH_ELAPSED,
+//                                        travelSummary.getLast().getPublish().getElapsed())
+//                                .withValue(BitCarrierSilverstoneTravelSummary.COLUMN_LAST_PUBLISH_TREND,
+//                                        travelSummary.getLast().getPublish().getTrend())
+//                                .withValue(BitCarrierSilverstoneTravelSummary.COLUMN_LAST_PUBLISH_READINGS,
+//                                        travelSummary.getLast().getPublish().getReadings());
+//                    }
+//                    if (travelSummary.getLast().getCalculated() != null) {
+//                        builder.withValue(BitCarrierSilverstoneTravelSummary.COLUMN_LAST_CALCULATED_SPEED,
+//                                travelSummary.getLast().getCalculated().getSpeed())
+//                                .withValue(BitCarrierSilverstoneTravelSummary.COLUMN_LAST_CALCULATED_ELAPSED,
+//                                        travelSummary.getLast().getCalculated().getElapsed())
+//                                .withValue(BitCarrierSilverstoneTravelSummary.COLUMN_LAST_CALCULATED_TREND,
+//                                        travelSummary.getLast().getCalculated().getTrend())
+//                                .withValue(BitCarrierSilverstoneTravelSummary.COLUMN_LAST_CALCULATED_READINGS,
+//                                        travelSummary.getLast().getCalculated().getReadings());
+//                    }
+//                }
+//                operationList.add(builder.withYieldAllowed(true).build());
+//            }
+//            ContentResolver contentResolver = context.getContentResolver();
+//            contentResolver.applyBatch(BcsProviderModule.AUTHORITY, operationList);
+//        }
+//    }
 
-    public static void insertVectorStatusesIntoProvider(@NonNull Context context,
-                                                        @NonNull ArrayList<VectorStatus> vectorStatuses)
-            throws RemoteException, OperationApplicationException {
-        if (vectorStatuses.size() > 0) {
-            ArrayList<ContentProviderOperation> operationList = new ArrayList<>();
-            for (VectorStatus vectorStatus : vectorStatuses) {
-                ContentProviderOperation.Builder builder = ContentProviderOperation
-                        .newInsert(BcsProviderModule.VECTOR_STATUS_URI)
-                        .withValue(BitCarrierSilverstoneVectorStatus.COLUMN_VID, vectorStatus.getvId())
-                        .withValue(BitCarrierSilverstoneVectorStatus.COLUMN_TIME, vectorStatus.getTime())
-                        .withValue(BitCarrierSilverstoneVectorStatus.COLUMN_LEVEL_OF_SERVICE,
-                                vectorStatus.getLevelOfService());
-                if (vectorStatus.getAverage() != null) {
-                    builder.withValue(BitCarrierSilverstoneVectorStatus.COLUMN_AVERAGE_SCORE,
-                            vectorStatus.getAverage().getScore());
-                    if (vectorStatus.getAverage().getPublish() != null) {
-                        builder.withValue(BitCarrierSilverstoneVectorStatus.COLUMN_AVERAGE_PUBLISH_SPEED,
-                                vectorStatus.getAverage().getPublish().getSpeed())
-                                .withValue(BitCarrierSilverstoneVectorStatus.COLUMN_AVERAGE_PUBLISH_ELAPSED,
-                                        vectorStatus.getAverage().getPublish().getElapsed())
-                                .withValue(BitCarrierSilverstoneVectorStatus.COLUMN_AVERAGE_PUBLISH_TREND,
-                                        vectorStatus.getAverage().getPublish().getTrend())
-                                .withValue(BitCarrierSilverstoneVectorStatus.COLUMN_AVERAGE_PUBLISH_READINGS,
-                                        vectorStatus.getAverage().getPublish().getReadings());
-                    }
-                    if (vectorStatus.getAverage().getCalculated() != null) {
-                        builder.withValue(BitCarrierSilverstoneVectorStatus.COLUMN_AVERAGE_CALCULATED_SPEED,
-                                vectorStatus.getAverage().getCalculated().getSpeed())
-                                .withValue(BitCarrierSilverstoneVectorStatus.COLUMN_AVERAGE_CALCULATED_ELAPSED,
-                                        vectorStatus.getAverage().getCalculated().getElapsed())
-                                .withValue(BitCarrierSilverstoneVectorStatus.COLUMN_AVERAGE_CALCULATED_TREND,
-                                        vectorStatus.getAverage().getCalculated().getTrend())
-                                .withValue(BitCarrierSilverstoneVectorStatus.COLUMN_AVERAGE_CALCULATED_READINGS,
-                                        vectorStatus.getAverage().getCalculated().getReadings());
-                    }
-                }
-                if (vectorStatus.getLast() != null) {
-                    builder.withValue(BitCarrierSilverstoneVectorStatus.COLUMN_LAST_SCORE,
-                            vectorStatus.getLast().getScore());
-                    if (vectorStatus.getLast().getPublish() != null) {
-                        builder.withValue(BitCarrierSilverstoneVectorStatus.COLUMN_LAST_PUBLISH_SPEED,
-                                vectorStatus.getLast().getPublish().getSpeed())
-                                .withValue(BitCarrierSilverstoneVectorStatus.COLUMN_LAST_PUBLISH_ELAPSED,
-                                        vectorStatus.getLast().getPublish().getElapsed())
-                                .withValue(BitCarrierSilverstoneVectorStatus.COLUMN_LAST_PUBLISH_TREND,
-                                        vectorStatus.getLast().getPublish().getTrend())
-                                .withValue(BitCarrierSilverstoneVectorStatus.COLUMN_LAST_PUBLISH_READINGS,
-                                        vectorStatus.getLast().getPublish().getReadings());
-                    }
-                    if (vectorStatus.getLast().getCalculated() != null) {
-                        builder.withValue(BitCarrierSilverstoneVectorStatus.COLUMN_LAST_CALCULATED_SPEED,
-                                vectorStatus.getLast().getCalculated().getSpeed())
-                                .withValue(BitCarrierSilverstoneVectorStatus.COLUMN_LAST_CALCULATED_ELAPSED,
-                                        vectorStatus.getLast().getCalculated().getElapsed())
-                                .withValue(BitCarrierSilverstoneVectorStatus.COLUMN_LAST_CALCULATED_TREND,
-                                        vectorStatus.getLast().getCalculated().getTrend())
-                                .withValue(BitCarrierSilverstoneVectorStatus.COLUMN_LAST_CALCULATED_READINGS,
-                                        vectorStatus.getLast().getCalculated().getReadings());
-                    }
-                }
-                operationList.add(builder.withYieldAllowed(true).build());
-            }
-            ContentResolver contentResolver = context.getContentResolver();
-            contentResolver.applyBatch(BcsProviderModule.AUTHORITY, operationList);
-        }
-    }
+//    public static void insertVectorStatusesIntoProvider(@NonNull Context context,
+//                                                        @NonNull ArrayList<VectorStatus> vectorStatuses)
+//            throws RemoteException, OperationApplicationException {
+//        if (vectorStatuses.size() > 0) {
+//            ArrayList<ContentProviderOperation> operationList = new ArrayList<>();
+//            for (VectorStatus vectorStatus : vectorStatuses) {
+//                ContentProviderOperation.Builder builder = ContentProviderOperation
+//                        .newInsert(BcsProviderModule.VECTOR_STATUS_URI)
+//                        .withValue(BitCarrierSilverstoneVectorStatus.COLUMN_VID, vectorStatus.getvId())
+//                        .withValue(BitCarrierSilverstoneVectorStatus.COLUMN_TIME, vectorStatus.getTime())
+//                        .withValue(BitCarrierSilverstoneVectorStatus.COLUMN_LEVEL_OF_SERVICE,
+//                                vectorStatus.getLevelOfService());
+//                if (vectorStatus.getAverage() != null) {
+//                    builder.withValue(BitCarrierSilverstoneVectorStatus.COLUMN_AVERAGE_SCORE,
+//                            vectorStatus.getAverage().getScore());
+//                    if (vectorStatus.getAverage().getPublish() != null) {
+//                        builder.withValue(BitCarrierSilverstoneVectorStatus.COLUMN_AVERAGE_PUBLISH_SPEED,
+//                                vectorStatus.getAverage().getPublish().getSpeed())
+//                                .withValue(BitCarrierSilverstoneVectorStatus.COLUMN_AVERAGE_PUBLISH_ELAPSED,
+//                                        vectorStatus.getAverage().getPublish().getElapsed())
+//                                .withValue(BitCarrierSilverstoneVectorStatus.COLUMN_AVERAGE_PUBLISH_TREND,
+//                                        vectorStatus.getAverage().getPublish().getTrend())
+//                                .withValue(BitCarrierSilverstoneVectorStatus.COLUMN_AVERAGE_PUBLISH_READINGS,
+//                                        vectorStatus.getAverage().getPublish().getReadings());
+//                    }
+//                    if (vectorStatus.getAverage().getCalculated() != null) {
+//                        builder.withValue(BitCarrierSilverstoneVectorStatus.COLUMN_AVERAGE_CALCULATED_SPEED,
+//                                vectorStatus.getAverage().getCalculated().getSpeed())
+//                                .withValue(BitCarrierSilverstoneVectorStatus.COLUMN_AVERAGE_CALCULATED_ELAPSED,
+//                                        vectorStatus.getAverage().getCalculated().getElapsed())
+//                                .withValue(BitCarrierSilverstoneVectorStatus.COLUMN_AVERAGE_CALCULATED_TREND,
+//                                        vectorStatus.getAverage().getCalculated().getTrend())
+//                                .withValue(BitCarrierSilverstoneVectorStatus.COLUMN_AVERAGE_CALCULATED_READINGS,
+//                                        vectorStatus.getAverage().getCalculated().getReadings());
+//                    }
+//                }
+//                if (vectorStatus.getLast() != null) {
+//                    builder.withValue(BitCarrierSilverstoneVectorStatus.COLUMN_LAST_SCORE,
+//                            vectorStatus.getLast().getScore());
+//                    if (vectorStatus.getLast().getPublish() != null) {
+//                        builder.withValue(BitCarrierSilverstoneVectorStatus.COLUMN_LAST_PUBLISH_SPEED,
+//                                vectorStatus.getLast().getPublish().getSpeed())
+//                                .withValue(BitCarrierSilverstoneVectorStatus.COLUMN_LAST_PUBLISH_ELAPSED,
+//                                        vectorStatus.getLast().getPublish().getElapsed())
+//                                .withValue(BitCarrierSilverstoneVectorStatus.COLUMN_LAST_PUBLISH_TREND,
+//                                        vectorStatus.getLast().getPublish().getTrend())
+//                                .withValue(BitCarrierSilverstoneVectorStatus.COLUMN_LAST_PUBLISH_READINGS,
+//                                        vectorStatus.getLast().getPublish().getReadings());
+//                    }
+//                    if (vectorStatus.getLast().getCalculated() != null) {
+//                        builder.withValue(BitCarrierSilverstoneVectorStatus.COLUMN_LAST_CALCULATED_SPEED,
+//                                vectorStatus.getLast().getCalculated().getSpeed())
+//                                .withValue(BitCarrierSilverstoneVectorStatus.COLUMN_LAST_CALCULATED_ELAPSED,
+//                                        vectorStatus.getLast().getCalculated().getElapsed())
+//                                .withValue(BitCarrierSilverstoneVectorStatus.COLUMN_LAST_CALCULATED_TREND,
+//                                        vectorStatus.getLast().getCalculated().getTrend())
+//                                .withValue(BitCarrierSilverstoneVectorStatus.COLUMN_LAST_CALCULATED_READINGS,
+//                                        vectorStatus.getLast().getCalculated().getReadings());
+//                    }
+//                }
+//                operationList.add(builder.withYieldAllowed(true).build());
+//            }
+//            ContentResolver contentResolver = context.getContentResolver();
+//            contentResolver.applyBatch(BcsProviderModule.AUTHORITY, operationList);
+//        }
+//    }
 
     public static void insertNodesIntoProvider(@NonNull Context context,
                                                @NonNull ArrayList<Node> nodes)
@@ -221,15 +217,15 @@ public class BcsContentHelper {
                 new String[]{"*"}, null, null, BitCarrierSilverstoneSketch.COLUMN_SENSOR_ID);
     }
 
-    public static Cursor getTravelSummaries(@NonNull Context context) {
-        return context.getContentResolver().query(BcsProviderModule.TRAVEL_SUMMARY_URI,
-                new String[]{"*"}, null, null, BitCarrierSilverstoneTravelSummary.COLUMN_RID);
-    }
-
-    public static Cursor getVectorStatuses(@NonNull Context context) {
-        return context.getContentResolver().query(BcsProviderModule.VECTOR_STATUS_URI,
-                new String[]{"*"}, null, null, BitCarrierSilverstoneVectorStatus.COLUMN_VID);
-    }
+//    public static Cursor getTravelSummaries(@NonNull Context context) {
+//        return context.getContentResolver().query(BcsProviderModule.TRAVEL_SUMMARY_URI,
+//                new String[]{"*"}, null, null, BitCarrierSilverstoneTravelSummary.COLUMN_RID);
+//    }
+//
+//    public static Cursor getVectorStatuses(@NonNull Context context) {
+//        return context.getContentResolver().query(BcsProviderModule.VECTOR_STATUS_URI,
+//                new String[]{"*"}, null, null, BitCarrierSilverstoneVectorStatus.COLUMN_VID);
+//    }
 
     public static Cursor getNodes(@NonNull Context context) {
         return context.getContentResolver().query(BcsProviderModule.NODE_URI,
