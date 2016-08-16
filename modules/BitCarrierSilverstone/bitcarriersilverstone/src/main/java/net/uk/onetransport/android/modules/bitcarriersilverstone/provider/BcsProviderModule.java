@@ -36,27 +36,33 @@ public class BcsProviderModule implements ProviderModule {
     public static String AUTHORITY;
     public static Uri AUTHORITY_URI;
     public static Uri SKETCH_URI;
-    public static Uri TRAVEL_SUMMARY_URI;
-    public static Uri VECTOR_STATUS_URI;
+    //    public static Uri TRAVEL_SUMMARY_URI;
+//    public static Uri VECTOR_STATUS_URI;
     public static Uri NODE_URI;
+    public static Uri TRAVEL_TIME_URI;
+
     // Sync adapter extras.
     private static final String EXTRAS_SKETCHES =
             "net.uk.onetransport.android.modules.bitcarriersilverstone.sync.SKETCHES";
-    private static final String EXTRAS_TRAVEL_SUMMARIES =
-            "net.uk.onetransport.android.modules.bitcarriersilverstone.sync.TRAVEL_SUMMARIES";
-    private static final String EXTRAS_VECTOR_STATUSES =
-            "net.uk.onetransport.android.modules.bitcarriersilverstone.sync.VECTOR_STATUSES";
+    //    private static final String EXTRAS_TRAVEL_SUMMARIES =
+//            "net.uk.onetransport.android.modules.bitcarriersilverstone.sync.TRAVEL_SUMMARIES";
+//    private static final String EXTRAS_VECTOR_STATUSES =
+//            "net.uk.onetransport.android.modules.bitcarriersilverstone.sync.VECTOR_STATUSES";
     private static final String EXTRAS_NODES =
             "net.uk.onetransport.android.modules.bitcarriersilverstone.sync.NODES";
+    private static final String EXTRAS_TRAVEL_TIMES =
+            "net.uk.onetransport.android.modules.bitcarriersilverstone.sync.TRAVEL_TIMES";
 
     private static int SKETCHES;
     private static int SKETCH_ID;
-    private static int TRAVEL_SUMMARIES;
-    private static int TRAVEL_SUMMARY_ID;
-    private static int VECTOR_STATUSES;
-    private static int VECTOR_STATUS_ID;
+    //    private static int TRAVEL_SUMMARIES;
+//    private static int TRAVEL_SUMMARY_ID;
+//    private static int VECTOR_STATUSES;
+//    private static int VECTOR_STATUS_ID;
     private static int NODES;
     private static int NODE_ID;
+    private static int TRAVEL_TIMES;
+    private static int TRAVEL_TIME_ID;
 
     private Context context;
 
@@ -87,6 +93,8 @@ public class BcsProviderModule implements ProviderModule {
 //                BitCarrierSilverstoneVectorStatus.TABLE_NAME);
         NODE_URI = Uri.withAppendedPath(AUTHORITY_URI,
                 BitCarrierSilverstoneNode.TABLE_NAME);
+        TRAVEL_TIME_URI = Uri.withAppendedPath(AUTHORITY_URI,
+                BitCarrierSilverstoneTravelTimes.TABLE_NAME);
 
         SKETCHES = providerModules.size();
         uriMatcher.addURI(authority, BitCarrierSilverstoneSketch.TABLE_NAME, SKETCHES);
@@ -116,6 +124,13 @@ public class BcsProviderModule implements ProviderModule {
         NODE_ID = providerModules.size();
         uriMatcher.addURI(authority, BitCarrierSilverstoneNode.TABLE_NAME + "/#", NODE_ID);
         providerModules.add(this);
+        TRAVEL_TIMES = providerModules.size();
+        uriMatcher.addURI(authority, BitCarrierSilverstoneTravelTimes.TABLE_NAME, TRAVEL_TIMES);
+        providerModules.add(this);
+        TRAVEL_TIME_ID = providerModules.size();
+        uriMatcher.addURI(authority, BitCarrierSilverstoneTravelTimes.TABLE_NAME + "/#",
+                TRAVEL_TIME_ID);
+        providerModules.add(this);
     }
 
     @Override
@@ -144,7 +159,12 @@ public class BcsProviderModule implements ProviderModule {
         if (match == NODE_ID) {
             return mimeItemPrefix + BitCarrierSilverstoneNode.TABLE_NAME;
         }
-        return null;
+        if (match == TRAVEL_TIMES) {
+            return mimeDirPrefix + BitCarrierSilverstoneTravelTimes.TABLE_NAME;
+        }
+        if (match == TRAVEL_TIME_ID) {
+            return mimeItemPrefix + BitCarrierSilverstoneTravelTimes.TABLE_NAME;
+        }        return null;
     }
 
     @Override
@@ -170,6 +190,11 @@ public class BcsProviderModule implements ProviderModule {
             id = sqLiteDatabase.insert(BitCarrierSilverstoneNode.TABLE_NAME, null, contentValues);
             contentResolver.notifyChange(NODE_URI, null);
             return ContentUris.withAppendedId(NODE_URI, id);
+        }
+        if (match == TRAVEL_TIMES) {
+            id = sqLiteDatabase.insert(BitCarrierSilverstoneTravelTimes.TABLE_NAME, null, contentValues);
+            contentResolver.notifyChange(TRAVEL_TIME_URI, null);
+            return ContentUris.withAppendedId(TRAVEL_TIME_URI, id);
         }
         return null;
     }
@@ -230,6 +255,19 @@ public class BcsProviderModule implements ProviderModule {
             cursor.setNotificationUri(contentResolver, NODE_URI);
             return cursor;
         }
+        if (match == TRAVEL_TIMES) {
+            Cursor cursor = sqLiteDatabase.query(BitCarrierSilverstoneTravelTimes.TABLE_NAME, projection,
+                    selection, selectionArgs, null, null, sortOrder);
+            cursor.setNotificationUri(contentResolver, TRAVEL_TIME_URI);
+            return cursor;
+        }
+        if (match == TRAVEL_TIME_ID) {
+            Cursor cursor = sqLiteDatabase.query(BitCarrierSilverstoneTravelTimes.TABLE_NAME, projection,
+                    BitCarrierSilverstoneTravelTimes._ID + "=?", new String[]{uri.getLastPathSegment()}, null, null,
+                    sortOrder);
+            cursor.setNotificationUri(contentResolver, TRAVEL_TIME_URI);
+            return cursor;
+        }
         return null;
     }
 
@@ -285,6 +323,18 @@ public class BcsProviderModule implements ProviderModule {
             contentResolver.notifyChange(NODE_URI, null);
             return rows;
         }
+        if (match == TRAVEL_TIMES) {
+            int rows = sqLiteDatabase.update(BitCarrierSilverstoneTravelTimes.TABLE_NAME, values, selection,
+                    selectionArgs);
+            contentResolver.notifyChange(TRAVEL_TIME_URI, null);
+            return rows;
+        }
+        if (match == TRAVEL_TIME_ID) {
+            int rows = sqLiteDatabase.update(BitCarrierSilverstoneTravelTimes.TABLE_NAME, values,
+                    BitCarrierSilverstoneTravelTimes._ID + "=?", new String[]{uri.getLastPathSegment()});
+            contentResolver.notifyChange(TRAVEL_TIME_URI, null);
+            return rows;
+        }
         return 0;
     }
 
@@ -309,6 +359,11 @@ public class BcsProviderModule implements ProviderModule {
         if (match == NODES) {
             rows = sqLiteDatabase.delete(BitCarrierSilverstoneNode.TABLE_NAME, selection, selectionArgs);
             contentResolver.notifyChange(NODE_URI, null);
+        }
+        if (match == TRAVEL_TIMES) {
+            rows = sqLiteDatabase.delete(BitCarrierSilverstoneTravelTimes.TABLE_NAME, selection,
+                    selectionArgs);
+            contentResolver.notifyChange(TRAVEL_TIME_URI, null);
         }
         return rows;
     }
@@ -360,12 +415,14 @@ public class BcsProviderModule implements ProviderModule {
         }
     }
 
-    public static void refresh(Context context, boolean sketches, boolean travelSummaries,
-                               boolean vectorStatuses, boolean nodes) {
+    public static void refresh(Context context, boolean sketches,
+//                               boolean travelSummaries,
+//                               boolean vectorStatuses,
+                               boolean nodes) {
         Bundle settingsBundle = new Bundle();
         settingsBundle.putBoolean(EXTRAS_SKETCHES, sketches);
-        settingsBundle.putBoolean(EXTRAS_TRAVEL_SUMMARIES, travelSummaries);
-        settingsBundle.putBoolean(EXTRAS_VECTOR_STATUSES, vectorStatuses);
+//        settingsBundle.putBoolean(EXTRAS_TRAVEL_SUMMARIES, travelSummaries);
+//        settingsBundle.putBoolean(EXTRAS_VECTOR_STATUSES, vectorStatuses);
         settingsBundle.putBoolean(EXTRAS_NODES, nodes);
         CommonSyncAdapter.refresh(context, settingsBundle);
     }

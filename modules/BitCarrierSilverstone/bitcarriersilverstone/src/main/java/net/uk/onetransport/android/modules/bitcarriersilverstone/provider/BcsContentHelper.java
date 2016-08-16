@@ -238,12 +238,12 @@ public class BcsContentHelper {
             case DATA_TYPE_SKETCH:
                 contentResolver.delete(BcsProviderModule.SKETCH_URI, null, null);
                 break;
-            case DATA_TYPE_TRAVEL_SUMMARY:
-                contentResolver.delete(BcsProviderModule.TRAVEL_SUMMARY_URI, null, null);
-                break;
-            case DATA_TYPE_VECTOR_STATUS:
-                contentResolver.delete(BcsProviderModule.VECTOR_STATUS_URI, null, null);
-                break;
+//            case DATA_TYPE_TRAVEL_SUMMARY:
+//                contentResolver.delete(BcsProviderModule.TRAVEL_SUMMARY_URI, null, null);
+//                break;
+//            case DATA_TYPE_VECTOR_STATUS:
+//                contentResolver.delete(BcsProviderModule.VECTOR_STATUS_URI, null, null);
+//                break;
             case DATA_TYPE_NODE:
                 contentResolver.delete(BcsProviderModule.NODE_URI, null, null);
                 break;
