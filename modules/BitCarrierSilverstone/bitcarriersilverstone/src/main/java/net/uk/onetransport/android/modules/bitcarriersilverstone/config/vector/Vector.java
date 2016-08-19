@@ -18,6 +18,9 @@ public class Vector {
     @SerializedName("from")
     private Integer from;
     @Expose
+    @SerializedName("to")
+    private Integer to;
+    @Expose
     @SerializedName("distance")
     private Integer distance;
     @Expose
@@ -61,7 +64,7 @@ public class Vector {
     private String averageGreen;
     @Expose
     @SerializedName("avg_yellow")
-    private String avgerageYellow;
+    private String averageYellow;
     @Expose
     @SerializedName("detections_min")
     private Integer detectionsMin;
@@ -99,6 +102,14 @@ public class Vector {
 
     public void setFrom(Integer from) {
         this.from = from;
+    }
+
+    public Integer getTo() {
+        return to;
+    }
+
+    public void setTo(Integer to) {
+        this.to = to;
     }
 
     public Integer getDistance() {
@@ -213,12 +224,12 @@ public class Vector {
         this.averageGreen = averageGreen;
     }
 
-    public String getAvgerageYellow() {
-        return avgerageYellow;
+    public String getAverageYellow() {
+        return averageYellow;
     }
 
-    public void setAvgerageYellow(String avgerageYellow) {
-        this.avgerageYellow = avgerageYellow;
+    public void setAverageYellow(String averageYellow) {
+        this.averageYellow = averageYellow;
     }
 
     public Integer getDetectionsMin() {
