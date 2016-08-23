@@ -11,6 +11,7 @@ import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 
 import net.uk.onetransport.android.modules.bitcarriersilverstone.config.node.Node;
+import net.uk.onetransport.android.modules.bitcarriersilverstone.config.sketch.SketchArray;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.config.vector.Vector;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.data.sketch.Sketch;
 
@@ -23,17 +24,20 @@ import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider
 import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneSketch;
 import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneTravelTime;
 import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneVector;
+import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneConfigSketch;
 
 public class BcsContentHelper {
 
     @Retention(RetentionPolicy.SOURCE)
-    @IntDef({DATA_TYPE_SKETCH, DATA_TYPE_NODE, DATA_TYPE_VECTOR})
+    @IntDef({DATA_TYPE_SKETCH, DATA_TYPE_NODE, DATA_TYPE_VECTOR,
+            DATA_TYPE_CONFIG_SKETCH})
     public @interface DataType {
     }
 
     public static final int DATA_TYPE_SKETCH = 1;
     public static final int DATA_TYPE_NODE = 4;
     public static final int DATA_TYPE_VECTOR = 5;
+    public static final int DATA_TYPE_CONFIG_SKETCH = 6;
 
     public static void insertSketchesIntoProvider(@NonNull Context context,
                                                   @NonNull ArrayList<Sketch> sketches)
@@ -49,6 +53,30 @@ public class BcsContentHelper {
                         .withValue(BitCarrierSilverstoneSketch.COLUMN_LEVEL_OF_SERVICE,
                                 sketch.getLevelOfService())
                         .withValue(BitCarrierSilverstoneSketch.COLUMN_COORDINATES, sketch.getCoordinates())
+                        .withYieldAllowed(true)
+                        .build();
+                operationList.add(operation);
+            }
+            ContentResolver contentResolver = context.getContentResolver();
+            contentResolver.applyBatch(BcsProviderModule.AUTHORITY, operationList);
+        }
+    }
+
+    public static void insertConfigSketchesIntoProvider(@NonNull Context context,
+                                                  @NonNull SketchArray sketchArray)
+            throws RemoteException, OperationApplicationException {
+        if (sketchArray.getSketches().length > 0) {
+            ArrayList<ContentProviderOperation> operationList = new ArrayList<>();
+            for (net.uk.onetransport.android.modules.bitcarriersilverstone.config.sketch.Sketch sketch
+                    : sketchArray.getSketches()) {
+                ContentProviderOperation operation = ContentProviderOperation
+                        .newInsert(BcsProviderModule.CONFIG_SKETCH_URI)
+                        .withValue(BitCarrierSilverstoneConfigSketch.COLUMN_SKETCH_ID,
+                                sketch.getsId())
+                        .withValue(BitCarrierSilverstoneConfigSketch.COLUMN_VECTOR_ID,
+                                sketch.getvId())
+                        .withValue(BitCarrierSilverstoneConfigSketch.COLUMN_COORDINATES,
+                                sketch.getLocationJsonArray())
                         .withYieldAllowed(true)
                         .build();
                 operationList.add(operation);
@@ -131,6 +159,11 @@ public class BcsContentHelper {
                 new String[]{"*"}, null, null, BitCarrierSilverstoneSketch.COLUMN_SKETCH_ID);
     }
 
+    public static Cursor getConfigSketches(@NonNull Context context) {
+        return context.getContentResolver().query(BcsProviderModule.CONFIG_SKETCH_URI,
+                new String[]{"*"}, null, null, BitCarrierSilverstoneConfigSketch.COLUMN_SKETCH_ID);
+    }
+
     public static Cursor getNodes(@NonNull Context context) {
         return context.getContentResolver().query(BcsProviderModule.NODE_URI,
                 new String[]{"*"}, null, null, BitCarrierSilverstoneNode.COLUMN_CUSTOMER_ID);
@@ -158,6 +191,12 @@ public class BcsContentHelper {
                         BitCarrierSilverstoneLatestVectorTravelTime.COLUMN_TRAVEL_TIME_ID);
     }
 
+    public static Cursor getVectorTravelTimes(@NonNull Context context) {
+        return context.getContentResolver()
+                .query(BcsProviderModule.VECTOR_TRAVEL_TIME_URI, new String[]{"*"}, null, null,
+                        BitCarrierSilverstoneLatestVectorTravelTime.COLUMN_TRAVEL_TIME_ID);
+    }
+
     public static void deleteFromProvider(@NonNull Context context, @DataType int dataType) {
         ContentResolver contentResolver = context.getContentResolver();
         switch (dataType) {
@@ -169,6 +208,9 @@ public class BcsContentHelper {
                 break;
             case DATA_TYPE_VECTOR:
                 contentResolver.delete(BcsProviderModule.VECTOR_URI, null, null);
+                break;
+            case DATA_TYPE_CONFIG_SKETCH:
+                contentResolver.delete(BcsProviderModule.CONFIG_SKETCH_URI, null, null);
                 break;
         }
     }

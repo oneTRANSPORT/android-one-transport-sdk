@@ -41,7 +41,7 @@ public class Sketch {
     @Expose
     @SerializedName("copyrights")
     private String copyrights;
-    // This array has to be extracted separately from the loction JSON string.
+    // This array has to be extracted separately from the location JSON string.
     private Position[] positions;
 
     public Integer getsId() {

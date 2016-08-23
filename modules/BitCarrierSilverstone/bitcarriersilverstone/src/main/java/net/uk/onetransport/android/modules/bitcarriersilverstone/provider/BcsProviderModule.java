@@ -17,6 +17,7 @@ import android.util.Log;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.R;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.config.node.Node;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.config.node.NodeRetriever;
+import net.uk.onetransport.android.modules.bitcarriersilverstone.config.sketch.SketchArray;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.config.vector.Vector;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.config.vector.VectorRetriever;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.data.sketch.Sketch;
@@ -30,8 +31,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
+import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneConfigSketch;
 import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneLatestTravelTime;
 import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneLatestVectorTravelTime;
+import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneVectorTravelTime;
 import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneNode;
 import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneSketch;
 import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneTravelTime;
@@ -45,9 +48,10 @@ public class BcsProviderModule implements ProviderModule {
     public static Uri NODE_URI;
     public static Uri TRAVEL_TIME_URI;
     public static Uri VECTOR_URI;
-    // These are SQL views that are read-only.
     public static Uri LATEST_TRAVEL_TIME_URI;
     public static Uri LATEST_VECTOR_TRAVEL_TIME_URI;
+    public static Uri VECTOR_TRAVEL_TIME_URI;
+    public static Uri CONFIG_SKETCH_URI;
 
     // Sync adapter extras.
     private static final String EXTRAS_SKETCHES =
@@ -69,6 +73,10 @@ public class BcsProviderModule implements ProviderModule {
     private static int LATEST_TRAVEL_TIME_ID;
     private static int LATEST_VECTOR_TRAVEL_TIMES;
     private static int LATEST_VECTOR_TRAVEL_TIME_ID;
+    private static int VECTOR_TRAVEL_TIMES;
+    private static int VECTOR_TRAVEL_TIME_ID;
+    private static int CONFIG_SKETCHES;
+    private static int CONFIG_SKETCH_ID;
 
     private Context context;
 
@@ -85,6 +93,8 @@ public class BcsProviderModule implements ProviderModule {
         sqLiteDatabase.execSQL(BcsContract.CREATE_BIT_CARRIER_LATEST_TRAVEL_TIME_TABLE);
         sqLiteDatabase.execSQL(
                 BcsContract.CREATE_BIT_CARRIER_LATEST_VECTOR_TRAVEL_TIME_TABLE);
+        sqLiteDatabase.execSQL(BcsContract.CREATE_BIT_CARRIER_VECTOR_TRAVEL_TIME_TABLE);
+        sqLiteDatabase.execSQL(BcsContract.CREATE_BIT_CARRIER_CONFIG_SKETCH_TABLE);
         importTravelTimes(sqLiteDatabase);
     }
 
@@ -105,6 +115,10 @@ public class BcsProviderModule implements ProviderModule {
                 BitCarrierSilverstoneLatestTravelTime.TABLE_NAME);
         LATEST_VECTOR_TRAVEL_TIME_URI = Uri.withAppendedPath(AUTHORITY_URI,
                 BitCarrierSilverstoneLatestVectorTravelTime.TABLE_NAME);
+        VECTOR_TRAVEL_TIME_URI = Uri.withAppendedPath(AUTHORITY_URI,
+                BitCarrierSilverstoneVectorTravelTime.TABLE_NAME);
+        CONFIG_SKETCH_URI = Uri.withAppendedPath(AUTHORITY_URI,
+                BitCarrierSilverstoneConfigSketch.TABLE_NAME);
 
         SKETCHES = providerModules.size();
         uriMatcher.addURI(authority, BitCarrierSilverstoneSketch.TABLE_NAME, SKETCHES);
@@ -147,7 +161,22 @@ public class BcsProviderModule implements ProviderModule {
         uriMatcher.addURI(authority, BitCarrierSilverstoneLatestVectorTravelTime.TABLE_NAME + "/#",
                 LATEST_VECTOR_TRAVEL_TIME_ID);
         providerModules.add(this);
-
+        VECTOR_TRAVEL_TIMES = providerModules.size();
+        uriMatcher.addURI(authority, BitCarrierSilverstoneVectorTravelTime.TABLE_NAME,
+                VECTOR_TRAVEL_TIMES);
+        providerModules.add(this);
+        VECTOR_TRAVEL_TIME_ID = providerModules.size();
+        uriMatcher.addURI(authority, BitCarrierSilverstoneVectorTravelTime.TABLE_NAME + "/#",
+                VECTOR_TRAVEL_TIME_ID);
+        providerModules.add(this);
+        CONFIG_SKETCHES = providerModules.size();
+        uriMatcher.addURI(authority, BitCarrierSilverstoneConfigSketch.TABLE_NAME,
+                CONFIG_SKETCHES);
+        providerModules.add(this);
+        CONFIG_SKETCH_ID = providerModules.size();
+        uriMatcher.addURI(authority, BitCarrierSilverstoneConfigSketch.TABLE_NAME + "/#",
+                CONFIG_SKETCH_ID);
+        providerModules.add(this);
     }
 
     @Override
@@ -185,6 +214,18 @@ public class BcsProviderModule implements ProviderModule {
         if (match == LATEST_VECTOR_TRAVEL_TIME_ID) {
             return mimeItemPrefix + BitCarrierSilverstoneLatestVectorTravelTime.TABLE_NAME;
         }
+        if (match == VECTOR_TRAVEL_TIMES) {
+            return mimeDirPrefix + BitCarrierSilverstoneVectorTravelTime.TABLE_NAME;
+        }
+        if (match == VECTOR_TRAVEL_TIME_ID) {
+            return mimeItemPrefix + BitCarrierSilverstoneVectorTravelTime.TABLE_NAME;
+        }
+        if (match == CONFIG_SKETCHES) {
+            return mimeDirPrefix + BitCarrierSilverstoneConfigSketch.TABLE_NAME;
+        }
+        if (match == CONFIG_SKETCH_ID) {
+            return mimeItemPrefix + BitCarrierSilverstoneConfigSketch.TABLE_NAME;
+        }
         return null;
     }
 
@@ -219,6 +260,15 @@ public class BcsProviderModule implements ProviderModule {
         if (match == LATEST_VECTOR_TRAVEL_TIMES) {
             Log.e("BcsProviderModule", "Insert not permitted into "
                     + BitCarrierSilverstoneLatestVectorTravelTime.TABLE_NAME);
+        }
+        if (match == VECTOR_TRAVEL_TIMES) {
+            Log.e("BcsProviderModule", "Insert not permitted into "
+                    + BitCarrierSilverstoneVectorTravelTime.TABLE_NAME);
+        }
+        if (match == CONFIG_SKETCHES) {
+            id = sqLiteDatabase.insert(BitCarrierSilverstoneConfigSketch.TABLE_NAME, null, contentValues);
+            contentResolver.notifyChange(CONFIG_SKETCH_URI, null);
+            return ContentUris.withAppendedId(CONFIG_SKETCH_URI, id);
         }
         return null;
     }
@@ -305,6 +355,32 @@ public class BcsProviderModule implements ProviderModule {
             cursor.setNotificationUri(contentResolver, LATEST_VECTOR_TRAVEL_TIME_URI);
             return cursor;
         }
+        if (match == VECTOR_TRAVEL_TIMES) {
+            Cursor cursor = sqLiteDatabase.query(BitCarrierSilverstoneVectorTravelTime.TABLE_NAME,
+                    projection, selection, selectionArgs, null, null, sortOrder);
+            cursor.setNotificationUri(contentResolver, VECTOR_TRAVEL_TIME_URI);
+            return cursor;
+        }
+        if (match == VECTOR_TRAVEL_TIME_ID) {
+            Cursor cursor = sqLiteDatabase.query(BitCarrierSilverstoneVectorTravelTime.TABLE_NAME,
+                    projection, BitCarrierSilverstoneVectorTravelTime._ID + "=?",
+                    new String[]{uri.getLastPathSegment()}, null, null, sortOrder);
+            cursor.setNotificationUri(contentResolver, VECTOR_TRAVEL_TIME_URI);
+            return cursor;
+        }
+        if (match == CONFIG_SKETCHES) {
+            Cursor cursor = sqLiteDatabase.query(BitCarrierSilverstoneConfigSketch.TABLE_NAME,
+                    projection, selection, selectionArgs, null, null, sortOrder);
+            cursor.setNotificationUri(contentResolver, CONFIG_SKETCH_URI);
+            return cursor;
+        }
+        if (match == CONFIG_SKETCH_ID) {
+            Cursor cursor = sqLiteDatabase.query(BitCarrierSilverstoneConfigSketch.TABLE_NAME,
+                    projection, BitCarrierSilverstoneConfigSketch._ID + "=?",
+                    new String[]{uri.getLastPathSegment()}, null, null, sortOrder);
+            cursor.setNotificationUri(contentResolver, CONFIG_SKETCH_URI);
+            return cursor;
+        }
         return null;
     }
 
@@ -369,6 +445,22 @@ public class BcsProviderModule implements ProviderModule {
             Log.e("BcsProviderModule", "Update not permitted for "
                     + BitCarrierSilverstoneLatestVectorTravelTime.TABLE_NAME);
         }
+        if (match == VECTOR_TRAVEL_TIMES || match == VECTOR_TRAVEL_TIME_ID) {
+            Log.e("BcsProviderModule", "Update not permitted for "
+                    + BitCarrierSilverstoneVectorTravelTime.TABLE_NAME);
+        }
+        if (match == CONFIG_SKETCHES) {
+            int rows = sqLiteDatabase.update(BitCarrierSilverstoneConfigSketch.TABLE_NAME, values,
+                    selection, selectionArgs);
+            contentResolver.notifyChange(CONFIG_SKETCH_URI, null);
+            return rows;
+        }
+        if (match == CONFIG_SKETCH_ID) {
+            int rows = sqLiteDatabase.update(BitCarrierSilverstoneConfigSketch.TABLE_NAME, values,
+                    BitCarrierSilverstoneVector._ID + "=?", new String[]{uri.getLastPathSegment()});
+            contentResolver.notifyChange(CONFIG_SKETCH_URI, null);
+            return rows;
+        }
         return 0;
     }
 
@@ -401,6 +493,15 @@ public class BcsProviderModule implements ProviderModule {
             Log.e("BcsProviderModule", "Delete not permitted for "
                     + BitCarrierSilverstoneLatestVectorTravelTime.TABLE_NAME);
         }
+        if (match == VECTOR_TRAVEL_TIMES) {
+            Log.e("BcsProviderModule", "Delete not permitted for "
+                    + BitCarrierSilverstoneVectorTravelTime.TABLE_NAME);
+        }
+        if (match == CONFIG_SKETCHES) {
+            rows = sqLiteDatabase.delete(BitCarrierSilverstoneConfigSketch.TABLE_NAME, selection,
+                    selectionArgs);
+            contentResolver.notifyChange(CONFIG_SKETCH_URI, null);
+        }
         return rows;
     }
 
@@ -413,6 +514,14 @@ public class BcsProviderModule implements ProviderModule {
                     ArrayList<Sketch> sketches = new SketchRetriever().retrieve(context);
                     BcsContentHelper.deleteFromProvider(context, BcsContentHelper.DATA_TYPE_SKETCH);
                     BcsContentHelper.insertSketchesIntoProvider(context, sketches);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try {
+                    SketchArray sketchArray = SketchArray.getSketchArray(context);
+                    BcsContentHelper.deleteFromProvider(context,
+                            BcsContentHelper.DATA_TYPE_CONFIG_SKETCH);
+                    BcsContentHelper.insertConfigSketchesIntoProvider(context, sketchArray);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

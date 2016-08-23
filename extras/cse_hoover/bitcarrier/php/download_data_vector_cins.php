@@ -18,12 +18,31 @@ $opts = array(
                            ."Accept: application/json\r\n"));
 
 $context = stream_context_create($opts);
+$olds = file('vector_cins/vector_cins_old.txt');
 
 foreach ($vectors as $vector) {
   $file = file_get_contents("$host$path$vector?rcn=6", false, $context);
   $json = json_decode($file, true);
   $cis = $json['m2m:cnt']['ch'];
+  $started = false;
   foreach ($cis as $ci_bit) {
-    echo $host, $ci_bit['#text'], "\n";
+    $ci = $ci_bit['#text'];
+    if ($started) {
+      echo $host, $ci, "\n";
+    }
+    if (get_old($ci)) {
+      $started = true;
+    }
   }
+}
+
+function get_old($vector) {
+  global $olds;
+
+  foreach ($olds as $old) {
+    if (ereg($vector, $old)) {
+      return true;
+    }
+  }
+  return false;
 }

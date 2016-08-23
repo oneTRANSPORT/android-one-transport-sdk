@@ -7,19 +7,17 @@ import com.interdigital.android.dougal.resource.ContentInstance;
 import com.interdigital.android.dougal.resource.Resource;
 import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
-import net.uk.onetransport.android.modules.bitcarriersilverstone.generic.BaseArray;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.R;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.authentication.CredentialHelper;
+import net.uk.onetransport.android.modules.bitcarriersilverstone.generic.BaseArray;
 
 public class SketchArray extends BaseArray implements DougalCallback {
 
-    public static final int START_SKETCH_ID = 1;
-    public static final int END_SKETCH_ID = 46;
-    public static final int NUM_SKETCHES = END_SKETCH_ID - START_SKETCH_ID + 1;
+    public static final int[] SKETCH_IDS = {1, 2, 3, 4, 5, 7, 8, 9, 10, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23,
+            24, 25, 26, 27, 28, 29, 31, 32, 33, 34, 35, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46};
     public static final String AE_NAME = "Worldsensing";
     private static final String RETRIEVE_PREFIX = AE_NAME
-            + "/BitCarrier/v1.0/InterdigitalDemo/installationtest/silverstone/config/sketches/s";
-
+            + "/BitCarrier/v1.0/InterdigitalDemo/silverstone/config/sketches/s";
     private static int completed = 0;
 
     private Sketch[] sketches;
@@ -38,10 +36,10 @@ public class SketchArray extends BaseArray implements DougalCallback {
         String userName = CredentialHelper.getAeId(context);
         String password = CredentialHelper.getSessionToken(context);
         String cseBaseUrl = context.getString(R.string.bitcarrier_cse_base_url);
-        Sketch[] newSketches = new Sketch[NUM_SKETCHES];
-        for (int i = START_SKETCH_ID; i <= END_SKETCH_ID; i++) {
+        Sketch[] newSketches = new Sketch[SKETCH_IDS.length];
+        for (int i = 0; i < SKETCH_IDS.length; i++) {
             ContentInstance contentInstance = Container.retrieveLatest(aeId, cseBaseUrl,
-                    RETRIEVE_PREFIX + String.valueOf(i), userName, password);
+                    RETRIEVE_PREFIX + String.valueOf(SKETCH_IDS[i]), userName, password);
             String content = contentInstance.getContent();
             newSketches[i] = GSON.fromJson(content, Sketch.class);
             newSketches[i].setPositions(
@@ -53,16 +51,16 @@ public class SketchArray extends BaseArray implements DougalCallback {
     public static void getSketchArrayAsync(Context context,
                                            SketchArrayCallback sketchArrayCallback, int id) {
         SketchArray sketchArray = new SketchArray();
-        sketchArray.sketches = new Sketch[NUM_SKETCHES];
+        sketchArray.sketches = new Sketch[SKETCH_IDS.length];
         sketchArray.sketchArrayCallback = sketchArrayCallback;
         sketchArray.id = id;
         String aeId = "C-" + CredentialHelper.getAeId(context);
         String userName = CredentialHelper.getAeId(context);
         String password = CredentialHelper.getSessionToken(context);
         String cseBaseUrl = context.getString(R.string.bitcarrier_cse_base_url);
-        for (int i = START_SKETCH_ID; i <= END_SKETCH_ID; i++) {
+        for (int i = 0; i < SKETCH_IDS.length; i++) {
             Container.retrieveLatestAsync(aeId, cseBaseUrl,
-                    RETRIEVE_PREFIX + String.valueOf(i), userName, password, sketchArray);
+                    RETRIEVE_PREFIX + String.valueOf(SKETCH_IDS[i]), userName, password, sketchArray);
         }
     }
 
@@ -82,7 +80,7 @@ public class SketchArray extends BaseArray implements DougalCallback {
                 sketchArrayCallback.onSketchArrayError(id, e);
             }
             completed++;
-            if (completed == NUM_SKETCHES) {
+            if (completed == SKETCH_IDS.length) {
                 sketchArrayCallback.onSketchArrayReady(id, this);
             }
         }
