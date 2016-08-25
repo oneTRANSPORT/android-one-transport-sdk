@@ -19,4 +19,4 @@ wget $WGET_OPT \
      --header="X-M2M-Origin: $AE_ID" \
      --header="Accept: application/json" \
      --save-headers=on \
-     "$CSE_BASE_URL/$CSE_NAME/$AE_NAME/$CO_NAME"
+     "$CSE_BASE_URL/$CSE_NAME?rcn=6"
