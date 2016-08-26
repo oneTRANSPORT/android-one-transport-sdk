@@ -17,11 +17,6 @@ public class NodeRetriever extends Retriever<Node> implements NodeParams {
     }
 
     @Override
-    protected int[] getIds() {
-        return NODE_IDS;
-    }
-
-    @Override
     protected String getRetrivePrefix() {
         return RETRIEVE_PREFIX;
     }

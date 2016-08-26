@@ -14,7 +14,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 
-import net.uk.onetransport.android.modules.bitcarriersilverstone.R;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.config.node.Node;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.config.node.NodeRetriever;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.config.sketch.SketchArray;
@@ -26,19 +25,16 @@ import net.uk.onetransport.android.modules.common.provider.OneTransportProvider;
 import net.uk.onetransport.android.modules.common.provider.ProviderModule;
 import net.uk.onetransport.android.modules.common.sync.CommonSyncAdapter;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneConfigSketch;
 import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneLatestTravelTime;
 import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneLatestVectorTravelTime;
-import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneVectorTravelTime;
 import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneNode;
 import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneSketch;
 import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneTravelTime;
 import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneVector;
+import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneVectorTravelTime;
 
 public class BcsProviderModule implements ProviderModule {
 
@@ -95,7 +91,6 @@ public class BcsProviderModule implements ProviderModule {
                 BcsContract.CREATE_BIT_CARRIER_LATEST_VECTOR_TRAVEL_TIME_TABLE);
         sqLiteDatabase.execSQL(BcsContract.CREATE_BIT_CARRIER_VECTOR_TRAVEL_TIME_TABLE);
         sqLiteDatabase.execSQL(BcsContract.CREATE_BIT_CARRIER_CONFIG_SKETCH_TABLE);
-        importTravelTimes(sqLiteDatabase);
     }
 
     @Override
@@ -555,25 +550,4 @@ public class BcsProviderModule implements ProviderModule {
         CommonSyncAdapter.refresh(context, settingsBundle);
     }
 
-    private void importTravelTimes(SQLiteDatabase sqLiteDatabase) {
-        // Import historical data summary that would take too long to download.
-        BufferedReader br = new BufferedReader(new InputStreamReader(
-                context.getResources().openRawResource(R.raw.bit_carrier_summary_import)));
-        try {
-            String line;
-            while ((line = br.readLine()) != null) {
-                String insert = "INSERT INTO " + BitCarrierSilverstoneTravelTime.TABLE_NAME
-                        + " VALUES (NULL," + line + ");";
-                sqLiteDatabase.execSQL(insert);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                br.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
 }

@@ -15,11 +15,6 @@ public class VectorRetriever extends Retriever<Vector> implements VectorParams {
     }
 
     @Override
-    protected int[] getIds() {
-        return VECTOR_IDS;
-    }
-
-    @Override
     protected String getRetrivePrefix() {
         return RETRIEVE_PREFIX;
     }

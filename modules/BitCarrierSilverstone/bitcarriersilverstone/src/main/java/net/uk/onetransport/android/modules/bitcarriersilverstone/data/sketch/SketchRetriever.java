@@ -15,11 +15,6 @@ public class SketchRetriever extends Retriever<Sketch> implements SketchParams {
     }
 
     @Override
-    protected int[] getIds() {
-        return SKETCH_IDS;
-    }
-
-    @Override
     protected String getRetrivePrefix() {
         return RETRIEVE_PREFIX;
     }

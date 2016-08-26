@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.interdigital.android.dougal.resource.Container;
 import com.interdigital.android.dougal.resource.ContentInstance;
+import com.interdigital.android.dougal.resource.ResourceChild;
 
 import net.uk.onetransport.android.modules.bitcarriersilverstone.R;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.authentication.CredentialHelper;
@@ -19,21 +20,23 @@ public abstract class Retriever<T> {
     public Retriever() {
     }
 
-    protected void retrieve(Context context, ArrayList<T> list) throws Exception {
+    public void retrieve(Context context, ArrayList<T> list) throws Exception {
         String aeId = "C-" + CredentialHelper.getAeId(context);
         String userName = CredentialHelper.getAeId(context);
         String password = CredentialHelper.getSessionToken(context);
         String cseBaseUrl = context.getString(R.string.bitcarrier_cse_base_url);
-        int[] ids = getIds();
-        for (int i = 0; i < ids.length; i++) {
+        // Get the names of child resources.
+        ResourceChild[] children = Container.retrieveChildren(aeId, cseBaseUrl, getRetrivePrefix(),
+                userName, password).getResourceChildren();
+        for (int i = 0; i < children.length; i++) {
+            String name = children[i].getName();
+            // TODO    Not just the latest, go back as far as needed.
             ContentInstance contentInstance = Container.retrieveLatest(aeId, cseBaseUrl,
-                    getRetrivePrefix() + String.valueOf(ids[i]), userName, password);
+                    getRetrivePrefix() + "/" + name, userName, password);
             String content = contentInstance.getContent();
             list.add(fromJson(content));
         }
     }
-
-    protected abstract int[] getIds();
 
     protected abstract String getRetrivePrefix();
 
