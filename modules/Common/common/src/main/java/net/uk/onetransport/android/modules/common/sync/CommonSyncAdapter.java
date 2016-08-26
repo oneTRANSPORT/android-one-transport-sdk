@@ -51,17 +51,6 @@ public class CommonSyncAdapter extends AbstractThreadedSyncAdapter {
             }
             previousModule = module;
         }
-
-        // TODO    Remove this, diagnostics only.
-        if (!cancelled) {
-            CommonDbHelper commonDbHelper = new CommonDbHelper(context,
-                    OneTransportProvider.providerModules);
-            SQLiteDatabase sqLiteDatabase = commonDbHelper.getReadableDatabase();
-            File dbFile = new File(sqLiteDatabase.getPath());
-            File exportDb = new File("/sdcard/common-db");
-            copy(dbFile, exportDb);
-            Log.i("OneTransportSyncAdapter", "Copying DB.");
-        }
     }
 
     @Override
@@ -95,35 +84,4 @@ public class CommonSyncAdapter extends AbstractThreadedSyncAdapter {
         accountManager.addAccountExplicitly(newAccount, null, null);
         return newAccount;
     }
-
-    // TODO    Remove this too.
-    private void copy(File src, File dst) {
-        InputStream in = null;
-        OutputStream out = null;
-        try {
-            in = new FileInputStream(src);
-            out = new FileOutputStream(dst);
-            // Transfer bytes from in to out
-            byte[] buf = new byte[8192];
-            int len;
-            while ((len = in.read(buf)) > 0) {
-                out.write(buf, 0, len);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (in != null) {
-                    in.close();
-                }
-                if (out != null) {
-                    out.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-    // TODO    ----------------------------------------
-
 }

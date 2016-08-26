@@ -8,11 +8,13 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 
 import net.uk.onetransport.android.modules.common.R;
 import net.uk.onetransport.android.modules.common.provider.lastupdated.LastUpdatedProviderModule;
 
+import java.io.File;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
