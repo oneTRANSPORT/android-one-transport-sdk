@@ -17,6 +17,8 @@ public class City {
     @Expose
     @SerializedName("name")
     private String name;
+    private String cinId;
+    private Long creationTime;
 
     public Integer getId() {
         return id;
@@ -48,5 +50,21 @@ public class City {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getCinId() {
+        return cinId;
+    }
+
+    public void setCinId(String cinId) {
+        this.cinId = cinId;
+    }
+
+    public Long getCreationTime() {
+        return creationTime;
+    }
+
+    public void setCreationTime(Long creationTime) {
+        this.creationTime = creationTime;
     }
 }
