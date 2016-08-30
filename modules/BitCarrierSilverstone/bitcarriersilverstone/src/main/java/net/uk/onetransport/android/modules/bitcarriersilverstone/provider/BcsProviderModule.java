@@ -16,7 +16,6 @@ import android.util.Log;
 
 import net.uk.onetransport.android.modules.bitcarriersilverstone.config.node.Node;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.config.node.NodeRetriever;
-import net.uk.onetransport.android.modules.bitcarriersilverstone.config.sketch.SketchArray;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.config.vector.Vector;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.config.vector.VectorRetriever;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.data.sketch.Sketch;
@@ -28,10 +27,10 @@ import net.uk.onetransport.android.modules.common.sync.CommonSyncAdapter;
 import java.util.ArrayList;
 
 import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneConfigSketch;
+import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneDataSketch;
 import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneLatestTravelTime;
 import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneLatestVectorTravelTime;
 import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneNode;
-import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneSketch;
 import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneTravelTime;
 import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneVector;
 import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneVectorTravelTime;
@@ -40,7 +39,7 @@ public class BcsProviderModule implements ProviderModule {
 
     public static String AUTHORITY;
     public static Uri AUTHORITY_URI;
-    public static Uri SKETCH_URI;
+    public static Uri DATA_SKETCH_URI;
     public static Uri NODE_URI;
     public static Uri TRAVEL_TIME_URI;
     public static Uri VECTOR_URI;
@@ -51,14 +50,14 @@ public class BcsProviderModule implements ProviderModule {
 
     // Sync adapter extras.
     private static final String EXTRAS_SKETCHES =
-            "net.uk.onetransport.android.modules.bitcarriersilverstone.sync.SKETCHES";
+            "net.uk.onetransport.android.modules.bitcarriersilverstone.sync.DATA_SKETCHES";
     private static final String EXTRAS_NODES =
             "net.uk.onetransport.android.modules.bitcarriersilverstone.sync.NODES";
     private static final String EXTRAS_VECTORS =
             "net.uk.onetransport.android.modules.bitcarriersilverstone.sync.VECTORS";
 
-    private static int SKETCHES;
-    private static int SKETCH_ID;
+    private static int DATA_SKETCHES;
+    private static int DATA_SKETCH_ID;
     private static int NODES;
     private static int NODE_ID;
     private static int TRAVEL_TIMES;
@@ -82,7 +81,7 @@ public class BcsProviderModule implements ProviderModule {
 
     @Override
     public void createDatabase(SQLiteDatabase sqLiteDatabase) {
-        sqLiteDatabase.execSQL(BcsContract.CREATE_BIT_CARRIER_SKETCH_TABLE);
+        sqLiteDatabase.execSQL(BcsContract.CREATE_BIT_CARRIER_DATA_SKETCH_TABLE);
         sqLiteDatabase.execSQL(BcsContract.CREATE_BIT_CARRIER_NODE_TABLE);
         sqLiteDatabase.execSQL(BcsContract.CREATE_BIT_CARRIER_TRAVEL_TIME_TABLE);
         sqLiteDatabase.execSQL(BcsContract.CREATE_BIT_CARRIER_VECTOR_TABLE);
@@ -98,8 +97,8 @@ public class BcsProviderModule implements ProviderModule {
                         String authority) {
         AUTHORITY = authority;
         AUTHORITY_URI = Uri.parse("content://" + authority + "/");
-        SKETCH_URI = Uri.withAppendedPath(AUTHORITY_URI,
-                BitCarrierSilverstoneSketch.TABLE_NAME);
+        DATA_SKETCH_URI = Uri.withAppendedPath(AUTHORITY_URI,
+                BitCarrierSilverstoneDataSketch.TABLE_NAME);
         NODE_URI = Uri.withAppendedPath(AUTHORITY_URI,
                 BitCarrierSilverstoneNode.TABLE_NAME);
         TRAVEL_TIME_URI = Uri.withAppendedPath(AUTHORITY_URI,
@@ -115,11 +114,11 @@ public class BcsProviderModule implements ProviderModule {
         CONFIG_SKETCH_URI = Uri.withAppendedPath(AUTHORITY_URI,
                 BitCarrierSilverstoneConfigSketch.TABLE_NAME);
 
-        SKETCHES = providerModules.size();
-        uriMatcher.addURI(authority, BitCarrierSilverstoneSketch.TABLE_NAME, SKETCHES);
+        DATA_SKETCHES = providerModules.size();
+        uriMatcher.addURI(authority, BitCarrierSilverstoneDataSketch.TABLE_NAME, DATA_SKETCHES);
         providerModules.add(this);
-        SKETCH_ID = providerModules.size();
-        uriMatcher.addURI(authority, BitCarrierSilverstoneSketch.TABLE_NAME + "/#", SKETCH_ID);
+        DATA_SKETCH_ID = providerModules.size();
+        uriMatcher.addURI(authority, BitCarrierSilverstoneDataSketch.TABLE_NAME + "/#", DATA_SKETCH_ID);
         providerModules.add(this);
         NODES = providerModules.size();
         uriMatcher.addURI(authority, BitCarrierSilverstoneNode.TABLE_NAME, NODES);
@@ -176,11 +175,11 @@ public class BcsProviderModule implements ProviderModule {
 
     @Override
     public String getType(int match, String mimeDirPrefix, String mimeItemPrefix) {
-        if (match == SKETCHES) {
-            return mimeDirPrefix + BitCarrierSilverstoneSketch.TABLE_NAME;
+        if (match == DATA_SKETCHES) {
+            return mimeDirPrefix + BitCarrierSilverstoneDataSketch.TABLE_NAME;
         }
-        if (match == SKETCH_ID) {
-            return mimeItemPrefix + BitCarrierSilverstoneSketch.TABLE_NAME;
+        if (match == DATA_SKETCH_ID) {
+            return mimeItemPrefix + BitCarrierSilverstoneDataSketch.TABLE_NAME;
         }
         if (match == NODES) {
             return mimeDirPrefix + BitCarrierSilverstoneNode.TABLE_NAME;
@@ -228,10 +227,10 @@ public class BcsProviderModule implements ProviderModule {
     public Uri insert(int match, ContentValues contentValues, SQLiteDatabase sqLiteDatabase) {
         long id;
         ContentResolver contentResolver = context.getContentResolver();
-        if (match == SKETCHES) {
-            id = sqLiteDatabase.insert(BitCarrierSilverstoneSketch.TABLE_NAME, null, contentValues);
-            contentResolver.notifyChange(SKETCH_URI, null);
-            return ContentUris.withAppendedId(SKETCH_URI, id);
+        if (match == DATA_SKETCHES) {
+            id = sqLiteDatabase.insert(BitCarrierSilverstoneDataSketch.TABLE_NAME, null, contentValues);
+            contentResolver.notifyChange(DATA_SKETCH_URI, null);
+            return ContentUris.withAppendedId(DATA_SKETCH_URI, id);
         }
         if (match == NODES) {
             id = sqLiteDatabase.insert(BitCarrierSilverstoneNode.TABLE_NAME, null, contentValues);
@@ -272,17 +271,17 @@ public class BcsProviderModule implements ProviderModule {
     public Cursor query(Uri uri, int match, String[] projection, String selection, String[] selectionArgs,
                         String sortOrder, SQLiteDatabase sqLiteDatabase) {
         ContentResolver contentResolver = context.getContentResolver();
-        if (match == SKETCHES) {
-            Cursor cursor = sqLiteDatabase.query(BitCarrierSilverstoneSketch.TABLE_NAME, projection,
+        if (match == DATA_SKETCHES) {
+            Cursor cursor = sqLiteDatabase.query(BitCarrierSilverstoneDataSketch.TABLE_NAME, projection,
                     selection, selectionArgs, null, null, sortOrder);
-            cursor.setNotificationUri(contentResolver, SKETCH_URI);
+            cursor.setNotificationUri(contentResolver, DATA_SKETCH_URI);
             return cursor;
         }
-        if (match == SKETCH_ID) {
-            Cursor cursor = sqLiteDatabase.query(BitCarrierSilverstoneSketch.TABLE_NAME, projection,
-                    BitCarrierSilverstoneSketch._ID + "=?", new String[]{uri.getLastPathSegment()}, null, null,
+        if (match == DATA_SKETCH_ID) {
+            Cursor cursor = sqLiteDatabase.query(BitCarrierSilverstoneDataSketch.TABLE_NAME, projection,
+                    BitCarrierSilverstoneDataSketch._ID + "=?", new String[]{uri.getLastPathSegment()}, null, null,
                     sortOrder);
-            cursor.setNotificationUri(contentResolver, SKETCH_URI);
+            cursor.setNotificationUri(contentResolver, DATA_SKETCH_URI);
             return cursor;
         }
         if (match == NODES) {
@@ -383,16 +382,16 @@ public class BcsProviderModule implements ProviderModule {
     public int update(Uri uri, int match, ContentValues values, String selection, String[] selectionArgs,
                       SQLiteDatabase sqLiteDatabase) {
         ContentResolver contentResolver = context.getContentResolver();
-        if (match == SKETCHES) {
-            int rows = sqLiteDatabase.update(BitCarrierSilverstoneSketch.TABLE_NAME, values, selection,
+        if (match == DATA_SKETCHES) {
+            int rows = sqLiteDatabase.update(BitCarrierSilverstoneDataSketch.TABLE_NAME, values, selection,
                     selectionArgs);
-            contentResolver.notifyChange(SKETCH_URI, null);
+            contentResolver.notifyChange(DATA_SKETCH_URI, null);
             return rows;
         }
-        if (match == SKETCH_ID) {
-            int rows = sqLiteDatabase.update(BitCarrierSilverstoneSketch.TABLE_NAME, values,
-                    BitCarrierSilverstoneSketch._ID + "=?", new String[]{uri.getLastPathSegment()});
-            contentResolver.notifyChange(SKETCH_URI, null);
+        if (match == DATA_SKETCH_ID) {
+            int rows = sqLiteDatabase.update(BitCarrierSilverstoneDataSketch.TABLE_NAME, values,
+                    BitCarrierSilverstoneDataSketch._ID + "=?", new String[]{uri.getLastPathSegment()});
+            contentResolver.notifyChange(DATA_SKETCH_URI, null);
             return rows;
         }
         if (match == NODES) {
@@ -463,9 +462,9 @@ public class BcsProviderModule implements ProviderModule {
     public int delete(int match, String selection, String[] selectionArgs, SQLiteDatabase sqLiteDatabase) {
         ContentResolver contentResolver = context.getContentResolver();
         int rows = 0;
-        if (match == SKETCHES) {
-            rows = sqLiteDatabase.delete(BitCarrierSilverstoneSketch.TABLE_NAME, selection, selectionArgs);
-            contentResolver.notifyChange(SKETCH_URI, null);
+        if (match == DATA_SKETCHES) {
+            rows = sqLiteDatabase.delete(BitCarrierSilverstoneDataSketch.TABLE_NAME, selection, selectionArgs);
+            contentResolver.notifyChange(DATA_SKETCH_URI, null);
         }
         if (match == NODES) {
             rows = sqLiteDatabase.delete(BitCarrierSilverstoneNode.TABLE_NAME, selection, selectionArgs);
@@ -506,25 +505,23 @@ public class BcsProviderModule implements ProviderModule {
         if (authority.equals(OneTransportProvider.AUTHORITY)) {
             if (extras.getBoolean(EXTRAS_SKETCHES, false)) {
                 try {
-                    ArrayList<Sketch> sketches = new SketchRetriever().retrieve(context);
-                    BcsContentHelper.deleteFromProvider(context, BcsContentHelper.DATA_TYPE_SKETCH);
-                    BcsContentHelper.insertSketchesIntoProvider(context, sketches);
+                    ArrayList<Sketch> sketches = new SketchRetriever(context).retrieve();
+                    BcsContentHelper.insertDataSketchesIntoProvider(context, sketches);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
                 try {
-                    SketchArray sketchArray = SketchArray.getSketchArray(context);
-                    BcsContentHelper.deleteFromProvider(context,
-                            BcsContentHelper.DATA_TYPE_CONFIG_SKETCH);
-                    BcsContentHelper.insertConfigSketchesIntoProvider(context, sketchArray);
+                    ArrayList<net.uk.onetransport.android.modules.bitcarriersilverstone.config.sketch.Sketch>
+                            sketches = new net.uk.onetransport.android.modules.bitcarriersilverstone.config.sketch
+                            .SketchRetriever(context).retrieve();
+                    BcsContentHelper.insertConfigSketchesIntoProvider(context, sketches);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
             if (extras.getBoolean(EXTRAS_NODES, false)) {
                 try {
-                    ArrayList<Node> nodes = new NodeRetriever().retrieve(context);
-                    BcsContentHelper.deleteFromProvider(context, BcsContentHelper.DATA_TYPE_NODE);
+                    ArrayList<Node> nodes = new NodeRetriever(context).retrieve();
                     BcsContentHelper.insertNodesIntoProvider(context, nodes);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -532,8 +529,7 @@ public class BcsProviderModule implements ProviderModule {
             }
             if (extras.getBoolean(EXTRAS_VECTORS, false)) {
                 try {
-                    ArrayList<Vector> vectors = new VectorRetriever().retrieve(context);
-                    BcsContentHelper.deleteFromProvider(context, BcsContentHelper.DATA_TYPE_VECTOR);
+                    ArrayList<Vector> vectors = new VectorRetriever(context).retrieve();
                     BcsContentHelper.insertVectorsIntoProvider(context, vectors);
                 } catch (Exception e) {
                     e.printStackTrace();

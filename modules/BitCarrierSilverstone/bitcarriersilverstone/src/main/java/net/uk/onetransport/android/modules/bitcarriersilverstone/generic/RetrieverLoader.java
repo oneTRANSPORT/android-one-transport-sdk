@@ -38,7 +38,7 @@ public class RetrieverLoader<T> extends AsyncTaskLoader<RetrieverResult<T>> {
     @Override
     public RetrieverResult<T> loadInBackground() {
         try {
-            retriever.retrieve(getContext(), retrieverResult.getTs());
+            retriever.retrieve(retrieverResult.getTs());
         } catch (Exception exception) {
             retrieverResult.getExceptions().add(exception);
         }

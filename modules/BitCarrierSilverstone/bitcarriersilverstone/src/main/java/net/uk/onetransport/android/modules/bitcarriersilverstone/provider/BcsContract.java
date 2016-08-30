@@ -4,14 +4,27 @@ import android.provider.BaseColumns;
 
 public class BcsContract {
 
-    public static final String CREATE_BIT_CARRIER_SKETCH_TABLE =
-            "CREATE TABLE IF NOT EXISTS " + BitCarrierSilverstoneSketch.TABLE_NAME + " ("
-                    + BitCarrierSilverstoneSketch._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-                    + BitCarrierSilverstoneSketch.COLUMN_SKETCH_ID + " INTEGER NOT NULL,"
-                    + BitCarrierSilverstoneSketch.COLUMN_VECTOR_ID + " INTEGER NOT NULL,"
-                    + BitCarrierSilverstoneSketch.COLUMN_LEVEL_OF_SERVICE + " TEXT,"
-                    + BitCarrierSilverstoneSketch.COLUMN_LICENSE + " TEXT,"
-                    + BitCarrierSilverstoneSketch.COLUMN_COORDINATES + " TEXT"
+    public static final String CREATE_BIT_CARRIER_CONFIG_SKETCH_TABLE =
+            "CREATE TABLE IF NOT EXISTS " + BitCarrierSilverstoneConfigSketch.TABLE_NAME + " ("
+                    + BitCarrierSilverstoneConfigSketch._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    + BitCarrierSilverstoneConfigSketch.COLUMN_SKETCH_ID + " INTEGER NOT NULL,"
+                    + BitCarrierSilverstoneConfigSketch.COLUMN_VECTOR_ID + " INTEGER,"
+                    + BitCarrierSilverstoneConfigSketch.COLUMN_COORDINATES + " TEXT,"
+                    + BitCarrierSilverstoneConfigSketch.COLUMN_CIN_ID
+                    + " TEXT UNIQUE ON CONFLICT IGNORE,"
+                    + BitCarrierSilverstoneConfigSketch.COLUMN_CREATION_TIME + " INTEGER"
+                    + ");";
+    public static final String CREATE_BIT_CARRIER_DATA_SKETCH_TABLE =
+            "CREATE TABLE IF NOT EXISTS " + BitCarrierSilverstoneDataSketch.TABLE_NAME + " ("
+                    + BitCarrierSilverstoneDataSketch._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    + BitCarrierSilverstoneDataSketch.COLUMN_SKETCH_ID + " INTEGER NOT NULL,"
+                    + BitCarrierSilverstoneDataSketch.COLUMN_VECTOR_ID + " INTEGER NOT NULL,"
+                    + BitCarrierSilverstoneDataSketch.COLUMN_LEVEL_OF_SERVICE + " TEXT,"
+                    + BitCarrierSilverstoneDataSketch.COLUMN_LICENSE + " TEXT,"
+                    + BitCarrierSilverstoneDataSketch.COLUMN_COORDINATES + " TEXT,"
+                    + BitCarrierSilverstoneDataSketch.COLUMN_CIN_ID
+                    + " TEXT UNIQUE ON CONFLICT IGNORE,"
+                    + BitCarrierSilverstoneDataSketch.COLUMN_CREATION_TIME + " INTEGER"
                     + ");";
     public static final String CREATE_BIT_CARRIER_NODE_TABLE =
             "CREATE TABLE IF NOT EXISTS " + BitCarrierSilverstoneNode.TABLE_NAME + " ("
@@ -180,19 +193,19 @@ public class BcsContract {
                     + " AND "
                     + BitCarrierSilverstoneVector.TABLE_NAME + "."
                     + BitCarrierSilverstoneVector.COLUMN_SKETCH_ID + " IS NOT NULL;";
-    public static final String CREATE_BIT_CARRIER_CONFIG_SKETCH_TABLE =
-            "CREATE TABLE IF NOT EXISTS " + BitCarrierSilverstoneConfigSketch.TABLE_NAME + " ("
-                    + BitCarrierSilverstoneConfigSketch._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-                    + BitCarrierSilverstoneConfigSketch.COLUMN_SKETCH_ID + " INTEGER NOT NULL,"
-                    + BitCarrierSilverstoneConfigSketch.COLUMN_VECTOR_ID + " INTEGER,"
-                    + BitCarrierSilverstoneConfigSketch.COLUMN_COORDINATES + " TEXT"
-                    + ");";
 
     private BcsContract() {
     }
 
-    public static final class BitCarrierSilverstoneSketch implements BaseColumns {
-        public static final String TABLE_NAME = "bit_carrier_silverstone_sketch";
+    public static final class BitCarrierSilverstoneConfigSketch implements BcsBaseColumns {
+        public static final String TABLE_NAME = "bit_carrier_silverstone_config_sketch";
+        public static final String COLUMN_SKETCH_ID = "sketch_id";
+        public static final String COLUMN_VECTOR_ID = "vector_id";
+        public static final String COLUMN_COORDINATES = "coordinates";
+    }
+
+    public static final class BitCarrierSilverstoneDataSketch implements BcsBaseColumns {
+        public static final String TABLE_NAME = "bit_carrier_silverstone_data_sketch";
         public static final String COLUMN_SKETCH_ID = "sketch_id";
         public static final String COLUMN_VECTOR_ID = "vector_id";
         public static final String COLUMN_LEVEL_OF_SERVICE = "level_of_service";
@@ -316,11 +329,5 @@ public class BcsContract {
                 BitCarrierSilverstoneTravelTime.COLUMN_TREND;
     }
 
-    public static final class BitCarrierSilverstoneConfigSketch implements BaseColumns {
-        public static final String TABLE_NAME = "bit_carrier_silverstone_config_sketch";
-        public static final String COLUMN_SKETCH_ID = "sketch_id";
-        public static final String COLUMN_VECTOR_ID = "vector_id";
-        public static final String COLUMN_COORDINATES = "coordinates";
-    }
 
 }

@@ -1,4 +1,4 @@
-package net.uk.onetransport.android.modules.bitcarriersilverstone.data.sketch;
+package net.uk.onetransport.android.modules.bitcarriersilverstone.config.sketch;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -35,6 +35,6 @@ public class SketchRetriever extends Retriever<Sketch> implements SketchParams {
 
     @Override
     protected Cursor getResourceNames(Context context, int sketchId) {
-        return BcsContentHelper.getDataSketchNames(context, sketchId);
+        return BcsContentHelper.getConfigSketchNames(context, sketchId);
     }
 }

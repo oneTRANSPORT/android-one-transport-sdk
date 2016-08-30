@@ -7,6 +7,6 @@ import net.uk.onetransport.android.modules.bitcarriersilverstone.generic.Retriev
 public class NodeRetrieverLoader extends RetrieverLoader<Node> {
 
     public NodeRetrieverLoader(Context context) {
-        super(context, new NodeRetriever());
+        super(context, new NodeRetriever(context));
     }
 }

@@ -20,7 +20,7 @@
 //    }
 //
 //    @Override
-//    protected String getRetrivePrefix() {
+//    protected String getRetrievePrefix() {
 //        return RETRIEVE_PREFIX;
 //    }
 //

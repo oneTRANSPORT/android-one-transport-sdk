@@ -25,6 +25,8 @@ public class Sketch {
     @SerializedName("coordinates")
     private String coordinates;
     private ArrayList<Position> positions = new ArrayList<>();
+    private String cinId;
+    private Long creationTime;
 
     public Integer getsId() {
         return sId;
@@ -85,5 +87,21 @@ public class Sketch {
                 // Don't add to array list.
             }
         }
+    }
+
+    public String getCinId() {
+        return cinId;
+    }
+
+    public void setCinId(String cinId) {
+        this.cinId = cinId;
+    }
+
+    public Long getCreationTime() {
+        return creationTime;
+    }
+
+    public void setCreationTime(Long creationTime) {
+        this.creationTime = creationTime;
     }
 }

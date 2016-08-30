@@ -7,7 +7,7 @@ import net.uk.onetransport.android.modules.bitcarriersilverstone.generic.Retriev
 public class VectorRetrieverLoader extends RetrieverLoader<Vector> implements VectorParams {
 
     public VectorRetrieverLoader(Context context) {
-        super(context, new VectorRetriever());
+        super(context, new VectorRetriever(context));
     }
 
 }

@@ -43,6 +43,8 @@ public class Sketch {
     private String copyrights;
     // This array has to be extracted separately from the location JSON string.
     private Position[] positions;
+    private String cinId;
+    private Long creationTime;
 
     public Integer getsId() {
         return sId;
@@ -146,5 +148,21 @@ public class Sketch {
 
     public void setPositions(Position[] positions) {
         this.positions = positions;
+    }
+
+    public String getCinId() {
+        return cinId;
+    }
+
+    public void setCinId(String cinId) {
+        this.cinId = cinId;
+    }
+
+    public Long getCreationTime() {
+        return creationTime;
+    }
+
+    public void setCreationTime(Long creationTime) {
+        this.creationTime = creationTime;
     }
 }
