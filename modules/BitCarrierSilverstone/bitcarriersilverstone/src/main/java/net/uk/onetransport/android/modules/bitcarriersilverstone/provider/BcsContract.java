@@ -51,7 +51,7 @@ public class BcsContract {
                     + BitCarrierSilverstoneRoute.COLUMN_OFFSET + " REAL,"
                     + BitCarrierSilverstoneRoute.COLUMN_DISTANCE + " REAL,"
                     + BitCarrierSilverstoneRoute.COLUMN_ROUTE_DETECTIONS_MIN + " INTEGER,"
-                    + BitCarrierSilverstoneRoute.COLUMN_ZONE_ID + " INTEGER,"
+                    + BitCarrierSilverstoneRoute.COLUMN_ZONE + " INTEGER,"
                     + BitCarrierSilverstoneRoute.COLUMN_NAME + " TEXT,"
                     + BitCarrierSilverstoneRoute.COLUMN_CUSTOMER_NAME + " TEXT,"
                     + BitCarrierSilverstoneRoute.COLUMN_CONFIGURATION + " INTEGER,"
@@ -71,6 +71,21 @@ public class BcsContract {
                     + BitCarrierSilverstoneMetavector.COLUMN_CIN_ID
                     + " TEXT UNIQUE ON CONFLICT REPLACE,"
                     + BitCarrierSilverstoneMetavector.COLUMN_CREATION_TIME + " INTEGER"
+                    + ");";
+    public static final String CREATE_BIT_CARRIER_CONFIG_TRAVELTIME_TABLE =
+            "CREATE TABLE IF NOT EXISTS " + BitCarrierSilverstoneConfigTravelTime.TABLE_NAME + " ("
+                    + BitCarrierSilverstoneConfigTravelTime._ID
+                    + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    + BitCarrierSilverstoneConfigTravelTime.COLUMN_TRAVEL_TIME_ID + " INTEGER,"
+                    + BitCarrierSilverstoneConfigTravelTime.COLUMN_ROUTE_ID + " INTEGER,"
+                    + BitCarrierSilverstoneConfigTravelTime.COLUMN_NAME + " TEXT,"
+                    + BitCarrierSilverstoneConfigTravelTime.COLUMN_CUSTOMER_NAME + " TEXT,"
+                    + BitCarrierSilverstoneConfigTravelTime.COLUMN_ZONE + " INTEGER,"
+                    + BitCarrierSilverstoneConfigTravelTime.COLUMN_PUBLISH + " BOOLEAN,"
+                    + BitCarrierSilverstoneConfigTravelTime.COLUMN_EXTRA_OFFSET + " REAL,"
+                    + BitCarrierSilverstoneConfigTravelTime.COLUMN_CIN_ID
+                    + " TEXT UNIQUE ON CONFLICT REPLACE,"
+                    + BitCarrierSilverstoneConfigTravelTime.COLUMN_CREATION_TIME + " INTEGER"
                     + ");";
     public static final String CREATE_BIT_CARRIER_TRAVEL_TIME_TABLE =
             "CREATE TABLE IF NOT EXISTS " + BitCarrierSilverstoneTravelTime.TABLE_NAME + " ("
@@ -274,7 +289,7 @@ public class BcsContract {
         public static final String COLUMN_OFFSET = "offset";
         public static final String COLUMN_DISTANCE = "distance";
         public static final String COLUMN_ROUTE_DETECTIONS_MIN = "route_detections_min";
-        public static final String COLUMN_ZONE_ID = "zone";
+        public static final String COLUMN_ZONE = "zone";
         public static final String COLUMN_NAME = "name";
         public static final String COLUMN_CUSTOMER_NAME = "customer_name";
         public static final String COLUMN_CONFIGURATION = "configuration";
@@ -288,6 +303,17 @@ public class BcsContract {
         public static final String COLUMN_SEQUENCE = "sequence";
         public static final String COLUMN_ZONE = "zone";
         public static final String COLUMN_CITY_ID = "city_id";
+    }
+
+    public static final class BitCarrierSilverstoneConfigTravelTime implements BcsBaseColumns {
+        public static final String TABLE_NAME = "bit_carrier_silverstone_config_travel_time";
+        public static final String COLUMN_TRAVEL_TIME_ID = "travel_time_id";
+        public static final String COLUMN_ROUTE_ID = "route_id";
+        public static final String COLUMN_NAME = "name";
+        public static final String COLUMN_CUSTOMER_NAME = "customer_name";
+        public static final String COLUMN_PUBLISH = "publish";
+        public static final String COLUMN_EXTRA_OFFSET = "extra_offset";
+        public static final String COLUMN_ZONE = "zone";
     }
 
     public static final class BitCarrierSilverstoneTravelTime implements BaseColumns {

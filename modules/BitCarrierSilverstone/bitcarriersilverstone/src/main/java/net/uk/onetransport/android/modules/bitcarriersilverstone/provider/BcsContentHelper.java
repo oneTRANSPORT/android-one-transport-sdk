@@ -13,6 +13,7 @@ import android.support.annotation.NonNull;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.config.metavector.Metavector;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.config.node.Node;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.config.route.Route;
+import net.uk.onetransport.android.modules.bitcarriersilverstone.config.traveltime.TravelTime;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.config.vector.Vector;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.data.sketch.Sketch;
 
@@ -21,6 +22,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 
 import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneConfigSketch;
+import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneConfigTravelTime;
 import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneDataSketch;
 import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneLatestVectorTravelTime;
 import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneMetavector;
@@ -33,7 +35,8 @@ public class BcsContentHelper {
 
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({DATA_TYPE_DATA_SKETCH, DATA_TYPE_NODE, DATA_TYPE_ROUTE,
-            DATA_TYPE_VECTOR, DATA_TYPE_CONFIG_SKETCH, DATA_TYPE_METAVECTOR})
+            DATA_TYPE_VECTOR, DATA_TYPE_CONFIG_SKETCH, DATA_TYPE_METAVECTOR,
+            DATA_TYPE_CONFIG_TRAVELTIME})
     public @interface DataType {
     }
 
@@ -43,6 +46,7 @@ public class BcsContentHelper {
     public static final int DATA_TYPE_VECTOR = 3;
     public static final int DATA_TYPE_CONFIG_SKETCH = 4;
     public static final int DATA_TYPE_METAVECTOR = 5;
+    public static final int DATA_TYPE_CONFIG_TRAVELTIME = 7;
 
     public static void insertDataSketchesIntoProvider(@NonNull Context context,
                                                       @NonNull ArrayList<Sketch> sketches)
@@ -147,7 +151,7 @@ public class BcsContentHelper {
                         .withValue(BitCarrierSilverstoneRoute.COLUMN_DISTANCE, route.getDistance())
                         .withValue(BitCarrierSilverstoneRoute.COLUMN_ROUTE_DETECTIONS_MIN,
                                 route.getRouteDetectionsMin())
-                        .withValue(BitCarrierSilverstoneRoute.COLUMN_ZONE_ID, route.getZone())
+                        .withValue(BitCarrierSilverstoneRoute.COLUMN_ZONE, route.getZone())
                         .withValue(BitCarrierSilverstoneRoute.COLUMN_NAME, route.getName())
                         .withValue(BitCarrierSilverstoneRoute.COLUMN_CUSTOMER_NAME,
                                 route.getCustomerName())
@@ -186,6 +190,43 @@ public class BcsContentHelper {
                                 metavector.getCreationTime())
                         .withValue(BitCarrierSilverstoneMetavector.COLUMN_CIN_ID,
                                 metavector.getCinId())
+                        .withYieldAllowed(true)
+                        .build();
+                operationList.add(operation);
+            }
+            ContentResolver contentResolver = context.getContentResolver();
+            contentResolver.applyBatch(BcsProviderModule.AUTHORITY, operationList);
+        }
+    }
+
+    public static void insertConfigTraveltimesIntoProvider(@NonNull Context context,
+                                                           @NonNull ArrayList<TravelTime> travelTimes)
+            throws RemoteException, OperationApplicationException {
+        if (travelTimes.size() > 0) {
+            ArrayList<ContentProviderOperation> operationList = new ArrayList<>();
+            for (TravelTime travelTime : travelTimes) {
+                ContentProviderOperation operation = ContentProviderOperation
+                        .newInsert(BcsProviderModule.CONFIG_TRAVEL_TIME_URI)
+                        .withValue(BitCarrierSilverstoneConfigTravelTime.COLUMN_TRAVEL_TIME_ID,
+                                travelTime.getId())
+                        .withValue(BitCarrierSilverstoneConfigTravelTime.COLUMN_ROUTE_ID,
+                                travelTime.getRouteId())
+                        .withValue(BitCarrierSilverstoneConfigTravelTime.COLUMN_NAME,
+                                travelTime.getName())
+                        .withValue(BitCarrierSilverstoneConfigTravelTime.COLUMN_CUSTOMER_NAME,
+                                travelTime.getCustomerName())
+                        .withValue(BitCarrierSilverstoneConfigTravelTime.COLUMN_EXTRA_OFFSET,
+                                travelTime.getExtraOffset())
+                        .withValue(BitCarrierSilverstoneConfigTravelTime.COLUMN_PUBLISH,
+                                travelTime.getPublish())
+                        .withValue(BitCarrierSilverstoneConfigTravelTime.COLUMN_ZONE,
+                                travelTime.getId())
+                        .withValue(BitCarrierSilverstoneConfigTravelTime.COLUMN_TRAVEL_TIME_ID,
+                                travelTime.getId())
+                        .withValue(BitCarrierSilverstoneConfigTravelTime.COLUMN_CREATION_TIME,
+                                travelTime.getCreationTime())
+                        .withValue(BitCarrierSilverstoneConfigTravelTime.COLUMN_CIN_ID,
+                                travelTime.getCinId())
                         .withYieldAllowed(true)
                         .build();
                 operationList.add(operation);
@@ -305,6 +346,20 @@ public class BcsContentHelper {
                 BitCarrierSilverstoneMetavector.COLUMN_CIN_ID);
     }
 
+    public static Cursor getConfigTraveltimes(@NonNull Context context) {
+        return context.getContentResolver().query(BcsProviderModule.CONFIG_TRAVEL_TIME_URI,
+                new String[]{"*"}, null, null,
+                BitCarrierSilverstoneConfigTravelTime.COLUMN_TRAVEL_TIME_ID);
+    }
+
+    public static Cursor getConfigTraveltimeNames(@NonNull Context context, int traveltimeId) {
+        return context.getContentResolver().query(BcsProviderModule.CONFIG_TRAVEL_TIME_URI,
+                new String[]{BitCarrierSilverstoneConfigTravelTime.COLUMN_CIN_ID},
+                BitCarrierSilverstoneConfigTravelTime.COLUMN_TRAVEL_TIME_ID + "=?",
+                new String[]{String.valueOf(traveltimeId)},
+                BitCarrierSilverstoneConfigTravelTime.COLUMN_CIN_ID);
+    }
+
     public static Cursor getTravelTimes(@NonNull Context context) {
         return context.getContentResolver().query(BcsProviderModule.TRAVEL_TIME_URI,
                 new String[]{"*"}, null, null, BitCarrierSilverstoneTravelTime.COLUMN_TRAVEL_TIME_ID);
@@ -347,6 +402,9 @@ public class BcsContentHelper {
                 break;
             case DATA_TYPE_CONFIG_SKETCH:
                 contentResolver.delete(BcsProviderModule.CONFIG_SKETCH_URI, null, null);
+                break;
+            case DATA_TYPE_CONFIG_TRAVELTIME:
+                contentResolver.delete(BcsProviderModule.CONFIG_TRAVEL_TIME_URI, null, null);
                 break;
         }
     }

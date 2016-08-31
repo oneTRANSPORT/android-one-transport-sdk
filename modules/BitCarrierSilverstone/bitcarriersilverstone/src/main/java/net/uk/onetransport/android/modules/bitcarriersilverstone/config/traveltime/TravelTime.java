@@ -26,6 +26,8 @@ public class TravelTime {
     @Expose
     @SerializedName("zone")
     private Integer zone;
+    private String cinId;
+    private Long creationTime;
 
     public Integer getId() {
         return id;
@@ -81,5 +83,21 @@ public class TravelTime {
 
     public void setZone(Integer zone) {
         this.zone = zone;
+    }
+
+    public String getCinId() {
+        return cinId;
+    }
+
+    public void setCinId(String cinId) {
+        this.cinId = cinId;
+    }
+
+    public Long getCreationTime() {
+        return creationTime;
+    }
+
+    public void setCreationTime(Long creationTime) {
+        this.creationTime = creationTime;
     }
 }
