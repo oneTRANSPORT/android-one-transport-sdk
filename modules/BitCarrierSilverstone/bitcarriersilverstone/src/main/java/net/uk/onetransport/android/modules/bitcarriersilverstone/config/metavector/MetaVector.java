@@ -3,7 +3,7 @@ package net.uk.onetransport.android.modules.bitcarriersilverstone.config.metavec
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class MetaVector {
+public class Metavector {
 
     @Expose
     @SerializedName("id")
@@ -56,6 +56,8 @@ public class MetaVector {
     @Expose
     @SerializedName("has_color")
     private Boolean hasColour;
+    private String cinId;
+    private Long creationTime;
 
     public Integer getId() {
         return id;
@@ -191,5 +193,21 @@ public class MetaVector {
 
     public void setHasColour(Boolean hasColour) {
         this.hasColour = hasColour;
+    }
+
+    public String getCinId() {
+        return cinId;
+    }
+
+    public void setCinId(String cinId) {
+        this.cinId = cinId;
+    }
+
+    public Long getCreationTime() {
+        return creationTime;
+    }
+
+    public void setCreationTime(Long creationTime) {
+        this.creationTime = creationTime;
     }
 }

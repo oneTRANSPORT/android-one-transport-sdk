@@ -11,7 +11,7 @@ public class BcsContract {
                     + BitCarrierSilverstoneConfigSketch.COLUMN_VECTOR_ID + " INTEGER,"
                     + BitCarrierSilverstoneConfigSketch.COLUMN_COORDINATES + " TEXT,"
                     + BitCarrierSilverstoneConfigSketch.COLUMN_CIN_ID
-                    + " TEXT UNIQUE ON CONFLICT IGNORE,"
+                    + " TEXT UNIQUE ON CONFLICT REPLACE,"
                     + BitCarrierSilverstoneConfigSketch.COLUMN_CREATION_TIME + " INTEGER"
                     + ");";
     public static final String CREATE_BIT_CARRIER_DATA_SKETCH_TABLE =
@@ -23,7 +23,7 @@ public class BcsContract {
                     + BitCarrierSilverstoneDataSketch.COLUMN_LICENSE + " TEXT,"
                     + BitCarrierSilverstoneDataSketch.COLUMN_COORDINATES + " TEXT,"
                     + BitCarrierSilverstoneDataSketch.COLUMN_CIN_ID
-                    + " TEXT UNIQUE ON CONFLICT IGNORE,"
+                    + " TEXT UNIQUE ON CONFLICT REPLACE,"
                     + BitCarrierSilverstoneDataSketch.COLUMN_CREATION_TIME + " INTEGER"
                     + ");";
     public static final String CREATE_BIT_CARRIER_NODE_TABLE =
@@ -33,7 +33,44 @@ public class BcsContract {
                     + BitCarrierSilverstoneNode.COLUMN_CUSTOMER_ID + " INTEGER,"
                     + BitCarrierSilverstoneNode.COLUMN_CUSTOMER_NAME + " TEXT,"
                     + BitCarrierSilverstoneNode.COLUMN_LATITUDE + " REAL,"
-                    + BitCarrierSilverstoneNode.COLUMN_LONGITUDE + " REAL"
+                    + BitCarrierSilverstoneNode.COLUMN_LONGITUDE + " REAL,"
+                    + BitCarrierSilverstoneNode.COLUMN_CIN_ID
+                    + " TEXT UNIQUE ON CONFLICT REPLACE,"
+                    + BitCarrierSilverstoneNode.COLUMN_CREATION_TIME + " INTEGER"
+                    + ");";
+    public static final String CREATE_BIT_CARRIER_ROUTE_TABLE =
+            "CREATE TABLE IF NOT EXISTS " + BitCarrierSilverstoneRoute.TABLE_NAME + " ("
+                    + BitCarrierSilverstoneRoute._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    + BitCarrierSilverstoneRoute.COLUMN_ROUTE_ID + " INTEGER,"
+                    + BitCarrierSilverstoneRoute.COLUMN_CITY_ID + " INTEGER,"
+                    + BitCarrierSilverstoneRoute.COLUMN_METAVECTOR_ID + " INTEGER,"
+                    + BitCarrierSilverstoneRoute.COLUMN_VECTOR1 + " TEXT,"
+                    + BitCarrierSilverstoneRoute.COLUMN_VECTOR1_CONTRIB + " REAL,"
+                    + BitCarrierSilverstoneRoute.COLUMN_VECTOR2 + " TEXT,"
+                    + BitCarrierSilverstoneRoute.COLUMN_VECTOR2_CONTRIB + " REAL,"
+                    + BitCarrierSilverstoneRoute.COLUMN_OFFSET + " REAL,"
+                    + BitCarrierSilverstoneRoute.COLUMN_DISTANCE + " REAL,"
+                    + BitCarrierSilverstoneRoute.COLUMN_ROUTE_DETECTIONS_MIN + " INTEGER,"
+                    + BitCarrierSilverstoneRoute.COLUMN_ZONE_ID + " INTEGER,"
+                    + BitCarrierSilverstoneRoute.COLUMN_NAME + " TEXT,"
+                    + BitCarrierSilverstoneRoute.COLUMN_CUSTOMER_NAME + " TEXT,"
+                    + BitCarrierSilverstoneRoute.COLUMN_CONFIGURATION + " INTEGER,"
+                    + BitCarrierSilverstoneRoute.COLUMN_CIN_ID
+                    + " TEXT UNIQUE ON CONFLICT REPLACE,"
+                    + BitCarrierSilverstoneRoute.COLUMN_CREATION_TIME + " INTEGER"
+                    + ");";
+    public static final String CREATE_BIT_CARRIER_METAVECTOR_TABLE =
+            "CREATE TABLE IF NOT EXISTS " + BitCarrierSilverstoneMetavector.TABLE_NAME + " ("
+                    + BitCarrierSilverstoneMetavector._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    + BitCarrierSilverstoneMetavector.COLUMN_METAVECTOR_ID + " INTEGER,"
+                    + BitCarrierSilverstoneMetavector.COLUMN_NAME + " TEXT,"
+                    + BitCarrierSilverstoneMetavector.COLUMN_CUSTOMER_NAME + " TEXT,"
+                    + BitCarrierSilverstoneMetavector.COLUMN_SEQUENCE + " TEXT,"
+                    + BitCarrierSilverstoneMetavector.COLUMN_ZONE + " INTEGER,"
+                    + BitCarrierSilverstoneMetavector.COLUMN_CITY_ID + " INTEGER,"
+                    + BitCarrierSilverstoneMetavector.COLUMN_CIN_ID
+                    + " TEXT UNIQUE ON CONFLICT REPLACE,"
+                    + BitCarrierSilverstoneMetavector.COLUMN_CREATION_TIME + " INTEGER"
                     + ");";
     public static final String CREATE_BIT_CARRIER_TRAVEL_TIME_TABLE =
             "CREATE TABLE IF NOT EXISTS " + BitCarrierSilverstoneTravelTime.TABLE_NAME + " ("
@@ -213,7 +250,7 @@ public class BcsContract {
         public static final String COLUMN_COORDINATES = "coordinates";
     }
 
-    public static final class BitCarrierSilverstoneNode implements BaseColumns {
+    public static final class BitCarrierSilverstoneNode implements BcsBaseColumns {
         public static final String TABLE_NAME = "bit_carrier_silverstone_node";
         public static final String COLUMN_NODE_ID = "node_id";
         // The customer id is a prefix of the customer name.  Need to extract manually.
@@ -223,6 +260,34 @@ public class BcsContract {
         public static final String COLUMN_CUSTOMER_NAME = "customer_name";
         public static final String COLUMN_LATITUDE = "lat";
         public static final String COLUMN_LONGITUDE = "lon";
+    }
+
+    public static final class BitCarrierSilverstoneRoute implements BcsBaseColumns {
+        public static final String TABLE_NAME = "bit_carrier_silverstone_route";
+        public static final String COLUMN_ROUTE_ID = "route_id";
+        public static final String COLUMN_CITY_ID = "city_id";
+        public static final String COLUMN_METAVECTOR_ID = "metavector";
+        public static final String COLUMN_VECTOR1 = "vector1";
+        public static final String COLUMN_VECTOR1_CONTRIB = "vector1_contrib";
+        public static final String COLUMN_VECTOR2 = "vector2";
+        public static final String COLUMN_VECTOR2_CONTRIB = "vector2_contrib";
+        public static final String COLUMN_OFFSET = "offset";
+        public static final String COLUMN_DISTANCE = "distance";
+        public static final String COLUMN_ROUTE_DETECTIONS_MIN = "route_detections_min";
+        public static final String COLUMN_ZONE_ID = "zone";
+        public static final String COLUMN_NAME = "name";
+        public static final String COLUMN_CUSTOMER_NAME = "customer_name";
+        public static final String COLUMN_CONFIGURATION = "configuration";
+    }
+
+    public static final class BitCarrierSilverstoneMetavector implements BcsBaseColumns {
+        public static final String TABLE_NAME = "bit_carrier_silverstone_metavector";
+        public static final String COLUMN_METAVECTOR_ID = "metavector_id";
+        public static final String COLUMN_NAME = "name";
+        public static final String COLUMN_CUSTOMER_NAME = "customer_name";
+        public static final String COLUMN_SEQUENCE = "sequence";
+        public static final String COLUMN_ZONE = "zone";
+        public static final String COLUMN_CITY_ID = "city_id";
     }
 
     public static final class BitCarrierSilverstoneTravelTime implements BaseColumns {
@@ -328,6 +393,5 @@ public class BcsContract {
         public static final String COLUMN_TREND =
                 BitCarrierSilverstoneTravelTime.COLUMN_TREND;
     }
-
 
 }

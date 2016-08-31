@@ -42,6 +42,8 @@ public class Node {
     private Integer cityId;
     // This field is generated from the prefix of the customer name.
     private Integer customerId;
+    private String cinId;
+    private Long creationTime;
 
     public Integer getId() {
         return id;
@@ -139,5 +141,21 @@ public class Node {
         if (!TextUtils.isEmpty(customerName)) {
             customerId = Integer.parseInt(customerName.replaceFirst("-.*", ""));
         }
+    }
+
+    public String getCinId() {
+        return cinId;
+    }
+
+    public void setCinId(String cinId) {
+        this.cinId = cinId;
+    }
+
+    public Long getCreationTime() {
+        return creationTime;
+    }
+
+    public void setCreationTime(Long creationTime) {
+        this.creationTime = creationTime;
     }
 }

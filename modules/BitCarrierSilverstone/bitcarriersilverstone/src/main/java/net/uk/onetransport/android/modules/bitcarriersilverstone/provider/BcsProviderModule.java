@@ -14,8 +14,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 
+import net.uk.onetransport.android.modules.bitcarriersilverstone.config.metavector.Metavector;
+import net.uk.onetransport.android.modules.bitcarriersilverstone.config.metavector.MetavectorRetriever;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.config.node.Node;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.config.node.NodeRetriever;
+import net.uk.onetransport.android.modules.bitcarriersilverstone.config.route.Route;
+import net.uk.onetransport.android.modules.bitcarriersilverstone.config.route.RouteRetriever;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.config.vector.Vector;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.config.vector.VectorRetriever;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.data.sketch.Sketch;
@@ -30,7 +34,9 @@ import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider
 import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneDataSketch;
 import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneLatestTravelTime;
 import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneLatestVectorTravelTime;
+import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneMetavector;
 import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneNode;
+import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneRoute;
 import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneTravelTime;
 import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneVector;
 import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneVectorTravelTime;
@@ -41,6 +47,8 @@ public class BcsProviderModule implements ProviderModule {
     public static Uri AUTHORITY_URI;
     public static Uri DATA_SKETCH_URI;
     public static Uri NODE_URI;
+    public static Uri ROUTE_URI;
+    public static Uri METAVECTOR_URI;
     public static Uri TRAVEL_TIME_URI;
     public static Uri VECTOR_URI;
     public static Uri LATEST_TRAVEL_TIME_URI;
@@ -53,13 +61,21 @@ public class BcsProviderModule implements ProviderModule {
             "net.uk.onetransport.android.modules.bitcarriersilverstone.sync.DATA_SKETCHES";
     private static final String EXTRAS_NODES =
             "net.uk.onetransport.android.modules.bitcarriersilverstone.sync.NODES";
+    private static final String EXTRAS_ROUTES =
+            "net.uk.onetransport.android.modules.bitcarriersilverstone.sync.ROUTES";
     private static final String EXTRAS_VECTORS =
             "net.uk.onetransport.android.modules.bitcarriersilverstone.sync.VECTORS";
+    private static final String EXTRAS_METAVECTORS =
+            "net.uk.onetransport.android.modules.bitcarriersilverstone.sync.METAVECTORS";
 
     private static int DATA_SKETCHES;
     private static int DATA_SKETCH_ID;
     private static int NODES;
     private static int NODE_ID;
+    private static int ROUTES;
+    private static int ROUTE_ID;
+    private static int METAVECTORS;
+    private static int METAVECTOR_ID;
     private static int TRAVEL_TIMES;
     private static int TRAVEL_TIME_ID;
     private static int VECTORS;
@@ -83,6 +99,8 @@ public class BcsProviderModule implements ProviderModule {
     public void createDatabase(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL(BcsContract.CREATE_BIT_CARRIER_DATA_SKETCH_TABLE);
         sqLiteDatabase.execSQL(BcsContract.CREATE_BIT_CARRIER_NODE_TABLE);
+        sqLiteDatabase.execSQL(BcsContract.CREATE_BIT_CARRIER_ROUTE_TABLE);
+        sqLiteDatabase.execSQL(BcsContract.CREATE_BIT_CARRIER_METAVECTOR_TABLE);
         sqLiteDatabase.execSQL(BcsContract.CREATE_BIT_CARRIER_TRAVEL_TIME_TABLE);
         sqLiteDatabase.execSQL(BcsContract.CREATE_BIT_CARRIER_VECTOR_TABLE);
         sqLiteDatabase.execSQL(BcsContract.CREATE_BIT_CARRIER_LATEST_TRAVEL_TIME_TABLE);
@@ -101,6 +119,10 @@ public class BcsProviderModule implements ProviderModule {
                 BitCarrierSilverstoneDataSketch.TABLE_NAME);
         NODE_URI = Uri.withAppendedPath(AUTHORITY_URI,
                 BitCarrierSilverstoneNode.TABLE_NAME);
+        ROUTE_URI = Uri.withAppendedPath(AUTHORITY_URI,
+                BcsContract.BitCarrierSilverstoneRoute.TABLE_NAME);
+        METAVECTOR_URI = Uri.withAppendedPath(AUTHORITY_URI,
+                BitCarrierSilverstoneMetavector.TABLE_NAME);
         TRAVEL_TIME_URI = Uri.withAppendedPath(AUTHORITY_URI,
                 BitCarrierSilverstoneTravelTime.TABLE_NAME);
         VECTOR_URI = Uri.withAppendedPath(AUTHORITY_URI,
@@ -125,6 +147,19 @@ public class BcsProviderModule implements ProviderModule {
         providerModules.add(this);
         NODE_ID = providerModules.size();
         uriMatcher.addURI(authority, BitCarrierSilverstoneNode.TABLE_NAME + "/#", NODE_ID);
+        providerModules.add(this);
+        ROUTES = providerModules.size();
+        uriMatcher.addURI(authority, BitCarrierSilverstoneRoute.TABLE_NAME, ROUTES);
+        providerModules.add(this);
+        ROUTE_ID = providerModules.size();
+        uriMatcher.addURI(authority, BitCarrierSilverstoneRoute.TABLE_NAME + "/#", ROUTE_ID);
+        providerModules.add(this);
+        METAVECTORS = providerModules.size();
+        uriMatcher.addURI(authority, BitCarrierSilverstoneMetavector.TABLE_NAME, METAVECTORS);
+        providerModules.add(this);
+        METAVECTOR_ID = providerModules.size();
+        uriMatcher.addURI(authority, BitCarrierSilverstoneMetavector.TABLE_NAME + "/#",
+                METAVECTOR_ID);
         providerModules.add(this);
         TRAVEL_TIMES = providerModules.size();
         uriMatcher.addURI(authority, BitCarrierSilverstoneTravelTime.TABLE_NAME, TRAVEL_TIMES);
@@ -187,6 +222,18 @@ public class BcsProviderModule implements ProviderModule {
         if (match == NODE_ID) {
             return mimeItemPrefix + BitCarrierSilverstoneNode.TABLE_NAME;
         }
+        if (match == ROUTES) {
+            return mimeDirPrefix + BitCarrierSilverstoneRoute.TABLE_NAME;
+        }
+        if (match == ROUTE_ID) {
+            return mimeItemPrefix + BitCarrierSilverstoneRoute.TABLE_NAME;
+        }
+        if (match == METAVECTORS) {
+            return mimeDirPrefix + BitCarrierSilverstoneMetavector.TABLE_NAME;
+        }
+        if (match == METAVECTOR_ID) {
+            return mimeItemPrefix + BitCarrierSilverstoneMetavector.TABLE_NAME;
+        }
         if (match == TRAVEL_TIME_ID) {
             return mimeItemPrefix + BitCarrierSilverstoneTravelTime.TABLE_NAME;
         }
@@ -236,6 +283,16 @@ public class BcsProviderModule implements ProviderModule {
             id = sqLiteDatabase.insert(BitCarrierSilverstoneNode.TABLE_NAME, null, contentValues);
             contentResolver.notifyChange(NODE_URI, null);
             return ContentUris.withAppendedId(NODE_URI, id);
+        }
+        if (match == ROUTES) {
+            id = sqLiteDatabase.insert(BitCarrierSilverstoneRoute.TABLE_NAME, null, contentValues);
+            contentResolver.notifyChange(ROUTE_URI, null);
+            return ContentUris.withAppendedId(ROUTE_URI, id);
+        }
+        if (match == METAVECTORS) {
+            id = sqLiteDatabase.insert(BitCarrierSilverstoneMetavector.TABLE_NAME, null, contentValues);
+            contentResolver.notifyChange(METAVECTOR_URI, null);
+            return ContentUris.withAppendedId(METAVECTOR_URI, id);
         }
         if (match == TRAVEL_TIMES) {
             id = sqLiteDatabase.insert(BitCarrierSilverstoneTravelTime.TABLE_NAME, null, contentValues);
@@ -295,6 +352,32 @@ public class BcsProviderModule implements ProviderModule {
                     BitCarrierSilverstoneNode._ID + "=?", new String[]{uri.getLastPathSegment()}, null, null,
                     sortOrder);
             cursor.setNotificationUri(contentResolver, NODE_URI);
+            return cursor;
+        }
+        if (match == ROUTES) {
+            Cursor cursor = sqLiteDatabase.query(BitCarrierSilverstoneRoute.TABLE_NAME, projection,
+                    selection, selectionArgs, null, null, sortOrder);
+            cursor.setNotificationUri(contentResolver, ROUTE_URI);
+            return cursor;
+        }
+        if (match == ROUTE_ID) {
+            Cursor cursor = sqLiteDatabase.query(BitCarrierSilverstoneRoute.TABLE_NAME, projection,
+                    BitCarrierSilverstoneRoute._ID + "=?", new String[]{uri.getLastPathSegment()}, null, null,
+                    sortOrder);
+            cursor.setNotificationUri(contentResolver, ROUTE_URI);
+            return cursor;
+        }
+        if (match == METAVECTORS) {
+            Cursor cursor = sqLiteDatabase.query(BitCarrierSilverstoneMetavector.TABLE_NAME,
+                    projection, selection, selectionArgs, null, null, sortOrder);
+            cursor.setNotificationUri(contentResolver, METAVECTOR_URI);
+            return cursor;
+        }
+        if (match == METAVECTOR_ID) {
+            Cursor cursor = sqLiteDatabase.query(BitCarrierSilverstoneMetavector.TABLE_NAME,
+                    projection, BitCarrierSilverstoneMetavector._ID + "=?",
+                    new String[]{uri.getLastPathSegment()}, null, null, sortOrder);
+            cursor.setNotificationUri(contentResolver, METAVECTOR_URI);
             return cursor;
         }
         if (match == TRAVEL_TIMES) {
@@ -406,6 +489,30 @@ public class BcsProviderModule implements ProviderModule {
             contentResolver.notifyChange(NODE_URI, null);
             return rows;
         }
+        if (match == ROUTES) {
+            int rows = sqLiteDatabase.update(BitCarrierSilverstoneRoute.TABLE_NAME, values, selection,
+                    selectionArgs);
+            contentResolver.notifyChange(ROUTE_URI, null);
+            return rows;
+        }
+        if (match == ROUTE_ID) {
+            int rows = sqLiteDatabase.update(BitCarrierSilverstoneRoute.TABLE_NAME, values,
+                    BitCarrierSilverstoneRoute._ID + "=?", new String[]{uri.getLastPathSegment()});
+            contentResolver.notifyChange(ROUTE_URI, null);
+            return rows;
+        }
+        if (match == METAVECTORS) {
+            int rows = sqLiteDatabase.update(BitCarrierSilverstoneMetavector.TABLE_NAME, values,
+                    selection, selectionArgs);
+            contentResolver.notifyChange(METAVECTOR_URI, null);
+            return rows;
+        }
+        if (match == METAVECTOR_ID) {
+            int rows = sqLiteDatabase.update(BitCarrierSilverstoneMetavector.TABLE_NAME, values,
+                    BitCarrierSilverstoneMetavector._ID + "=?", new String[]{uri.getLastPathSegment()});
+            contentResolver.notifyChange(METAVECTOR_URI, null);
+            return rows;
+        }
         if (match == TRAVEL_TIMES) {
             int rows = sqLiteDatabase.update(BitCarrierSilverstoneTravelTime.TABLE_NAME, values, selection,
                     selectionArgs);
@@ -470,6 +577,15 @@ public class BcsProviderModule implements ProviderModule {
             rows = sqLiteDatabase.delete(BitCarrierSilverstoneNode.TABLE_NAME, selection, selectionArgs);
             contentResolver.notifyChange(NODE_URI, null);
         }
+        if (match == ROUTES) {
+            rows = sqLiteDatabase.delete(BitCarrierSilverstoneRoute.TABLE_NAME, selection, selectionArgs);
+            contentResolver.notifyChange(ROUTE_URI, null);
+        }
+        if (match == METAVECTORS) {
+            rows = sqLiteDatabase.delete(BitCarrierSilverstoneMetavector.TABLE_NAME, selection,
+                    selectionArgs);
+            contentResolver.notifyChange(METAVECTOR_URI, null);
+        }
         if (match == TRAVEL_TIMES) {
             rows = sqLiteDatabase.delete(BitCarrierSilverstoneTravelTime.TABLE_NAME, selection,
                     selectionArgs);
@@ -527,6 +643,14 @@ public class BcsProviderModule implements ProviderModule {
                     e.printStackTrace();
                 }
             }
+            if (extras.getBoolean(EXTRAS_ROUTES, false)) {
+                try {
+                    ArrayList<Route> routes = new RouteRetriever(context).retrieve();
+                    BcsContentHelper.insertRoutesIntoProvider(context, routes);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
             if (extras.getBoolean(EXTRAS_VECTORS, false)) {
                 try {
                     ArrayList<Vector> vectors = new VectorRetriever(context).retrieve();
@@ -535,14 +659,25 @@ public class BcsProviderModule implements ProviderModule {
                     e.printStackTrace();
                 }
             }
+            if (extras.getBoolean(EXTRAS_METAVECTORS, false)) {
+                try {
+                    ArrayList<Metavector> metavectors = new MetavectorRetriever(context).retrieve();
+                    BcsContentHelper.insertMetavectorsIntoProvider(context, metavectors);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
-    public static void refresh(Context context, boolean sketches, boolean nodes, boolean vectors) {
+    public static void refresh(Context context, boolean sketches, boolean nodes, boolean routes,
+                               boolean vectors, boolean metavectors) {
         Bundle settingsBundle = new Bundle();
         settingsBundle.putBoolean(EXTRAS_SKETCHES, sketches);
         settingsBundle.putBoolean(EXTRAS_NODES, nodes);
+        settingsBundle.putBoolean(EXTRAS_ROUTES, routes);
         settingsBundle.putBoolean(EXTRAS_VECTORS, vectors);
+        settingsBundle.putBoolean(EXTRAS_METAVECTORS, metavectors);
         CommonSyncAdapter.refresh(context, settingsBundle);
     }
 

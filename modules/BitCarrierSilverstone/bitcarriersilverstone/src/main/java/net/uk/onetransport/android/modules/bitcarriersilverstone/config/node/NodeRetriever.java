@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 
 import net.uk.onetransport.android.modules.bitcarriersilverstone.generic.Retriever;
+import net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContentHelper;
 
 import java.util.ArrayList;
 
@@ -15,7 +16,7 @@ public class NodeRetriever extends Retriever<Node> implements NodeParams {
 
     public ArrayList<Node> retrieve() throws Exception {
         ArrayList<Node> nodes = new ArrayList<>();
-        retrieve( nodes);
+        retrieve(nodes);
         // We need to extract the customer id from the customer name field.
         setCustomerIds(nodes);
         return nodes;
@@ -28,12 +29,15 @@ public class NodeRetriever extends Retriever<Node> implements NodeParams {
 
     @Override
     protected Node fromJson(String content, String cinId, Long creationTime) {
-        return GSON.fromJson(content, Node.class);
+        Node node = GSON.fromJson(content, Node.class);
+        node.setCinId(cinId);
+        node.setCreationTime(creationTime);
+        return node;
     }
 
     @Override
-    protected Cursor getResourceNames(Context context, int id) {
-        return null;
+    protected Cursor getResourceNames(Context context, int nodeId) {
+        return BcsContentHelper.getNodeNames(context, nodeId);
     }
 
     private void setCustomerIds(ArrayList<Node> nodes) {
