@@ -15,6 +15,7 @@ import net.uk.onetransport.android.modules.bitcarriersilverstone.config.node.Nod
 import net.uk.onetransport.android.modules.bitcarriersilverstone.config.route.Route;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.config.traveltime.TravelTime;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.config.vector.Vector;
+import net.uk.onetransport.android.modules.bitcarriersilverstone.config.zone.Zone;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.data.sketch.Sketch;
 
 import java.lang.annotation.Retention;
@@ -23,20 +24,21 @@ import java.util.ArrayList;
 
 import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneConfigSketch;
 import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneConfigTravelTime;
+import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneConfigVector;
 import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneDataSketch;
 import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneLatestVectorTravelTime;
 import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneMetavector;
 import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneNode;
 import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneRoute;
 import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneTravelTime;
-import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneConfigVector;
+import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneZone;
 
 public class BcsContentHelper {
 
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({DATA_TYPE_DATA_SKETCH, DATA_TYPE_NODE, DATA_TYPE_ROUTE,
-            DATA_TYPE_CONFIG_VECTOR, DATA_TYPE_CONFIG_SKETCH, DATA_TYPE_METAVECTOR,
-            DATA_TYPE_CONFIG_TRAVELTIME})
+            DATA_TYPE_CONFIG_VECTOR, DATA_TYPE_ZONE, DATA_TYPE_CONFIG_SKETCH,
+            DATA_TYPE_METAVECTOR, DATA_TYPE_CONFIG_TRAVELTIME})
     public @interface DataType {
     }
 
@@ -44,6 +46,7 @@ public class BcsContentHelper {
     public static final int DATA_TYPE_NODE = 2;
     public static final int DATA_TYPE_ROUTE = 6;
     public static final int DATA_TYPE_CONFIG_VECTOR = 3;
+    public static final int DATA_TYPE_ZONE = 8;
     public static final int DATA_TYPE_CONFIG_SKETCH = 4;
     public static final int DATA_TYPE_METAVECTOR = 5;
     public static final int DATA_TYPE_CONFIG_TRAVELTIME = 7;
@@ -157,6 +160,9 @@ public class BcsContentHelper {
                                 route.getCustomerName())
                         .withValue(BitCarrierSilverstoneRoute.COLUMN_CONFIGURATION,
                                 route.getConfiguration())
+                        .withValue(BitCarrierSilverstoneRoute.COLUMN_CIN_ID, route.getCinId())
+                        .withValue(BitCarrierSilverstoneRoute.COLUMN_CREATION_TIME,
+                                route.getCreationTime())
                         .withYieldAllowed(true)
                         .build();
                 operationList.add(operation);
@@ -253,8 +259,10 @@ public class BcsContentHelper {
                         .withValue(BitCarrierSilverstoneConfigVector.COLUMN_DISTANCE, vector.getDistance())
                         .withValue(BitCarrierSilverstoneConfigVector.COLUMN_ZONE, vector.getZone())
                         .withValue(BitCarrierSilverstoneConfigVector.COLUMN_CITY_ID, vector.getCityId())
-                        .withValue(BitCarrierSilverstoneConfigVector.COLUMN_BLOCK_TIME, vector.getBlockTime())
-                        .withValue(BitCarrierSilverstoneConfigVector.COLUMN_SEGREGATION, vector.getSegregation())
+                        .withValue(BitCarrierSilverstoneConfigVector.COLUMN_BLOCK_TIME,
+                                vector.getBlockTime())
+                        .withValue(BitCarrierSilverstoneConfigVector.COLUMN_SEGREGATION,
+                                vector.getSegregation())
                         .withValue(BitCarrierSilverstoneConfigVector.COLUMN_CONFIGURATION,
                                 vector.getConfiguration())
                         .withValue(BitCarrierSilverstoneConfigVector.COLUMN_PRIORITY, vector.getPriority())
@@ -271,7 +279,48 @@ public class BcsContentHelper {
                                 vector.getAverageYellow())
                         .withValue(BitCarrierSilverstoneConfigVector.COLUMN_DETECTIONS_MIN,
                                 vector.getDetectionsMin())
-                        .withValue(BitCarrierSilverstoneConfigVector.COLUMN_HAS_COLOUR, vector.getHasColour())
+                        .withValue(BitCarrierSilverstoneConfigVector.COLUMN_HAS_COLOUR,
+                                vector.getHasColour())
+                        .withValue(BitCarrierSilverstoneConfigVector.COLUMN_CIN_ID, vector.getCinId())
+                        .withValue(BitCarrierSilverstoneConfigVector.COLUMN_CREATION_TIME,
+                                vector.getCreationTime())
+                        .withYieldAllowed(true)
+                        .build();
+                operationList.add(operation);
+            }
+            ContentResolver contentResolver = context.getContentResolver();
+            contentResolver.applyBatch(BcsProviderModule.AUTHORITY, operationList);
+        }
+    }
+
+    public static void insertZonesIntoProvider(@NonNull Context context,
+                                               @NonNull ArrayList<Zone> zones)
+            throws RemoteException, OperationApplicationException {
+        if (zones.size() > 0) {
+            ArrayList<ContentProviderOperation> operationList = new ArrayList<>();
+            for (Zone zone : zones) {
+                ContentProviderOperation operation = ContentProviderOperation
+                        .newInsert(BcsProviderModule.ZONE_URI)
+                        .withValue(BitCarrierSilverstoneZone.COLUMN_ZONE_ID, zone.getId())
+                        .withValue(BitCarrierSilverstoneZone.COLUMN_PARENT_ID, zone.getParentId())
+                        .withValue(BitCarrierSilverstoneZone.COLUMN_NAME, zone.getName())
+                        .withValue(BitCarrierSilverstoneZone.COLUMN_CENTER_LATITUDE,
+                                zone.getMap().getCenter().getLatitude())
+                        .withValue(BitCarrierSilverstoneZone.COLUMN_CENTER_LONGITUDE,
+                                zone.getMap().getCenter().getLongitude())
+                        .withValue(BitCarrierSilverstoneZone.COLUMN_ZOOM,
+                                zone.getMap().getCenter().getZoom())
+                        .withValue(BitCarrierSilverstoneZone.COLUMN_NORTHERN_LATITUDE,
+                                zone.getMap().getBounds().getNorthernLatitude())
+                        .withValue(BitCarrierSilverstoneZone.COLUMN_WESTERN_LONGITUDE,
+                                zone.getMap().getBounds().getWesternLongitude())
+                        .withValue(BitCarrierSilverstoneZone.COLUMN_SOUTHERN_LATITUDE,
+                                zone.getMap().getBounds().getSouthernLatitude())
+                        .withValue(BitCarrierSilverstoneZone.COLUMN_EASTERN_LONGITUDE,
+                                zone.getMap().getBounds().getEasternLongitude())
+                        .withValue(BitCarrierSilverstoneZone.COLUMN_CIN_ID, zone.getCinId())
+                        .withValue(BitCarrierSilverstoneZone.COLUMN_CREATION_TIME,
+                                zone.getCreationTime())
                         .withYieldAllowed(true)
                         .build();
                 operationList.add(operation);
@@ -396,6 +445,19 @@ public class BcsContentHelper {
                         BitCarrierSilverstoneLatestVectorTravelTime.COLUMN_TRAVEL_TIME_ID);
     }
 
+    public static Cursor getZones(@NonNull Context context) {
+        return context.getContentResolver().query(BcsProviderModule.ZONE_URI,
+                new String[]{"*"}, null, null, BitCarrierSilverstoneZone.COLUMN_ZONE_ID);
+    }
+
+    public static Cursor getZoneNames(@NonNull Context context, int zoneId) {
+        return context.getContentResolver().query(BcsProviderModule.ZONE_URI,
+                new String[]{BitCarrierSilverstoneZone.COLUMN_CIN_ID},
+                BitCarrierSilverstoneZone.COLUMN_ZONE_ID + "=?",
+                new String[]{String.valueOf(zoneId)},
+                BitCarrierSilverstoneZone.COLUMN_CIN_ID);
+    }
+
     public static void deleteFromProvider(@NonNull Context context, @DataType int dataType) {
         ContentResolver contentResolver = context.getContentResolver();
         switch (dataType) {
@@ -413,6 +475,9 @@ public class BcsContentHelper {
                 break;
             case DATA_TYPE_CONFIG_TRAVELTIME:
                 contentResolver.delete(BcsProviderModule.CONFIG_TRAVEL_TIME_URI, null, null);
+                break;
+            case DATA_TYPE_ZONE:
+                contentResolver.delete(BcsProviderModule.ZONE_URI, null, null);
                 break;
         }
     }

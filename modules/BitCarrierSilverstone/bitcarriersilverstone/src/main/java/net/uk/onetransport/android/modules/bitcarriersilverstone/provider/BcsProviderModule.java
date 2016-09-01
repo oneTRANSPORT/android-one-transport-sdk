@@ -24,6 +24,8 @@ import net.uk.onetransport.android.modules.bitcarriersilverstone.config.travelti
 import net.uk.onetransport.android.modules.bitcarriersilverstone.config.traveltime.TraveltimeRetriever;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.config.vector.Vector;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.config.vector.VectorRetriever;
+import net.uk.onetransport.android.modules.bitcarriersilverstone.config.zone.Zone;
+import net.uk.onetransport.android.modules.bitcarriersilverstone.config.zone.ZoneRetriever;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.data.sketch.Sketch;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.data.sketch.SketchRetriever;
 import net.uk.onetransport.android.modules.common.provider.OneTransportProvider;
@@ -34,6 +36,7 @@ import java.util.ArrayList;
 
 import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneConfigSketch;
 import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneConfigTravelTime;
+import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneConfigVector;
 import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneDataSketch;
 import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneLatestTravelTime;
 import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneLatestVectorTravelTime;
@@ -41,8 +44,8 @@ import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider
 import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneNode;
 import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneRoute;
 import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneTravelTime;
-import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneConfigVector;
 import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneVectorTravelTime;
+import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneZone;
 
 public class BcsProviderModule implements ProviderModule {
 
@@ -55,6 +58,7 @@ public class BcsProviderModule implements ProviderModule {
     public static Uri CONFIG_TRAVEL_TIME_URI;
     public static Uri TRAVEL_TIME_URI;
     public static Uri CONFIG_VECTOR_URI;
+    public static Uri ZONE_URI;
     public static Uri LATEST_TRAVEL_TIME_URI;
     public static Uri LATEST_VECTOR_TRAVEL_TIME_URI;
     public static Uri VECTOR_TRAVEL_TIME_URI;
@@ -69,6 +73,8 @@ public class BcsProviderModule implements ProviderModule {
             "net.uk.onetransport.android.modules.bitcarriersilverstone.sync.ROUTES";
     private static final String EXTRAS_CONFIG_VECTORS =
             "net.uk.onetransport.android.modules.bitcarriersilverstone.sync.CONFIG_VECTORS";
+    private static final String EXTRAS_ZONES =
+            "net.uk.onetransport.android.modules.bitcarriersilverstone.sync.ZONES";
     private static final String EXTRAS_METAVECTORS =
             "net.uk.onetransport.android.modules.bitcarriersilverstone.sync.METAVECTORS";
     private static final String EXTRAS_CONFIG_TRAVELTIMES =
@@ -88,6 +94,8 @@ public class BcsProviderModule implements ProviderModule {
     private static int TRAVEL_TIME_ID;
     private static int CONFIG_VECTORS;
     private static int CONFIG_VECTOR_ID;
+    private static int ZONES;
+    private static int ZONE_ID;
     private static int LATEST_TRAVEL_TIMES;
     private static int LATEST_TRAVEL_TIME_ID;
     private static int LATEST_VECTOR_TRAVEL_TIMES;
@@ -112,6 +120,7 @@ public class BcsProviderModule implements ProviderModule {
         sqLiteDatabase.execSQL(BcsContract.CREATE_BIT_CARRIER_CONFIG_TRAVELTIME_TABLE);
         sqLiteDatabase.execSQL(BcsContract.CREATE_BIT_CARRIER_TRAVEL_TIME_TABLE);
         sqLiteDatabase.execSQL(BcsContract.CREATE_BIT_CARRIER_CONFIG_VECTOR_TABLE);
+        sqLiteDatabase.execSQL(BcsContract.CREATE_BIT_CARRIER_ZONE_TABLE);
         sqLiteDatabase.execSQL(BcsContract.CREATE_BIT_CARRIER_LATEST_TRAVEL_TIME_TABLE);
         sqLiteDatabase.execSQL(
                 BcsContract.CREATE_BIT_CARRIER_LATEST_VECTOR_TRAVEL_TIME_TABLE);
@@ -138,6 +147,8 @@ public class BcsProviderModule implements ProviderModule {
                 BitCarrierSilverstoneTravelTime.TABLE_NAME);
         CONFIG_VECTOR_URI = Uri.withAppendedPath(AUTHORITY_URI,
                 BitCarrierSilverstoneConfigVector.TABLE_NAME);
+        ZONE_URI = Uri.withAppendedPath(AUTHORITY_URI,
+                BitCarrierSilverstoneZone.TABLE_NAME);
         LATEST_TRAVEL_TIME_URI = Uri.withAppendedPath(AUTHORITY_URI,
                 BitCarrierSilverstoneLatestTravelTime.TABLE_NAME);
         LATEST_VECTOR_TRAVEL_TIME_URI = Uri.withAppendedPath(AUTHORITY_URI,
@@ -191,7 +202,14 @@ public class BcsProviderModule implements ProviderModule {
         uriMatcher.addURI(authority, BitCarrierSilverstoneConfigVector.TABLE_NAME, CONFIG_VECTORS);
         providerModules.add(this);
         CONFIG_VECTOR_ID = providerModules.size();
-        uriMatcher.addURI(authority, BitCarrierSilverstoneConfigVector.TABLE_NAME + "/#", CONFIG_VECTOR_ID);
+        uriMatcher.addURI(authority, BitCarrierSilverstoneConfigVector.TABLE_NAME + "/#",
+                CONFIG_VECTOR_ID);
+        providerModules.add(this);
+        ZONES = providerModules.size();
+        uriMatcher.addURI(authority, BitCarrierSilverstoneZone.TABLE_NAME, ZONES);
+        providerModules.add(this);
+        ZONE_ID = providerModules.size();
+        uriMatcher.addURI(authority, BitCarrierSilverstoneZone.TABLE_NAME + "/#", ZONE_ID);
         providerModules.add(this);
         LATEST_TRAVEL_TIMES = providerModules.size();
         uriMatcher.addURI(authority, BitCarrierSilverstoneLatestTravelTime.TABLE_NAME,
@@ -268,6 +286,12 @@ public class BcsProviderModule implements ProviderModule {
         if (match == CONFIG_VECTOR_ID) {
             return mimeItemPrefix + BitCarrierSilverstoneConfigVector.TABLE_NAME;
         }
+        if (match == ZONES) {
+            return mimeDirPrefix + BitCarrierSilverstoneZone.TABLE_NAME;
+        }
+        if (match == ZONE_ID) {
+            return mimeItemPrefix + BitCarrierSilverstoneZone.TABLE_NAME;
+        }
         if (match == LATEST_TRAVEL_TIMES) {
             return mimeDirPrefix + BitCarrierSilverstoneLatestTravelTime.TABLE_NAME;
         }
@@ -334,6 +358,11 @@ public class BcsProviderModule implements ProviderModule {
             id = sqLiteDatabase.insert(BitCarrierSilverstoneConfigVector.TABLE_NAME, null, contentValues);
             contentResolver.notifyChange(CONFIG_VECTOR_URI, null);
             return ContentUris.withAppendedId(CONFIG_VECTOR_URI, id);
+        }
+        if (match == ZONES) {
+            id = sqLiteDatabase.insert(BitCarrierSilverstoneZone.TABLE_NAME, null, contentValues);
+            contentResolver.notifyChange(ZONE_URI, null);
+            return ContentUris.withAppendedId(ZONE_URI, id);
         }
         if (match == LATEST_TRAVEL_TIMES) {
             Log.e("BcsProviderModule", "Insert not permitted into "
@@ -448,6 +477,19 @@ public class BcsProviderModule implements ProviderModule {
                     BitCarrierSilverstoneConfigVector._ID + "=?", new String[]{uri.getLastPathSegment()}, null, null,
                     sortOrder);
             cursor.setNotificationUri(contentResolver, CONFIG_VECTOR_URI);
+            return cursor;
+        }
+        if (match == ZONES) {
+            Cursor cursor = sqLiteDatabase.query(BitCarrierSilverstoneZone.TABLE_NAME, projection,
+                    selection, selectionArgs, null, null, sortOrder);
+            cursor.setNotificationUri(contentResolver, ZONE_URI);
+            return cursor;
+        }
+        if (match == ZONE_ID) {
+            Cursor cursor = sqLiteDatabase.query(BitCarrierSilverstoneZone.TABLE_NAME, projection,
+                    BitCarrierSilverstoneZone._ID + "=?", new String[]{uri.getLastPathSegment()}, null, null,
+                    sortOrder);
+            cursor.setNotificationUri(contentResolver, ZONE_URI);
             return cursor;
         }
         if (match == LATEST_TRAVEL_TIMES) {
@@ -587,6 +629,12 @@ public class BcsProviderModule implements ProviderModule {
             contentResolver.notifyChange(CONFIG_VECTOR_URI, null);
             return rows;
         }
+        if (match == ZONES) {
+            int rows = sqLiteDatabase.update(BitCarrierSilverstoneZone.TABLE_NAME, values, selection,
+                    selectionArgs);
+            contentResolver.notifyChange(ZONE_URI, null);
+            return rows;
+        }
         if (match == CONFIG_VECTOR_ID) {
             int rows = sqLiteDatabase.update(BitCarrierSilverstoneConfigVector.TABLE_NAME, values,
                     BitCarrierSilverstoneConfigVector._ID + "=?", new String[]{uri.getLastPathSegment()});
@@ -656,6 +704,10 @@ public class BcsProviderModule implements ProviderModule {
             rows = sqLiteDatabase.delete(BitCarrierSilverstoneConfigVector.TABLE_NAME, selection, selectionArgs);
             contentResolver.notifyChange(CONFIG_VECTOR_URI, null);
         }
+        if (match == ZONES) {
+            rows = sqLiteDatabase.delete(BitCarrierSilverstoneZone.TABLE_NAME, selection, selectionArgs);
+            contentResolver.notifyChange(ZONE_URI, null);
+        }
         if (match == LATEST_TRAVEL_TIMES) {
             Log.e("BcsProviderModule", "Delete not permitted for "
                     + BitCarrierSilverstoneLatestTravelTime.TABLE_NAME);
@@ -720,6 +772,14 @@ public class BcsProviderModule implements ProviderModule {
                     e.printStackTrace();
                 }
             }
+            if (extras.getBoolean(EXTRAS_ZONES, false)) {
+                try {
+                    ArrayList<Zone> zones = new ZoneRetriever(context).retrieve();
+                    BcsContentHelper.insertZonesIntoProvider(context, zones);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
             if (extras.getBoolean(EXTRAS_METAVECTORS, false)) {
                 try {
                     ArrayList<Metavector> metavectors = new MetavectorRetriever(context).retrieve();
@@ -740,12 +800,13 @@ public class BcsProviderModule implements ProviderModule {
     }
 
     public static void refresh(Context context, boolean sketches, boolean nodes, boolean routes,
-                               boolean configVectors, boolean metavectors, boolean configTraveltimes) {
+                               boolean configVectors, boolean zones, boolean metavectors, boolean configTraveltimes) {
         Bundle settingsBundle = new Bundle();
         settingsBundle.putBoolean(EXTRAS_SKETCHES, sketches);
         settingsBundle.putBoolean(EXTRAS_NODES, nodes);
         settingsBundle.putBoolean(EXTRAS_ROUTES, routes);
         settingsBundle.putBoolean(EXTRAS_CONFIG_VECTORS, configVectors);
+        settingsBundle.putBoolean(EXTRAS_ZONES, zones);
         settingsBundle.putBoolean(EXTRAS_METAVECTORS, metavectors);
         settingsBundle.putBoolean(EXTRAS_CONFIG_TRAVELTIMES, configTraveltimes);
         CommonSyncAdapter.refresh(context, settingsBundle);

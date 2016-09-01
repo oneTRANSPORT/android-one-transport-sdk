@@ -129,6 +129,23 @@ public class BcsContract {
                     + " TEXT UNIQUE ON CONFLICT REPLACE,"
                     + BitCarrierSilverstoneConfigVector.COLUMN_CREATION_TIME + " INTEGER"
                     + ");";
+    public static final String CREATE_BIT_CARRIER_ZONE_TABLE =
+            "CREATE TABLE IF NOT EXISTS " + BitCarrierSilverstoneZone.TABLE_NAME + " ("
+                    + BitCarrierSilverstoneZone._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    + BitCarrierSilverstoneZone.COLUMN_ZONE_ID + " INTEGER,"
+                    + BitCarrierSilverstoneZone.COLUMN_PARENT_ID + " INTEGER,"
+                    + BitCarrierSilverstoneZone.COLUMN_NAME + " TEXT,"
+                    + BitCarrierSilverstoneZone.COLUMN_CENTER_LATITUDE + " REAL,"
+                    + BitCarrierSilverstoneZone.COLUMN_CENTER_LONGITUDE + " REAL,"
+                    + BitCarrierSilverstoneZone.COLUMN_ZOOM + " INTEGER,"
+                    + BitCarrierSilverstoneZone.COLUMN_NORTHERN_LATITUDE + " REAL,"
+                    + BitCarrierSilverstoneZone.COLUMN_WESTERN_LONGITUDE + " REAL,"
+                    + BitCarrierSilverstoneZone.COLUMN_SOUTHERN_LATITUDE + " REAL,"
+                    + BitCarrierSilverstoneZone.COLUMN_EASTERN_LONGITUDE + " REAL,"
+                    + BitCarrierSilverstoneZone.COLUMN_CIN_ID
+                    + " TEXT UNIQUE ON CONFLICT REPLACE,"
+                    + BitCarrierSilverstoneZone.COLUMN_CREATION_TIME + " INTEGER"
+                    + ");";
     public static final String CREATE_BIT_CARRIER_LATEST_TRAVEL_TIME_TABLE =
             "CREATE VIEW IF NOT EXISTS " + BitCarrierSilverstoneLatestTravelTime.TABLE_NAME
                     + " AS SELECT "
@@ -356,6 +373,20 @@ public class BcsContract {
         public static final String COLUMN_AVERAGE_YELLOW = "average_yellow";
         public static final String COLUMN_DETECTIONS_MIN = "detections_min";
         public static final String COLUMN_HAS_COLOUR = "has_colour";
+    }
+
+    public static final class BitCarrierSilverstoneZone implements BcsBaseColumns {
+        public static final String TABLE_NAME = "bit_carrier_silverstone_zone";
+        public static final String COLUMN_ZONE_ID = "zone_id";
+        public static final String COLUMN_PARENT_ID = "parent_id";
+        public static final String COLUMN_NAME = "name";
+        public static final String COLUMN_CENTER_LATITUDE = "center_latitude";
+        public static final String COLUMN_CENTER_LONGITUDE = "center_longitude";
+        public static final String COLUMN_ZOOM = "zoom";
+        public static final String COLUMN_NORTHERN_LATITUDE = "northern_latitude";
+        public static final String COLUMN_WESTERN_LONGITUDE = "western_longitude";
+        public static final String COLUMN_SOUTHERN_LATITUDE = "southern_latitude";
+        public static final String COLUMN_EASTERN_LONGITUDE = "eastern_longitude";
     }
 
     public static final class BitCarrierSilverstoneLatestTravelTime implements BaseColumns {
