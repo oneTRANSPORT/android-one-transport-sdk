@@ -34,20 +34,20 @@ public class BcsSyncAdapterTest extends OneTransportTest {
         runnerTask.setCurrentTest("BCS sync adapter");
         Context context = runnerTask.getContext();
         // The sync adapter should do this anyway, but just setting the pre-condition for the test.
-        BcsContentHelper.deleteFromProvider(context, BcsContentHelper.DATA_TYPE_SKETCH);
+        BcsContentHelper.deleteFromProvider(context, BcsContentHelper.DATA_TYPE_DATA_SKETCH);
         AdapterObserver adapterObserver = new AdapterObserver(null, this);
         context.getContentResolver().registerContentObserver(
                 LastUpdatedProviderModule.LAST_UPDATED_URI, true, adapterObserver);
 
-        BcsProviderModule.refresh(context, true, true, true);
+        BcsProviderModule.refresh(context, true, true, true, true);
         // Now block until the adapter finishes?  Will the observer run?
         // The observer should modify adapterFinished.
         while (!adapterFinished) {
             SystemClock.sleep(1000L);
         }
-        ArrayList<Sketch> sketches = new SketchRetriever().retrieve(context);
+        ArrayList<Sketch> sketches = new SketchRetriever(context).retrieve();
         context.getContentResolver().unregisterContentObserver(adapterObserver);
-        Cursor cursor = BcsContentHelper.getSketches(context);
+        Cursor cursor = BcsContentHelper.getDataSketches(context);
         if (cursor != null) {
             if (cursor.getCount() == sketches.size()) {
                 runnerTask.report("BCS sync adapter ... PASSED.", COLOUR_PASSED);

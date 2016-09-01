@@ -60,8 +60,8 @@ public class GetSketchArrayTest extends OneTransportTest
 
     private void getSketchArray(RunnerTask runnerTask) throws Exception {
         runnerTask.setCurrentTest("BCS get sketch array");
-        SketchRetriever sketchRetriever = new SketchRetriever();
-        ArrayList<Sketch> sketches = sketchRetriever.retrieve(runnerTask.getContext());
+        SketchRetriever sketchRetriever = new SketchRetriever(runnerTask.getContext());
+        ArrayList<Sketch> sketches = sketchRetriever.retrieve();
         if (sketches == null || sketches.size() == 0) {
             runnerTask.report("BCS get sketch array ... FAILED.", COLOUR_FAILED);
         } else {

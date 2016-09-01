@@ -1,36 +1,50 @@
 package net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.vector;
 
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
+
 import com.interdigital.android.dougal.Types;
 import com.interdigital.android.dougal.resource.Resource;
 import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
-import net.uk.onetransport.android.modules.bitcarriersilverstone.config.vector.VectorArray;
-import net.uk.onetransport.android.modules.bitcarriersilverstone.config.vector.VectorArrayCallback;
+import net.uk.onetransport.android.modules.bitcarriersilverstone.config.vector.Vector;
+import net.uk.onetransport.android.modules.bitcarriersilverstone.config.vector.VectorRetriever;
+import net.uk.onetransport.android.modules.bitcarriersilverstone.config.vector.VectorRetrieverLoader;
+import net.uk.onetransport.android.modules.bitcarriersilverstone.generic.RetrieverResult;
+import net.uk.onetransport.android.test.onetransporttest.RunnerFragment;
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
 import net.uk.onetransport.android.test.onetransporttest.tests.OneTransportTest;
 
-public class GetVectorArrayTest extends OneTransportTest implements VectorArrayCallback {
+import java.util.ArrayList;
 
-    private RunnerTask runnerTask;
+public class GetVectorArrayTest extends OneTransportTest
+        implements LoaderManager.LoaderCallbacks<RetrieverResult<Vector>> {
+
     private DougalCallback dougalCallback;
 
     @Override
     public void start(RunnerTask runnerTask) throws Exception {
-        this.runnerTask = runnerTask;
-        getVectorArray();
+        getVectorArray(runnerTask);
     }
 
     @Override
     public void startAsync(DougalCallback dougalCallback) {
-        runnerTask.setCurrentTest("BCS get vector array");
+        ((RunnerFragment) dougalCallback).setCurrentTest("BCS get vector array");
         this.dougalCallback = dougalCallback;
-        VectorArray.getVectorArrayAsync(runnerTask.getContext(), this, 1);
+        ((Fragment) dougalCallback).getLoaderManager().initLoader(
+                ((RunnerFragment) dougalCallback).getUniqueLoaderId(), null, this);
     }
 
     @Override
-    public void onVectorArrayReady(int i, VectorArray vectorArray) {
-        if (i != 1 || vectorArray == null || vectorArray.getVectors() == null
-                || vectorArray.getVectors().length == 0) {
+    public Loader<RetrieverResult<Vector>> onCreateLoader(int id, Bundle args) {
+        return new VectorRetrieverLoader(((RunnerFragment) dougalCallback).getContext());
+    }
+
+    @Override
+    public void onLoadFinished(Loader<RetrieverResult<Vector>> loader, RetrieverResult<Vector> data) {
+        if (data.getExceptions().size() > 0 || data.getTs().size() == 0) {
             dougalCallback.getResponse(null, new Throwable("Vector array error"));
         } else {
             // Just send any valid resource.
@@ -40,14 +54,15 @@ public class GetVectorArrayTest extends OneTransportTest implements VectorArrayC
     }
 
     @Override
-    public void onVectorArrayError(int i, Throwable throwable) {
-        dougalCallback.getResponse(null, new Throwable("Vector array error"));
+    public void onLoaderReset(Loader<RetrieverResult<Vector>> loader) {
+        // Nothing needs to be done.
     }
 
-    private void getVectorArray() throws Exception {
+    private void getVectorArray(RunnerTask runnerTask) throws Exception {
         runnerTask.setCurrentTest("BCS get vector array");
-        VectorArray vectorArray = VectorArray.getVectorArray(runnerTask.getContext());
-        if (vectorArray.getVectors() == null || vectorArray.getVectors().length == 0) {
+        VectorRetriever vectorRetriever = new VectorRetriever(runnerTask.getContext());
+        ArrayList<Vector> vectors = vectorRetriever.retrieve();
+        if (vectors == null || vectors.size() == 0) {
             runnerTask.report("BCS get vector array ... FAILED.", COLOUR_FAILED);
         } else {
             runnerTask.report("BCS get vector array ... PASSED.", COLOUR_PASSED);

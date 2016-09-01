@@ -25,8 +25,8 @@ public class BcsSketchDeleteTest extends OneTransportTest {
     private void deleteSketches(RunnerTask runnerTask) throws Exception {
         runnerTask.setCurrentTest("BCS sketch delete");
         Context context = runnerTask.getContext();
-        BcsContentHelper.deleteFromProvider(context, BcsContentHelper.DATA_TYPE_SKETCH);
-        Cursor cursor = BcsContentHelper.getSketches(context);
+        BcsContentHelper.deleteFromProvider(context, BcsContentHelper.DATA_TYPE_DATA_SKETCH);
+        Cursor cursor = BcsContentHelper.getDataSketches(context);
         if (cursor != null) {
             if (cursor.getCount() == 0) {
                 runnerTask.report("BCS sketch delete ... PASSED.", COLOUR_PASSED);

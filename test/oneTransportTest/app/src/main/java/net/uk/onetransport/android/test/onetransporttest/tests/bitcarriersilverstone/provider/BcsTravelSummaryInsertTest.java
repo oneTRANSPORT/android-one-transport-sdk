@@ -29,7 +29,7 @@ public class BcsTravelSummaryInsertTest extends OneTransportTest {
     private void insertTravelSummaries(RunnerTask runnerTask) throws Exception {
         runnerTask.setCurrentTest("BCS travel summary insert");
         Context context = runnerTask.getContext();
-        ArrayList<TravelSummary> travelSummaries = new TravelSummaryRetriever().retrieve(context);
+        ArrayList<TravelSummary> travelSummaries = new TravelSummaryRetriever(context).retrieve();
         if (travelSummaries == null || travelSummaries.size() == 0) {
             runnerTask.report("BCS travel summary insert ... FAILED.", COLOUR_FAILED);
             return;

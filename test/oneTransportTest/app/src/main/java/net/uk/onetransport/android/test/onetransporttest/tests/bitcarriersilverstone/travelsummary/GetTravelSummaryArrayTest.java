@@ -61,9 +61,9 @@ public class GetTravelSummaryArrayTest extends OneTransportTest
 
     private void getTravelSummaryArray(RunnerTask runnerTask) throws Exception {
         runnerTask.setCurrentTest("BCS get travel summary array");
-        TravelSummaryRetriever travelSummaryRetriever = new TravelSummaryRetriever();
-        ArrayList<TravelSummary> travelSummaries = travelSummaryRetriever.retrieve(
+        TravelSummaryRetriever travelSummaryRetriever = new TravelSummaryRetriever(
                 runnerTask.getContext());
+        ArrayList<TravelSummary> travelSummaries = travelSummaryRetriever.retrieve();
         if (travelSummaries == null || travelSummaries.size() == 0) {
             runnerTask.report("BCS get travel summary array ... FAILED.", COLOUR_FAILED);
         } else {
