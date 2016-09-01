@@ -35,11 +35,6 @@ public class NodeRetriever extends Retriever<Node> implements NodeParams {
         return node;
     }
 
-    @Override
-    protected Cursor getResourceNames(Context context, int nodeId) {
-        return BcsContentHelper.getNodeNames(context, nodeId);
-    }
-
     private void setCustomerIds(ArrayList<Node> nodes) {
         for (Node node : nodes) {
             node.setCustomerIdFromName();

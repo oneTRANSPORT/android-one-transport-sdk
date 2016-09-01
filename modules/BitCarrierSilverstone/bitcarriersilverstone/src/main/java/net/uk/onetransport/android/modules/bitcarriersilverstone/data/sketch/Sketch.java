@@ -3,8 +3,6 @@ package net.uk.onetransport.android.modules.bitcarriersilverstone.data.sketch;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import net.uk.onetransport.android.modules.bitcarriersilverstone.config.sketch.Position;
-
 import java.util.ArrayList;
 
 public class Sketch {

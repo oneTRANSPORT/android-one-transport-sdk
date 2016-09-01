@@ -85,7 +85,7 @@
 //        }
 //    }
 //
-//    public TravelTime[] getTravelTimes() {
+//    public TravelTime[] getTravelSummaries() {
 //        return travelTimes;
 //    }
 //}

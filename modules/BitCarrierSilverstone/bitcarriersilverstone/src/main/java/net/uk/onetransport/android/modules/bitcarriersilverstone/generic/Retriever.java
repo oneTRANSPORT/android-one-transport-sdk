@@ -1,7 +1,6 @@
 package net.uk.onetransport.android.modules.bitcarriersilverstone.generic;
 
 import android.content.Context;
-import android.database.Cursor;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -15,7 +14,6 @@ import net.uk.onetransport.android.modules.bitcarriersilverstone.authentication.
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 
 public abstract class Retriever<T> {
 
@@ -36,33 +34,24 @@ public abstract class Retriever<T> {
                 userName, password).getResourceChildren();
         for (int i = 0; i < containerChildren.length; i++) {
             String name = containerChildren[i].getName();
-            HashSet<String> existingNames = getExistingNames(Integer.parseInt(
-                    name.replaceFirst("[^0-9]", "")));
 
-            // TODO    Not just the latest, go back as far as needed.
+            // TODO    Just the latest.
             // TODO    Make every download use a retriever.
             // TODO    Update database to keep proper timestamps.
             // TODO    Query by time interval?
+            // TODO    Evict unnecessary resources.
 
-            ResourceChild[] containerCis = Container.retrieveChildren(aeId, cseBaseUrl,
-                    getRetrievePrefix() + "/" + name, userName, password).getResourceChildren();
-            // Prevent overload by restricting to 100 new CIs per type.
-            for (int j = 0; j < containerCis.length && list.size() < 100; j++) {
-                String ciName = containerCis[j].getName();
-                if (!existingNames.contains(ciName)) {
-                    ContentInstance contentInstance = ContentInstance.retrieve(aeId, cseBaseUrl,
-                            getRetrievePrefix() + "/" + name + "/" + ciName, userName, password);
-                    String cinId = contentInstance.getResourceId();
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd'T'HHmmss");
-                    Long creationTime = null;
-                    if (contentInstance.getCreationTime() != null) {
-                        Date date = sdf.parse(contentInstance.getCreationTime());
-                        creationTime = date.getTime() / 1000L; // Millis to seconds.  Save a bit of db space.
-                    }
-                    String content = contentInstance.getContent();
-                    list.add(fromJson(content, cinId, creationTime));
-                }
+            ContentInstance contentInstance = Container.retrieveLatest(aeId, cseBaseUrl,
+                    getRetrievePrefix() + "/" + name, userName, password);
+            String cinId = contentInstance.getResourceId();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd'T'HHmmss");
+            Long creationTime = null;
+            if (contentInstance.getCreationTime() != null) {
+                Date date = sdf.parse(contentInstance.getCreationTime());
+                creationTime = date.getTime() / 1000L; // Millis to seconds.  Save a bit of db space.
             }
+            String content = contentInstance.getContent();
+            list.add(fromJson(content, cinId, creationTime));
         }
     }
 
@@ -70,20 +59,4 @@ public abstract class Retriever<T> {
 
     protected abstract T fromJson(String content, String cinId, Long creationTime);
 
-    protected abstract Cursor getResourceNames(Context context, int id);
-
-    private HashSet<String> getExistingNames(int id) {
-        HashSet<String> existingNames = new HashSet<>();
-        Cursor cursor = getResourceNames(context, id);
-        if (cursor != null) {
-            if (cursor.moveToFirst()) {
-                while (!cursor.isAfterLast()) {
-                    existingNames.add(cursor.getString(0));
-                    cursor.moveToNext();
-                }
-            }
-            cursor.close();
-        }
-        return existingNames;
-    }
 }

@@ -33,8 +33,4 @@ public class VectorRetriever extends Retriever<Vector> implements VectorParams {
         return vector;
     }
 
-    @Override
-    protected Cursor getResourceNames(Context context, int vectorId) {
-        return BcsContentHelper.getConfigVectorNames(context,vectorId);
-    }
 }
