@@ -26,7 +26,10 @@ public class TravelSummaryRetriever extends Retriever<TravelSummary>
 
     @Override
     protected TravelSummary fromJson(String content, String cinId, Long creationTime) {
-        return GSON.fromJson(content, TravelSummary.class);
+        TravelSummary travelSummary = GSON.fromJson(content, TravelSummary.class);
+        travelSummary.setCinId(cinId);
+        travelSummary.setCreationTime(creationTime);
+        return travelSummary;
     }
 
 }

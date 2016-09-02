@@ -13,7 +13,9 @@ import android.support.annotation.NonNull;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.config.node.Node;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.config.vector.Vector;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.data.sketch.Sketch;
+import net.uk.onetransport.android.modules.bitcarriersilverstone.data.travelsummary.Stat;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.data.travelsummary.TravelSummary;
+import net.uk.onetransport.android.modules.bitcarriersilverstone.data.travelsummary.TravelTime;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -204,7 +206,6 @@ public class BcsContentHelper {
 //    }
 
 
-
 //    public static void insertConfigTraveltimesIntoProvider(@NonNull Context context,
 //                                                           @NonNull ArrayList<TravelTime> travelTimes)
 //            throws RemoteException, OperationApplicationException {
@@ -296,36 +297,43 @@ public class BcsContentHelper {
     public static void insertTravelSummariesIntoProvider(@NonNull Context context,
                                                          @NonNull ArrayList<TravelSummary> travelSummaries)
             throws RemoteException, OperationApplicationException {
-        if (travelSummaries.size()>0){
+        if (travelSummaries.size() > 0) {
             ArrayList<ContentProviderOperation> operationList = new ArrayList<>();
-            for (TravelSummary travelSummary:travelSummaries){
-                ContentProviderOperation operation = ContentProviderOperation
+            for (TravelSummary travelSummary : travelSummaries) {
+                ContentProviderOperation.Builder builder = ContentProviderOperation
                         .newInsert(BcsProviderModule.TRAVEL_SUMMARY_URI)
-                        .withValue(BitCarrierSilverstoneDataTravelSummary.COLUMN_TRAVEL_TIME_ID,
-                                travelSummary.getTravelTimes()[0].gettId())
                         .withValue(BitCarrierSilverstoneDataTravelSummary.COLUMN_CLOCK_TIME,
-                                travelSummary.getTime())
-                        .withValue(BitCarrierSilverstoneDataTravelSummary.COLUMN_FROM_LOCATION,
-                                travelSummary)
-                        .withValue(BitCarrierSilverstoneDataTravelSummary.COLUMN_TO_LOCATION,
-                                travelSummary)
-                        .withValue(BitCarrierSilverstoneDataTravelSummary.COLUMN_SCORE,
-                                travelSummary)
-                        .withValue(BitCarrierSilverstoneDataTravelSummary.COLUMN_SPEED,
-                                travelSummary)
-                        .withValue(BitCarrierSilverstoneDataTravelSummary.COLUMN_ELAPSED,
-                                travelSummary)
-                        .withValue(BitCarrierSilverstoneDataTravelSummary.COLUMN_TRAVEL_TIME_ID,
-                                travelSummary)
-                        .withValue(BitCarrierSilverstoneDataTravelSummary.COLUMN_TREND,
-                                travelSummary)
+                                travelSummary.getTime());
+                if (travelSummary.getTravelTimes() != null) {
+                    // TODO   We assume the array only has one entry.  Otherwise problem.
+                    TravelTime travelTime = travelSummary.getTravelTimes()[0];
+                    builder.withValue(BitCarrierSilverstoneDataTravelSummary.COLUMN_TRAVEL_TIME_ID,
+                            travelTime.gettId())
+                            .withValue(BitCarrierSilverstoneDataTravelSummary.COLUMN_FROM_LOCATION,
+                                    travelTime.getFrom())
+                            .withValue(BitCarrierSilverstoneDataTravelSummary.COLUMN_TO_LOCATION,
+                                    travelTime.getTo());
+                }
+                if (travelSummary.getDetails() != null) {
+                    builder.withValue(BitCarrierSilverstoneDataTravelSummary.COLUMN_SCORE,
+                            travelSummary.getDetails().getScore());
+                    if (travelSummary.getDetails().getPublish() != null) {
+                        Stat stat = travelSummary.getDetails().getPublish();
+                        builder.withValue(BitCarrierSilverstoneDataTravelSummary.COLUMN_SPEED,
+                                stat.getSpeed())
+                                .withValue(BitCarrierSilverstoneDataTravelSummary.COLUMN_ELAPSED,
+                                        stat.getElapsed())
+                                .withValue(BitCarrierSilverstoneDataTravelSummary.COLUMN_TREND,
+                                        stat.getTrend());
+                    }
+                }
+                operationList.add(builder
                         .withValue(BitCarrierSilverstoneDataTravelSummary.COLUMN_CIN_ID,
                                 travelSummary.getCinId())
                         .withValue(BitCarrierSilverstoneDataTravelSummary.COLUMN_CREATION_TIME,
                                 travelSummary.getCreationTime())
                         .withYieldAllowed(true)
-                        .build();
-                operationList.add(operation);
+                        .build());
             }
             ContentResolver contentResolver = context.getContentResolver();
             contentResolver.applyBatch(BcsProviderModule.AUTHORITY, operationList);
