@@ -21,10 +21,10 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 
-import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneVector;
 import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneNode;
 import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneSketch;
 import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneTravelSummary;
+import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneVector;
 
 public class BcsContentHelper {
 
@@ -42,6 +42,10 @@ public class BcsContentHelper {
     public static final int DATA_TYPE_NODE = 2;
     public static final int DATA_TYPE_TRAVEL_SUMMARY = 6;
     public static final int DATA_TYPE_VECTOR = 3;
+
+    private static final String CREATION_INTERVAL_SELECTION =
+            BcsBaseColumns.COLUMN_CREATION_TIME + ">=? AND "
+                    + BcsBaseColumns.COLUMN_CREATION_TIME + "<=?";
 
     public static void insertSketchesIntoProvider(@NonNull Context context,
                                                   @NonNull ArrayList<Sketch> sketches)
@@ -193,15 +197,30 @@ public class BcsContentHelper {
         }
     }
 
-    // TODO    Option to filter by time interval.
+    public static Cursor getNodes(@NonNull Context context) {
+        return context.getContentResolver().query(BcsProviderModule.NODE_URI,
+                new String[]{"*"}, null, null, BitCarrierSilverstoneNode.COLUMN_CUSTOMER_ID);
+    }
+
+    // Need the Silverstone data to test.
+    public static Cursor getNodes(@NonNull Context context, long oldest, long newest) {
+        return context.getContentResolver().query(BcsProviderModule.NODE_URI, new String[]{"*"},
+                CREATION_INTERVAL_SELECTION,
+                new String[]{String.valueOf(oldest), String.valueOf(newest)},
+                BcsBaseColumns.COLUMN_CREATION_TIME);
+    }
+
     public static Cursor getSketches(@NonNull Context context) {
         return context.getContentResolver().query(BcsProviderModule.SKETCH_URI,
                 new String[]{"*"}, null, null, BcsContract.BitCarrierSilverstoneSketch.COLUMN_SKETCH_ID);
     }
 
-    public static Cursor getNodes(@NonNull Context context) {
-        return context.getContentResolver().query(BcsProviderModule.NODE_URI,
-                new String[]{"*"}, null, null, BitCarrierSilverstoneNode.COLUMN_CUSTOMER_ID);
+    public static Cursor getSketches(@NonNull Context context, long oldest, long newest) {
+        return context.getContentResolver().query(BcsProviderModule.SKETCH_URI,
+                new String[]{"*"},
+                CREATION_INTERVAL_SELECTION,
+                new String[]{String.valueOf(oldest), String.valueOf(newest)},
+                BcsBaseColumns.COLUMN_CREATION_TIME);
     }
 
     public static Cursor getTravelSummaries(@NonNull Context context) {
@@ -210,15 +229,31 @@ public class BcsContentHelper {
                 BitCarrierSilverstoneTravelSummary.COLUMN_TRAVEL_TIME_ID);
     }
 
-    public static Cursor getLatestTravelTimes(@NonNull Context context) {
-        return context.getContentResolver().query(
-                Uri.withAppendedPath(BcsProviderModule.TRAVEL_SUMMARY_URI, "la"),
-                new String[]{"*"}, null, null, BitCarrierSilverstoneTravelSummary.COLUMN_TRAVEL_TIME_ID);
+    public static Cursor getTravelSummaries(@NonNull Context context, long oldest, long newest) {
+        return context.getContentResolver().query(BcsProviderModule.TRAVEL_SUMMARY_URI,
+                new String[]{"*"},
+                CREATION_INTERVAL_SELECTION,
+                new String[]{String.valueOf(oldest), String.valueOf(newest)},
+                BcsBaseColumns.COLUMN_CREATION_TIME);
     }
 
     public static Cursor getVectors(@NonNull Context context) {
         return context.getContentResolver().query(BcsProviderModule.VECTOR_URI,
                 new String[]{"*"}, null, null, BcsContract.BitCarrierSilverstoneVector.COLUMN_VECTOR_ID);
+    }
+
+    public static Cursor getVectors(@NonNull Context context, long oldest, long newest) {
+        return context.getContentResolver().query(BcsProviderModule.VECTOR_URI,
+                new String[]{"*"},
+                CREATION_INTERVAL_SELECTION,
+                new String[]{String.valueOf(oldest), String.valueOf(newest)},
+                BcsBaseColumns.COLUMN_CREATION_TIME);
+    }
+
+    public static Cursor getLatestTravelTimes(@NonNull Context context) {
+        return context.getContentResolver().query(
+                Uri.withAppendedPath(BcsProviderModule.TRAVEL_SUMMARY_URI, "la"),
+                new String[]{"*"}, null, null, BitCarrierSilverstoneTravelSummary.COLUMN_TRAVEL_TIME_ID);
     }
 
     // TODO    Option to delete before a particular time.
