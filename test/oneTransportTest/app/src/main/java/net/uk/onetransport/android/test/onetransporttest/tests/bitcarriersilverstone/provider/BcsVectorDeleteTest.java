@@ -10,31 +10,31 @@ import net.uk.onetransport.android.test.onetransporttest.RunnerFragment;
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
 import net.uk.onetransport.android.test.onetransporttest.tests.OneTransportTest;
 
-public class BcsSketchDeleteTest extends OneTransportTest {
+public class BcsVectorDeleteTest extends OneTransportTest {
 
     @Override
     public void start(RunnerTask runnerTask) throws Exception {
-        deleteSketches(runnerTask);
+        deleteVectors(runnerTask);
     }
 
     public void startAsync(DougalCallback dougalCallback) {
-        ((RunnerFragment) dougalCallback).setCurrentTest("BCS sketch delete");
+        ((RunnerFragment) dougalCallback).setCurrentTest("BCS vector delete");
         dougalCallback.getResponse(null, new Exception("Not implemented"));
     }
 
-    private void deleteSketches(RunnerTask runnerTask) throws Exception {
-        runnerTask.setCurrentTest("BCS sketch delete");
+    private void deleteVectors(RunnerTask runnerTask) throws Exception {
+        runnerTask.setCurrentTest("BCS vector delete");
         Context context = runnerTask.getContext();
-        BcsContentHelper.deleteFromProvider(context, BcsContentHelper.DATA_TYPE_SKETCH);
-        Cursor cursor = BcsContentHelper.getSketches(context);
+        BcsContentHelper.deleteFromProvider(context, BcsContentHelper.DATA_TYPE_VECTOR);
+        Cursor cursor = BcsContentHelper.getVectors(context);
         if (cursor != null) {
             if (cursor.getCount() == 0) {
-                runnerTask.report("BCS sketch delete ... PASSED.", COLOUR_PASSED);
+                runnerTask.report("BCS vector delete ... PASSED.", COLOUR_PASSED);
                 cursor.close();
                 return;
             }
             cursor.close();
         }
-        runnerTask.report("BCS sketch delete ... FAILED.", COLOUR_FAILED);
+        runnerTask.report("BCS vector delete ... FAILED.", COLOUR_FAILED);
     }
 }

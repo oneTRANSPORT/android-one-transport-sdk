@@ -19,7 +19,7 @@ import net.uk.onetransport.android.test.onetransporttest.tests.OneTransportTest;
 
 import java.util.ArrayList;
 
-public class GetNodeArrayTest extends OneTransportTest
+public class NodeRetrieveTest extends OneTransportTest
         implements LoaderManager.LoaderCallbacks<RetrieverResult<Node>> {
 
     private DougalCallback dougalCallback;

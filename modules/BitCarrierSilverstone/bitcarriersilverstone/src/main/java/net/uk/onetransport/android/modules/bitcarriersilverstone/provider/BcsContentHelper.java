@@ -21,53 +21,45 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 
-import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneConfigVector;
-import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneDataSketch;
-import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneDataTravelSummary;
+import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneVector;
 import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneNode;
+import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneSketch;
+import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneTravelSummary;
 
 public class BcsContentHelper {
 
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({
-            DATA_TYPE_DATA_SKETCH,
+            DATA_TYPE_SKETCH,
             DATA_TYPE_NODE,
             DATA_TYPE_TRAVEL_SUMMARY,
-            DATA_TYPE_CONFIG_VECTOR
-//            DATA_TYPE_ZONE,
-//            DATA_TYPE_CONFIG_SKETCH,
-//            DATA_TYPE_METAVECTOR,
-//            DATA_TYPE_CONFIG_TRAVELTIME
+            DATA_TYPE_VECTOR
     })
     public @interface DataType {
     }
 
-    public static final int DATA_TYPE_DATA_SKETCH = 1;
+    public static final int DATA_TYPE_SKETCH = 1;
     public static final int DATA_TYPE_NODE = 2;
     public static final int DATA_TYPE_TRAVEL_SUMMARY = 6;
-    public static final int DATA_TYPE_CONFIG_VECTOR = 3;
-//    public static final int DATA_TYPE_ZONE = 8;
-//    public static final int DATA_TYPE_CONFIG_SKETCH = 4;
-//    public static final int DATA_TYPE_METAVECTOR = 5;
-//    public static final int DATA_TYPE_CONFIG_TRAVELTIME = 7;
+    public static final int DATA_TYPE_VECTOR = 3;
 
-    public static void insertDataSketchesIntoProvider(@NonNull Context context,
-                                                      @NonNull ArrayList<Sketch> sketches)
+    public static void insertSketchesIntoProvider(@NonNull Context context,
+                                                  @NonNull ArrayList<Sketch> sketches)
             throws RemoteException, OperationApplicationException {
         if (sketches.size() > 0) {
             ArrayList<ContentProviderOperation> operationList = new ArrayList<>();
             for (Sketch sketch : sketches) {
                 ContentProviderOperation operation = ContentProviderOperation
-                        .newInsert(BcsProviderModule.DATA_SKETCH_URI)
-                        .withValue(BitCarrierSilverstoneDataSketch.COLUMN_SKETCH_ID, sketch.getsId())
-                        .withValue(BitCarrierSilverstoneDataSketch.COLUMN_VECTOR_ID, sketch.getvId())
-                        .withValue(BitCarrierSilverstoneDataSketch.COLUMN_LICENSE, sketch.getLicense())
-                        .withValue(BitCarrierSilverstoneDataSketch.COLUMN_LEVEL_OF_SERVICE,
+                        .newInsert(BcsProviderModule.SKETCH_URI)
+                        .withValue(BitCarrierSilverstoneSketch.COLUMN_SKETCH_ID, sketch.getsId())
+                        .withValue(BitCarrierSilverstoneSketch.COLUMN_VECTOR_ID, sketch.getvId())
+                        .withValue(BitCarrierSilverstoneSketch.COLUMN_LICENSE, sketch.getLicense())
+                        .withValue(BitCarrierSilverstoneSketch.COLUMN_LEVEL_OF_SERVICE,
                                 sketch.getLevelOfService())
-                        .withValue(BitCarrierSilverstoneDataSketch.COLUMN_COORDINATES,
+                        .withValue(BitCarrierSilverstoneSketch.COLUMN_COORDINATES,
                                 sketch.getCoordinates())
-                        .withValue(BitCarrierSilverstoneDataSketch.COLUMN_CIN_ID, sketch.getCinId())
-                        .withValue(BitCarrierSilverstoneDataSketch.COLUMN_CREATION_TIME,
+                        .withValue(BitCarrierSilverstoneSketch.COLUMN_CIN_ID, sketch.getCinId())
+                        .withValue(BitCarrierSilverstoneSketch.COLUMN_CREATION_TIME,
                                 sketch.getCreationTime())
                         .withYieldAllowed(true)
                         .build();
@@ -77,34 +69,6 @@ public class BcsContentHelper {
             contentResolver.applyBatch(BcsProviderModule.AUTHORITY, operationList);
         }
     }
-
-//    public static void insertConfigSketchesIntoProvider(@NonNull Context context,
-//                                                        @NonNull ArrayList<net.uk.onetransport.android.modules
-//                                                                .bitcarriersilverstone.config.sketch.Sketch> sketches)
-//            throws RemoteException, OperationApplicationException {
-//        if (sketches.size() > 0) {
-//            ArrayList<ContentProviderOperation> operationList = new ArrayList<>();
-//            for (net.uk.onetransport.android.modules.bitcarriersilverstone.config.sketch.Sketch
-//                    sketch : sketches) {
-//                ContentProviderOperation operation = ContentProviderOperation
-//                        .newInsert(BcsProviderModule.CONFIG_SKETCH_URI)
-//                        .withValue(BitCarrierSilverstoneConfigSketch.COLUMN_SKETCH_ID,
-//                                sketch.getsId())
-//                        .withValue(BitCarrierSilverstoneConfigSketch.COLUMN_VECTOR_ID,
-//                                sketch.getvId())
-//                        .withValue(BitCarrierSilverstoneConfigSketch.COLUMN_COORDINATES,
-//                                sketch.getLocationJsonArray())
-//                        .withValue(BitCarrierSilverstoneConfigSketch.COLUMN_CIN_ID, sketch.getCinId())
-//                        .withValue(BitCarrierSilverstoneConfigSketch.COLUMN_CREATION_TIME,
-//                                sketch.getCreationTime())
-//                        .withYieldAllowed(true)
-//                        .build();
-//                operationList.add(operation);
-//            }
-//            ContentResolver contentResolver = context.getContentResolver();
-//            contentResolver.applyBatch(BcsProviderModule.AUTHORITY, operationList);
-//        }
-//    }
 
     public static void insertNodesIntoProvider(@NonNull Context context,
                                                @NonNull ArrayList<Node> nodes)
@@ -132,158 +96,47 @@ public class BcsContentHelper {
         }
     }
 
-//    public static void insertRoutesIntoProvider(@NonNull Context context,
-//                                                @NonNull ArrayList<Route> routes)
-//            throws RemoteException, OperationApplicationException {
-//        if (routes.size() > 0) {
-//            ArrayList<ContentProviderOperation> operationList = new ArrayList<>();
-//            for (Route route : routes) {
-//                ContentProviderOperation operation = ContentProviderOperation
-//                        .newInsert(BcsProviderModule.ROUTE_URI)
-//                        .withValue(BitCarrierSilverstoneRoute.COLUMN_ROUTE_ID, route.getId())
-//                        .withValue(BitCarrierSilverstoneRoute.COLUMN_CITY_ID, route.getCityId())
-//                        .withValue(BitCarrierSilverstoneRoute.COLUMN_METAVECTOR_ID,
-//                                route.getMetavector())
-//                        .withValue(BitCarrierSilverstoneRoute.COLUMN_VECTOR1, route.getVector1())
-//                        .withValue(BitCarrierSilverstoneRoute.COLUMN_VECTOR1_CONTRIB,
-//                                route.getVector1Contrib())
-//                        .withValue(BitCarrierSilverstoneRoute.COLUMN_VECTOR2, route.getVector2())
-//                        .withValue(BitCarrierSilverstoneRoute.COLUMN_VECTOR2_CONTRIB,
-//                                route.getVector2Contrib())
-//                        .withValue(BitCarrierSilverstoneRoute.COLUMN_OFFSET, route.getOffset())
-//                        .withValue(BitCarrierSilverstoneRoute.COLUMN_DISTANCE, route.getDistance())
-//                        .withValue(BitCarrierSilverstoneRoute.COLUMN_ROUTE_DETECTIONS_MIN,
-//                                route.getRouteDetectionsMin())
-//                        .withValue(BitCarrierSilverstoneRoute.COLUMN_ZONE, route.getZone())
-//                        .withValue(BitCarrierSilverstoneRoute.COLUMN_NAME, route.getName())
-//                        .withValue(BitCarrierSilverstoneRoute.COLUMN_CUSTOMER_NAME,
-//                                route.getCustomerName())
-//                        .withValue(BitCarrierSilverstoneRoute.COLUMN_CONFIGURATION,
-//                                route.getConfiguration())
-//                        .withValue(BitCarrierSilverstoneRoute.COLUMN_CIN_ID, route.getCinId())
-//                        .withValue(BitCarrierSilverstoneRoute.COLUMN_CREATION_TIME,
-//                                route.getCreationTime())
-//                        .withYieldAllowed(true)
-//                        .build();
-//                operationList.add(operation);
-//            }
-//            ContentResolver contentResolver = context.getContentResolver();
-//            contentResolver.applyBatch(BcsProviderModule.AUTHORITY, operationList);
-//        }
-//    }
-
-//    public static void insertMetavectorsIntoProvider(@NonNull Context context,
-//                                                     @NonNull ArrayList<Metavector> metavectors)
-//            throws RemoteException, OperationApplicationException {
-//        if (metavectors.size() > 0) {
-//            ArrayList<ContentProviderOperation> operationList = new ArrayList<>();
-//            for (Metavector metavector : metavectors) {
-//                ContentProviderOperation operation = ContentProviderOperation
-//                        .newInsert(BcsProviderModule.METAVECTOR_URI)
-//                        .withValue(BitCarrierSilverstoneMetavector.COLUMN_METAVECTOR_ID,
-//                                metavector.getId())
-//                        .withValue(BitCarrierSilverstoneMetavector.COLUMN_NAME,
-//                                metavector.getName())
-//                        .withValue(BitCarrierSilverstoneMetavector.COLUMN_CUSTOMER_NAME,
-//                                metavector.getCustomerName())
-//                        .withValue(BitCarrierSilverstoneMetavector.COLUMN_CITY_ID,
-//                                metavector.getCityId())
-//                        .withValue(BitCarrierSilverstoneMetavector.COLUMN_ZONE,
-//                                metavector.getZone())
-//                        .withValue(BitCarrierSilverstoneMetavector.COLUMN_SEQUENCE,
-//                                metavector.getSequence())
-//                        .withValue(BitCarrierSilverstoneMetavector.COLUMN_CREATION_TIME,
-//                                metavector.getCreationTime())
-//                        .withValue(BitCarrierSilverstoneMetavector.COLUMN_CIN_ID,
-//                                metavector.getCinId())
-//                        .withYieldAllowed(true)
-//                        .build();
-//                operationList.add(operation);
-//            }
-//            ContentResolver contentResolver = context.getContentResolver();
-//            contentResolver.applyBatch(BcsProviderModule.AUTHORITY, operationList);
-//        }
-//    }
-
-
-//    public static void insertConfigTraveltimesIntoProvider(@NonNull Context context,
-//                                                           @NonNull ArrayList<TravelTime> travelTimes)
-//            throws RemoteException, OperationApplicationException {
-//        if (travelTimes.size() > 0) {
-//            ArrayList<ContentProviderOperation> operationList = new ArrayList<>();
-//            for (TravelTime travelTime : travelTimes) {
-//                ContentProviderOperation operation = ContentProviderOperation
-//                        .newInsert(BcsProviderModule.CONFIG_TRAVEL_TIME_URI)
-//                        .withValue(BitCarrierSilverstoneConfigTravelTime.COLUMN_TRAVEL_TIME_ID,
-//                                travelTime.getId())
-//                        .withValue(BitCarrierSilverstoneConfigTravelTime.COLUMN_ROUTE_ID,
-//                                travelTime.getRouteId())
-//                        .withValue(BitCarrierSilverstoneConfigTravelTime.COLUMN_NAME,
-//                                travelTime.getName())
-//                        .withValue(BitCarrierSilverstoneConfigTravelTime.COLUMN_CUSTOMER_NAME,
-//                                travelTime.getCustomerName())
-//                        .withValue(BitCarrierSilverstoneConfigTravelTime.COLUMN_EXTRA_OFFSET,
-//                                travelTime.getExtraOffset())
-//                        .withValue(BitCarrierSilverstoneConfigTravelTime.COLUMN_PUBLISH,
-//                                travelTime.getPublish())
-//                        .withValue(BitCarrierSilverstoneConfigTravelTime.COLUMN_ZONE,
-//                                travelTime.getId())
-//                        .withValue(BitCarrierSilverstoneConfigTravelTime.COLUMN_TRAVEL_TIME_ID,
-//                                travelTime.getId())
-//                        .withValue(BitCarrierSilverstoneConfigTravelTime.COLUMN_CREATION_TIME,
-//                                travelTime.getCreationTime())
-//                        .withValue(BitCarrierSilverstoneConfigTravelTime.COLUMN_CIN_ID,
-//                                travelTime.getCinId())
-//                        .withYieldAllowed(true)
-//                        .build();
-//                operationList.add(operation);
-//            }
-//            ContentResolver contentResolver = context.getContentResolver();
-//            contentResolver.applyBatch(BcsProviderModule.AUTHORITY, operationList);
-//        }
-//    }
-
-    public static void insertConfigVectorsIntoProvider(@NonNull Context context,
-                                                       @NonNull ArrayList<Vector> vectors)
+    public static void insertVectorsIntoProvider(@NonNull Context context,
+                                                 @NonNull ArrayList<Vector> vectors)
             throws RemoteException, OperationApplicationException {
         if (vectors.size() > 0) {
             ArrayList<ContentProviderOperation> operationList = new ArrayList<>();
             for (Vector vector : vectors) {
                 ContentProviderOperation operation = ContentProviderOperation
-                        .newInsert(BcsProviderModule.CONFIG_VECTOR_URI)
-                        .withValue(BitCarrierSilverstoneConfigVector.COLUMN_VECTOR_ID, vector.getId())
-                        .withValue(BitCarrierSilverstoneConfigVector.COLUMN_NAME, vector.getName())
-                        .withValue(BitCarrierSilverstoneConfigVector.COLUMN_CUSTOMER_NAME,
+                        .newInsert(BcsProviderModule.VECTOR_URI)
+                        .withValue(BitCarrierSilverstoneVector.COLUMN_VECTOR_ID, vector.getId())
+                        .withValue(BitCarrierSilverstoneVector.COLUMN_NAME, vector.getName())
+                        .withValue(BcsContract.BitCarrierSilverstoneVector.COLUMN_CUSTOMER_NAME,
                                 vector.getCustomerName())
-                        .withValue(BitCarrierSilverstoneConfigVector.COLUMN_FROM, vector.getFrom())
-                        .withValue(BitCarrierSilverstoneConfigVector.COLUMN_TO, vector.getTo())
-                        .withValue(BitCarrierSilverstoneConfigVector.COLUMN_DISTANCE, vector.getDistance())
-                        .withValue(BitCarrierSilverstoneConfigVector.COLUMN_ZONE, vector.getZone())
-                        .withValue(BitCarrierSilverstoneConfigVector.COLUMN_CITY_ID, vector.getCityId())
-                        .withValue(BitCarrierSilverstoneConfigVector.COLUMN_BLOCK_TIME,
+                        .withValue(BcsContract.BitCarrierSilverstoneVector.COLUMN_FROM, vector.getFrom())
+                        .withValue(BcsContract.BitCarrierSilverstoneVector.COLUMN_TO, vector.getTo())
+                        .withValue(BitCarrierSilverstoneVector.COLUMN_DISTANCE, vector.getDistance())
+                        .withValue(BcsContract.BitCarrierSilverstoneVector.COLUMN_ZONE, vector.getZone())
+                        .withValue(BitCarrierSilverstoneVector.COLUMN_CITY_ID, vector.getCityId())
+                        .withValue(BcsContract.BitCarrierSilverstoneVector.COLUMN_BLOCK_TIME,
                                 vector.getBlockTime())
-                        .withValue(BitCarrierSilverstoneConfigVector.COLUMN_SEGREGATION,
+                        .withValue(BcsContract.BitCarrierSilverstoneVector.COLUMN_SEGREGATION,
                                 vector.getSegregation())
-                        .withValue(BitCarrierSilverstoneConfigVector.COLUMN_CONFIGURATION,
+                        .withValue(BitCarrierSilverstoneVector.COLUMN_CONFIGURATION,
                                 vector.getConfiguration())
-                        .withValue(BitCarrierSilverstoneConfigVector.COLUMN_PRIORITY, vector.getPriority())
-                        .withValue(BitCarrierSilverstoneConfigVector.COLUMN_CHECK_FORCED,
+                        .withValue(BcsContract.BitCarrierSilverstoneVector.COLUMN_PRIORITY, vector.getPriority())
+                        .withValue(BcsContract.BitCarrierSilverstoneVector.COLUMN_CHECK_FORCED,
                                 vector.getCheckForced())
-                        .withValue(BitCarrierSilverstoneConfigVector.COLUMN_SKETCH_ID, vector.getsId())
-                        .withValue(BitCarrierSilverstoneConfigVector.COLUMN_ROUTE_ID, vector.getrId())
-                        .withValue(BitCarrierSilverstoneConfigVector.COLUMN_LEVELS, vector.getLevels())
-                        .withValue(BitCarrierSilverstoneConfigVector.COLUMN_GREEN, vector.getGreen())
-                        .withValue(BitCarrierSilverstoneConfigVector.COLUMN_YELLOW, vector.getYellow())
-                        .withValue(BitCarrierSilverstoneConfigVector.COLUMN_AVERAGE_GREEN,
+                        .withValue(BitCarrierSilverstoneVector.COLUMN_SKETCH_ID, vector.getsId())
+                        .withValue(BitCarrierSilverstoneVector.COLUMN_ROUTE_ID, vector.getrId())
+                        .withValue(BitCarrierSilverstoneVector.COLUMN_LEVELS, vector.getLevels())
+                        .withValue(BitCarrierSilverstoneVector.COLUMN_GREEN, vector.getGreen())
+                        .withValue(BitCarrierSilverstoneVector.COLUMN_YELLOW, vector.getYellow())
+                        .withValue(BcsContract.BitCarrierSilverstoneVector.COLUMN_AVERAGE_GREEN,
                                 vector.getAverageGreen())
-                        .withValue(BitCarrierSilverstoneConfigVector.COLUMN_AVERAGE_YELLOW,
+                        .withValue(BitCarrierSilverstoneVector.COLUMN_AVERAGE_YELLOW,
                                 vector.getAverageYellow())
-                        .withValue(BitCarrierSilverstoneConfigVector.COLUMN_DETECTIONS_MIN,
+                        .withValue(BitCarrierSilverstoneVector.COLUMN_DETECTIONS_MIN,
                                 vector.getDetectionsMin())
-                        .withValue(BitCarrierSilverstoneConfigVector.COLUMN_HAS_COLOUR,
+                        .withValue(BcsContract.BitCarrierSilverstoneVector.COLUMN_HAS_COLOUR,
                                 vector.getHasColour())
-                        .withValue(BitCarrierSilverstoneConfigVector.COLUMN_CIN_ID, vector.getCinId())
-                        .withValue(BitCarrierSilverstoneConfigVector.COLUMN_CREATION_TIME,
+                        .withValue(BitCarrierSilverstoneVector.COLUMN_CIN_ID, vector.getCinId())
+                        .withValue(BcsContract.BitCarrierSilverstoneVector.COLUMN_CREATION_TIME,
                                 vector.getCreationTime())
                         .withYieldAllowed(true)
                         .build();
@@ -302,35 +155,35 @@ public class BcsContentHelper {
             for (TravelSummary travelSummary : travelSummaries) {
                 ContentProviderOperation.Builder builder = ContentProviderOperation
                         .newInsert(BcsProviderModule.TRAVEL_SUMMARY_URI)
-                        .withValue(BitCarrierSilverstoneDataTravelSummary.COLUMN_CLOCK_TIME,
+                        .withValue(BitCarrierSilverstoneTravelSummary.COLUMN_CLOCK_TIME,
                                 travelSummary.getTime());
                 if (travelSummary.getTravelTimes() != null) {
                     // TODO   We assume the array only has one entry.  Otherwise problem.
                     TravelTime travelTime = travelSummary.getTravelTimes()[0];
-                    builder.withValue(BitCarrierSilverstoneDataTravelSummary.COLUMN_TRAVEL_TIME_ID,
+                    builder.withValue(BitCarrierSilverstoneTravelSummary.COLUMN_TRAVEL_TIME_ID,
                             travelTime.gettId())
-                            .withValue(BitCarrierSilverstoneDataTravelSummary.COLUMN_FROM_LOCATION,
+                            .withValue(BitCarrierSilverstoneTravelSummary.COLUMN_FROM_LOCATION,
                                     travelTime.getFrom())
-                            .withValue(BitCarrierSilverstoneDataTravelSummary.COLUMN_TO_LOCATION,
+                            .withValue(BitCarrierSilverstoneTravelSummary.COLUMN_TO_LOCATION,
                                     travelTime.getTo());
                 }
                 if (travelSummary.getDetails() != null) {
-                    builder.withValue(BitCarrierSilverstoneDataTravelSummary.COLUMN_SCORE,
+                    builder.withValue(BitCarrierSilverstoneTravelSummary.COLUMN_SCORE,
                             travelSummary.getDetails().getScore());
                     if (travelSummary.getDetails().getPublish() != null) {
                         Stat stat = travelSummary.getDetails().getPublish();
-                        builder.withValue(BitCarrierSilverstoneDataTravelSummary.COLUMN_SPEED,
+                        builder.withValue(BitCarrierSilverstoneTravelSummary.COLUMN_SPEED,
                                 stat.getSpeed())
-                                .withValue(BitCarrierSilverstoneDataTravelSummary.COLUMN_ELAPSED,
+                                .withValue(BitCarrierSilverstoneTravelSummary.COLUMN_ELAPSED,
                                         stat.getElapsed())
-                                .withValue(BitCarrierSilverstoneDataTravelSummary.COLUMN_TREND,
+                                .withValue(BitCarrierSilverstoneTravelSummary.COLUMN_TREND,
                                         stat.getTrend());
                     }
                 }
                 operationList.add(builder
-                        .withValue(BitCarrierSilverstoneDataTravelSummary.COLUMN_CIN_ID,
+                        .withValue(BitCarrierSilverstoneTravelSummary.COLUMN_CIN_ID,
                                 travelSummary.getCinId())
-                        .withValue(BitCarrierSilverstoneDataTravelSummary.COLUMN_CREATION_TIME,
+                        .withValue(BitCarrierSilverstoneTravelSummary.COLUMN_CREATION_TIME,
                                 travelSummary.getCreationTime())
                         .withYieldAllowed(true)
                         .build());
@@ -340,196 +193,50 @@ public class BcsContentHelper {
         }
     }
 
-//    public static void insertZonesIntoProvider(@NonNull Context context,
-//                                               @NonNull ArrayList<Zone> zones)
-//            throws RemoteException, OperationApplicationException {
-//        if (zones.size() > 0) {
-//            ArrayList<ContentProviderOperation> operationList = new ArrayList<>();
-//            for (Zone zone : zones) {
-//                ContentProviderOperation operation = ContentProviderOperation
-//                        .newInsert(BcsProviderModule.ZONE_URI)
-//                        .withValue(BitCarrierSilverstoneZone.COLUMN_ZONE_ID, zone.getId())
-//                        .withValue(BitCarrierSilverstoneZone.COLUMN_PARENT_ID, zone.getParentId())
-//                        .withValue(BitCarrierSilverstoneZone.COLUMN_NAME, zone.getName())
-//                        .withValue(BitCarrierSilverstoneZone.COLUMN_CENTER_LATITUDE,
-//                                zone.getMap().getCenter().getLatitude())
-//                        .withValue(BitCarrierSilverstoneZone.COLUMN_CENTER_LONGITUDE,
-//                                zone.getMap().getCenter().getLongitude())
-//                        .withValue(BitCarrierSilverstoneZone.COLUMN_ZOOM,
-//                                zone.getMap().getCenter().getZoom())
-//                        .withValue(BitCarrierSilverstoneZone.COLUMN_NORTHERN_LATITUDE,
-//                                zone.getMap().getBounds().getNorthernLatitude())
-//                        .withValue(BitCarrierSilverstoneZone.COLUMN_WESTERN_LONGITUDE,
-//                                zone.getMap().getBounds().getWesternLongitude())
-//                        .withValue(BitCarrierSilverstoneZone.COLUMN_SOUTHERN_LATITUDE,
-//                                zone.getMap().getBounds().getSouthernLatitude())
-//                        .withValue(BitCarrierSilverstoneZone.COLUMN_EASTERN_LONGITUDE,
-//                                zone.getMap().getBounds().getEasternLongitude())
-//                        .withValue(BitCarrierSilverstoneZone.COLUMN_CIN_ID, zone.getCinId())
-//                        .withValue(BitCarrierSilverstoneZone.COLUMN_CREATION_TIME,
-//                                zone.getCreationTime())
-//                        .withYieldAllowed(true)
-//                        .build();
-//                operationList.add(operation);
-//            }
-//            ContentResolver contentResolver = context.getContentResolver();
-//            contentResolver.applyBatch(BcsProviderModule.AUTHORITY, operationList);
-//        }
-//    }
-
-//    public static Cursor getConfigSketches(@NonNull Context context) {
-//        return context.getContentResolver().query(BcsProviderModule.CONFIG_SKETCH_URI,
-//                new String[]{"*"}, null, null, BitCarrierSilverstoneConfigSketch.COLUMN_SKETCH_ID);
-//    }
-
-//    public static Cursor getConfigSketchNames(@NonNull Context context, int sketchId) {
-//        return context.getContentResolver().query(BcsProviderModule.CONFIG_SKETCH_URI,
-//                new String[]{BitCarrierSilverstoneConfigSketch.COLUMN_CIN_ID},
-//                BitCarrierSilverstoneConfigSketch.COLUMN_SKETCH_ID + "=?",
-//                new String[]{String.valueOf(sketchId)},
-//                BitCarrierSilverstoneConfigSketch.COLUMN_CIN_ID);
-//    }
-
-    public static Cursor getDataSketches(@NonNull Context context) {
-        return context.getContentResolver().query(BcsProviderModule.DATA_SKETCH_URI,
-                new String[]{"*"}, null, null, BitCarrierSilverstoneDataSketch.COLUMN_SKETCH_ID);
+    // TODO    Option to filter by time interval.
+    public static Cursor getSketches(@NonNull Context context) {
+        return context.getContentResolver().query(BcsProviderModule.SKETCH_URI,
+                new String[]{"*"}, null, null, BcsContract.BitCarrierSilverstoneSketch.COLUMN_SKETCH_ID);
     }
-
-//    public static Cursor getDataSketchNames(@NonNull Context context, int sketchId) {
-//        return context.getContentResolver().query(BcsProviderModule.DATA_SKETCH_URI,
-//                new String[]{BitCarrierSilverstoneDataSketch.COLUMN_CIN_ID},
-//                BitCarrierSilverstoneDataSketch.COLUMN_SKETCH_ID + "=?",
-//                new String[]{String.valueOf(sketchId)},
-//                BitCarrierSilverstoneDataSketch.COLUMN_CIN_ID);
-//    }
 
     public static Cursor getNodes(@NonNull Context context) {
         return context.getContentResolver().query(BcsProviderModule.NODE_URI,
                 new String[]{"*"}, null, null, BitCarrierSilverstoneNode.COLUMN_CUSTOMER_ID);
     }
 
-//    public static Cursor getNodeNames(@NonNull Context context, int nodeId) {
-//        return context.getContentResolver().query(BcsProviderModule.NODE_URI,
-//                new String[]{BitCarrierSilverstoneNode.COLUMN_CIN_ID},
-//                BitCarrierSilverstoneNode.COLUMN_NODE_ID + "=?",
-//                new String[]{String.valueOf(nodeId)},
-//                BitCarrierSilverstoneNode.COLUMN_CIN_ID);
-//    }
-
-//    public static Cursor getRoutes(@NonNull Context context) {
-//        return context.getContentResolver().query(BcsProviderModule.ROUTE_URI,
-//                new String[]{"*"}, null, null, BitCarrierSilverstoneRoute.COLUMN_ROUTE_ID);
-//    }
-//
-//    public static Cursor getRouteNames(@NonNull Context context, int routeId) {
-//        return context.getContentResolver().query(BcsProviderModule.ROUTE_URI,
-//                new String[]{BitCarrierSilverstoneRoute.COLUMN_CIN_ID},
-//                BitCarrierSilverstoneRoute.COLUMN_ROUTE_ID + "=?",
-//                new String[]{String.valueOf(routeId)},
-//                BitCarrierSilverstoneRoute.COLUMN_CIN_ID);
-//    }
-
-//    public static Cursor getMetaVectors(@NonNull Context context) {
-//        return context.getContentResolver().query(BcsProviderModule.METAVECTOR_URI,
-//                new String[]{"*"}, null, null, BitCarrierSilverstoneMetavector.COLUMN_METAVECTOR_ID);
-//    }
-
-//    public static Cursor getMetaVectorNames(@NonNull Context context, int metaVectorId) {
-//        return context.getContentResolver().query(BcsProviderModule.METAVECTOR_URI,
-//                new String[]{BitCarrierSilverstoneMetavector.COLUMN_CIN_ID},
-//                BitCarrierSilverstoneMetavector.COLUMN_METAVECTOR_ID + "=?",
-//                new String[]{String.valueOf(metaVectorId)},
-//                BitCarrierSilverstoneMetavector.COLUMN_CIN_ID);
-//    }
-
-//    public static Cursor getConfigTraveltimes(@NonNull Context context) {
-//        return context.getContentResolver().query(BcsProviderModule.CONFIG_TRAVEL_TIME_URI,
-//                new String[]{"*"}, null, null,
-//                BitCarrierSilverstoneConfigTravelTime.COLUMN_TRAVEL_TIME_ID);
-//    }
-
-//    public static Cursor getConfigTraveltimeNames(@NonNull Context context, int traveltimeId) {
-//        return context.getContentResolver().query(BcsProviderModule.CONFIG_TRAVEL_TIME_URI,
-//                new String[]{BitCarrierSilverstoneConfigTravelTime.COLUMN_CIN_ID},
-//                BitCarrierSilverstoneConfigTravelTime.COLUMN_TRAVEL_TIME_ID + "=?",
-//                new String[]{String.valueOf(traveltimeId)},
-//                BitCarrierSilverstoneConfigTravelTime.COLUMN_CIN_ID);
-//    }
-
     public static Cursor getTravelSummaries(@NonNull Context context) {
         return context.getContentResolver().query(BcsProviderModule.TRAVEL_SUMMARY_URI,
                 new String[]{"*"}, null, null,
-                BitCarrierSilverstoneDataTravelSummary.COLUMN_TRAVEL_TIME_ID);
+                BitCarrierSilverstoneTravelSummary.COLUMN_TRAVEL_TIME_ID);
     }
 
     public static Cursor getLatestTravelTimes(@NonNull Context context) {
         return context.getContentResolver().query(
                 Uri.withAppendedPath(BcsProviderModule.TRAVEL_SUMMARY_URI, "la"),
-                new String[]{"*"}, null, null, BitCarrierSilverstoneDataTravelSummary.COLUMN_TRAVEL_TIME_ID);
+                new String[]{"*"}, null, null, BitCarrierSilverstoneTravelSummary.COLUMN_TRAVEL_TIME_ID);
     }
 
-    public static Cursor getConfigVectors(@NonNull Context context) {
-        return context.getContentResolver().query(BcsProviderModule.CONFIG_VECTOR_URI,
-                new String[]{"*"}, null, null, BitCarrierSilverstoneConfigVector.COLUMN_VECTOR_ID);
+    public static Cursor getVectors(@NonNull Context context) {
+        return context.getContentResolver().query(BcsProviderModule.VECTOR_URI,
+                new String[]{"*"}, null, null, BcsContract.BitCarrierSilverstoneVector.COLUMN_VECTOR_ID);
     }
 
-    public static Cursor getConfigVectorNames(@NonNull Context context, int vectorId) {
-        return context.getContentResolver().query(BcsProviderModule.CONFIG_VECTOR_URI,
-                new String[]{BitCarrierSilverstoneConfigVector.COLUMN_CIN_ID},
-                BitCarrierSilverstoneConfigVector.COLUMN_VECTOR_ID + "=?",
-                new String[]{String.valueOf(vectorId)},
-                BitCarrierSilverstoneConfigVector.COLUMN_CIN_ID);
-    }
-
-//    public static Cursor getLatestVectorTravelTimes(@NonNull Context context) {
-//        return context.getContentResolver()
-//                .query(BcsProviderModule.LATEST_VECTOR_TRAVEL_TIME_URI, new String[]{"*"}, null, null,
-//                        BitCarrierSilverstoneLatestVectorTravelTime.COLUMN_TRAVEL_TIME_ID);
-//    }
-
-//    public static Cursor getVectorTravelTimes(@NonNull Context context) {
-//        return context.getContentResolver()
-//                .query(BcsProviderModule.VECTOR_TRAVEL_TIME_URI, new String[]{"*"}, null, null,
-//                        BitCarrierSilverstoneLatestVectorTravelTime.COLUMN_TRAVEL_TIME_ID);
-//    }
-
-//    public static Cursor getZones(@NonNull Context context) {
-//        return context.getContentResolver().query(BcsProviderModule.ZONE_URI,
-//                new String[]{"*"}, null, null, BitCarrierSilverstoneZone.COLUMN_ZONE_ID);
-//    }
-
-//    public static Cursor getZoneNames(@NonNull Context context, int zoneId) {
-//        return context.getContentResolver().query(BcsProviderModule.ZONE_URI,
-//                new String[]{BitCarrierSilverstoneZone.COLUMN_CIN_ID},
-//                BitCarrierSilverstoneZone.COLUMN_ZONE_ID + "=?",
-//                new String[]{String.valueOf(zoneId)},
-//                BitCarrierSilverstoneZone.COLUMN_CIN_ID);
-//    }
-
+    // TODO    Option to delete before a particular time.
     public static void deleteFromProvider(@NonNull Context context, @DataType int dataType) {
         ContentResolver contentResolver = context.getContentResolver();
         switch (dataType) {
-            case DATA_TYPE_DATA_SKETCH:
-                contentResolver.delete(BcsProviderModule.DATA_SKETCH_URI, null, null);
+            case DATA_TYPE_SKETCH:
+                contentResolver.delete(BcsProviderModule.SKETCH_URI, null, null);
                 break;
             case DATA_TYPE_NODE:
                 contentResolver.delete(BcsProviderModule.NODE_URI, null, null);
                 break;
-            case DATA_TYPE_CONFIG_VECTOR:
-                contentResolver.delete(BcsProviderModule.CONFIG_VECTOR_URI, null, null);
+            case DATA_TYPE_VECTOR:
+                contentResolver.delete(BcsProviderModule.VECTOR_URI, null, null);
                 break;
             case DATA_TYPE_TRAVEL_SUMMARY:
                 contentResolver.delete(BcsProviderModule.TRAVEL_SUMMARY_URI, null, null);
                 break;
-//            case DATA_TYPE_CONFIG_SKETCH:
-//                contentResolver.delete(BcsProviderModule.CONFIG_SKETCH_URI, null, null);
-//                break;
-//            case DATA_TYPE_CONFIG_TRAVELTIME:
-//                contentResolver.delete(BcsProviderModule.CONFIG_TRAVEL_TIME_URI, null, null);
-//                break;
-//            case DATA_TYPE_ZONE:
-//                contentResolver.delete(BcsProviderModule.ZONE_URI, null, null);
-//                break;
         }
     }
 }

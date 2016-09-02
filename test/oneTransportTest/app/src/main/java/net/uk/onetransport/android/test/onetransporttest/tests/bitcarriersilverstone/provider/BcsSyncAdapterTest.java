@@ -6,8 +6,14 @@ import android.os.SystemClock;
 
 import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
+import net.uk.onetransport.android.modules.bitcarriersilverstone.config.node.Node;
+import net.uk.onetransport.android.modules.bitcarriersilverstone.config.node.NodeRetriever;
+import net.uk.onetransport.android.modules.bitcarriersilverstone.config.vector.Vector;
+import net.uk.onetransport.android.modules.bitcarriersilverstone.config.vector.VectorRetriever;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.data.sketch.Sketch;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.data.sketch.SketchRetriever;
+import net.uk.onetransport.android.modules.bitcarriersilverstone.data.travelsummary.TravelSummary;
+import net.uk.onetransport.android.modules.bitcarriersilverstone.data.travelsummary.TravelSummaryRetriever;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContentHelper;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsProviderModule;
 import net.uk.onetransport.android.modules.common.provider.lastupdated.LastUpdatedProviderModule;
@@ -33,8 +39,11 @@ public class BcsSyncAdapterTest extends OneTransportTest {
     private void startSync(RunnerTask runnerTask) throws Exception {
         runnerTask.setCurrentTest("BCS sync adapter");
         Context context = runnerTask.getContext();
-        // The sync adapter should do this anyway, but just setting the pre-condition for the test.
-        BcsContentHelper.deleteFromProvider(context, BcsContentHelper.DATA_TYPE_DATA_SKETCH);
+        BcsContentHelper.deleteFromProvider(context, BcsContentHelper.DATA_TYPE_NODE);
+        BcsContentHelper.deleteFromProvider(context, BcsContentHelper.DATA_TYPE_VECTOR);
+        BcsContentHelper.deleteFromProvider(context, BcsContentHelper.DATA_TYPE_SKETCH);
+        BcsContentHelper.deleteFromProvider(context,
+                BcsContentHelper.DATA_TYPE_TRAVEL_SUMMARY);
         AdapterObserver adapterObserver = new AdapterObserver(null, this);
         context.getContentResolver().registerContentObserver(
                 LastUpdatedProviderModule.LAST_UPDATED_URI, true, adapterObserver);
@@ -45,17 +54,47 @@ public class BcsSyncAdapterTest extends OneTransportTest {
         while (!adapterFinished) {
             SystemClock.sleep(1000L);
         }
+        ArrayList<Node> nodes = new NodeRetriever(context).retrieve();
+        ArrayList<Vector> vectors = new VectorRetriever(context).retrieve();
         ArrayList<Sketch> sketches = new SketchRetriever(context).retrieve();
+        ArrayList<TravelSummary> travelSummaries = new TravelSummaryRetriever(context).retrieve();
         context.getContentResolver().unregisterContentObserver(adapterObserver);
-        Cursor cursor = BcsContentHelper.getDataSketches(context);
+        Cursor cursor = BcsContentHelper.getNodes(context);
         if (cursor != null) {
-            if (cursor.getCount() == sketches.size()) {
-                runnerTask.report("BCS sync adapter ... PASSED.", COLOUR_PASSED);
+            if (cursor.getCount() != nodes.size()) {
+                runnerTask.report("BCS sync adapter nodes ... FAILED.", COLOUR_FAILED);
                 cursor.close();
                 return;
             }
             cursor.close();
         }
-        runnerTask.report("BCS sync adapter ... FAILED.", COLOUR_FAILED);
+        cursor = BcsContentHelper.getVectors(context);
+        if (cursor != null) {
+            if (cursor.getCount() != vectors.size()) {
+                runnerTask.report("BCS sync adapter vectors ... FAILED.", COLOUR_FAILED);
+                cursor.close();
+                return;
+            }
+            cursor.close();
+        }
+        cursor = BcsContentHelper.getSketches(context);
+        if (cursor != null) {
+            if (cursor.getCount() != sketches.size()) {
+                runnerTask.report("BCS sync adapter sketches ... FAILED.", COLOUR_FAILED);
+                cursor.close();
+                return;
+            }
+            cursor.close();
+        }
+        cursor = BcsContentHelper.getTravelSummaries(context);
+        if (cursor != null) {
+            if (cursor.getCount() != travelSummaries.size()) {
+                runnerTask.report("BCS sync adapter travel summaries ... FAILED.", COLOUR_FAILED);
+                cursor.close();
+                return;
+            }
+            cursor.close();
+        }
+        runnerTask.report("BCS sync adapter ... PASSED.", COLOUR_PASSED);
     }
 }

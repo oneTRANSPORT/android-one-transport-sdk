@@ -23,7 +23,7 @@ public class BcsSketchQueryTest extends OneTransportTest {
 
     private void sketchQuery(RunnerTask runnerTask) throws Exception {
         runnerTask.setCurrentTest("BCS sketch query");
-        Cursor cursor = BcsContentHelper.getDataSketches(runnerTask.getContext());
+        Cursor cursor = BcsContentHelper.getSketches(runnerTask.getContext());
         if (cursor != null) {
             if (cursor.getCount() > 0) {
                 runnerTask.report("BCS sketch query ... PASSED.", COLOUR_PASSED);

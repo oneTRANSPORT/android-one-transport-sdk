@@ -19,7 +19,7 @@ import net.uk.onetransport.android.test.onetransporttest.tests.OneTransportTest;
 
 import java.util.ArrayList;
 
-public class GetSketchArrayTest extends OneTransportTest
+public class SketchRetrieveTest extends OneTransportTest
         implements LoaderManager.LoaderCallbacks<RetrieverResult<Sketch>> {
 
     private DougalCallback dougalCallback;

@@ -1,6 +1,10 @@
 package net.uk.onetransport.android.test.onetransporttest.tests;
 
-import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.Sketch.GetSketchArrayTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.Sketch.SketchRetrieveTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.node.NodeRetrieveTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.provider.BcsNodeDeleteTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.provider.BcsNodeInsertTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.provider.BcsNodeQueryTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.provider.BcsSketchDeleteTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.provider.BcsSketchInsertTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.provider.BcsSketchQueryTest;
@@ -8,7 +12,11 @@ import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilvers
 import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.provider.BcsTravelSummaryDeleteTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.provider.BcsTravelSummaryInsertTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.provider.BcsTravelSummaryQueryTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.travelsummary.GetTravelSummaryArrayTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.provider.BcsVectorDeleteTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.provider.BcsVectorInsertTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.provider.BcsVectorQueryTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.travelsummary.TravelSummaryRetrieveTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.vector.VectorRetrieveTest;
 
 public class TestList {
 
@@ -46,14 +54,22 @@ public class TestList {
 //            new CvsHistorySensorQueryTest(),
 //            new CvsSyncAdapterTest(),
             // BitCarrier Silverstone
-            new GetTravelSummaryArrayTest(),
-            new GetSketchArrayTest(),
-            new BcsSketchDeleteTest(),
-            new BcsSketchInsertTest(),
-            new BcsSketchQueryTest(),
+            new NodeRetrieveTest(),
+            new BcsNodeDeleteTest(),
+            new BcsNodeInsertTest(),
+            new BcsNodeQueryTest(),
+            new VectorRetrieveTest(),
+            new BcsVectorDeleteTest(),
+            new BcsVectorInsertTest(),
+            new BcsVectorQueryTest(),
+            new TravelSummaryRetrieveTest(),
             new BcsTravelSummaryDeleteTest(),
             new BcsTravelSummaryInsertTest(),
             new BcsTravelSummaryQueryTest(),
+            new SketchRetrieveTest(),
+            new BcsSketchDeleteTest(),
+            new BcsSketchInsertTest(),
+            new BcsSketchQueryTest(),
             new BcsSyncAdapterTest(),
 
 //            new ApplicationEntityDeleteTest()

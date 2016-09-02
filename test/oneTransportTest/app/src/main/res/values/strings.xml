@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">oneTransport Test</string>
+    <string name="provider_authority">net.uk.onetransport.android.test.onetransporttest.provider</string>
+    <string name="sync_account_type">onetransporttest.test.android.onetransport.uk.net</string>
 </resources>
