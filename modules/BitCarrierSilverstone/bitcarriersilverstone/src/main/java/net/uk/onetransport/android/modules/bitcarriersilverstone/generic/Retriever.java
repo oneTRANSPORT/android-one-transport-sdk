@@ -34,13 +34,6 @@ public abstract class Retriever<T> {
                 userName, password).getResourceChildren();
         for (int i = 0; i < containerChildren.length; i++) {
             String name = containerChildren[i].getName();
-
-            // TODO    Just the latest.
-            // TODO    Make every download use a retriever.
-            // TODO    Update database to keep proper timestamps.
-            // TODO    Query by time interval?
-            // TODO    Evict unnecessary resources.
-
             ContentInstance contentInstance = Container.retrieveLatest(aeId, cseBaseUrl,
                     getRetrievePrefix() + "/" + name, userName, password);
             String cinId = contentInstance.getResourceId();

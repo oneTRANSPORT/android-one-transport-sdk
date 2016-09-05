@@ -1,6 +1,6 @@
 package net.uk.onetransport.android.modules.bitcarriersilverstone.config.vector;
 
-import net.uk.onetransport.android.modules.bitcarriersilverstone.Params;
+import net.uk.onetransport.android.modules.bitcarriersilverstone.generic.Params;
 
 public interface VectorParams extends Params {
 

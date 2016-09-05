@@ -1,6 +1,6 @@
 package net.uk.onetransport.android.modules.bitcarriersilverstone.config.node;
 
-import net.uk.onetransport.android.modules.bitcarriersilverstone.Params;
+import net.uk.onetransport.android.modules.bitcarriersilverstone.generic.Params;
 
 public interface NodeParams extends Params {
 

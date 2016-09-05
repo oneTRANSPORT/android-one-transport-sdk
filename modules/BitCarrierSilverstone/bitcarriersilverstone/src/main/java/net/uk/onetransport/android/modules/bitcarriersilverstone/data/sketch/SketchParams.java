@@ -1,6 +1,6 @@
 package net.uk.onetransport.android.modules.bitcarriersilverstone.data.sketch;
 
-import net.uk.onetransport.android.modules.bitcarriersilverstone.Params;
+import net.uk.onetransport.android.modules.bitcarriersilverstone.generic.Params;
 
 public interface SketchParams extends Params {
 
