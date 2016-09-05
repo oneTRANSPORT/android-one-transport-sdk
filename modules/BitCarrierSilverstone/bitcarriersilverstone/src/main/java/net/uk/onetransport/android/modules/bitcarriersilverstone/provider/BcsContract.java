@@ -50,22 +50,7 @@ public class BcsContract {
                     + BitCarrierSilverstoneVector.COLUMN_FROM + " INTEGER,"
                     + BitCarrierSilverstoneVector.COLUMN_TO + " INTEGER,"
                     + BitCarrierSilverstoneVector.COLUMN_DISTANCE + " INTEGER,"
-                    + BitCarrierSilverstoneVector.COLUMN_ZONE + " INTEGER,"
-                    + BitCarrierSilverstoneVector.COLUMN_CITY_ID + " INTEGER,"
-                    + BitCarrierSilverstoneVector.COLUMN_BLOCK_TIME + " INTEGER,"
-                    + BitCarrierSilverstoneVector.COLUMN_SEGREGATION + " INTEGER,"
-                    + BitCarrierSilverstoneVector.COLUMN_CONFIGURATION + " INTEGER,"
-                    + BitCarrierSilverstoneVector.COLUMN_PRIORITY + " INTEGER,"
-                    + BitCarrierSilverstoneVector.COLUMN_CHECK_FORCED + " INTEGER,"
                     + BitCarrierSilverstoneVector.COLUMN_SKETCH_ID + " INTEGER,"
-                    + BitCarrierSilverstoneVector.COLUMN_ROUTE_ID + " INTEGER,"
-                    + BitCarrierSilverstoneVector.COLUMN_LEVELS + " INTEGER,"
-                    + BitCarrierSilverstoneVector.COLUMN_GREEN + " INTEGER,"
-                    + BitCarrierSilverstoneVector.COLUMN_YELLOW + " INTEGER,"
-                    + BitCarrierSilverstoneVector.COLUMN_AVERAGE_GREEN + " INTEGER,"
-                    + BitCarrierSilverstoneVector.COLUMN_AVERAGE_YELLOW + " INTEGER,"
-                    + BitCarrierSilverstoneVector.COLUMN_DETECTIONS_MIN + " INTEGER,"
-                    + BitCarrierSilverstoneVector.COLUMN_HAS_COLOUR + " BOOLEAN,"
                     + BitCarrierSilverstoneVector.COLUMN_CIN_ID
                     + " TEXT UNIQUE ON CONFLICT REPLACE,"
                     + BitCarrierSilverstoneVector.COLUMN_CREATION_TIME + " INTEGER"
@@ -234,22 +219,7 @@ public class BcsContract {
         public static final String COLUMN_FROM = "from_location";
         public static final String COLUMN_TO = "to_location";
         public static final String COLUMN_DISTANCE = "distance";
-        public static final String COLUMN_ZONE = "zone";
-        public static final String COLUMN_CITY_ID = "city_id";
-        public static final String COLUMN_BLOCK_TIME = "block_time";
-        public static final String COLUMN_SEGREGATION = "segregation";
-        public static final String COLUMN_CONFIGURATION = "configuration";
-        public static final String COLUMN_PRIORITY = "priority";
-        public static final String COLUMN_CHECK_FORCED = "check_forced";
         public static final String COLUMN_SKETCH_ID = "sketch_id";
-        public static final String COLUMN_ROUTE_ID = "route_id";
-        public static final String COLUMN_LEVELS = "levels";
-        public static final String COLUMN_GREEN = "green";
-        public static final String COLUMN_YELLOW = "yellow";
-        public static final String COLUMN_AVERAGE_GREEN = "average_green";
-        public static final String COLUMN_AVERAGE_YELLOW = "average_yellow";
-        public static final String COLUMN_DETECTIONS_MIN = "detections_min";
-        public static final String COLUMN_HAS_COLOUR = "has_colour";
     }
 
 //    public static final class BitCarrierSilverstoneLatestTravelTime implements BaseColumns {

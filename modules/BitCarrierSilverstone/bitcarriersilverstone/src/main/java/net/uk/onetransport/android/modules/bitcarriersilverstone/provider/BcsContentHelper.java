@@ -115,30 +115,7 @@ public class BcsContentHelper {
                         .withValue(BcsContract.BitCarrierSilverstoneVector.COLUMN_FROM, vector.getFrom())
                         .withValue(BcsContract.BitCarrierSilverstoneVector.COLUMN_TO, vector.getTo())
                         .withValue(BitCarrierSilverstoneVector.COLUMN_DISTANCE, vector.getDistance())
-                        .withValue(BcsContract.BitCarrierSilverstoneVector.COLUMN_ZONE, vector.getZone())
-                        .withValue(BitCarrierSilverstoneVector.COLUMN_CITY_ID, vector.getCityId())
-                        .withValue(BcsContract.BitCarrierSilverstoneVector.COLUMN_BLOCK_TIME,
-                                vector.getBlockTime())
-                        .withValue(BcsContract.BitCarrierSilverstoneVector.COLUMN_SEGREGATION,
-                                vector.getSegregation())
-                        .withValue(BitCarrierSilverstoneVector.COLUMN_CONFIGURATION,
-                                vector.getConfiguration())
-                        .withValue(BcsContract.BitCarrierSilverstoneVector.COLUMN_PRIORITY, vector.getPriority())
-                        .withValue(BcsContract.BitCarrierSilverstoneVector.COLUMN_CHECK_FORCED,
-                                vector.getCheckForced())
                         .withValue(BitCarrierSilverstoneVector.COLUMN_SKETCH_ID, vector.getsId())
-                        .withValue(BitCarrierSilverstoneVector.COLUMN_ROUTE_ID, vector.getrId())
-                        .withValue(BitCarrierSilverstoneVector.COLUMN_LEVELS, vector.getLevels())
-                        .withValue(BitCarrierSilverstoneVector.COLUMN_GREEN, vector.getGreen())
-                        .withValue(BitCarrierSilverstoneVector.COLUMN_YELLOW, vector.getYellow())
-                        .withValue(BcsContract.BitCarrierSilverstoneVector.COLUMN_AVERAGE_GREEN,
-                                vector.getAverageGreen())
-                        .withValue(BitCarrierSilverstoneVector.COLUMN_AVERAGE_YELLOW,
-                                vector.getAverageYellow())
-                        .withValue(BitCarrierSilverstoneVector.COLUMN_DETECTIONS_MIN,
-                                vector.getDetectionsMin())
-                        .withValue(BcsContract.BitCarrierSilverstoneVector.COLUMN_HAS_COLOUR,
-                                vector.getHasColour())
                         .withValue(BitCarrierSilverstoneVector.COLUMN_CIN_ID, vector.getCinId())
                         .withValue(BcsContract.BitCarrierSilverstoneVector.COLUMN_CREATION_TIME,
                                 vector.getCreationTime())
