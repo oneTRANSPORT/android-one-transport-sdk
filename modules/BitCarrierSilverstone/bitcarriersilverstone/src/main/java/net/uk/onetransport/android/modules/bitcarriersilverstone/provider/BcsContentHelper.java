@@ -11,8 +11,8 @@ import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 
 import net.uk.onetransport.android.modules.bitcarriersilverstone.config.node.Node;
-import net.uk.onetransport.android.modules.bitcarriersilverstone.config.vector.Vector;
-import net.uk.onetransport.android.modules.bitcarriersilverstone.data.sketch.Sketch;
+import net.uk.onetransport.android.modules.bitcarriersilverstone.data.vector.Vector;
+import net.uk.onetransport.android.modules.bitcarriersilverstone.config.sketch.Sketch;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.data.travelsummary.Stat;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.data.travelsummary.TravelSummary;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.data.travelsummary.TravelTime;
@@ -55,11 +55,10 @@ public class BcsContentHelper {
             for (Sketch sketch : sketches) {
                 ContentProviderOperation operation = ContentProviderOperation
                         .newInsert(BcsProviderModule.SKETCH_URI)
-                        .withValue(BitCarrierSilverstoneSketch.COLUMN_SKETCH_ID, sketch.getsId())
-                        .withValue(BitCarrierSilverstoneSketch.COLUMN_VECTOR_ID, sketch.getvId())
-                        .withValue(BitCarrierSilverstoneSketch.COLUMN_LICENSE, sketch.getLicense())
-                        .withValue(BitCarrierSilverstoneSketch.COLUMN_LEVEL_OF_SERVICE,
-                                sketch.getLevelOfService())
+                        .withValue(BitCarrierSilverstoneSketch.COLUMN_SKETCH_ID, sketch.getSketchId())
+                        .withValue(BitCarrierSilverstoneSketch.COLUMN_VECTOR_ID, sketch.getVectorId())
+                        .withValue(BitCarrierSilverstoneSketch.COLUMN_VISIBLE, sketch.getVisible())
+                        .withValue(BitCarrierSilverstoneSketch.COLUMN_COPYRIGHTS, sketch.getCopyrights())
                         .withValue(BitCarrierSilverstoneSketch.COLUMN_COORDINATES,
                                 sketch.getCoordinates())
                         .withValue(BitCarrierSilverstoneSketch.COLUMN_CIN_ID, sketch.getCinId())
@@ -108,15 +107,9 @@ public class BcsContentHelper {
             for (Vector vector : vectors) {
                 ContentProviderOperation operation = ContentProviderOperation
                         .newInsert(BcsProviderModule.VECTOR_URI)
-                        .withValue(BitCarrierSilverstoneVector.COLUMN_VECTOR_ID, vector.getId())
-                        .withValue(BitCarrierSilverstoneVector.COLUMN_NAME, vector.getName())
-                        .withValue(BcsContract.BitCarrierSilverstoneVector.COLUMN_CUSTOMER_NAME,
-                                vector.getCustomerName())
-                        .withValue(BcsContract.BitCarrierSilverstoneVector.COLUMN_FROM, vector.getFrom())
-                        .withValue(BcsContract.BitCarrierSilverstoneVector.COLUMN_TO, vector.getTo())
-                        .withValue(BitCarrierSilverstoneVector.COLUMN_DISTANCE, vector.getDistance())
-                        .withValue(BitCarrierSilverstoneVector.COLUMN_SKETCH_ID, vector.getsId())
+                        .withValue(BitCarrierSilverstoneVector.COLUMN_VECTOR_ID, vector.getVectorId())
                         .withValue(BitCarrierSilverstoneVector.COLUMN_CIN_ID, vector.getCinId())
+
                         .withValue(BcsContract.BitCarrierSilverstoneVector.COLUMN_CREATION_TIME,
                                 vector.getCreationTime())
                         .withYieldAllowed(true)

@@ -1,4 +1,4 @@
-package net.uk.onetransport.android.modules.bitcarriersilverstone.data.sketch;//package net.uk.onetransport.android.modules.bitcarriersilverstone.config.sketch;
+package net.uk.onetransport.android.modules.bitcarriersilverstone.config.sketch;//package net.uk.onetransport.android.modules.bitcarriersilverstone.config.sketch;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

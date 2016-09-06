@@ -1,4 +1,4 @@
-package net.uk.onetransport.android.modules.bitcarriersilverstone.config.vector;
+package net.uk.onetransport.android.modules.bitcarriersilverstone.data.vector;
 
 import android.content.Context;
 

@@ -15,10 +15,10 @@ import android.os.Bundle;
 
 import net.uk.onetransport.android.modules.bitcarriersilverstone.config.node.Node;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.config.node.NodeRetriever;
-import net.uk.onetransport.android.modules.bitcarriersilverstone.config.vector.Vector;
-import net.uk.onetransport.android.modules.bitcarriersilverstone.config.vector.VectorRetriever;
-import net.uk.onetransport.android.modules.bitcarriersilverstone.data.sketch.Sketch;
-import net.uk.onetransport.android.modules.bitcarriersilverstone.data.sketch.SketchRetriever;
+import net.uk.onetransport.android.modules.bitcarriersilverstone.data.vector.Vector;
+import net.uk.onetransport.android.modules.bitcarriersilverstone.data.vector.VectorRetriever;
+import net.uk.onetransport.android.modules.bitcarriersilverstone.config.sketch.Sketch;
+import net.uk.onetransport.android.modules.bitcarriersilverstone.config.sketch.SketchRetriever;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.data.travelsummary.TravelSummary;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.data.travelsummary.TravelSummaryRetriever;
 import net.uk.onetransport.android.modules.common.provider.OneTransportProvider;

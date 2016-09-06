@@ -7,8 +7,8 @@ public class BcsContract {
                     + BitCarrierSilverstoneSketch._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                     + BitCarrierSilverstoneSketch.COLUMN_SKETCH_ID + " INTEGER NOT NULL,"
                     + BitCarrierSilverstoneSketch.COLUMN_VECTOR_ID + " INTEGER NOT NULL,"
-                    + BitCarrierSilverstoneSketch.COLUMN_LEVEL_OF_SERVICE + " TEXT,"
-                    + BitCarrierSilverstoneSketch.COLUMN_LICENSE + " TEXT,"
+                    + BitCarrierSilverstoneSketch.COLUMN_VISIBLE + " INTEGER,"
+                    + BitCarrierSilverstoneSketch.COLUMN_COPYRIGHTS + " TEXT,"
                     + BitCarrierSilverstoneSketch.COLUMN_COORDINATES + " TEXT,"
                     + BitCarrierSilverstoneSketch.COLUMN_CIN_ID
                     + " TEXT UNIQUE ON CONFLICT REPLACE,"
@@ -45,12 +45,10 @@ public class BcsContract {
             "CREATE TABLE IF NOT EXISTS " + BitCarrierSilverstoneVector.TABLE_NAME + " ("
                     + BitCarrierSilverstoneVector._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                     + BitCarrierSilverstoneVector.COLUMN_VECTOR_ID + " INTEGER,"
-                    + BitCarrierSilverstoneVector.COLUMN_NAME + " TEXT,"
-                    + BitCarrierSilverstoneVector.COLUMN_CUSTOMER_NAME + " TEXT,"
-                    + BitCarrierSilverstoneVector.COLUMN_FROM + " INTEGER,"
-                    + BitCarrierSilverstoneVector.COLUMN_TO + " INTEGER,"
-                    + BitCarrierSilverstoneVector.COLUMN_DISTANCE + " INTEGER,"
-                    + BitCarrierSilverstoneVector.COLUMN_SKETCH_ID + " INTEGER,"
+                    + BitCarrierSilverstoneVector.COLUMN_TIMESTAMP + " TEXT,"
+                    + BitCarrierSilverstoneVector.COLUMN_SPEED + " REAL,"
+                    + BitCarrierSilverstoneVector.COLUMN_ELAPSED + " REAL,"
+                    + BitCarrierSilverstoneVector.COLUMN_LEVEL_OF_SERVICE + " TEXT,"
                     + BitCarrierSilverstoneVector.COLUMN_CIN_ID
                     + " TEXT UNIQUE ON CONFLICT REPLACE,"
                     + BitCarrierSilverstoneVector.COLUMN_CREATION_TIME + " INTEGER"
@@ -182,8 +180,8 @@ public class BcsContract {
         public static final String TABLE_NAME = "bit_carrier_silverstone_sketch";
         public static final String COLUMN_SKETCH_ID = "sketch_id";
         public static final String COLUMN_VECTOR_ID = "vector_id";
-        public static final String COLUMN_LEVEL_OF_SERVICE = "level_of_service";
-        public static final String COLUMN_LICENSE = "license";
+        public static final String COLUMN_VISIBLE = "visible";
+        public static final String COLUMN_COPYRIGHTS = "copyrights";
         public static final String COLUMN_COORDINATES = "coordinates";
     }
 
@@ -214,12 +212,10 @@ public class BcsContract {
     public static final class BitCarrierSilverstoneVector implements BcsBaseColumns {
         public static final String TABLE_NAME = "bit_carrier_silverstone_vector";
         public static final String COLUMN_VECTOR_ID = "vector_id";
-        public static final String COLUMN_NAME = "name";
-        public static final String COLUMN_CUSTOMER_NAME = "customer_name";
-        public static final String COLUMN_FROM = "from_location";
-        public static final String COLUMN_TO = "to_location";
-        public static final String COLUMN_DISTANCE = "distance";
-        public static final String COLUMN_SKETCH_ID = "sketch_id";
+        public static final String COLUMN_TIMESTAMP = "timestamp";
+        public static final String COLUMN_SPEED = "SPEED";
+        public static final String COLUMN_ELAPSED = "elapsed";
+        public static final String COLUMN_LEVEL_OF_SERVICE = "level_of_service";
     }
 
 //    public static final class BitCarrierSilverstoneLatestTravelTime implements BaseColumns {

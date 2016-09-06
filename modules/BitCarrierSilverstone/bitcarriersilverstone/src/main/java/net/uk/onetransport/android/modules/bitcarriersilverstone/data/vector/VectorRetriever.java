@@ -1,10 +1,8 @@
-package net.uk.onetransport.android.modules.bitcarriersilverstone.config.vector;
+package net.uk.onetransport.android.modules.bitcarriersilverstone.data.vector;
 
 import android.content.Context;
-import android.database.Cursor;
 
 import net.uk.onetransport.android.modules.bitcarriersilverstone.generic.Retriever;
-import net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContentHelper;
 
 import java.util.ArrayList;
 

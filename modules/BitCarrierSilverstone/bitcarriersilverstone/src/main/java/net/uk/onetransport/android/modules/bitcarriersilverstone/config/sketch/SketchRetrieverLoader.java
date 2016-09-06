@@ -1,4 +1,4 @@
-package net.uk.onetransport.android.modules.bitcarriersilverstone.data.sketch;
+package net.uk.onetransport.android.modules.bitcarriersilverstone.config.sketch;
 
 import android.content.Context;
 
