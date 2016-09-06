@@ -9,9 +9,9 @@ import com.interdigital.android.dougal.Types;
 import com.interdigital.android.dougal.resource.Resource;
 import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
-import net.uk.onetransport.android.modules.bitcarriersilverstone.config.vector.Vector;
-import net.uk.onetransport.android.modules.bitcarriersilverstone.config.vector.VectorRetriever;
-import net.uk.onetransport.android.modules.bitcarriersilverstone.config.vector.VectorRetrieverLoader;
+import net.uk.onetransport.android.modules.bitcarriersilverstone.data.vector.Vector;
+import net.uk.onetransport.android.modules.bitcarriersilverstone.data.vector.VectorRetriever;
+import net.uk.onetransport.android.modules.bitcarriersilverstone.data.vector.VectorRetrieverLoader;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.generic.RetrieverResult;
 import net.uk.onetransport.android.test.onetransporttest.RunnerFragment;
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;

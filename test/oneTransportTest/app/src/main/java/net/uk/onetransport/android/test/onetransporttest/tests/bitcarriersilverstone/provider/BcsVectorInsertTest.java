@@ -5,16 +5,15 @@ import android.database.Cursor;
 
 import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
-import net.uk.onetransport.android.modules.bitcarriersilverstone.config.node.Node;
-import net.uk.onetransport.android.modules.bitcarriersilverstone.config.node.NodeRetriever;
-import net.uk.onetransport.android.modules.bitcarriersilverstone.config.vector.Vector;
-import net.uk.onetransport.android.modules.bitcarriersilverstone.config.vector.VectorRetriever;
+import net.uk.onetransport.android.modules.bitcarriersilverstone.data.vector.Vector;
+import net.uk.onetransport.android.modules.bitcarriersilverstone.data.vector.VectorRetriever;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContentHelper;
 import net.uk.onetransport.android.test.onetransporttest.RunnerFragment;
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
 import net.uk.onetransport.android.test.onetransporttest.tests.OneTransportTest;
 
 import java.util.ArrayList;
+
 
 public class BcsVectorInsertTest extends OneTransportTest {
 
