@@ -6,14 +6,19 @@ import android.os.SystemClock;
 
 import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
-import net.uk.onetransport.android.modules.clearviewsilverstone.device.DeviceArray;
+import net.uk.onetransport.android.modules.clearviewsilverstone.device.Device;
+import net.uk.onetransport.android.modules.clearviewsilverstone.device.DeviceRetriever;
 import net.uk.onetransport.android.modules.clearviewsilverstone.provider.CvsContentHelper;
 import net.uk.onetransport.android.modules.clearviewsilverstone.provider.CvsProviderModule;
+import net.uk.onetransport.android.modules.clearviewsilverstone.traffic.TrafficGroup;
+import net.uk.onetransport.android.modules.clearviewsilverstone.traffic.TrafficGroupRetriever;
 import net.uk.onetransport.android.modules.common.provider.lastupdated.LastUpdatedProviderModule;
 import net.uk.onetransport.android.test.onetransporttest.RunnerFragment;
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
 import net.uk.onetransport.android.test.onetransporttest.tests.OneTransportTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.AdapterObserver;
+
+import java.util.ArrayList;
 
 public class CvsSyncAdapterTest extends OneTransportTest {
 
@@ -42,17 +47,32 @@ public class CvsSyncAdapterTest extends OneTransportTest {
         while (!adapterFinished) {
             SystemClock.sleep(1000L);
         }
-        DeviceArray deviceArray = DeviceArray.getDeviceArray(context);
         context.getContentResolver().unregisterContentObserver(adapterObserver);
+        ArrayList<Device> devices = new DeviceRetriever(context).retrieve();
         Cursor cursor = CvsContentHelper.getDevices(context);
         if (cursor != null) {
-            if (cursor.getCount() == deviceArray.getDevices().length) {
-                runnerTask.report("CVS sync adapter ... PASSED.", COLOUR_PASSED);
+            if (cursor.getCount() != devices.size()) {
+                runnerTask.report("CVS sync adapter ... FAILED.", COLOUR_FAILED);
                 cursor.close();
                 return;
             }
             cursor.close();
         }
-        runnerTask.report("CVS sync adapter ... FAILED.", COLOUR_FAILED);
+        context.getContentResolver().unregisterContentObserver(adapterObserver);
+        ArrayList<TrafficGroup> trafficGroups = new TrafficGroupRetriever(context).retrieve();
+        int count = 0;
+        for (TrafficGroup trafficGroup : trafficGroups) {
+            count += trafficGroup.getTraffic().length;
+        }
+        cursor = CvsContentHelper.getTraffic(context);
+        if (cursor != null) {
+            if (cursor.getCount() != count) {
+                runnerTask.report("CVS sync adapter ... FAILED.", COLOUR_FAILED);
+                cursor.close();
+                return;
+            }
+            cursor.close();
+        }
+        runnerTask.report("CVS sync adapter ... PASSED.", COLOUR_PASSED);
     }
 }

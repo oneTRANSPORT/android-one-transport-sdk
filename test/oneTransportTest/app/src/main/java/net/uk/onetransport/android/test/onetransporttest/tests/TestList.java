@@ -1,26 +1,16 @@
 package net.uk.onetransport.android.test.onetransporttest.tests;
 
-import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.Sketch.SketchRetrieveTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.node.NodeRetrieveTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.provider.BcsNodeDeleteTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.provider.BcsNodeInsertTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.provider.BcsNodeIntervalQueryTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.provider.BcsNodeQueryTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.provider.BcsSketchDeleteTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.provider.BcsSketchInsertTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.provider.BcsSketchIntervalQueryTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.provider.BcsSketchQueryTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.provider.BcsSyncAdapterTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.provider.BcsTravelSummaryDeleteTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.provider.BcsTravelSummaryInsertTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.provider.BcsTravelSummaryIntervalQueryTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.provider.BcsTravelSummaryQueryTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.provider.BcsVectorDeleteTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.provider.BcsVectorInsertTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.provider.BcsVectorIntervalQueryTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.provider.BcsVectorQueryTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.travelsummary.TravelSummaryRetrieveTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.vector.VectorRetrieveTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.clearviewsilverstone.device.DeviceRetrieveTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.clearviewsilverstone.provider.CvsDeviceDeleteTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.clearviewsilverstone.provider.CvsDeviceInsertTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.clearviewsilverstone.provider.CvsDeviceQueryTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.clearviewsilverstone.provider.CvsHistoryQueryTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.clearviewsilverstone.provider.CvsHistorySensorQueryTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.clearviewsilverstone.provider.CvsSyncAdapterTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.clearviewsilverstone.provider.CvsTrafficGroupDeleteTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.clearviewsilverstone.provider.CvsTrafficGroupInsertTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.clearviewsilverstone.provider.CvsTrafficGroupQueryTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.clearviewsilverstone.traffic.TrafficGroupRetrieveTest;
 
 public class TestList {
 
@@ -46,39 +36,39 @@ public class TestList {
 //            new BucksRoadWorksBoxQueryTest(),
 //            new BucksSyncAdapterTest(),
             // Clearview Silverstone.
-//            new GetDeviceArrayTest(),
-//            new GetTrafficGroupArrayTest(),
-//            new CvsDeviceDeleteTest(),
-//            new CvsTrafficGroupDeleteTest(),
-//            new CvsDeviceInsertTest(),
-//            new CvsTrafficGroupInsertTest(),
-//            new CvsDeviceQueryTest(),
-//            new CvsTrafficGroupQueryTest(),
-//            new CvsHistoryQueryTest(),
-//            new CvsHistorySensorQueryTest(),
-//            new CvsSyncAdapterTest(),
+            new DeviceRetrieveTest(),
+            new TrafficGroupRetrieveTest(),
+            new CvsDeviceDeleteTest(),
+            new CvsTrafficGroupDeleteTest(),
+            new CvsDeviceInsertTest(),
+            new CvsTrafficGroupInsertTest(),
+            new CvsDeviceQueryTest(),
+            new CvsTrafficGroupQueryTest(),
+            new CvsHistoryQueryTest(),
+            new CvsHistorySensorQueryTest(),
+            new CvsSyncAdapterTest(),
             // BitCarrier Silverstone
-            new NodeRetrieveTest(),
-            new BcsNodeDeleteTest(),
-            new BcsNodeInsertTest(),
-            new BcsNodeQueryTest(),
-            new BcsNodeIntervalQueryTest(),
-            new VectorRetrieveTest(),
-            new BcsVectorDeleteTest(),
-            new BcsVectorInsertTest(),
-            new BcsVectorQueryTest(),
-            new BcsVectorIntervalQueryTest(),
-            new TravelSummaryRetrieveTest(),
-            new BcsTravelSummaryDeleteTest(),
-            new BcsTravelSummaryInsertTest(),
-            new BcsTravelSummaryQueryTest(),
-            new BcsTravelSummaryIntervalQueryTest(),
-            new SketchRetrieveTest(),
-            new BcsSketchDeleteTest(),
-            new BcsSketchInsertTest(),
-            new BcsSketchQueryTest(),
-            new BcsSketchIntervalQueryTest(),
-            new BcsSyncAdapterTest(),
+//            new NodeRetrieveTest(),
+//            new BcsNodeDeleteTest(),
+//            new BcsNodeInsertTest(),
+//            new BcsNodeQueryTest(),
+//            new BcsNodeIntervalQueryTest(),
+//            new VectorRetrieveTest(),
+//            new BcsVectorDeleteTest(),
+//            new BcsVectorInsertTest(),
+//            new BcsVectorQueryTest(),
+//            new BcsVectorIntervalQueryTest(),
+//            new TravelSummaryRetrieveTest(),
+//            new BcsTravelSummaryDeleteTest(),
+//            new BcsTravelSummaryInsertTest(),
+//            new BcsTravelSummaryQueryTest(),
+//            new BcsTravelSummaryIntervalQueryTest(),
+//            new SketchRetrieveTest(),
+//            new BcsSketchDeleteTest(),
+//            new BcsSketchInsertTest(),
+//            new BcsSketchQueryTest(),
+//            new BcsSketchIntervalQueryTest(),
+//            new BcsSyncAdapterTest(),
 
 //            new ApplicationEntityDeleteTest()
     };

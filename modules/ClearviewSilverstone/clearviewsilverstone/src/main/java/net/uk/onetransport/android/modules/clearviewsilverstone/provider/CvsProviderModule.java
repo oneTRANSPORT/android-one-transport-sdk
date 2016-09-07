@@ -15,8 +15,10 @@ import android.os.Bundle;
 import android.util.Log;
 
 import net.uk.onetransport.android.modules.clearviewsilverstone.R;
-import net.uk.onetransport.android.modules.clearviewsilverstone.device.DeviceArray;
-import net.uk.onetransport.android.modules.clearviewsilverstone.traffic.TrafficGroupArray;
+import net.uk.onetransport.android.modules.clearviewsilverstone.device.Device;
+import net.uk.onetransport.android.modules.clearviewsilverstone.device.DeviceRetriever;
+import net.uk.onetransport.android.modules.clearviewsilverstone.traffic.TrafficGroup;
+import net.uk.onetransport.android.modules.clearviewsilverstone.traffic.TrafficGroupRetriever;
 import net.uk.onetransport.android.modules.common.provider.OneTransportProvider;
 import net.uk.onetransport.android.modules.common.provider.ProviderModule;
 import net.uk.onetransport.android.modules.common.sync.CommonSyncAdapter;
@@ -117,7 +119,8 @@ public class CvsProviderModule implements ProviderModule {
         }
         if (match == HISTORY_ID) {
             return mimeItemPrefix + ClearviewSilverstoneHistory.TABLE_NAME;
-        }        return null;
+        }
+        return null;
     }
 
     @Override
@@ -239,11 +242,11 @@ public class CvsProviderModule implements ProviderModule {
             // Clearview Silverstone devices, mainly static data.
             if (extras.getBoolean(EXTRAS_DEVICES, false)) {
                 try {
-                    DeviceArray deviceArray = DeviceArray.getDeviceArray(context);
+                    ArrayList<Device> devices = new DeviceRetriever(context).retrieve();
                     CvsContentHelper.deleteFromProvider(context,
                             CvsContentHelper.DATA_TYPE_DEVICE);
                     Log.i(TAG, "Provider: Deleted device data.");
-                    CvsContentHelper.insertIntoProvider(context, deviceArray.getDevices());
+                    CvsContentHelper.insertDevicesIntoProvider(context, devices);
                     Log.i(TAG, "Provider: Inserted new device data.");
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -252,10 +255,10 @@ public class CvsProviderModule implements ProviderModule {
             // Clearview Silverstone device dynamic counters, car activity.
             if (extras.getBoolean(EXTRAS_TRAFFIC, false)) {
                 try {
-                    TrafficGroupArray trafficGroupArray = TrafficGroupArray.getTrafficGroupArray(context);
+                    ArrayList<TrafficGroup> trafficGroups = new TrafficGroupRetriever(context).retrieve();
                     CvsContentHelper.deleteFromProvider(context,
                             CvsContentHelper.DATA_TYPE_TRAFFIC);
-                    CvsContentHelper.insertIntoProvider(context, trafficGroupArray.getTrafficGroups());
+                    CvsContentHelper.insertTrafficGroupsIntoProvider(context, trafficGroups);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

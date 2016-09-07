@@ -5,11 +5,14 @@ import android.database.Cursor;
 
 import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
-import net.uk.onetransport.android.modules.clearviewsilverstone.device.DeviceArray;
+import net.uk.onetransport.android.modules.clearviewsilverstone.device.Device;
+import net.uk.onetransport.android.modules.clearviewsilverstone.device.DeviceRetriever;
 import net.uk.onetransport.android.modules.clearviewsilverstone.provider.CvsContentHelper;
 import net.uk.onetransport.android.test.onetransporttest.RunnerFragment;
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
 import net.uk.onetransport.android.test.onetransporttest.tests.OneTransportTest;
+
+import java.util.ArrayList;
 
 public class CvsDeviceInsertTest extends OneTransportTest {
 
@@ -26,12 +29,13 @@ public class CvsDeviceInsertTest extends OneTransportTest {
     private void insertDevices(RunnerTask runnerTask) throws Exception {
         runnerTask.setCurrentTest("CVS device insert");
         Context context = runnerTask.getContext();
-        DeviceArray deviceArray = DeviceArray.getDeviceArray(context);
-        if (deviceArray.getDevices() == null || deviceArray.getDevices().length == 0) {
+        DeviceRetriever deviceRetriever = new DeviceRetriever(runnerTask.getContext());
+        ArrayList<Device> devices = deviceRetriever.retrieve();
+        if (devices == null || devices.size() == 0) {
             runnerTask.report("CVS device insert ... FAILED.", COLOUR_FAILED);
             return;
         }
-        CvsContentHelper.insertIntoProvider(context, deviceArray.getDevices());
+        CvsContentHelper.insertDevicesIntoProvider(context, devices);
         Cursor cursor = CvsContentHelper.getDevices(context);
         if (cursor != null) {
             if (cursor.getCount() > 0) {

@@ -27,9 +27,10 @@ public class CvsContentHelper {
     public static final int DATA_TYPE_DEVICE = 1;
     public static final int DATA_TYPE_TRAFFIC = 2;
 
-    public static void insertIntoProvider(@NonNull Context context, @NonNull Device[] devices)
+    public static void insertDevicesIntoProvider(@NonNull Context context,
+                                                 @NonNull ArrayList<Device> devices)
             throws RemoteException, OperationApplicationException {
-        if (devices.length > 0) {
+        if (devices.size() > 0) {
             ArrayList<ContentProviderOperation> operationList = new ArrayList<>();
             for (Device device : devices) {
                 ContentProviderOperation operation = ContentProviderOperation
@@ -55,10 +56,10 @@ public class CvsContentHelper {
         }
     }
 
-    public static void insertIntoProvider(@NonNull Context context,
-                                          @NonNull TrafficGroup[] trafficGroups)
+    public static void insertTrafficGroupsIntoProvider(@NonNull Context context,
+                                          @NonNull ArrayList<TrafficGroup> trafficGroups)
             throws RemoteException, OperationApplicationException {
-        if (trafficGroups.length > 0) {
+        if (trafficGroups.size() > 0) {
             ArrayList<ContentProviderOperation> operationList = new ArrayList<>();
             for (TrafficGroup trafficGroup : trafficGroups) {
                 int sensorId = trafficGroup.getSensorId();

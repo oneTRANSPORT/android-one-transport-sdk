@@ -6,10 +6,13 @@ import android.database.Cursor;
 import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
 import net.uk.onetransport.android.modules.clearviewsilverstone.provider.CvsContentHelper;
-import net.uk.onetransport.android.modules.clearviewsilverstone.traffic.TrafficGroupArray;
+import net.uk.onetransport.android.modules.clearviewsilverstone.traffic.TrafficGroup;
+import net.uk.onetransport.android.modules.clearviewsilverstone.traffic.TrafficGroupRetriever;
 import net.uk.onetransport.android.test.onetransporttest.RunnerFragment;
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
 import net.uk.onetransport.android.test.onetransporttest.tests.OneTransportTest;
+
+import java.util.ArrayList;
 
 public class CvsTrafficGroupInsertTest extends OneTransportTest {
 
@@ -26,14 +29,13 @@ public class CvsTrafficGroupInsertTest extends OneTransportTest {
     private void insertTrafficGroups(RunnerTask runnerTask) throws Exception {
         runnerTask.setCurrentTest("CVS traffic group insert");
         Context context = runnerTask.getContext();
-        TrafficGroupArray trafficGroupArray = TrafficGroupArray.getTrafficGroupArray(context);
-        if (trafficGroupArray.getTrafficGroups() == null
-                || trafficGroupArray.getTrafficGroups().length == 0) {
+        ArrayList<TrafficGroup> trafficGroups = new TrafficGroupRetriever(context).retrieve();
+        if (trafficGroups == null || trafficGroups.size() == 0) {
             runnerTask.report("CVS traffic group insert ... FAILED.", COLOUR_FAILED);
             return;
         }
-        CvsContentHelper.insertIntoProvider(context, trafficGroupArray.getTrafficGroups());
-        Cursor cursor = CvsContentHelper.getDevices(context);
+        CvsContentHelper.insertTrafficGroupsIntoProvider(context, trafficGroups);
+        Cursor cursor = CvsContentHelper.getTraffic(context);
         if (cursor != null) {
             if (cursor.getCount() > 0) {
                 runnerTask.report("CVS traffic group insert ... PASSED.", COLOUR_PASSED);

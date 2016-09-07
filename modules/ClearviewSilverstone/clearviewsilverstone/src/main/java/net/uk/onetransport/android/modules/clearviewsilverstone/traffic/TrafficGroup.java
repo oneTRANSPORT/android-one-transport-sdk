@@ -4,6 +4,8 @@ public class TrafficGroup {
 
     private Integer sensorId;
     private Traffic[] traffic;
+    private String cinId;
+    private Long creationTime;
 
     public Integer getSensorId() {
         return sensorId;
@@ -19,5 +21,21 @@ public class TrafficGroup {
 
     public void setTraffic(Traffic[] traffic) {
         this.traffic = traffic;
+    }
+
+    public String getCinId() {
+        return cinId;
+    }
+
+    public void setCinId(String cinId) {
+        this.cinId = cinId;
+    }
+
+    public Long getCreationTime() {
+        return creationTime;
+    }
+
+    public void setCreationTime(Long creationTime) {
+        this.creationTime = creationTime;
     }
 }

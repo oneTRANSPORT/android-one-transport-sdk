@@ -25,6 +25,8 @@ public class Device {
     @Expose
     @SerializedName("changed")
     private String changed;
+    private String cinId;
+    private Long creationTime;
 
     public int getSensorId() {
         return sensorId;
@@ -58,19 +60,19 @@ public class Device {
         this.type = type;
     }
 
-    public double getLatitude() {
+    public Double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(double latitude) {
+    public void setLatitude(Double latitude) {
         this.latitude = latitude;
     }
 
-    public double getLongitude() {
+    public Double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(double longitude) {
+    public void setLongitude(Double longitude) {
         this.longitude = longitude;
     }
 
@@ -80,5 +82,21 @@ public class Device {
 
     public void setChanged(String changed) {
         this.changed = changed;
+    }
+
+    public String getCinId() {
+        return cinId;
+    }
+
+    public void setCinId(String cinId) {
+        this.cinId = cinId;
+    }
+
+    public Long getCreationTime() {
+        return creationTime;
+    }
+
+    public void setCreationTime(Long creationTime) {
+        this.creationTime = creationTime;
     }
 }

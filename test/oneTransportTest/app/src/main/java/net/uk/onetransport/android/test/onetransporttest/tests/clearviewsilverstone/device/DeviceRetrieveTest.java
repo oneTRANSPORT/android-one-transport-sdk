@@ -1,16 +1,26 @@
 package net.uk.onetransport.android.test.onetransporttest.tests.clearviewsilverstone.device;
 
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
+
 import com.interdigital.android.dougal.Types;
 import com.interdigital.android.dougal.resource.Resource;
 import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
-import net.uk.onetransport.android.modules.clearviewsilverstone.device.DeviceArray;
-import net.uk.onetransport.android.modules.clearviewsilverstone.device.DeviceArrayCallback;
+import net.uk.onetransport.android.modules.clearviewsilverstone.device.Device;
+import net.uk.onetransport.android.modules.clearviewsilverstone.device.DeviceRetriever;
+import net.uk.onetransport.android.modules.clearviewsilverstone.device.DeviceRetrieverLoader;
+import net.uk.onetransport.android.modules.clearviewsilverstone.generic.RetrieverResult;
 import net.uk.onetransport.android.test.onetransporttest.RunnerFragment;
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
 import net.uk.onetransport.android.test.onetransporttest.tests.OneTransportTest;
 
-public class GetDeviceArrayTest extends OneTransportTest implements DeviceArrayCallback {
+import java.util.ArrayList;
+
+public class DeviceRetrieveTest extends OneTransportTest
+        implements LoaderManager.LoaderCallbacks<RetrieverResult<Device>> {
 
     private DougalCallback dougalCallback;
 
@@ -23,13 +33,18 @@ public class GetDeviceArrayTest extends OneTransportTest implements DeviceArrayC
     public void startAsync(DougalCallback dougalCallback) {
         ((RunnerFragment) dougalCallback).setCurrentTest("CVS get device array");
         this.dougalCallback = dougalCallback;
-        DeviceArray.getDeviceArrayAsync(((RunnerFragment) dougalCallback).getContext(), this, 1);
+        ((Fragment) dougalCallback).getLoaderManager().initLoader(
+                ((RunnerFragment) dougalCallback).getUniqueLoaderId(), null, this);
     }
 
     @Override
-    public void onDeviceArrayReady(int i, DeviceArray deviceArray) {
-        if (i != 1 || deviceArray == null || deviceArray.getDevices() == null
-                || deviceArray.getDevices().length == 0) {
+    public Loader<RetrieverResult<Device>> onCreateLoader(int id, Bundle args) {
+        return new DeviceRetrieverLoader(((RunnerFragment) dougalCallback).getContext());
+    }
+
+    @Override
+    public void onLoadFinished(Loader<RetrieverResult<Device>> loader, RetrieverResult<Device> data) {
+        if (data.getExceptions().size() > 0 || data.getTs().size() == 0) {
             dougalCallback.getResponse(null, new Throwable("Device array error"));
         } else {
             // Just send any valid resource.
@@ -39,14 +54,15 @@ public class GetDeviceArrayTest extends OneTransportTest implements DeviceArrayC
     }
 
     @Override
-    public void onDeviceArrayError(int i, Throwable throwable) {
-        dougalCallback.getResponse(null, new Throwable("Device array error"));
+    public void onLoaderReset(Loader<RetrieverResult<Device>> loader) {
+        // Nothing needs to be done.
     }
 
     private void getDeviceArray(RunnerTask runnerTask) throws Exception {
         runnerTask.setCurrentTest("CVS get device array");
-        DeviceArray deviceArray = DeviceArray.getDeviceArray(runnerTask.getContext());
-        if (deviceArray.getDevices() == null || deviceArray.getDevices().length == 0) {
+        DeviceRetriever deviceRetriever = new DeviceRetriever(runnerTask.getContext());
+        ArrayList<Device> devices = deviceRetriever.retrieve();
+        if (devices == null || devices.size() == 0) {
             runnerTask.report("CVS get device array ... FAILED.", COLOUR_FAILED);
         } else {
             runnerTask.report("CVS get device array ... PASSED.", COLOUR_PASSED);
