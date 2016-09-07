@@ -38,18 +38,17 @@ while (($file = readdir($dh)) !== false) {
     $elapsed           = $json['average']['publish']['elapsed'];
     $trend             = $json['average']['publish']['trend'];
     if ($clock_time != '') {
-      $insert = 'INSERT INTO bit_carrier_silverstone_travel_summary values ('
-                          . 'NULL,'
-                          . "$travel_summary_id,"
+      $insert = 'INSERT INTO bit_carrier_silverstone_travel_summary values (NULL,'
+                         .  "$travel_summary_id,"
                          . "'$clock_time',"
                          . "'$from_location',"
                          . "'$to_location',"
-                          . "$score,"
-                          . "$speed,"
-                          . "$elapsed,"
-                          . "$trend,"
+                         .  "$score,"
+                         .  "$speed,"
+                         .  "$elapsed,"
+                         .  "$trend,"
                          . "'$resource_name',"
-                          . "$creation_time);\n";
+                         .  "$creation_time);\n";
       if (ereg('[0-9]', $insert)) {
         $insert = str_replace(',)', ',NULL)', $insert, $count);
         $count = 1;
@@ -63,16 +62,17 @@ while (($file = readdir($dh)) !== false) {
 }
 closedir($dh);
 
-// Remove anything outside the F1 weekend, 8-10 July.
+// Remove anything outside the F1 weekend, 8-10 July,
+// and outside Moto GP weekend, 2-4 September. (BST.)
 echo 'DELETE FROM bit_carrier_silverstone_travel_summary ',
-     'WHERE substr(clock_time,0,11) > "2016-07-10" ',
-     "OR substr(clock_time,0,11) < '2016-07-08';\n";
+     "WHERE substr(clock_time,0,14) < '2016-07-08T01';\n";
+echo 'DELETE FROM bit_carrier_silverstone_travel_summary ',
+     "WHERE substr(clock_time,0,14) > '2016-09-05T00';\n";
+echo 'DELETE FROM bit_carrier_silverstone_travel_summary ',
+     'WHERE substr(clock_time,0,14) > "2016-07-11T00"',
+     "  AND substr(clock_time,0,14) < '2016-09-02T01';\n";
+echo "vacuum;\n";
 
-$midnight_friday = strtotime('20160708T010000'); // UTC, so one hour forward for BST.
-$midnight_monday = strtotime('20160711T010000');
-echo 'DELETE from bit_carrier_silverstone_sketch ',
-     "WHERE creation_time >= $midnight_friday ",
-     "AND creation_time <= $midnight_monday;\n";
 //Array
 //(
 //    [rid] => 133
