@@ -27,8 +27,8 @@ $path = 'vector_cins';
 //}
 //","cs":213,"ct":"20160903T180050","et":"20180916T000000","lt":"20160903T180050","pi":"cnt_20160706T095347_4690","ri":"cin_20160903T180050_139979","rn":"cin19970910T021010873857410140234933253888","st":4712,"ty":4}}
 
-echo "DROP TABLE IF EXISTS bit_carrier_silverstone_vector;\n";
-echo 'CREATE TABLE bit_carrier_silverstone_vector (',
+echo "DROP TABLE IF EXISTS bit_carrier_silverstone_data_vector;\n";
+echo 'CREATE TABLE bit_carrier_silverstone_data_vector (',
                   '_id INTEGER PRIMARY KEY AUTOINCREMENT,',
                   'vector_id INTEGER,',
                   'timestamp TEXT,',
@@ -54,7 +54,7 @@ while (($file = readdir($dh)) !== false) {
     $level_of_service = $json['levelofservice'];
 
     if ($level_of_service != '') {
-      $insert = 'INSERT INTO bit_carrier_silverstone_vector VALUES (NULL,'
+      $insert = 'INSERT INTO bit_carrier_silverstone_data_vector VALUES (NULL,'
                          .  "$vector_id,"
                          . "'$timestamp',"
                          .  "$speed,"
@@ -79,11 +79,11 @@ $midnight_jul_08 = strtotime('20160708T010000'); // UTC, so one hour forward for
 $midnight_jul_11 = strtotime('20160711T010000');
 $midnight_sep_02 = strtotime('20160902T010000');
 $midnight_sep_05 = strtotime('20160905T010000');
-echo 'delete from bit_carrier_silverstone_vector',
+echo 'delete from bit_carrier_silverstone_data_vector',
                 " where creation_time < $midnight_jul_08;\n";
-echo 'delete from bit_carrier_silverstone_vector',
+echo 'delete from bit_carrier_silverstone_data_vector',
                 " where creation_time > $midnight_sep_05;\n";
-echo 'delete from bit_carrier_silverstone_vector',
+echo 'delete from bit_carrier_silverstone_data_vector',
                 " where creation_time > $midnight_jul_11",
                 "   and creation_time < $midnight_sep_02;\n";
 echo "vacuum;\n";

@@ -15,8 +15,8 @@ $opts = array(
                            ."Accept: application/json\r\n"));
 $context = stream_context_create($opts);
 
-echo "DROP TABLE IF EXISTS bit_carrier_silverstone_vector;\n";
-echo 'CREATE TABLE bit_carrier_silverstone_vector (',
+echo "DROP TABLE IF EXISTS bit_carrier_silverstone_config_vector;\n";
+echo 'CREATE TABLE bit_carrier_silverstone_config_vector (',
                   '_id INTEGER PRIMARY KEY AUTOINCREMENT,',
                   'vector_id INTEGER,',
                   'name TEXT,',
@@ -54,19 +54,17 @@ foreach ($vectors as $vector) {
     $distance      = $json['distance'];
     $sketch_id     = $json['sid'];
 
-    if ($sketch_id == '') {
-      $sketch_id = '0';
+    if (!$sketch_id == '') {
+      echo 'INSERT INTO bit_carrier_silverstone_config_vector values (null,',
+                       "$vector_id,",
+                      "'$name',",
+                      "'$customer_name',",
+                       "$from_location,",
+                       "$to_location,",
+                       "$distance,",
+                       "$sketch_id,",
+                      "'$resource_name',",
+                       "$creation_time);\n";
     }
-    echo 'INSERT INTO bit_carrier_silverstone_vector values (',
-                     'null,',
-                     "$vector_id,",
-                    "'$name',",
-                    "'$customer_name',",
-                     "$from_location,",
-                     "$to_location,",
-                     "$distance,",
-                     "$sketch_id,",
-                    "'$resource_name',",
-                     "$creation_time);\n";
   }
 }
