@@ -42,136 +42,46 @@ public class BcsContract {
                     + BitCarrierSilverstoneTravelSummary.COLUMN_CREATION_TIME + " INTEGER"
                     + ");";
     public static final String CREATE_BIT_CARRIER_CONFIG_VECTOR_TABLE =
-            "CREATE TABLE IF NOT EXISTS " + BitCarrierSilverstoneVector.TABLE_NAME + " ("
-                    + BitCarrierSilverstoneVector._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-                    + BitCarrierSilverstoneVector.COLUMN_VECTOR_ID + " INTEGER,"
-                    + BitCarrierSilverstoneVector.COLUMN_TIMESTAMP + " TEXT,"
-                    + BitCarrierSilverstoneVector.COLUMN_SPEED + " REAL,"
-                    + BitCarrierSilverstoneVector.COLUMN_ELAPSED + " REAL,"
-                    + BitCarrierSilverstoneVector.COLUMN_LEVEL_OF_SERVICE + " TEXT,"
-                    + BitCarrierSilverstoneVector.COLUMN_CIN_ID
+            "CREATE TABLE IF NOT EXISTS " + BitCarrierSilverstoneConfigVector.TABLE_NAME + " ("
+                    + BitCarrierSilverstoneConfigVector._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    + BitCarrierSilverstoneConfigVector.COLUMN_VECTOR_ID + " INTEGER,"
+                    + BitCarrierSilverstoneConfigVector.COLUMN_NAME + " TEXT,"
+                    + BitCarrierSilverstoneConfigVector.COLUMN_CUSTOMER_NAME + " TEXT,"
+                    + BitCarrierSilverstoneConfigVector.COLUMN_FROM + " INTEGER,"
+                    + BitCarrierSilverstoneConfigVector.COLUMN_TO + " INTEGER,"
+                    + BitCarrierSilverstoneConfigVector.COLUMN_DISTANCE + " INTEGER,"
+                    + BitCarrierSilverstoneConfigVector.COLUMN_ZONE + " INTEGER,"
+                    + BitCarrierSilverstoneConfigVector.COLUMN_CITY_ID + " INTEGER,"
+                    + BitCarrierSilverstoneConfigVector.COLUMN_BLOCK_TIME + " INTEGER,"
+                    + BitCarrierSilverstoneConfigVector.COLUMN_SEGREGATION + " INTEGER,"
+                    + BitCarrierSilverstoneConfigVector.COLUMN_CONFIGURATION + " INTEGER,"
+                    + BitCarrierSilverstoneConfigVector.COLUMN_PRIORITY + " INTEGER,"
+                    + BitCarrierSilverstoneConfigVector.COLUMN_CHECK_FORCED + " INTEGER,"
+                    + BitCarrierSilverstoneConfigVector.COLUMN_SKETCH_ID + " INTEGER,"
+                    + BitCarrierSilverstoneConfigVector.COLUMN_ROUTE_ID + " INTEGER,"
+                    + BitCarrierSilverstoneConfigVector.COLUMN_LEVELS + " INTEGER,"
+                    + BitCarrierSilverstoneConfigVector.COLUMN_GREEN + " INTEGER,"
+                    + BitCarrierSilverstoneConfigVector.COLUMN_YELLOW + " INTEGER,"
+                    + BitCarrierSilverstoneConfigVector.COLUMN_AVERAGE_GREEN + " INTEGER,"
+                    + BitCarrierSilverstoneConfigVector.COLUMN_AVERAGE_YELLOW + " INTEGER,"
+                    + BitCarrierSilverstoneConfigVector.COLUMN_DETECTIONS_MIN + " INTEGER,"
+                    + BitCarrierSilverstoneConfigVector.COLUMN_HAS_COLOUR + " BOOLEAN,"
+                    + BitCarrierSilverstoneConfigVector.COLUMN_CIN_ID
                     + " TEXT UNIQUE ON CONFLICT REPLACE,"
-                    + BitCarrierSilverstoneVector.COLUMN_CREATION_TIME + " INTEGER"
+                    + BitCarrierSilverstoneConfigVector.COLUMN_CREATION_TIME + " INTEGER"
                     + ");";
-//    public static final String CREATE_BIT_CARRIER_LATEST_TRAVEL_TIME_TABLE =
-//            "CREATE VIEW IF NOT EXISTS " + BitCarrierSilverstoneLatestTravelTime.TABLE_NAME
-//                    + " AS SELECT "
-//                    + BitCarrierSilverstoneLatestTravelTime._ID + ","
-//                    + BitCarrierSilverstoneLatestTravelTime.COLUMN_TRAVEL_TIME_ID + ","
-//                    + BitCarrierSilverstoneLatestTravelTime.COLUMN_DATE + ","
-//                    + BitCarrierSilverstoneLatestTravelTime.COLUMN_HOUR + ","
-//                    + BitCarrierSilverstoneLatestTravelTime.COLUMN_FROM_LOCATION + ","
-//                    + BitCarrierSilverstoneLatestTravelTime.COLUMN_TO_LOCATION + ","
-//                    + BitCarrierSilverstoneLatestTravelTime.COLUMN_SCORE + ","
-//                    + BitCarrierSilverstoneLatestTravelTime.COLUMN_SPEED + ","
-//                    + BitCarrierSilverstoneLatestTravelTime.COLUMN_ELAPSED + ","
-//                    + BitCarrierSilverstoneLatestTravelTime.COLUMN_TREND
-//                    + " FROM " + BitCarrierSilverstoneTravelTime.TABLE_NAME
-//                    + " GROUP BY " + BitCarrierSilverstoneTravelTime.COLUMN_TRAVEL_TIME_ID + ";";
-//    public static final String CREATE_BIT_CARRIER_LATEST_VECTOR_TRAVEL_TIME_TABLE =
-//            "CREATE VIEW IF NOT EXISTS " + BitCarrierSilverstoneLatestVectorTravelTime.TABLE_NAME
-//                    + " AS SELECT "
-//                    + "node1." + BitCarrierSilverstoneNode.COLUMN_CUSTOMER_ID + " as "
-//                    + BitCarrierSilverstoneLatestVectorTravelTime.COLUMN_FROM_CUSTOMER_ID + ","
-//                    + "node2." + BitCarrierSilverstoneNode.COLUMN_CUSTOMER_ID + " as "
-//                    + BitCarrierSilverstoneLatestVectorTravelTime.COLUMN_TO_CUSTOMER_ID + ","
-//                    + BitCarrierSilverstoneConfigVector.TABLE_NAME + "."
-//                    + BitCarrierSilverstoneConfigVector.COLUMN_SKETCH_ID + " as "
-//                    + BitCarrierSilverstoneLatestVectorTravelTime.COLUMN_SKETCH_ID + ","
-//                    + BitCarrierSilverstoneLatestTravelTime.TABLE_NAME + "."
-//                    + BitCarrierSilverstoneLatestVectorTravelTime.COLUMN_TRAVEL_TIME_ID + ","
-//                    + BitCarrierSilverstoneLatestTravelTime.TABLE_NAME + "."
-//                    + BitCarrierSilverstoneLatestVectorTravelTime.COLUMN_DATE + ","
-//                    + BitCarrierSilverstoneLatestTravelTime.TABLE_NAME + "."
-//                    + BitCarrierSilverstoneLatestVectorTravelTime.COLUMN_HOUR + ","
-//                    + BitCarrierSilverstoneLatestTravelTime.TABLE_NAME + "."
-//                    + BitCarrierSilverstoneLatestVectorTravelTime.COLUMN_FROM_LOCATION + ","
-//                    + BitCarrierSilverstoneLatestTravelTime.TABLE_NAME + "."
-//                    + BitCarrierSilverstoneLatestVectorTravelTime.COLUMN_TO_LOCATION + ","
-//                    + BitCarrierSilverstoneLatestTravelTime.TABLE_NAME + "."
-//                    + BitCarrierSilverstoneLatestVectorTravelTime.COLUMN_SCORE + ","
-//                    + BitCarrierSilverstoneLatestTravelTime.TABLE_NAME + "."
-//                    + BitCarrierSilverstoneLatestVectorTravelTime.COLUMN_SPEED + ","
-//                    + BitCarrierSilverstoneLatestTravelTime.TABLE_NAME + "."
-//                    + BitCarrierSilverstoneLatestVectorTravelTime.COLUMN_ELAPSED + ","
-//                    + BitCarrierSilverstoneLatestTravelTime.TABLE_NAME + "."
-//                    + BitCarrierSilverstoneLatestVectorTravelTime.COLUMN_TREND
-//                    + " FROM "
-//                    + BitCarrierSilverstoneConfigVector.TABLE_NAME + ","
-//                    + BitCarrierSilverstoneNode.TABLE_NAME + " as node1,"
-//                    + BitCarrierSilverstoneNode.TABLE_NAME + " as node2,"
-//                    + BitCarrierSilverstoneLatestTravelTime.TABLE_NAME
-//                    + " WHERE node1." + BitCarrierSilverstoneNode.COLUMN_NODE_ID + " = "
-//                    + BitCarrierSilverstoneConfigVector.TABLE_NAME + "."
-//                    + BitCarrierSilverstoneConfigVector.COLUMN_FROM
-//                    + " AND node2." + BitCarrierSilverstoneNode.COLUMN_NODE_ID + " = "
-//                    + BitCarrierSilverstoneConfigVector.TABLE_NAME + "."
-//                    + BitCarrierSilverstoneConfigVector.COLUMN_TO
-//                    + " AND "
-//                    + BitCarrierSilverstoneLatestTravelTime.TABLE_NAME + "."
-//                    + BitCarrierSilverstoneLatestTravelTime.COLUMN_FROM_LOCATION
-//                    + " = node1." + BitCarrierSilverstoneNode.COLUMN_CUSTOMER_ID
-//                    + " AND "
-//                    + BitCarrierSilverstoneLatestTravelTime.TABLE_NAME + "."
-//                    + BitCarrierSilverstoneLatestTravelTime.COLUMN_TO_LOCATION
-//                    + " = node2." + BitCarrierSilverstoneNode.COLUMN_CUSTOMER_ID
-//                    + " AND "
-//                    + BitCarrierSilverstoneConfigVector.TABLE_NAME + "."
-//                    + BitCarrierSilverstoneConfigVector.COLUMN_SKETCH_ID + " IS NOT NULL;";
-//    public static final String CREATE_BIT_CARRIER_VECTOR_TRAVEL_TIME_TABLE =
-//            "CREATE VIEW IF NOT EXISTS " + BitCarrierSilverstoneVectorTravelTime.TABLE_NAME
-//                    + " AS SELECT "
-//                    + "node1." + BitCarrierSilverstoneNode.COLUMN_CUSTOMER_ID + " as "
-//                    + BitCarrierSilverstoneVectorTravelTime.COLUMN_FROM_CUSTOMER_ID + ","
-//                    + "node2." + BitCarrierSilverstoneNode.COLUMN_CUSTOMER_ID + " as "
-//                    + BitCarrierSilverstoneVectorTravelTime.COLUMN_TO_CUSTOMER_ID + ","
-//                    + "node1." + BitCarrierSilverstoneNode.COLUMN_CUSTOMER_NAME + " as "
-//                    + BitCarrierSilverstoneVectorTravelTime.COLUMN_FROM_CUSTOMER_NAME + ","
-//                    + "node2." + BitCarrierSilverstoneNode.COLUMN_CUSTOMER_NAME + " as "
-//                    + BitCarrierSilverstoneVectorTravelTime.COLUMN_TO_CUSTOMER_NAME + ","
-//                    + BitCarrierSilverstoneConfigVector.TABLE_NAME + "."
-//                    + BitCarrierSilverstoneConfigVector.COLUMN_SKETCH_ID + " as "
-//                    + BitCarrierSilverstoneVectorTravelTime.COLUMN_SKETCH_ID + ","
-//                    + BitCarrierSilverstoneTravelTime.TABLE_NAME + "."
-//                    + BitCarrierSilverstoneVectorTravelTime.COLUMN_TRAVEL_TIME_ID + ","
-//                    + BitCarrierSilverstoneTravelTime.TABLE_NAME + "."
-//                    + BitCarrierSilverstoneVectorTravelTime.COLUMN_DATE + ","
-//                    + BitCarrierSilverstoneTravelTime.TABLE_NAME + "."
-//                    + BitCarrierSilverstoneVectorTravelTime.COLUMN_HOUR + ","
-//                    + BitCarrierSilverstoneTravelTime.TABLE_NAME + "."
-//                    + BitCarrierSilverstoneVectorTravelTime.COLUMN_FROM_LOCATION + ","
-//                    + BitCarrierSilverstoneTravelTime.TABLE_NAME + "."
-//                    + BitCarrierSilverstoneVectorTravelTime.COLUMN_TO_LOCATION + ","
-//                    + BitCarrierSilverstoneTravelTime.TABLE_NAME + "."
-//                    + BitCarrierSilverstoneVectorTravelTime.COLUMN_SCORE + ","
-//                    + BitCarrierSilverstoneTravelTime.TABLE_NAME + "."
-//                    + BitCarrierSilverstoneVectorTravelTime.COLUMN_SPEED + ","
-//                    + BitCarrierSilverstoneTravelTime.TABLE_NAME + "."
-//                    + BitCarrierSilverstoneVectorTravelTime.COLUMN_ELAPSED + ","
-//                    + BitCarrierSilverstoneTravelTime.TABLE_NAME + "."
-//                    + BitCarrierSilverstoneVectorTravelTime.COLUMN_TREND
-//                    + " FROM "
-//                    + BitCarrierSilverstoneConfigVector.TABLE_NAME + ","
-//                    + BitCarrierSilverstoneNode.TABLE_NAME + " as node1,"
-//                    + BitCarrierSilverstoneNode.TABLE_NAME + " as node2,"
-//                    + BitCarrierSilverstoneTravelTime.TABLE_NAME
-//                    + " WHERE node1." + BitCarrierSilverstoneNode.COLUMN_NODE_ID + " = "
-//                    + BitCarrierSilverstoneConfigVector.TABLE_NAME + "."
-//                    + BitCarrierSilverstoneConfigVector.COLUMN_FROM
-//                    + " AND node2." + BitCarrierSilverstoneNode.COLUMN_NODE_ID + " = "
-//                    + BitCarrierSilverstoneConfigVector.TABLE_NAME + "."
-//                    + BitCarrierSilverstoneConfigVector.COLUMN_TO
-//                    + " AND "
-//                    + BitCarrierSilverstoneTravelTime.TABLE_NAME + "."
-//                    + BitCarrierSilverstoneTravelTime.COLUMN_FROM_LOCATION
-//                    + " = node1." + BitCarrierSilverstoneNode.COLUMN_CUSTOMER_ID
-//                    + " AND "
-//                    + BitCarrierSilverstoneTravelTime.TABLE_NAME + "."
-//                    + BitCarrierSilverstoneTravelTime.COLUMN_TO_LOCATION
-//                    + " = node2." + BitCarrierSilverstoneNode.COLUMN_CUSTOMER_ID
-//                    + " AND "
-//                    + BitCarrierSilverstoneConfigVector.TABLE_NAME + "."
-//                    + BitCarrierSilverstoneConfigVector.COLUMN_SKETCH_ID + " IS NOT NULL;";
+    public static final String CREATE_BIT_CARRIER_DATA_VECTOR_TABLE =
+            "CREATE TABLE IF NOT EXISTS " + BitCarrierSilverstoneDataVector.TABLE_NAME + " ("
+                    + BitCarrierSilverstoneDataVector._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    + BitCarrierSilverstoneDataVector.COLUMN_VECTOR_ID + " INTEGER,"
+                    + BitCarrierSilverstoneDataVector.COLUMN_TIMESTAMP + " TEXT,"
+                    + BitCarrierSilverstoneDataVector.COLUMN_SPEED + " REAL,"
+                    + BitCarrierSilverstoneDataVector.COLUMN_ELAPSED + " REAL,"
+                    + BitCarrierSilverstoneDataVector.COLUMN_LEVEL_OF_SERVICE + " TEXT,"
+                    + BitCarrierSilverstoneDataVector.COLUMN_CIN_ID
+                    + " TEXT UNIQUE ON CONFLICT REPLACE,"
+                    + BitCarrierSilverstoneDataVector.COLUMN_CREATION_TIME + " INTEGER"
+                    + ");";
 
     private BcsContract() {
     }
@@ -209,78 +119,38 @@ public class BcsContract {
         public static final String COLUMN_TREND = "trend";
     }
 
-    public static final class BitCarrierSilverstoneVector implements BcsBaseColumns {
-        public static final String TABLE_NAME = "bit_carrier_silverstone_vector";
+    public static final class BitCarrierSilverstoneConfigVector implements BcsBaseColumns {
+        public static final String TABLE_NAME = "bit_carrier_silverstone_config_vector";
+        public static final String COLUMN_VECTOR_ID = "vector_id";
+        public static final String COLUMN_NAME = "name";
+        public static final String COLUMN_CUSTOMER_NAME = "customer_name";
+        public static final String COLUMN_FROM = "from_location";
+        public static final String COLUMN_TO = "to_location";
+        public static final String COLUMN_DISTANCE = "distance";
+        public static final String COLUMN_ZONE = "zone";
+        public static final String COLUMN_CITY_ID = "city_id";
+        public static final String COLUMN_BLOCK_TIME = "block_time";
+        public static final String COLUMN_SEGREGATION = "segregation";
+        public static final String COLUMN_CONFIGURATION = "configuration";
+        public static final String COLUMN_PRIORITY = "priority";
+        public static final String COLUMN_CHECK_FORCED = "check_forced";
+        public static final String COLUMN_SKETCH_ID = "sketch_id";
+        public static final String COLUMN_ROUTE_ID = "route_id";
+        public static final String COLUMN_LEVELS = "levels";
+        public static final String COLUMN_GREEN = "green";
+        public static final String COLUMN_YELLOW = "yellow";
+        public static final String COLUMN_AVERAGE_GREEN = "average_green";
+        public static final String COLUMN_AVERAGE_YELLOW = "average_yellow";
+        public static final String COLUMN_DETECTIONS_MIN = "detections_min";
+        public static final String COLUMN_HAS_COLOUR = "has_colour";
+    }
+
+    public static final class BitCarrierSilverstoneDataVector implements BcsBaseColumns {
+        public static final String TABLE_NAME = "bit_carrier_silverstone_data_vector";
         public static final String COLUMN_VECTOR_ID = "vector_id";
         public static final String COLUMN_TIMESTAMP = "timestamp";
         public static final String COLUMN_SPEED = "SPEED";
         public static final String COLUMN_ELAPSED = "elapsed";
         public static final String COLUMN_LEVEL_OF_SERVICE = "level_of_service";
     }
-
-//    public static final class BitCarrierSilverstoneLatestTravelTime implements BaseColumns {
-//        public static final String TABLE_NAME = "bit_carrier_silverstone_latest_travel_time";
-//        public static final String COLUMN_TRAVEL_TIME_ID = "travel_time_id";
-//        public static final String COLUMN_DATE = "date";
-//        public static final String COLUMN_HOUR = "hour";
-//        public static final String COLUMN_FROM_LOCATION = "from_location";
-//        public static final String COLUMN_TO_LOCATION = "to_location";
-//        public static final String COLUMN_SCORE = "score";
-//        public static final String COLUMN_SPEED = "speed";
-//        public static final String COLUMN_ELAPSED = "elapsed";
-//        public static final String COLUMN_TREND = "trend";
-//    }
-
-//    public static final class BitCarrierSilverstoneLatestVectorTravelTime implements BaseColumns {
-//        public static final String TABLE_NAME = "bit_carrier_silverstone_latest_vector_travel_time";
-//        public static final String COLUMN_FROM_CUSTOMER_ID = "from_customer_id";
-//        public static final String COLUMN_TO_CUSTOMER_ID = "to_customer_id";
-//        public static final String COLUMN_SKETCH_ID = "sketch_id";
-//        public static final String COLUMN_TRAVEL_TIME_ID =
-//                BitCarrierSilverstoneLatestTravelTime.COLUMN_TRAVEL_TIME_ID;
-//        public static final String COLUMN_DATE =
-//                BitCarrierSilverstoneLatestTravelTime.COLUMN_DATE;
-//        public static final String COLUMN_HOUR =
-//                BitCarrierSilverstoneLatestTravelTime.COLUMN_HOUR;
-//        public static final String COLUMN_FROM_LOCATION =
-//                BitCarrierSilverstoneLatestTravelTime.COLUMN_FROM_LOCATION;
-//        public static final String COLUMN_TO_LOCATION =
-//                BitCarrierSilverstoneLatestTravelTime.COLUMN_TO_LOCATION;
-//        public static final String COLUMN_SCORE =
-//                BitCarrierSilverstoneLatestTravelTime.COLUMN_SCORE;
-//        public static final String COLUMN_SPEED =
-//                BitCarrierSilverstoneLatestTravelTime.COLUMN_SPEED;
-//        public static final String COLUMN_ELAPSED =
-//                BitCarrierSilverstoneLatestTravelTime.COLUMN_ELAPSED;
-//        public static final String COLUMN_TREND =
-//                BitCarrierSilverstoneLatestTravelTime.COLUMN_TREND;
-//    }
-
-//    public static final class BitCarrierSilverstoneVectorTravelTime implements BaseColumns {
-//        public static final String TABLE_NAME = "bit_carrier_silverstone_vector_travel_time";
-//        public static final String COLUMN_FROM_CUSTOMER_ID = "from_customer_id";
-//        public static final String COLUMN_TO_CUSTOMER_ID = "to_customer_id";
-//        public static final String COLUMN_FROM_CUSTOMER_NAME = "from_customer_name";
-//        public static final String COLUMN_TO_CUSTOMER_NAME = "to_customer_name";
-//        public static final String COLUMN_SKETCH_ID = "sketch_id";
-//        public static final String COLUMN_TRAVEL_TIME_ID =
-//                BitCarrierSilverstoneTravelTime.COLUMN_TRAVEL_TIME_ID;
-//        public static final String COLUMN_DATE =
-//                BitCarrierSilverstoneTravelTime.COLUMN_DATE;
-//        public static final String COLUMN_HOUR =
-//                BitCarrierSilverstoneTravelTime.COLUMN_HOUR;
-//        public static final String COLUMN_FROM_LOCATION =
-//                BitCarrierSilverstoneTravelTime.COLUMN_FROM_LOCATION;
-//        public static final String COLUMN_TO_LOCATION =
-//                BitCarrierSilverstoneTravelTime.COLUMN_TO_LOCATION;
-//        public static final String COLUMN_SCORE =
-//                BitCarrierSilverstoneTravelTime.COLUMN_SCORE;
-//        public static final String COLUMN_SPEED =
-//                BitCarrierSilverstoneTravelTime.COLUMN_SPEED;
-//        public static final String COLUMN_ELAPSED =
-//                BitCarrierSilverstoneTravelTime.COLUMN_ELAPSED;
-//        public static final String COLUMN_TREND =
-//                BitCarrierSilverstoneTravelTime.COLUMN_TREND;
-//    }
-
 }

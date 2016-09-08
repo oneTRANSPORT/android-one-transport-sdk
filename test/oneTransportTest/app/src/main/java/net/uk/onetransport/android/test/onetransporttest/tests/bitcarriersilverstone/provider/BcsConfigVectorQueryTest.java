@@ -9,31 +9,29 @@ import net.uk.onetransport.android.test.onetransporttest.RunnerFragment;
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
 import net.uk.onetransport.android.test.onetransporttest.tests.OneTransportTest;
 
-public class BcsVectorIntervalQueryTest extends OneTransportTest {
+public class BcsConfigVectorQueryTest extends OneTransportTest {
 
     @Override
     public void start(RunnerTask runnerTask) throws Exception {
-        vectorQuery(runnerTask);
+        configVectorQuery(runnerTask);
     }
 
     public void startAsync(DougalCallback dougalCallback) {
-        ((RunnerFragment) dougalCallback).setCurrentTest("BCS vector interval query");
+        ((RunnerFragment) dougalCallback).setCurrentTest("BCS config vector query");
         dougalCallback.getResponse(null, new Exception("Not implemented"));
     }
 
-    private void vectorQuery(RunnerTask runnerTask) throws Exception {
-        runnerTask.setCurrentTest("BCS vector interval query");
-        long oldest = 0L;
-        long newest = System.currentTimeMillis() / 1000L;
-        Cursor cursor = BcsContentHelper.getVectors(runnerTask.getContext(), oldest, newest);
+    private void configVectorQuery(RunnerTask runnerTask) throws Exception {
+        runnerTask.setCurrentTest("BCS config vector query");
+        Cursor cursor = BcsContentHelper.getConfigVectors(runnerTask.getContext());
         if (cursor != null) {
             if (cursor.getCount() > 0) {
-                runnerTask.report("BCS vector interval query ... PASSED.", COLOUR_PASSED);
+                runnerTask.report("BCS config vector query ... PASSED.", COLOUR_PASSED);
                 cursor.close();
                 return;
             }
             cursor.close();
         }
-        runnerTask.report("BCS vector interval query ... FAILED.", COLOUR_FAILED);
+        runnerTask.report("BCS config vector query ... FAILED.", COLOUR_FAILED);
     }
 }

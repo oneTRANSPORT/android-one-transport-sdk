@@ -19,19 +19,19 @@ import net.uk.onetransport.android.test.onetransporttest.tests.OneTransportTest;
 
 import java.util.ArrayList;
 
-public class VectorRetrieveTest extends OneTransportTest
+public class BcsDataVectorRetrieveTest extends OneTransportTest
         implements LoaderManager.LoaderCallbacks<RetrieverResult<Vector>> {
 
     private DougalCallback dougalCallback;
 
     @Override
     public void start(RunnerTask runnerTask) throws Exception {
-        getVectorArray(runnerTask);
+        getDataVectorArray(runnerTask);
     }
 
     @Override
     public void startAsync(DougalCallback dougalCallback) {
-        ((RunnerFragment) dougalCallback).setCurrentTest("BCS get vector array");
+        ((RunnerFragment) dougalCallback).setCurrentTest("BCS get data vector array");
         this.dougalCallback = dougalCallback;
         ((Fragment) dougalCallback).getLoaderManager().initLoader(
                 ((RunnerFragment) dougalCallback).getUniqueLoaderId(), null, this);
@@ -45,7 +45,7 @@ public class VectorRetrieveTest extends OneTransportTest
     @Override
     public void onLoadFinished(Loader<RetrieverResult<Vector>> loader, RetrieverResult<Vector> data) {
         if (data.getExceptions().size() > 0 || data.getTs().size() == 0) {
-            dougalCallback.getResponse(null, new Throwable("Vector array error"));
+            dougalCallback.getResponse(null, new Throwable("Data vector array error"));
         } else {
             // Just send any valid resource.
             dougalCallback.getResponse(new Resource("aeid", "resourceId", "resourceName",
@@ -58,14 +58,14 @@ public class VectorRetrieveTest extends OneTransportTest
         // Nothing needs to be done.
     }
 
-    private void getVectorArray(RunnerTask runnerTask) throws Exception {
-        runnerTask.setCurrentTest("BCS get vector array");
+    private void getDataVectorArray(RunnerTask runnerTask) throws Exception {
+        runnerTask.setCurrentTest("BCS get data vector array");
         VectorRetriever vectorRetriever = new VectorRetriever(runnerTask.getContext());
         ArrayList<Vector> vectors = vectorRetriever.retrieve();
         if (vectors == null || vectors.size() == 0) {
-            runnerTask.report("BCS get vector array ... FAILED.", COLOUR_FAILED);
+            runnerTask.report("BCS get data vector array ... FAILED.", COLOUR_FAILED);
         } else {
-            runnerTask.report("BCS get vector array ... PASSED.", COLOUR_PASSED);
+            runnerTask.report("BCS get data vector array ... PASSED.", COLOUR_PASSED);
         }
     }
 }
