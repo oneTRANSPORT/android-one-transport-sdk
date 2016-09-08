@@ -50,22 +50,7 @@ public class BcsContract {
                     + BitCarrierSilverstoneConfigVector.COLUMN_FROM + " INTEGER,"
                     + BitCarrierSilverstoneConfigVector.COLUMN_TO + " INTEGER,"
                     + BitCarrierSilverstoneConfigVector.COLUMN_DISTANCE + " INTEGER,"
-                    + BitCarrierSilverstoneConfigVector.COLUMN_ZONE + " INTEGER,"
-                    + BitCarrierSilverstoneConfigVector.COLUMN_CITY_ID + " INTEGER,"
-                    + BitCarrierSilverstoneConfigVector.COLUMN_BLOCK_TIME + " INTEGER,"
-                    + BitCarrierSilverstoneConfigVector.COLUMN_SEGREGATION + " INTEGER,"
-                    + BitCarrierSilverstoneConfigVector.COLUMN_CONFIGURATION + " INTEGER,"
-                    + BitCarrierSilverstoneConfigVector.COLUMN_PRIORITY + " INTEGER,"
-                    + BitCarrierSilverstoneConfigVector.COLUMN_CHECK_FORCED + " INTEGER,"
                     + BitCarrierSilverstoneConfigVector.COLUMN_SKETCH_ID + " INTEGER,"
-                    + BitCarrierSilverstoneConfigVector.COLUMN_ROUTE_ID + " INTEGER,"
-                    + BitCarrierSilverstoneConfigVector.COLUMN_LEVELS + " INTEGER,"
-                    + BitCarrierSilverstoneConfigVector.COLUMN_GREEN + " INTEGER,"
-                    + BitCarrierSilverstoneConfigVector.COLUMN_YELLOW + " INTEGER,"
-                    + BitCarrierSilverstoneConfigVector.COLUMN_AVERAGE_GREEN + " INTEGER,"
-                    + BitCarrierSilverstoneConfigVector.COLUMN_AVERAGE_YELLOW + " INTEGER,"
-                    + BitCarrierSilverstoneConfigVector.COLUMN_DETECTIONS_MIN + " INTEGER,"
-                    + BitCarrierSilverstoneConfigVector.COLUMN_HAS_COLOUR + " BOOLEAN,"
                     + BitCarrierSilverstoneConfigVector.COLUMN_CIN_ID
                     + " TEXT UNIQUE ON CONFLICT REPLACE,"
                     + BitCarrierSilverstoneConfigVector.COLUMN_CREATION_TIME + " INTEGER"
@@ -127,22 +112,7 @@ public class BcsContract {
         public static final String COLUMN_FROM = "from_location";
         public static final String COLUMN_TO = "to_location";
         public static final String COLUMN_DISTANCE = "distance";
-        public static final String COLUMN_ZONE = "zone";
-        public static final String COLUMN_CITY_ID = "city_id";
-        public static final String COLUMN_BLOCK_TIME = "block_time";
-        public static final String COLUMN_SEGREGATION = "segregation";
-        public static final String COLUMN_CONFIGURATION = "configuration";
-        public static final String COLUMN_PRIORITY = "priority";
-        public static final String COLUMN_CHECK_FORCED = "check_forced";
         public static final String COLUMN_SKETCH_ID = "sketch_id";
-        public static final String COLUMN_ROUTE_ID = "route_id";
-        public static final String COLUMN_LEVELS = "levels";
-        public static final String COLUMN_GREEN = "green";
-        public static final String COLUMN_YELLOW = "yellow";
-        public static final String COLUMN_AVERAGE_GREEN = "average_green";
-        public static final String COLUMN_AVERAGE_YELLOW = "average_yellow";
-        public static final String COLUMN_DETECTIONS_MIN = "detections_min";
-        public static final String COLUMN_HAS_COLOUR = "has_colour";
     }
 
     public static final class BitCarrierSilverstoneDataVector implements BcsBaseColumns {
