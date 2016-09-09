@@ -19,11 +19,13 @@ $context = stream_context_create($opts);
 echo "DROP TABLE IF EXISTS bit_carrier_silverstone_sketch;\n";
 echo 'CREATE TABLE bit_carrier_silverstone_sketch (',
                   '_id INTEGER PRIMARY KEY AUTOINCREMENT,',
-                  'sid INTEGER,',
-                  'vid INTEGER,',
+                  'sketch_id INTEGER,',
+                  'vector_id INTEGER,',
                   'visible INTEGER,',
                   'copyrights TEXT,',
-                  "coordinates TEXT);\n";
+                  'coordinates TEXT,',
+                  'cin_id TEXT UNIQUE ON CONFLICT REPLACE,',
+                  "creation_time INTEGER);\n";
 
 $file  = file_get_contents("$host$path?rcn=6", false, $context);
 $json  = json_decode($file, true);
@@ -54,5 +56,7 @@ foreach ($sketches as $sketch) {
                    "$vector_id,",
                    "$visible,",
                   "'$copyrights',",
-                  "'$coordinates');\n";
+                  "'$coordinates',",
+                  "'$resource_name',",
+                   "$creation_time);\n";
 }

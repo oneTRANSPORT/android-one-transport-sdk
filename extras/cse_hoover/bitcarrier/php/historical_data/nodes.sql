@@ -1,5 +1,5 @@
 DROP TABLE IF EXISTS bit_carrier_silverstone_node;
-CREATE TABLE bit_carrier_silverstone_node (_id INTEGER PRIMARY KEY AUTOINCREMENT,node_id INTEGER,customer_id INTEGER,customer_name TEXT,lat REAL,lon REAL,cin_id TEXT UNIQUE ON CONFLICT REPLACE,creation_time INTEGER);
+CREATE TABLE bit_carrier_silverstone_node (_id INTEGER PRIMARY KEY AUTOINCREMENT,node_id INTEGER,customer_id INTEGER,customer_name TEXT,latitude REAL,longitude REAL,cin_id TEXT UNIQUE ON CONFLICT REPLACE,creation_time INTEGER);
 INSERT INTO bit_carrier_silverstone_node values (null,1159,2,'2-A43 at Blisworth',52.177441,-0.955571,'cin19890203T144936602520576139987200866048',1471392011);
 INSERT INTO bit_carrier_silverstone_node values (null,1160,3,'3-A508 at Grafton Regis',52.112638,-0.898515,'cin19900301T200609636321969139987192473344',1471392011);
 INSERT INTO bit_carrier_silverstone_node values (null,1161,6,'6-A422/Banbury Lane Junction west of Middleton Cheney',52.072626,-1.288456,'cin19901222T225105661906265139987217651456',1471392011);

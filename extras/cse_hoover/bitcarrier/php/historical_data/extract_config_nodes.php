@@ -21,8 +21,8 @@ echo 'CREATE TABLE bit_carrier_silverstone_node (',
                   'node_id INTEGER,',
                   'customer_id INTEGER,',
                   'customer_name TEXT,',
-                  'lat REAL,',
-                  'lon REAL,',
+                  'latitude REAL,',
+                  'longitude REAL,',
                   'cin_id TEXT UNIQUE ON CONFLICT REPLACE,',
                   "creation_time INTEGER);\n";
 
@@ -46,16 +46,16 @@ foreach ($nodes as $node) {
   $node_id       = $json['id'];
   $customer_name = $json['customer_name'];
   $customer_id   = ereg_replace('-.*', '', $customer_name);
-  $lat           = $json['lat'];
-  $lon           = $json['lon'];
+  $latitude      = $json['lat'];
+  $longitude     = $json['lon'];
 
   echo 'INSERT INTO bit_carrier_silverstone_node values (',
                    'null,',
                    "$node_id,",
                    "$customer_id,",
                    "'$customer_name',",
-                   "$lat,",
-                   "$lon,",
+                   "$latitude,",
+                   "$longitude,",
                    "'$resource_name',",
                    "$creation_time);\n";
 }

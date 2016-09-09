@@ -75,10 +75,10 @@ while (($file = readdir($dh)) !== false) {
 }
 closedir($dh);
 // Remove values between F1 and Moto GP that we don't need.
-$midnight_jul_08 = strtotime('20160708T010000'); // UTC, so one hour forward for BST.
-$midnight_jul_11 = strtotime('20160711T010000');
-$midnight_sep_02 = strtotime('20160902T010000');
-$midnight_sep_05 = strtotime('20160905T010000');
+$midnight_jul_08 = strtotime('20160708T000000'); // UTC, same as server.
+$midnight_jul_11 = strtotime('20160711T000000');
+$midnight_sep_02 = strtotime('20160902T000000');
+$midnight_sep_05 = strtotime('20160905T000000');
 echo 'delete from bit_carrier_silverstone_data_vector',
                 " where creation_time < $midnight_jul_08;\n";
 echo 'delete from bit_carrier_silverstone_data_vector',

@@ -41,7 +41,7 @@ while (($file = readdir($dh)) !== false) {
                       "'$license',",
                       "'$coordinates',",
                       "'$resource_name',",
-                      "'$creation_time');\n";
+                       "$creation_time);\n";
     }
   }
 }

@@ -63,14 +63,14 @@ while (($file = readdir($dh)) !== false) {
 closedir($dh);
 
 // Remove anything outside the F1 weekend, 8-10 July,
-// and outside Moto GP weekend, 2-4 September. (BST.)
+// and outside Moto GP weekend, 2-4 September.
 echo 'DELETE FROM bit_carrier_silverstone_travel_summary ',
-     "WHERE substr(clock_time,0,14) < '2016-07-08T01';\n";
+     "WHERE substr(clock_time,0,14) < '2016-07-08T00';\n";
 echo 'DELETE FROM bit_carrier_silverstone_travel_summary ',
      "WHERE substr(clock_time,0,14) > '2016-09-05T00';\n";
 echo 'DELETE FROM bit_carrier_silverstone_travel_summary ',
      'WHERE substr(clock_time,0,14) > "2016-07-11T00"',
-     "  AND substr(clock_time,0,14) < '2016-09-02T01';\n";
+     "  AND substr(clock_time,0,14) < '2016-09-02T00';\n";
 echo "vacuum;\n";
 
 //Array
