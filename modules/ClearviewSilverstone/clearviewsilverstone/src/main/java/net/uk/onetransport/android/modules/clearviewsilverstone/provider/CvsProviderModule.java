@@ -29,7 +29,6 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import static net.uk.onetransport.android.modules.clearviewsilverstone.provider.CvsContract.ClearviewSilverstoneDevice;
-import static net.uk.onetransport.android.modules.clearviewsilverstone.provider.CvsContract.ClearviewSilverstoneHistory;
 import static net.uk.onetransport.android.modules.clearviewsilverstone.provider.CvsContract.ClearviewSilverstoneTraffic;
 
 public class CvsProviderModule implements ProviderModule {
@@ -40,7 +39,6 @@ public class CvsProviderModule implements ProviderModule {
     public static Uri AUTHORITY_URI;
     public static Uri DEVICE_URI;
     public static Uri TRAFFIC_URI;
-    public static Uri HISTORY_URI;
     // Sync adapter extras.
     private static final String EXTRAS_DEVICES =
             "net.uk.onetransport.android.modules.clearviewsilverstone.sync.DEVICES";
@@ -51,8 +49,6 @@ public class CvsProviderModule implements ProviderModule {
     private static int DEVICE_ID;
     private static int TRAFFIC;
     private static int TRAFFIC_ID;
-    private static int HISTORY;
-    private static int HISTORY_ID;
 
     private Context context;
 
@@ -64,8 +60,6 @@ public class CvsProviderModule implements ProviderModule {
     public void createDatabase(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL(CvsContract.CREATE_CLEARVIEW_SILVERSTONE_DEVICE_TABLE);
         sqLiteDatabase.execSQL(CvsContract.CREATE_CLEARVIEW_SILVERSTONE_TRAFFIC_TABLE);
-        sqLiteDatabase.execSQL(CvsContract.CREATE_CLEARVIEW_SILVERSTONE_HISTORY_TABLE);
-        importHistory(sqLiteDatabase);
     }
 
     @Override
@@ -77,8 +71,6 @@ public class CvsProviderModule implements ProviderModule {
                 ClearviewSilverstoneDevice.TABLE_NAME);
         TRAFFIC_URI = Uri.withAppendedPath(AUTHORITY_URI,
                 ClearviewSilverstoneTraffic.TABLE_NAME);
-        HISTORY_URI = Uri.withAppendedPath(AUTHORITY_URI,
-                ClearviewSilverstoneHistory.TABLE_NAME);
 
         DEVICES = providerModules.size();
         uriMatcher.addURI(authority, ClearviewSilverstoneDevice.TABLE_NAME, DEVICES);
@@ -91,12 +83,6 @@ public class CvsProviderModule implements ProviderModule {
         providerModules.add(this);
         TRAFFIC_ID = providerModules.size();
         uriMatcher.addURI(authority, ClearviewSilverstoneTraffic.TABLE_NAME + "/#", TRAFFIC_ID);
-        providerModules.add(this);
-        HISTORY = providerModules.size();
-        uriMatcher.addURI(authority, ClearviewSilverstoneHistory.TABLE_NAME, HISTORY);
-        providerModules.add(this);
-        HISTORY_ID = providerModules.size();
-        uriMatcher.addURI(authority, ClearviewSilverstoneHistory.TABLE_NAME + "/#", HISTORY_ID);
         providerModules.add(this);
     }
 
@@ -113,12 +99,6 @@ public class CvsProviderModule implements ProviderModule {
         }
         if (match == TRAFFIC_ID) {
             return mimeItemPrefix + ClearviewSilverstoneTraffic.TABLE_NAME;
-        }
-        if (match == HISTORY) {
-            return mimeDirPrefix + ClearviewSilverstoneHistory.TABLE_NAME;
-        }
-        if (match == HISTORY_ID) {
-            return mimeItemPrefix + ClearviewSilverstoneHistory.TABLE_NAME;
         }
         return null;
     }
@@ -137,7 +117,6 @@ public class CvsProviderModule implements ProviderModule {
             contentResolver.notifyChange(TRAFFIC_URI, null);
             return ContentUris.withAppendedId(TRAFFIC_URI, id);
         }
-        // No inserts into history table.
         return null;
     }
 
@@ -171,19 +150,6 @@ public class CvsProviderModule implements ProviderModule {
             cursor.setNotificationUri(contentResolver, TRAFFIC_URI);
             return cursor;
         }
-        if (match == HISTORY) {
-            Cursor cursor = sqLiteDatabase.query(ClearviewSilverstoneHistory.TABLE_NAME, projection,
-                    selection, selectionArgs, null, null, sortOrder);
-            cursor.setNotificationUri(contentResolver, HISTORY_URI);
-            return cursor;
-        }
-        if (match == HISTORY_ID) {
-            Cursor cursor = sqLiteDatabase.query(ClearviewSilverstoneHistory.TABLE_NAME, projection,
-                    ClearviewSilverstoneHistory._ID + "=?", new String[]{uri.getLastPathSegment()}, null, null,
-                    sortOrder);
-            cursor.setNotificationUri(contentResolver, HISTORY_URI);
-            return cursor;
-        }
         return null;
     }
 
@@ -215,7 +181,6 @@ public class CvsProviderModule implements ProviderModule {
             contentResolver.notifyChange(TRAFFIC_URI, null);
             return rows;
         }
-        // No updates for history table.
         return 0;
     }
 
@@ -231,7 +196,6 @@ public class CvsProviderModule implements ProviderModule {
             rows = sqLiteDatabase.delete(ClearviewSilverstoneTraffic.TABLE_NAME, selection, selectionArgs);
             contentResolver.notifyChange(TRAFFIC_URI, null);
         }
-        // No deletion from history table.
         return rows;
     }
 
@@ -243,11 +207,7 @@ public class CvsProviderModule implements ProviderModule {
             if (extras.getBoolean(EXTRAS_DEVICES, false)) {
                 try {
                     ArrayList<Device> devices = new DeviceRetriever(context).retrieve();
-                    CvsContentHelper.deleteFromProvider(context,
-                            CvsContentHelper.DATA_TYPE_DEVICE);
-                    Log.i(TAG, "Provider: Deleted device data.");
                     CvsContentHelper.insertDevicesIntoProvider(context, devices);
-                    Log.i(TAG, "Provider: Inserted new device data.");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -256,8 +216,6 @@ public class CvsProviderModule implements ProviderModule {
             if (extras.getBoolean(EXTRAS_TRAFFIC, false)) {
                 try {
                     ArrayList<TrafficGroup> trafficGroups = new TrafficGroupRetriever(context).retrieve();
-                    CvsContentHelper.deleteFromProvider(context,
-                            CvsContentHelper.DATA_TYPE_TRAFFIC);
                     CvsContentHelper.insertTrafficGroupsIntoProvider(context, trafficGroups);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -273,25 +231,4 @@ public class CvsProviderModule implements ProviderModule {
         CommonSyncAdapter.refresh(context, settingsBundle);
     }
 
-    private void importHistory(SQLiteDatabase sqLiteDatabase) {
-        // Import historical data summary that would take too long to download.
-        BufferedReader br = new BufferedReader(new InputStreamReader(
-                context.getResources().openRawResource(R.raw.summary_import)));
-        try {
-            String line;
-            while ((line = br.readLine()) != null) {
-                String insert = "INSERT INTO " + ClearviewSilverstoneHistory.TABLE_NAME
-                        + " VALUES (NULL," + line + ");";
-                sqLiteDatabase.execSQL(insert);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                br.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
 }

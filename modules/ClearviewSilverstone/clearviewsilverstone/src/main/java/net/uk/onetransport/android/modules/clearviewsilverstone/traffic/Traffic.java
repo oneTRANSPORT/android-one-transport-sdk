@@ -9,6 +9,9 @@ public class Traffic {
     @SerializedName("time")
     private String time;
     @Expose
+    @SerializedName("lane")
+    private Integer lane;
+    @Expose
     @SerializedName("direction")
     private Boolean direction;
 
@@ -18,6 +21,14 @@ public class Traffic {
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public Integer getLane() {
+        return lane;
+    }
+
+    public void setLane(Integer lane) {
+        this.lane = lane;
     }
 
     public Boolean getDirection() {

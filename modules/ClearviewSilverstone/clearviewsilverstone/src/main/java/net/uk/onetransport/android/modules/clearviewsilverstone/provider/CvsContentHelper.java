@@ -17,6 +17,9 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 
+import static net.uk.onetransport.android.modules.clearviewsilverstone.provider.CvsContract.ClearviewSilverstoneDevice;
+import static net.uk.onetransport.android.modules.clearviewsilverstone.provider.CvsContract.ClearviewSilverstoneTraffic;
+
 public class CvsContentHelper {
 
     @Retention(RetentionPolicy.SOURCE)
@@ -35,18 +38,16 @@ public class CvsContentHelper {
             for (Device device : devices) {
                 ContentProviderOperation operation = ContentProviderOperation
                         .newInsert(CvsProviderModule.DEVICE_URI)
-                        .withValue(CvsContract.ClearviewSilverstoneDevice.COLUMN_SENSOR_ID,
-                                device.getSensorId())
-                        .withValue(CvsContract.ClearviewSilverstoneDevice.COLUMN_TITLE, device.getTitle())
-                        .withValue(CvsContract.ClearviewSilverstoneDevice.COLUMN_DESCRIPTION,
-                                device.getDescription())
-                        .withValue(CvsContract.ClearviewSilverstoneDevice.COLUMN_TYPE, device.getType())
-                        .withValue(CvsContract.ClearviewSilverstoneDevice.COLUMN_LATITUDE,
-                                device.getLatitude())
-                        .withValue(CvsContract.ClearviewSilverstoneDevice.COLUMN_LONGITUDE,
-                                device.getLongitude())
-                        .withValue(CvsContract.ClearviewSilverstoneDevice.COLUMN_CHANGED,
-                                device.getChanged())
+                        .withValue(ClearviewSilverstoneDevice.COLUMN_SENSOR_ID, device.getSensorId())
+                        .withValue(ClearviewSilverstoneDevice.COLUMN_TITLE, device.getTitle())
+                        .withValue(ClearviewSilverstoneDevice.COLUMN_DESCRIPTION, device.getDescription())
+                        .withValue(ClearviewSilverstoneDevice.COLUMN_TYPE, device.getType())
+                        .withValue(ClearviewSilverstoneDevice.COLUMN_LATITUDE, device.getLatitude())
+                        .withValue(ClearviewSilverstoneDevice.COLUMN_LONGITUDE, device.getLongitude())
+                        .withValue(ClearviewSilverstoneDevice.COLUMN_CHANGED, device.getChanged())
+                        .withValue(ClearviewSilverstoneDevice.COLUMN_CIN_ID, device.getCinId())
+                        .withValue(ClearviewSilverstoneDevice.COLUMN_CREATION_TIME,
+                                device.getCreationTime())
                         .withYieldAllowed(true)
                         .build();
                 operationList.add(operation);
@@ -67,11 +68,13 @@ public class CvsContentHelper {
                 for (Traffic trafficItem : traffic) {
                     ContentProviderOperation operation = ContentProviderOperation
                             .newInsert(CvsProviderModule.TRAFFIC_URI)
-                            .withValue(CvsContract.ClearviewSilverstoneTraffic.COLUMN_SENSOR_ID, sensorId)
-                            .withValue(CvsContract.ClearviewSilverstoneTraffic.COLUMN_DIRECTION,
-                                    trafficItem.getDirection())
-                            .withValue(CvsContract.ClearviewSilverstoneTraffic.COLUMN_TIMESTAMP,
-                                    trafficItem.getTime())
+                            .withValue(ClearviewSilverstoneTraffic.COLUMN_SENSOR_ID, sensorId)
+                            .withValue(ClearviewSilverstoneTraffic.COLUMN_DIRECTION, trafficItem.getDirection())
+                            .withValue(ClearviewSilverstoneTraffic.COLUMN_LANE, trafficItem.getTime())
+                            .withValue(ClearviewSilverstoneTraffic.COLUMN_TIMESTAMP, trafficItem.getTime())
+                            .withValue(ClearviewSilverstoneTraffic.COLUMN_CIN_ID, trafficGroup.getCinId())
+                            .withValue(ClearviewSilverstoneTraffic.COLUMN_CREATION_TIME,
+                                    trafficGroup.getCreationTime())
                             .withYieldAllowed(true)
                             .build();
                     operationList.add(operation);
@@ -84,28 +87,14 @@ public class CvsContentHelper {
 
     public static Cursor getDevices(@NonNull Context context) {
         return context.getContentResolver().query(CvsProviderModule.DEVICE_URI,
-                new String[]{"*"}, null, null, CvsContract.ClearviewSilverstoneDevice.COLUMN_SENSOR_ID);
+                new String[]{"*"}, null, null, ClearviewSilverstoneDevice.COLUMN_SENSOR_ID);
     }
 
     public static Cursor getTraffic(@NonNull Context context) {
         return context.getContentResolver().query(CvsProviderModule.TRAFFIC_URI,
                 new String[]{"*"}, null, null,
-                CvsContract.ClearviewSilverstoneTraffic.COLUMN_SENSOR_ID + ","
-                        + CvsContract.ClearviewSilverstoneTraffic.COLUMN_TIMESTAMP + " DESC");
-    }
-
-    public static Cursor getHistory(@NonNull Context context) {
-        return context.getContentResolver().query(CvsProviderModule.HISTORY_URI,
-                new String[]{"*"}, null, null,
-                CvsContract.ClearviewSilverstoneHistory.COLUMN_SENSOR_ID + ","
-                        + CvsContract.ClearviewSilverstoneTraffic.COLUMN_TIMESTAMP + " ASC");
-    }
-
-    public static Cursor getHistoryBySensor(@NonNull Context context, int sensorId) {
-        return context.getContentResolver().query(CvsProviderModule.HISTORY_URI,
-                new String[]{"*"}, "sensor_id=?", new String[]{String.valueOf(sensorId)},
-                CvsContract.ClearviewSilverstoneHistory.COLUMN_SENSOR_ID + ","
-                        + CvsContract.ClearviewSilverstoneTraffic.COLUMN_TIMESTAMP + " ASC");
+                ClearviewSilverstoneTraffic.COLUMN_SENSOR_ID + ","
+                        + ClearviewSilverstoneTraffic.COLUMN_TIMESTAMP + " DESC");
     }
 
     public static void deleteFromProvider(@NonNull Context context, @DataType int dataType) {

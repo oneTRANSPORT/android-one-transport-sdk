@@ -37,6 +37,7 @@ public class CvsSyncAdapterTest extends OneTransportTest {
         Context context = runnerTask.getContext();
         // The sync adapter should do this anyway, but just setting the pre-condition for the test.
         CvsContentHelper.deleteFromProvider(context, CvsContentHelper.DATA_TYPE_DEVICE);
+        CvsContentHelper.deleteFromProvider(context, CvsContentHelper.DATA_TYPE_TRAFFIC);
         AdapterObserver adapterObserver = new AdapterObserver(null, this);
         context.getContentResolver().registerContentObserver(
                 LastUpdatedProviderModule.LAST_UPDATED_URI, true, adapterObserver);
