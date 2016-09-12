@@ -50,6 +50,7 @@ public class BcsContentHelper {
     private static final String CREATION_INTERVAL_SELECTION =
             BcsBaseColumns.COLUMN_CREATION_TIME + ">=? AND "
                     + BcsBaseColumns.COLUMN_CREATION_TIME + "<=?";
+    private static final String CREATED_BEFORE = "creation_time < ?";
 
     public static void insertSketchesIntoProvider(@NonNull Context context,
                                                   @NonNull ArrayList<Sketch> sketches)
@@ -280,7 +281,6 @@ public class BcsContentHelper {
                 new String[]{"*"}, null, null, BitCarrierSilverstoneTravelSummary.COLUMN_TRAVEL_TIME_ID);
     }
 
-    // TODO    Option to delete before a particular time.
     public static void deleteFromProvider(@NonNull Context context, @DataType int dataType) {
         ContentResolver contentResolver = context.getContentResolver();
         switch (dataType) {
@@ -298,6 +298,33 @@ public class BcsContentHelper {
                 break;
             case DATA_TYPE_TRAVEL_SUMMARY:
                 contentResolver.delete(BcsProviderModule.TRAVEL_SUMMARY_URI, null, null);
+                break;
+        }
+    }
+
+    public static void deleteFromProviderBeforeTime(@NonNull Context context, @DataType int dataType,
+                                                    long creationTime) {
+        ContentResolver contentResolver = context.getContentResolver();
+        switch (dataType) {
+            case DATA_TYPE_SKETCH:
+                contentResolver.delete(BcsProviderModule.SKETCH_URI, CREATED_BEFORE,
+                        new String[]{String.valueOf(creationTime)});
+                break;
+            case DATA_TYPE_NODE:
+                contentResolver.delete(BcsProviderModule.NODE_URI, CREATED_BEFORE,
+                        new String[]{String.valueOf(creationTime)});
+                break;
+            case DATA_TYPE_CONFIG_VECTOR:
+                contentResolver.delete(BcsProviderModule.CONFIG_VECTOR_URI, CREATED_BEFORE,
+                        new String[]{String.valueOf(creationTime)});
+                break;
+            case DATA_TYPE_DATA_VECTOR:
+                contentResolver.delete(BcsProviderModule.DATA_VECTOR_URI, CREATED_BEFORE,
+                        new String[]{String.valueOf(creationTime)});
+                break;
+            case DATA_TYPE_TRAVEL_SUMMARY:
+                contentResolver.delete(BcsProviderModule.TRAVEL_SUMMARY_URI, CREATED_BEFORE,
+                        new String[]{String.valueOf(creationTime)});
                 break;
         }
     }
