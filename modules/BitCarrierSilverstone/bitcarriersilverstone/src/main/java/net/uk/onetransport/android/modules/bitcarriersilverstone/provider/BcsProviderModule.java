@@ -13,6 +13,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 
+import net.uk.onetransport.android.modules.bitcarriersilverstone.R;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.config.node.Node;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.config.node.NodeRetriever;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.config.sketch.Sketch;
@@ -29,6 +30,8 @@ import java.util.ArrayList;
 
 import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneConfigVector;
 import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneDataVector;
+import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneLatestDataVector;
+import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneLatestTravelSummary;
 import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneNode;
 import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneSketch;
 import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneTravelSummary;
@@ -40,8 +43,10 @@ public class BcsProviderModule implements ProviderModule {
     public static Uri SKETCH_URI;
     public static Uri NODE_URI;
     public static Uri TRAVEL_SUMMARY_URI;
+    public static Uri LATEST_TRAVEL_SUMMARY_URI;
     public static Uri CONFIG_VECTOR_URI;
     public static Uri DATA_VECTOR_URI;
+    public static Uri LATEST_DATA_VECTOR_URI;
 
     // Sync adapter extras.
     private static final String EXTRAS_SKETCHES =
@@ -59,8 +64,12 @@ public class BcsProviderModule implements ProviderModule {
     private static int NODE_ID;
     private static int TRAVEL_SUMMARIES;
     private static int TRAVEL_SUMMARY_ID;
+    private static int LATEST_TRAVEL_SUMMARIES;
+    private static int LATEST_TRAVEL_SUMMARY_ID;
     private static int DATA_VECTORS;
     private static int DATA_VECTOR_ID;
+    private static int LATEST_DATA_VECTORS;
+    private static int LATEST_DATA_VECTOR_ID;
     private static int CONFIG_VECTORS;
     private static int CONFIG_VECTOR_ID;
 
@@ -75,8 +84,10 @@ public class BcsProviderModule implements ProviderModule {
         sqLiteDatabase.execSQL(BcsContract.CREATE_BIT_CARRIER_DATA_SKETCH_TABLE);
         sqLiteDatabase.execSQL(BcsContract.CREATE_BIT_CARRIER_NODE_TABLE);
         sqLiteDatabase.execSQL(BcsContract.CREATE_BIT_CARRIER_TRAVEL_SUMMARY_TABLE);
+        sqLiteDatabase.execSQL(BcsContract.CREATE_BIT_CARRIER_LATEST_TRAVEL_SUMMARY_TABLE);
         sqLiteDatabase.execSQL(BcsContract.CREATE_BIT_CARRIER_CONFIG_VECTOR_TABLE);
         sqLiteDatabase.execSQL(BcsContract.CREATE_BIT_CARRIER_DATA_VECTOR_TABLE);
+        sqLiteDatabase.execSQL(BcsContract.CREATE_BIT_CARRIER_LATEST_DATA_VECTOR_TABLE);
     }
 
     @Override
@@ -90,16 +101,20 @@ public class BcsProviderModule implements ProviderModule {
                 BitCarrierSilverstoneNode.TABLE_NAME);
         TRAVEL_SUMMARY_URI = Uri.withAppendedPath(AUTHORITY_URI,
                 BitCarrierSilverstoneTravelSummary.TABLE_NAME);
+        LATEST_TRAVEL_SUMMARY_URI = Uri.withAppendedPath(AUTHORITY_URI,
+                BitCarrierSilverstoneLatestTravelSummary.TABLE_NAME);
         CONFIG_VECTOR_URI = Uri.withAppendedPath(AUTHORITY_URI,
                 BitCarrierSilverstoneConfigVector.TABLE_NAME);
         DATA_VECTOR_URI = Uri.withAppendedPath(AUTHORITY_URI,
                 BitCarrierSilverstoneDataVector.TABLE_NAME);
+        LATEST_DATA_VECTOR_URI = Uri.withAppendedPath(AUTHORITY_URI,
+                BitCarrierSilverstoneLatestDataVector.TABLE_NAME);
 
         SKETCHES = providerModules.size();
         uriMatcher.addURI(authority, BitCarrierSilverstoneSketch.TABLE_NAME, SKETCHES);
         providerModules.add(this);
         SKETCH_ID = providerModules.size();
-        uriMatcher.addURI(authority, BcsContract.BitCarrierSilverstoneSketch.TABLE_NAME + "/#", SKETCH_ID);
+        uriMatcher.addURI(authority, BitCarrierSilverstoneSketch.TABLE_NAME + "/#", SKETCH_ID);
         providerModules.add(this);
         NODES = providerModules.size();
         uriMatcher.addURI(authority, BitCarrierSilverstoneNode.TABLE_NAME, NODES);
@@ -113,6 +128,14 @@ public class BcsProviderModule implements ProviderModule {
         TRAVEL_SUMMARY_ID = providerModules.size();
         uriMatcher.addURI(authority, BitCarrierSilverstoneTravelSummary.TABLE_NAME + "/#",
                 TRAVEL_SUMMARY_ID);
+        providerModules.add(this);
+        LATEST_TRAVEL_SUMMARIES = providerModules.size();
+        uriMatcher.addURI(authority, BitCarrierSilverstoneLatestTravelSummary.TABLE_NAME,
+                LATEST_TRAVEL_SUMMARIES);
+        providerModules.add(this);
+        LATEST_TRAVEL_SUMMARY_ID = providerModules.size();
+        uriMatcher.addURI(authority, BitCarrierSilverstoneLatestTravelSummary.TABLE_NAME + "/#",
+                LATEST_TRAVEL_SUMMARY_ID);
         providerModules.add(this);
         CONFIG_VECTORS = providerModules.size();
         uriMatcher.addURI(authority, BitCarrierSilverstoneConfigVector.TABLE_NAME,
@@ -128,6 +151,14 @@ public class BcsProviderModule implements ProviderModule {
         DATA_VECTOR_ID = providerModules.size();
         uriMatcher.addURI(authority, BitCarrierSilverstoneDataVector.TABLE_NAME + "/#",
                 DATA_VECTOR_ID);
+        providerModules.add(this);
+        LATEST_DATA_VECTORS = providerModules.size();
+        uriMatcher.addURI(authority, BitCarrierSilverstoneLatestDataVector.TABLE_NAME,
+                LATEST_DATA_VECTORS);
+        providerModules.add(this);
+        LATEST_DATA_VECTOR_ID = providerModules.size();
+        uriMatcher.addURI(authority, BitCarrierSilverstoneLatestDataVector.TABLE_NAME + "/#",
+                LATEST_DATA_VECTOR_ID);
         providerModules.add(this);
     }
 
@@ -151,6 +182,12 @@ public class BcsProviderModule implements ProviderModule {
         if (match == TRAVEL_SUMMARY_ID) {
             return mimeItemPrefix + BitCarrierSilverstoneTravelSummary.TABLE_NAME;
         }
+        if (match == LATEST_TRAVEL_SUMMARIES) {
+            return mimeDirPrefix + BitCarrierSilverstoneLatestTravelSummary.TABLE_NAME;
+        }
+        if (match == LATEST_TRAVEL_SUMMARY_ID) {
+            return mimeItemPrefix + BitCarrierSilverstoneLatestTravelSummary.TABLE_NAME;
+        }
         if (match == CONFIG_VECTORS) {
             return mimeDirPrefix + BitCarrierSilverstoneConfigVector.TABLE_NAME;
         }
@@ -162,6 +199,12 @@ public class BcsProviderModule implements ProviderModule {
         }
         if (match == DATA_VECTOR_ID) {
             return mimeItemPrefix + BitCarrierSilverstoneDataVector.TABLE_NAME;
+        }
+        if (match == LATEST_DATA_VECTORS) {
+            return mimeDirPrefix + BitCarrierSilverstoneLatestDataVector.TABLE_NAME;
+        }
+        if (match == LATEST_DATA_VECTOR_ID) {
+            return mimeItemPrefix + BitCarrierSilverstoneLatestDataVector.TABLE_NAME;
         }
         return null;
     }
@@ -185,6 +228,10 @@ public class BcsProviderModule implements ProviderModule {
             contentResolver.notifyChange(TRAVEL_SUMMARY_URI, null);
             return ContentUris.withAppendedId(TRAVEL_SUMMARY_URI, id);
         }
+        if (match == LATEST_TRAVEL_SUMMARIES) {
+            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed)
+                    + BitCarrierSilverstoneLatestTravelSummary.TABLE_NAME);
+        }
         if (match == CONFIG_VECTORS) {
             id = sqLiteDatabase.insert(BitCarrierSilverstoneConfigVector.TABLE_NAME, null, contentValues);
             contentResolver.notifyChange(CONFIG_VECTOR_URI, null);
@@ -194,6 +241,10 @@ public class BcsProviderModule implements ProviderModule {
             id = sqLiteDatabase.insert(BitCarrierSilverstoneDataVector.TABLE_NAME, null, contentValues);
             contentResolver.notifyChange(DATA_VECTOR_URI, null);
             return ContentUris.withAppendedId(DATA_VECTOR_URI, id);
+        }
+        if (match == LATEST_DATA_VECTORS) {
+            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed)
+                    + BitCarrierSilverstoneLatestDataVector.TABLE_NAME);
         }
         return null;
     }
@@ -241,6 +292,19 @@ public class BcsProviderModule implements ProviderModule {
             cursor.setNotificationUri(contentResolver, TRAVEL_SUMMARY_URI);
             return cursor;
         }
+        if (match == LATEST_TRAVEL_SUMMARIES) {
+            Cursor cursor = sqLiteDatabase.query(BitCarrierSilverstoneLatestTravelSummary.TABLE_NAME,
+                    projection, selection, selectionArgs, null, null, sortOrder);
+            cursor.setNotificationUri(contentResolver, LATEST_TRAVEL_SUMMARY_URI);
+            return cursor;
+        }
+        if (match == LATEST_TRAVEL_SUMMARY_ID) {
+            Cursor cursor = sqLiteDatabase.query(BitCarrierSilverstoneLatestTravelSummary.TABLE_NAME,
+                    projection, BitCarrierSilverstoneLatestTravelSummary._ID + "=?",
+                    new String[]{uri.getLastPathSegment()}, null, null, sortOrder);
+            cursor.setNotificationUri(contentResolver, LATEST_TRAVEL_SUMMARY_URI);
+            return cursor;
+        }
         if (match == CONFIG_VECTORS) {
             Cursor cursor = sqLiteDatabase.query(BitCarrierSilverstoneConfigVector.TABLE_NAME, projection,
                     selection, selectionArgs, null, null, sortOrder);
@@ -265,6 +329,19 @@ public class BcsProviderModule implements ProviderModule {
                     BitCarrierSilverstoneDataVector._ID + "=?", new String[]{uri.getLastPathSegment()}, null, null,
                     sortOrder);
             cursor.setNotificationUri(contentResolver, DATA_VECTOR_URI);
+            return cursor;
+        }
+        if (match == LATEST_DATA_VECTORS) {
+            Cursor cursor = sqLiteDatabase.query(BitCarrierSilverstoneLatestDataVector.TABLE_NAME,
+                    projection, selection, selectionArgs, null, null, sortOrder);
+            cursor.setNotificationUri(contentResolver, LATEST_DATA_VECTOR_URI);
+            return cursor;
+        }
+        if (match == LATEST_DATA_VECTOR_ID) {
+            Cursor cursor = sqLiteDatabase.query(BitCarrierSilverstoneLatestDataVector.TABLE_NAME,
+                    projection, BitCarrierSilverstoneLatestDataVector._ID + "=?",
+                    new String[]{uri.getLastPathSegment()}, null, null, sortOrder);
+            cursor.setNotificationUri(contentResolver, LATEST_DATA_VECTOR_URI);
             return cursor;
         }
         return null;
@@ -310,6 +387,14 @@ public class BcsProviderModule implements ProviderModule {
             contentResolver.notifyChange(TRAVEL_SUMMARY_URI, null);
             return rows;
         }
+        if (match == LATEST_TRAVEL_SUMMARIES) {
+            throw new IllegalArgumentException(context.getString(R.string.error_update_not_allowed)
+                    + BitCarrierSilverstoneLatestTravelSummary.TABLE_NAME);
+        }
+        if (match == LATEST_TRAVEL_SUMMARY_ID) {
+            throw new IllegalArgumentException(context.getString(R.string.error_update_not_allowed)
+                    + BitCarrierSilverstoneLatestTravelSummary.TABLE_NAME);
+        }
         if (match == CONFIG_VECTORS) {
             int rows = sqLiteDatabase.update(BitCarrierSilverstoneConfigVector.TABLE_NAME, values,
                     selection, selectionArgs);
@@ -334,6 +419,14 @@ public class BcsProviderModule implements ProviderModule {
             contentResolver.notifyChange(DATA_VECTOR_URI, null);
             return rows;
         }
+        if (match == LATEST_DATA_VECTORS) {
+            throw new IllegalArgumentException(context.getString(R.string.error_update_not_allowed)
+                    + BitCarrierSilverstoneLatestDataVector.TABLE_NAME);
+        }
+        if (match == LATEST_DATA_VECTOR_ID) {
+            throw new IllegalArgumentException(context.getString(R.string.error_update_not_allowed)
+                    + BitCarrierSilverstoneLatestDataVector.TABLE_NAME);
+        }
         return 0;
     }
 
@@ -354,6 +447,10 @@ public class BcsProviderModule implements ProviderModule {
                     selectionArgs);
             contentResolver.notifyChange(TRAVEL_SUMMARY_URI, null);
         }
+        if (match == LATEST_TRAVEL_SUMMARIES) {
+            throw new IllegalArgumentException(context.getString(R.string.error_delete_not_allowed)
+                    + BitCarrierSilverstoneLatestTravelSummary.TABLE_NAME);
+        }
         if (match == CONFIG_VECTORS) {
             rows = sqLiteDatabase.delete(BitCarrierSilverstoneConfigVector.TABLE_NAME, selection,
                     selectionArgs);
@@ -362,6 +459,10 @@ public class BcsProviderModule implements ProviderModule {
         if (match == DATA_VECTORS) {
             rows = sqLiteDatabase.delete(BitCarrierSilverstoneDataVector.TABLE_NAME, selection, selectionArgs);
             contentResolver.notifyChange(DATA_VECTOR_URI, null);
+        }
+        if (match == LATEST_DATA_VECTORS) {
+            throw new IllegalArgumentException(context.getString(R.string.error_delete_not_allowed)
+                    + BitCarrierSilverstoneLatestDataVector.TABLE_NAME);
         }
         return rows;
     }

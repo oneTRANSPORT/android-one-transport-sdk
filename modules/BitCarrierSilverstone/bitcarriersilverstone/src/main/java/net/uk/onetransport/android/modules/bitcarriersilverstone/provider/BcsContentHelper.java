@@ -5,7 +5,6 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.OperationApplicationException;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.RemoteException;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
@@ -24,9 +23,11 @@ import java.util.ArrayList;
 
 import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneConfigVector;
 import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneDataVector;
+import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneLatestDataVector;
 import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneNode;
 import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneSketch;
 import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneTravelSummary;
+import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneLatestTravelSummary;
 
 public class BcsContentHelper {
 
@@ -176,7 +177,7 @@ public class BcsContentHelper {
                 if (travelSummary.getTravelTimes() != null) {
                     // TODO   We assume the array only has one entry.  Otherwise problem.
                     TravelTime travelTime = travelSummary.getTravelTimes()[0];
-                    builder.withValue(BitCarrierSilverstoneTravelSummary.COLUMN_TRAVEL_TIME_ID,
+                    builder.withValue(BitCarrierSilverstoneTravelSummary.COLUMN_TRAVEL_SUMMARY_ID,
                             travelTime.gettId())
                             .withValue(BitCarrierSilverstoneTravelSummary.COLUMN_FROM_LOCATION,
                                     travelTime.getFrom())
@@ -238,7 +239,7 @@ public class BcsContentHelper {
     public static Cursor getTravelSummaries(@NonNull Context context) {
         return context.getContentResolver().query(BcsProviderModule.TRAVEL_SUMMARY_URI,
                 new String[]{"*"}, null, null,
-                BitCarrierSilverstoneTravelSummary.COLUMN_TRAVEL_TIME_ID);
+                BitCarrierSilverstoneTravelSummary.COLUMN_TRAVEL_SUMMARY_ID);
     }
 
     public static Cursor getTravelSummaries(@NonNull Context context, long oldest, long newest) {
@@ -247,6 +248,12 @@ public class BcsContentHelper {
                 CREATION_INTERVAL_SELECTION,
                 new String[]{String.valueOf(oldest), String.valueOf(newest)},
                 BcsBaseColumns.COLUMN_CREATION_TIME);
+    }
+
+    public static Cursor getLatestTravelSummaries(@NonNull Context context) {
+        return context.getContentResolver().query(BcsProviderModule.LATEST_TRAVEL_SUMMARY_URI,
+                new String[]{"*"}, null, null,
+                BitCarrierSilverstoneLatestTravelSummary.COLUMN_TRAVEL_SUMMARY_ID);
     }
 
     public static Cursor getConfigVectors(@NonNull Context context) {
@@ -275,10 +282,9 @@ public class BcsContentHelper {
                 BcsBaseColumns.COLUMN_CREATION_TIME);
     }
 
-    public static Cursor getLatestTravelTimes(@NonNull Context context) {
-        return context.getContentResolver().query(
-                Uri.withAppendedPath(BcsProviderModule.TRAVEL_SUMMARY_URI, "la"),
-                new String[]{"*"}, null, null, BitCarrierSilverstoneTravelSummary.COLUMN_TRAVEL_TIME_ID);
+    public static Cursor getLatestDataVectors(@NonNull Context context) {
+        return context.getContentResolver().query(BcsProviderModule.LATEST_DATA_VECTOR_URI,
+                new String[]{"*"}, null, null, BitCarrierSilverstoneLatestDataVector.COLUMN_VECTOR_ID);
     }
 
     public static void deleteFromProvider(@NonNull Context context, @DataType int dataType) {

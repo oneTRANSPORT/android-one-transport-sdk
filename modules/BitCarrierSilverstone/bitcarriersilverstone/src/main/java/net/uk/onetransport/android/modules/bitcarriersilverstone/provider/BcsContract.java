@@ -29,7 +29,7 @@ public class BcsContract {
     public static final String CREATE_BIT_CARRIER_TRAVEL_SUMMARY_TABLE =
             "CREATE TABLE IF NOT EXISTS " + BitCarrierSilverstoneTravelSummary.TABLE_NAME + " ("
                     + BitCarrierSilverstoneTravelSummary._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-                    + BitCarrierSilverstoneTravelSummary.COLUMN_TRAVEL_TIME_ID + " INTEGER,"
+                    + BitCarrierSilverstoneTravelSummary.COLUMN_TRAVEL_SUMMARY_ID + " INTEGER,"
                     + BitCarrierSilverstoneTravelSummary.COLUMN_CLOCK_TIME + " TEXT,"
                     + BitCarrierSilverstoneTravelSummary.COLUMN_FROM_LOCATION + " TEXT,"
                     + BitCarrierSilverstoneTravelSummary.COLUMN_TO_LOCATION + " TEXT,"
@@ -41,6 +41,20 @@ public class BcsContract {
                     + " TEXT UNIQUE ON CONFLICT REPLACE,"
                     + BitCarrierSilverstoneTravelSummary.COLUMN_CREATION_TIME + " INTEGER"
                     + ");";
+    public static final String CREATE_BIT_CARRIER_LATEST_TRAVEL_SUMMARY_TABLE =
+            "CREATE VIEW IF NOT EXISTS " + BitCarrierSilverstoneLatestTravelSummary.TABLE_NAME
+                    + " AS SELECT a.* FROM " + BitCarrierSilverstoneTravelSummary.TABLE_NAME
+                    + " AS a INNER JOIN (SELECT "
+                    + BitCarrierSilverstoneTravelSummary.COLUMN_TRAVEL_SUMMARY_ID
+                    + ", MAX("
+                    + BitCarrierSilverstoneTravelSummary.COLUMN_CREATION_TIME + ") AS "
+                    + BitCarrierSilverstoneTravelSummary.COLUMN_CREATION_TIME + " FROM "
+                    + BitCarrierSilverstoneTravelSummary.TABLE_NAME + " GROUP BY "
+                    + BitCarrierSilverstoneTravelSummary.COLUMN_TRAVEL_SUMMARY_ID + ") AS b ON a."
+                    + BitCarrierSilverstoneTravelSummary.COLUMN_TRAVEL_SUMMARY_ID + "=b."
+                    + BitCarrierSilverstoneTravelSummary.COLUMN_TRAVEL_SUMMARY_ID + " AND a."
+                    + BitCarrierSilverstoneTravelSummary.COLUMN_CREATION_TIME + "=b."
+                    + BitCarrierSilverstoneTravelSummary.COLUMN_CREATION_TIME + ";";
     public static final String CREATE_BIT_CARRIER_CONFIG_VECTOR_TABLE =
             "CREATE TABLE IF NOT EXISTS " + BitCarrierSilverstoneConfigVector.TABLE_NAME + " ("
                     + BitCarrierSilverstoneConfigVector._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -67,6 +81,19 @@ public class BcsContract {
                     + " TEXT UNIQUE ON CONFLICT REPLACE,"
                     + BitCarrierSilverstoneDataVector.COLUMN_CREATION_TIME + " INTEGER"
                     + ");";
+    public static final String CREATE_BIT_CARRIER_LATEST_DATA_VECTOR_TABLE =
+            "CREATE VIEW IF NOT EXISTS " + BitCarrierSilverstoneLatestDataVector.TABLE_NAME + " AS "
+                    + "SELECT a.* FROM " + BitCarrierSilverstoneDataVector.TABLE_NAME + " AS a "
+                    + "INNER JOIN (SELECT " + BitCarrierSilverstoneDataVector.COLUMN_VECTOR_ID
+                    + ", MAX("
+                    + BitCarrierSilverstoneDataVector.COLUMN_CREATION_TIME + ") AS "
+                    + BitCarrierSilverstoneDataVector.COLUMN_CREATION_TIME + " FROM "
+                    + BitCarrierSilverstoneDataVector.TABLE_NAME + " GROUP BY "
+                    + BitCarrierSilverstoneDataVector.COLUMN_VECTOR_ID + ") AS b ON a."
+                    + BitCarrierSilverstoneDataVector.COLUMN_VECTOR_ID + "=b."
+                    + BitCarrierSilverstoneDataVector.COLUMN_VECTOR_ID + " AND a."
+                    + BitCarrierSilverstoneDataVector.COLUMN_CREATION_TIME + "=b."
+                    + BitCarrierSilverstoneDataVector.COLUMN_CREATION_TIME + ";";
 
     private BcsContract() {
     }
@@ -94,7 +121,19 @@ public class BcsContract {
 
     public static final class BitCarrierSilverstoneTravelSummary implements BcsBaseColumns {
         public static final String TABLE_NAME = "bit_carrier_silverstone_travel_summary";
-        public static final String COLUMN_TRAVEL_TIME_ID = "travel_summary_id";
+        public static final String COLUMN_TRAVEL_SUMMARY_ID = "travel_summary_id";
+        public static final String COLUMN_CLOCK_TIME = "clock_time";
+        public static final String COLUMN_FROM_LOCATION = "from_location";
+        public static final String COLUMN_TO_LOCATION = "to_location";
+        public static final String COLUMN_SCORE = "score";
+        public static final String COLUMN_SPEED = "speed";
+        public static final String COLUMN_ELAPSED = "elapsed";
+        public static final String COLUMN_TREND = "trend";
+    }
+
+    public static final class BitCarrierSilverstoneLatestTravelSummary implements BcsBaseColumns {
+        public static final String TABLE_NAME = "bit_carrier_silverstone_latest_travel_summary";
+        public static final String COLUMN_TRAVEL_SUMMARY_ID = "travel_summary_id";
         public static final String COLUMN_CLOCK_TIME = "clock_time";
         public static final String COLUMN_FROM_LOCATION = "from_location";
         public static final String COLUMN_TO_LOCATION = "to_location";
@@ -117,6 +156,15 @@ public class BcsContract {
 
     public static final class BitCarrierSilverstoneDataVector implements BcsBaseColumns {
         public static final String TABLE_NAME = "bit_carrier_silverstone_data_vector";
+        public static final String COLUMN_VECTOR_ID = "vector_id";
+        public static final String COLUMN_TIMESTAMP = "timestamp";
+        public static final String COLUMN_SPEED = "SPEED";
+        public static final String COLUMN_ELAPSED = "elapsed";
+        public static final String COLUMN_LEVEL_OF_SERVICE = "level_of_service";
+    }
+
+    public static final class BitCarrierSilverstoneLatestDataVector implements BcsBaseColumns {
+        public static final String TABLE_NAME = "bit_carrier_silverstone_latest_data_vector";
         public static final String COLUMN_VECTOR_ID = "vector_id";
         public static final String COLUMN_TIMESTAMP = "timestamp";
         public static final String COLUMN_SPEED = "SPEED";

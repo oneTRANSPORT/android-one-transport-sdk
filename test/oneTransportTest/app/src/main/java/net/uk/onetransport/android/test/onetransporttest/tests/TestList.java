@@ -11,6 +11,8 @@ import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilvers
 import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.provider.BcsDataVectorInsertTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.provider.BcsDataVectorIntervalQueryTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.provider.BcsDataVectorQueryTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.provider.BcsLatestDataVectorQueryTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.provider.BcsLatestTravelSummaryQueryTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.provider.BcsNodeDeleteTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.provider.BcsNodeInsertTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.provider.BcsNodeIntervalQueryTest;
@@ -20,22 +22,14 @@ import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilvers
 import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.provider.BcsSketchIntervalQueryTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.provider.BcsSketchQueryTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.provider.BcsSyncAdapterTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.provider.BcsTravelSummaryDeleteBeforeTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.provider.BcsTravelSummaryDeleteTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.provider.BcsTravelSummaryInsertTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.provider.BcsTravelSummaryIntervalQueryTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.provider.BcsTravelSummaryQueryTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.travelsummary.TravelSummaryRetrieveTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.travelsummary.BcsTravelSummaryRetrieveTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.vector.BcsConfigVectorRetrieveTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bitcarriersilverstone.vector.BcsDataVectorRetrieveTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.clearviewsilverstone.device.DeviceRetrieveTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.clearviewsilverstone.provider.CvsDeviceDeleteTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.clearviewsilverstone.provider.CvsDeviceInsertTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.clearviewsilverstone.provider.CvsDeviceQueryTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.clearviewsilverstone.provider.CvsSyncAdapterTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.clearviewsilverstone.provider.CvsTrafficGroupDeleteTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.clearviewsilverstone.provider.CvsTrafficGroupInsertTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.clearviewsilverstone.provider.CvsTrafficGroupQueryTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.clearviewsilverstone.traffic.TrafficGroupRetrieveTest;
 
 public class TestList {
 
@@ -81,6 +75,7 @@ public class TestList {
             new BcsDataVectorDeleteTest(),
             new BcsDataVectorInsertTest(),
             new BcsDataVectorQueryTest(),
+            new BcsLatestDataVectorQueryTest(),
             new BcsDataVectorIntervalQueryTest(),
             new BcsDataVectorDeleteBeforeTest(),
             new BcsConfigVectorRetrieveTest(),
@@ -88,11 +83,14 @@ public class TestList {
             new BcsConfigVectorInsertTest(),
             new BcsConfigVectorQueryTest(),
             new BcsConfigVectorIntervalQueryTest(),
-            new TravelSummaryRetrieveTest(),
+            new BcsTravelSummaryRetrieveTest(),
+            new BcsTravelSummaryInsertTest(),
             new BcsTravelSummaryDeleteTest(),
             new BcsTravelSummaryInsertTest(),
             new BcsTravelSummaryQueryTest(),
+            new BcsLatestTravelSummaryQueryTest(),
             new BcsTravelSummaryIntervalQueryTest(),
+            new BcsTravelSummaryDeleteBeforeTest(),
             new SketchRetrieveTest(),
             new BcsSketchDeleteTest(),
             new BcsSketchInsertTest(),
