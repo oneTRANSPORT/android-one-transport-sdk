@@ -14,7 +14,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 
-import net.uk.onetransport.android.county.bucks.carparks.CarParkArray;
+import net.uk.onetransport.android.county.bucks.carparks.CarPark;
+import net.uk.onetransport.android.county.bucks.carparks.CarParkRetriever;
 import net.uk.onetransport.android.county.bucks.roadworks.RoadWorksArray;
 import net.uk.onetransport.android.county.bucks.trafficflow.TrafficFlowArray;
 import net.uk.onetransport.android.county.bucks.variablemessagesigns.VariableMessageSignArray;
@@ -24,10 +25,10 @@ import net.uk.onetransport.android.modules.common.sync.CommonSyncAdapter;
 
 import java.util.ArrayList;
 
-import static net.uk.onetransport.android.county.bucks.provider.BucksContract.CarPark;
-import static net.uk.onetransport.android.county.bucks.provider.BucksContract.RoadWorks;
-import static net.uk.onetransport.android.county.bucks.provider.BucksContract.TrafficFlow;
-import static net.uk.onetransport.android.county.bucks.provider.BucksContract.VariableMessageSign;
+import static net.uk.onetransport.android.county.bucks.provider.BucksContract.BucksCarPark;
+import static net.uk.onetransport.android.county.bucks.provider.BucksContract.BucksRoadWorks;
+import static net.uk.onetransport.android.county.bucks.provider.BucksContract.BucksTrafficFlow;
+import static net.uk.onetransport.android.county.bucks.provider.BucksContract.BucksVariableMessageSign;
 
 public class BucksProviderModule implements ProviderModule {
 
@@ -77,65 +78,65 @@ public class BucksProviderModule implements ProviderModule {
                         String authority) {
         AUTHORITY = authority;
         AUTHORITY_URI = Uri.parse("content://" + authority + "/");
-        CAR_PARK_URI = Uri.withAppendedPath(AUTHORITY_URI, CarPark.TABLE_NAME);
+        CAR_PARK_URI = Uri.withAppendedPath(AUTHORITY_URI, BucksCarPark.TABLE_NAME);
         VARIABLE_MESSAGE_SIGN_URI = Uri.withAppendedPath(AUTHORITY_URI,
-                VariableMessageSign.TABLE_NAME);
-        TRAFFIC_FLOW_URI = Uri.withAppendedPath(AUTHORITY_URI, TrafficFlow.TABLE_NAME);
-        ROAD_WORKS_URI = Uri.withAppendedPath(AUTHORITY_URI, RoadWorks.TABLE_NAME);
+                BucksVariableMessageSign.TABLE_NAME);
+        TRAFFIC_FLOW_URI = Uri.withAppendedPath(AUTHORITY_URI, BucksContract.BucksTrafficFlow.TABLE_NAME);
+        ROAD_WORKS_URI = Uri.withAppendedPath(AUTHORITY_URI, BucksRoadWorks.TABLE_NAME);
 
         CAR_PARKS = providerModules.size();
-        uriMatcher.addURI(authority, CarPark.TABLE_NAME, CAR_PARKS);
+        uriMatcher.addURI(authority, BucksCarPark.TABLE_NAME, CAR_PARKS);
         providerModules.add(this);
         CAR_PARK_ID = providerModules.size();
-        uriMatcher.addURI(authority, CarPark.TABLE_NAME + "/#", CAR_PARK_ID);
+        uriMatcher.addURI(authority, BucksCarPark.TABLE_NAME + "/#", CAR_PARK_ID);
         providerModules.add(this);
         VARIABLE_MESSAGE_SIGNS = providerModules.size();
-        uriMatcher.addURI(authority, VariableMessageSign.TABLE_NAME,
+        uriMatcher.addURI(authority, BucksVariableMessageSign.TABLE_NAME,
                 VARIABLE_MESSAGE_SIGNS);
         providerModules.add(this);
         VARIABLE_MESSAGE_SIGN_ID = providerModules.size();
-        uriMatcher.addURI(authority, VariableMessageSign.TABLE_NAME + "/#",
+        uriMatcher.addURI(authority, BucksVariableMessageSign.TABLE_NAME + "/#",
                 VARIABLE_MESSAGE_SIGN_ID);
         providerModules.add(this);
         TRAFFIC_FLOWS = providerModules.size();
-        uriMatcher.addURI(authority, TrafficFlow.TABLE_NAME, TRAFFIC_FLOWS);
+        uriMatcher.addURI(authority, BucksContract.BucksTrafficFlow.TABLE_NAME, TRAFFIC_FLOWS);
         providerModules.add(this);
         TRAFFIC_FLOW_ID = providerModules.size();
-        uriMatcher.addURI(authority, TrafficFlow.TABLE_NAME + "/#", TRAFFIC_FLOW_ID);
+        uriMatcher.addURI(authority, BucksTrafficFlow.TABLE_NAME + "/#", TRAFFIC_FLOW_ID);
         providerModules.add(this);
         ROAD_WORKS = providerModules.size();
-        uriMatcher.addURI(authority, RoadWorks.TABLE_NAME, ROAD_WORKS);
+        uriMatcher.addURI(authority, BucksRoadWorks.TABLE_NAME, ROAD_WORKS);
         providerModules.add(this);
         ROAD_WORKS_ID = providerModules.size();
-        uriMatcher.addURI(authority, RoadWorks.TABLE_NAME + "/#", ROAD_WORKS_ID);
+        uriMatcher.addURI(authority, BucksRoadWorks.TABLE_NAME + "/#", ROAD_WORKS_ID);
         providerModules.add(this);
     }
 
     @Override
     public String getType(int match, String mimeDirPrefix, String mimeItemPrefix) {
         if (match == CAR_PARKS) {
-            return mimeDirPrefix + CarPark.TABLE_NAME;
+            return mimeDirPrefix + BucksCarPark.TABLE_NAME;
         }
         if (match == CAR_PARK_ID) {
-            return mimeItemPrefix + CarPark.TABLE_NAME;
+            return mimeItemPrefix + BucksCarPark.TABLE_NAME;
         }
         if (match == VARIABLE_MESSAGE_SIGNS) {
-            return mimeDirPrefix + VariableMessageSign.TABLE_NAME;
+            return mimeDirPrefix + BucksVariableMessageSign.TABLE_NAME;
         }
         if (match == VARIABLE_MESSAGE_SIGN_ID) {
-            return mimeItemPrefix + VariableMessageSign.TABLE_NAME;
+            return mimeItemPrefix + BucksVariableMessageSign.TABLE_NAME;
         }
         if (match == TRAFFIC_FLOWS) {
-            return mimeDirPrefix + TrafficFlow.TABLE_NAME;
+            return mimeDirPrefix + BucksContract.BucksTrafficFlow.TABLE_NAME;
         }
         if (match == TRAFFIC_FLOW_ID) {
-            return mimeItemPrefix + TrafficFlow.TABLE_NAME;
+            return mimeItemPrefix + BucksContract.BucksTrafficFlow.TABLE_NAME;
         }
         if (match == ROAD_WORKS) {
-            return mimeDirPrefix + RoadWorks.TABLE_NAME;
+            return mimeDirPrefix + BucksRoadWorks.TABLE_NAME;
         }
         if (match == ROAD_WORKS_ID) {
-            return mimeItemPrefix + RoadWorks.TABLE_NAME;
+            return mimeItemPrefix + BucksRoadWorks.TABLE_NAME;
         }
         return null;
     }
@@ -145,22 +146,22 @@ public class BucksProviderModule implements ProviderModule {
         long id;
         ContentResolver contentResolver = context.getContentResolver();
         if (match == CAR_PARKS) {
-            id = sqLiteDatabase.insert(CarPark.TABLE_NAME, null, contentValues);
+            id = sqLiteDatabase.insert(BucksCarPark.TABLE_NAME, null, contentValues);
             contentResolver.notifyChange(CAR_PARK_URI, null);
             return ContentUris.withAppendedId(CAR_PARK_URI, id);
         }
         if (match == VARIABLE_MESSAGE_SIGNS) {
-            id = sqLiteDatabase.insert(VariableMessageSign.TABLE_NAME, null, contentValues);
+            id = sqLiteDatabase.insert(BucksVariableMessageSign.TABLE_NAME, null, contentValues);
             contentResolver.notifyChange(VARIABLE_MESSAGE_SIGN_URI, null);
             return ContentUris.withAppendedId(VARIABLE_MESSAGE_SIGN_URI, id);
         }
         if (match == TRAFFIC_FLOWS) {
-            id = sqLiteDatabase.insert(TrafficFlow.TABLE_NAME, null, contentValues);
+            id = sqLiteDatabase.insert(BucksContract.BucksTrafficFlow.TABLE_NAME, null, contentValues);
             contentResolver.notifyChange(TRAFFIC_FLOW_URI, null);
             return ContentUris.withAppendedId(TRAFFIC_FLOW_URI, id);
         }
         if (match == ROAD_WORKS) {
-            id = sqLiteDatabase.insert(RoadWorks.TABLE_NAME, null, contentValues);
+            id = sqLiteDatabase.insert(BucksRoadWorks.TABLE_NAME, null, contentValues);
             contentResolver.notifyChange(ROAD_WORKS_URI, null);
             return ContentUris.withAppendedId(ROAD_WORKS_URI, id);
         }
@@ -172,52 +173,52 @@ public class BucksProviderModule implements ProviderModule {
                         String sortOrder, SQLiteDatabase sqLiteDatabase) {
         ContentResolver contentResolver = context.getContentResolver();
         if (match == CAR_PARKS) {
-            Cursor cursor = sqLiteDatabase.query(CarPark.TABLE_NAME, projection,
+            Cursor cursor = sqLiteDatabase.query(BucksCarPark.TABLE_NAME, projection,
                     selection, selectionArgs, null, null, sortOrder);
             cursor.setNotificationUri(contentResolver, CAR_PARK_URI);
             return cursor;
         }
         if (match == CAR_PARK_ID) {
-            Cursor cursor = sqLiteDatabase.query(CarPark.TABLE_NAME, projection,
-                    CarPark._ID + "=?", new String[]{uri.getLastPathSegment()}, null, null, sortOrder);
+            Cursor cursor = sqLiteDatabase.query(BucksCarPark.TABLE_NAME, projection,
+                    BucksCarPark._ID + "=?", new String[]{uri.getLastPathSegment()}, null, null, sortOrder);
             cursor.setNotificationUri(contentResolver, CAR_PARK_URI);
             return cursor;
         }
         if (match == VARIABLE_MESSAGE_SIGNS) {
-            Cursor cursor = sqLiteDatabase.query(VariableMessageSign.TABLE_NAME, projection,
+            Cursor cursor = sqLiteDatabase.query(BucksVariableMessageSign.TABLE_NAME, projection,
                     selection, selectionArgs, null, null, sortOrder);
             cursor.setNotificationUri(contentResolver, VARIABLE_MESSAGE_SIGN_URI);
             return cursor;
         }
         if (match == VARIABLE_MESSAGE_SIGN_ID) {
-            Cursor cursor = sqLiteDatabase.query(VariableMessageSign.TABLE_NAME, projection,
-                    VariableMessageSign._ID + "=?", new String[]{uri.getLastPathSegment()}, null, null,
+            Cursor cursor = sqLiteDatabase.query(BucksVariableMessageSign.TABLE_NAME, projection,
+                    BucksVariableMessageSign._ID + "=?", new String[]{uri.getLastPathSegment()}, null, null,
                     sortOrder);
             cursor.setNotificationUri(contentResolver, VARIABLE_MESSAGE_SIGN_URI);
             return cursor;
         }
         if (match == TRAFFIC_FLOWS) {
-            Cursor cursor = sqLiteDatabase.query(TrafficFlow.TABLE_NAME, projection,
+            Cursor cursor = sqLiteDatabase.query(BucksTrafficFlow.TABLE_NAME, projection,
                     selection, selectionArgs, null, null, sortOrder);
             cursor.setNotificationUri(contentResolver, TRAFFIC_FLOW_URI);
             return cursor;
         }
         if (match == TRAFFIC_FLOW_ID) {
-            Cursor cursor = sqLiteDatabase.query(TrafficFlow.TABLE_NAME, projection,
-                    TrafficFlow._ID + "=?", new String[]{uri.getLastPathSegment()}, null, null,
+            Cursor cursor = sqLiteDatabase.query(BucksTrafficFlow.TABLE_NAME, projection,
+                    BucksTrafficFlow._ID + "=?", new String[]{uri.getLastPathSegment()}, null, null,
                     sortOrder);
             cursor.setNotificationUri(contentResolver, TRAFFIC_FLOW_URI);
             return cursor;
         }
         if (match == ROAD_WORKS) {
-            Cursor cursor = sqLiteDatabase.query(RoadWorks.TABLE_NAME, projection,
+            Cursor cursor = sqLiteDatabase.query(BucksRoadWorks.TABLE_NAME, projection,
                     selection, selectionArgs, null, null, sortOrder);
             cursor.setNotificationUri(contentResolver, ROAD_WORKS_URI);
             return cursor;
         }
         if (match == ROAD_WORKS_ID) {
-            Cursor cursor = sqLiteDatabase.query(RoadWorks.TABLE_NAME, projection,
-                    RoadWorks._ID + "=?", new String[]{uri.getLastPathSegment()}, null, null,
+            Cursor cursor = sqLiteDatabase.query(BucksRoadWorks.TABLE_NAME, projection,
+                    BucksRoadWorks._ID + "=?", new String[]{uri.getLastPathSegment()}, null, null,
                     sortOrder);
             cursor.setNotificationUri(contentResolver, ROAD_WORKS_URI);
             return cursor;
@@ -230,47 +231,47 @@ public class BucksProviderModule implements ProviderModule {
                       SQLiteDatabase sqLiteDatabase) {
         ContentResolver contentResolver = context.getContentResolver();
         if (match == CAR_PARKS) {
-            int rows = sqLiteDatabase.update(CarPark.TABLE_NAME, values, selection, selectionArgs);
+            int rows = sqLiteDatabase.update(BucksCarPark.TABLE_NAME, values, selection, selectionArgs);
             contentResolver.notifyChange(CAR_PARK_URI, null);
             return rows;
         }
         if (match == CAR_PARK_ID) {
-            int rows = sqLiteDatabase.update(CarPark.TABLE_NAME, values, CarPark._ID + "=?",
+            int rows = sqLiteDatabase.update(BucksCarPark.TABLE_NAME, values, BucksCarPark._ID + "=?",
                     new String[]{uri.getLastPathSegment()});
             contentResolver.notifyChange(CAR_PARK_URI, null);
             return rows;
         }
         if (match == VARIABLE_MESSAGE_SIGNS) {
-            int rows = sqLiteDatabase.update(VariableMessageSign.TABLE_NAME, values, selection,
+            int rows = sqLiteDatabase.update(BucksVariableMessageSign.TABLE_NAME, values, selection,
                     selectionArgs);
             contentResolver.notifyChange(VARIABLE_MESSAGE_SIGN_URI, null);
             return rows;
         }
         if (match == VARIABLE_MESSAGE_SIGN_ID) {
-            int rows = sqLiteDatabase.update(VariableMessageSign.TABLE_NAME, values,
-                    VariableMessageSign._ID + "=?", new String[]{uri.getLastPathSegment()});
+            int rows = sqLiteDatabase.update(BucksVariableMessageSign.TABLE_NAME, values,
+                    BucksVariableMessageSign._ID + "=?", new String[]{uri.getLastPathSegment()});
             contentResolver.notifyChange(VARIABLE_MESSAGE_SIGN_URI, null);
             return rows;
         }
         if (match == TRAFFIC_FLOWS) {
-            int rows = sqLiteDatabase.update(TrafficFlow.TABLE_NAME, values, selection, selectionArgs);
+            int rows = sqLiteDatabase.update(BucksContract.BucksTrafficFlow.TABLE_NAME, values, selection, selectionArgs);
             contentResolver.notifyChange(TRAFFIC_FLOW_URI, null);
             return rows;
         }
         if (match == TRAFFIC_FLOW_ID) {
-            int rows = sqLiteDatabase.update(TrafficFlow.TABLE_NAME, values,
-                    TrafficFlow._ID + "=?", new String[]{uri.getLastPathSegment()});
+            int rows = sqLiteDatabase.update(BucksContract.BucksTrafficFlow.TABLE_NAME, values,
+                    BucksContract.BucksTrafficFlow._ID + "=?", new String[]{uri.getLastPathSegment()});
             contentResolver.notifyChange(TRAFFIC_FLOW_URI, null);
             return rows;
         }
         if (match == ROAD_WORKS) {
-            int rows = sqLiteDatabase.update(RoadWorks.TABLE_NAME, values, selection, selectionArgs);
+            int rows = sqLiteDatabase.update(BucksRoadWorks.TABLE_NAME, values, selection, selectionArgs);
             contentResolver.notifyChange(ROAD_WORKS_URI, null);
             return rows;
         }
         if (match == ROAD_WORKS_ID) {
-            int rows = sqLiteDatabase.update(RoadWorks.TABLE_NAME, values,
-                    RoadWorks._ID + "=?", new String[]{uri.getLastPathSegment()});
+            int rows = sqLiteDatabase.update(BucksRoadWorks.TABLE_NAME, values,
+                    BucksRoadWorks._ID + "=?", new String[]{uri.getLastPathSegment()});
             contentResolver.notifyChange(ROAD_WORKS_URI, null);
             return rows;
         }
@@ -282,19 +283,19 @@ public class BucksProviderModule implements ProviderModule {
         ContentResolver contentResolver = context.getContentResolver();
         int rows = 0;
         if (match == CAR_PARKS) {
-            rows = sqLiteDatabase.delete(CarPark.TABLE_NAME, selection, selectionArgs);
+            rows = sqLiteDatabase.delete(BucksCarPark.TABLE_NAME, selection, selectionArgs);
             contentResolver.notifyChange(CAR_PARK_URI, null);
         }
         if (match == VARIABLE_MESSAGE_SIGNS) {
-            rows = sqLiteDatabase.delete(VariableMessageSign.TABLE_NAME, selection, selectionArgs);
+            rows = sqLiteDatabase.delete(BucksVariableMessageSign.TABLE_NAME, selection, selectionArgs);
             contentResolver.notifyChange(VARIABLE_MESSAGE_SIGN_URI, null);
         }
         if (match == TRAFFIC_FLOWS) {
-            rows = sqLiteDatabase.delete(TrafficFlow.TABLE_NAME, selection, selectionArgs);
+            rows = sqLiteDatabase.delete(BucksContract.BucksTrafficFlow.TABLE_NAME, selection, selectionArgs);
             contentResolver.notifyChange(TRAFFIC_FLOW_URI, null);
         }
         if (match == ROAD_WORKS) {
-            rows = sqLiteDatabase.delete(RoadWorks.TABLE_NAME, selection, selectionArgs);
+            rows = sqLiteDatabase.delete(BucksRoadWorks.TABLE_NAME, selection, selectionArgs);
             contentResolver.notifyChange(ROAD_WORKS_URI, null);
         }
         return rows;
@@ -307,11 +308,10 @@ public class BucksProviderModule implements ProviderModule {
             // Car parks.
             if (extras.getBoolean(EXTRAS_CAR_PARKS, false)) {
                 try {
-                    CarParkArray carParkArray = CarParkArray.getCarParkArray(context);
+                    CarPark[] carParks = new CarParkRetriever(context).retrieve();
                     BucksContentHelper.deleteFromProvider(context,
                             BucksContentHelper.DATA_TYPE_CAR_PARK);
-                    BucksContentHelper.insertIntoProvider(context, carParkArray.getCarParks());
-                    Log.i(TAG,"Car parks downloaded." );
+                    BucksContentHelper.insertIntoProvider(context, carParks);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

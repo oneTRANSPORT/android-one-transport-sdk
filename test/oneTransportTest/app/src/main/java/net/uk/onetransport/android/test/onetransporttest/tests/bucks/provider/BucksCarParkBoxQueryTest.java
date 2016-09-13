@@ -37,9 +37,9 @@ public class BucksCarParkBoxQueryTest extends OneTransportTest {
             if (cursor.getCount() > 0 && cursor.moveToFirst()) {
                 while (!cursor.isAfterLast()) {
                     double latitude = cursor.getDouble(cursor.getColumnIndex(
-                            BucksContract.CarPark.COLUMN_LATITUDE));
+                            BucksContract.BucksCarPark.COLUMN_LATITUDE));
                     double longitude = cursor.getDouble(cursor.getColumnIndex(
-                            BucksContract.CarPark.COLUMN_LONGITUDE));
+                            BucksContract.BucksCarPark.COLUMN_LONGITUDE));
                     if (latitude < MIN_LATITUDE || latitude > MAX_LATITUDE
                             || longitude < MIN_LONGITUDE || longitude > MAX_LONGITUDE) {
                         runnerTask.report("BUCKS car park box query ... FAILED.", COLOUR_FAILED);

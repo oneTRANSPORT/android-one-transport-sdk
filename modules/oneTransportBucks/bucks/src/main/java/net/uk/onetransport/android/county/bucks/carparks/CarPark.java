@@ -5,43 +5,41 @@ import com.google.gson.annotations.Expose;
 public class CarPark {
 
     @Expose
-    private Integer exitRate;
-    @Expose
-    private Integer fillRate;
-    @Expose
     private String carParkIdentity;
     @Expose
-    private Integer totalParkingCapacity;
+    private Double almostFullIncreasing;
     @Expose
-    private Integer almostFullDecreasing;
+    private Double occupancy;
     @Expose
-    private Integer almostFullIncreasing;
-    @Expose
-    private Integer fullDecreasing;
-    @Expose
-    private Integer fullIncreasing;
-    @Expose
-    private Integer entranceFull;
+    private Double exitRate;
     @Expose
     private Double latitude;
     @Expose
     private Double longitude;
-
-    public Integer getExitRate() {
-        return exitRate;
-    }
-
-    public void setExitRate(Integer exitRate) {
-        this.exitRate = exitRate;
-    }
-
-    public Integer getFillRate() {
-        return fillRate;
-    }
-
-    public void setFillRate(Integer fillRate) {
-        this.fillRate = fillRate;
-    }
+    @Expose
+    private String occupancyTrend;
+    @Expose
+    private Double fullIncreasing;
+    @Expose
+    private Double fillRate;
+    @Expose
+    private Double totalParkingCapacity;
+    @Expose
+    private String statusTime;
+    @Expose
+    private Double queuingTime;
+    @Expose
+    private Double almostFullDecreasing;
+    @Expose
+    private Double fullDecreasing;
+    @Expose
+    private String parkingAreaName;
+    @Expose
+    private Double entranceFull;
+    @Expose
+    private String status;
+    private String cinId;
+    private Long creationTime;
 
     public String getCarParkIdentity() {
         return carParkIdentity;
@@ -51,52 +49,28 @@ public class CarPark {
         this.carParkIdentity = carParkIdentity;
     }
 
-    public Integer getTotalParkingCapacity() {
-        return totalParkingCapacity;
-    }
-
-    public void setTotalParkingCapacity(Integer totalParkingCapacity) {
-        this.totalParkingCapacity = totalParkingCapacity;
-    }
-
-    public Integer getAlmostFullDecreasing() {
-        return almostFullDecreasing;
-    }
-
-    public void setAlmostFullDecreasing(Integer almostFullDecreasing) {
-        this.almostFullDecreasing = almostFullDecreasing;
-    }
-
-    public Integer getAlmostFullIncreasing() {
+    public Double getAlmostFullIncreasing() {
         return almostFullIncreasing;
     }
 
-    public void setAlmostFullIncreasing(Integer almostFullIncreasing) {
+    public void setAlmostFullIncreasing(Double almostFullIncreasing) {
         this.almostFullIncreasing = almostFullIncreasing;
     }
 
-    public Integer getFullDecreasing() {
-        return fullDecreasing;
+    public Double getOccupancy() {
+        return occupancy;
     }
 
-    public void setFullDecreasing(Integer fullDecreasing) {
-        this.fullDecreasing = fullDecreasing;
+    public void setOccupancy(Double occupancy) {
+        this.occupancy = occupancy;
     }
 
-    public Integer getFullIncreasing() {
-        return fullIncreasing;
+    public Double getExitRate() {
+        return exitRate;
     }
 
-    public void setFullIncreasing(Integer fullIncreasing) {
-        this.fullIncreasing = fullIncreasing;
-    }
-
-    public Integer getEntranceFull() {
-        return entranceFull;
-    }
-
-    public void setEntranceFull(Integer entranceFull) {
-        this.entranceFull = entranceFull;
+    public void setExitRate(Double exitRate) {
+        this.exitRate = exitRate;
     }
 
     public Double getLatitude() {
@@ -115,4 +89,107 @@ public class CarPark {
         this.longitude = longitude;
     }
 
+    public String getOccupancyTrend() {
+        return occupancyTrend;
+    }
+
+    public void setOccupancyTrend(String occupancyTrend) {
+        this.occupancyTrend = occupancyTrend;
+    }
+
+    public Double getFullIncreasing() {
+        return fullIncreasing;
+    }
+
+    public void setFullIncreasing(Double fullIncreasing) {
+        this.fullIncreasing = fullIncreasing;
+    }
+
+    public Double getFillRate() {
+        return fillRate;
+    }
+
+    public void setFillRate(Double fillRate) {
+        this.fillRate = fillRate;
+    }
+
+    public Double getTotalParkingCapacity() {
+        return totalParkingCapacity;
+    }
+
+    public void setTotalParkingCapacity(Double totalParkingCapacity) {
+        this.totalParkingCapacity = totalParkingCapacity;
+    }
+
+    public String getStatusTime() {
+        return statusTime;
+    }
+
+    public void setStatusTime(String statusTime) {
+        this.statusTime = statusTime;
+    }
+
+    public Double getQueuingTime() {
+        return queuingTime;
+    }
+
+    public void setQueuingTime(Double queuingTime) {
+        this.queuingTime = queuingTime;
+    }
+
+    public Double getAlmostFullDecreasing() {
+        return almostFullDecreasing;
+    }
+
+    public void setAlmostFullDecreasing(Double almostFullDecreasing) {
+        this.almostFullDecreasing = almostFullDecreasing;
+    }
+
+    public Double getFullDecreasing() {
+        return fullDecreasing;
+    }
+
+    public void setFullDecreasing(Double fullDecreasing) {
+        this.fullDecreasing = fullDecreasing;
+    }
+
+    public String getParkingAreaName() {
+        return parkingAreaName;
+    }
+
+    public void setParkingAreaName(String parkingAreaName) {
+        this.parkingAreaName = parkingAreaName;
+    }
+
+    public Double getEntranceFull() {
+        return entranceFull;
+    }
+
+    public void setEntranceFull(Double entranceFull) {
+        this.entranceFull = entranceFull;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getCinId() {
+        return cinId;
+    }
+
+    public void setCinId(String cinId) {
+        this.cinId = cinId;
+    }
+
+    public Long getCreationTime() {
+        return creationTime;
+    }
+
+    public void setCreationTime(Long creationTime) {
+        this.creationTime = creationTime;
+    }
 }

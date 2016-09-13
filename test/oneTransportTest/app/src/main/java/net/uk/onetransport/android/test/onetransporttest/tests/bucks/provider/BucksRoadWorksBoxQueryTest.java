@@ -37,9 +37,9 @@ public class BucksRoadWorksBoxQueryTest extends OneTransportTest {
             if (cursor.getCount() > 0 && cursor.moveToFirst()) {
                 while (!cursor.isAfterLast()) {
                     double latitude = cursor.getDouble(cursor.getColumnIndex(
-                            BucksContract.RoadWorks.COLUMN_LATITUDE));
+                            BucksContract.BucksRoadWorks.COLUMN_LATITUDE));
                     double longitude = cursor.getDouble(cursor.getColumnIndex(
-                            BucksContract.RoadWorks.COLUMN_LONGITUDE));
+                            BucksContract.BucksRoadWorks.COLUMN_LONGITUDE));
                     if (latitude < MIN_LATITUDE || latitude > MAX_LATITUDE
                             || longitude < MIN_LONGITUDE || longitude > MAX_LONGITUDE) {
                         runnerTask.report("BUCKS road works box query ... FAILED.", COLOUR_FAILED);

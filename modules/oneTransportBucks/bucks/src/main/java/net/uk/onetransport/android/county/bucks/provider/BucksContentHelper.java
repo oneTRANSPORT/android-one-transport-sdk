@@ -2,7 +2,6 @@ package net.uk.onetransport.android.county.bucks.provider;
 
 import android.content.ContentProviderOperation;
 import android.content.ContentResolver;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.OperationApplicationException;
 import android.database.Cursor;
@@ -50,22 +49,22 @@ public class BucksContentHelper {
             for (CarPark carPark : carParks) {
                 ContentProviderOperation operation = ContentProviderOperation
                         .newInsert(BucksProviderModule.CAR_PARK_URI)
-                        .withValue(BucksContract.CarPark.COLUMN_FILL_RATE, carPark.getFillRate())
-                        .withValue(BucksContract.CarPark.COLUMN_EXIT_RATE, carPark.getExitRate())
-                        .withValue(BucksContract.CarPark.COLUMN_LATITUDE, carPark.getLatitude())
-                        .withValue(BucksContract.CarPark.COLUMN_LONGITUDE, carPark.getLongitude())
-                        .withValue(BucksContract.CarPark.COLUMN_ENTRANCE_FULL, carPark.getEntranceFull())
-                        .withValue(BucksContract.CarPark.COLUMN_FULL_INCREASING,
+                        .withValue(BucksContract.BucksCarPark.COLUMN_FILL_RATE, carPark.getFillRate())
+                        .withValue(BucksContract.BucksCarPark.COLUMN_EXIT_RATE, carPark.getExitRate())
+                        .withValue(BucksContract.BucksCarPark.COLUMN_LATITUDE, carPark.getLatitude())
+                        .withValue(BucksContract.BucksCarPark.COLUMN_LONGITUDE, carPark.getLongitude())
+                        .withValue(BucksContract.BucksCarPark.COLUMN_ENTRANCE_FULL, carPark.getEntranceFull())
+                        .withValue(BucksContract.BucksCarPark.COLUMN_FULL_INCREASING,
                                 carPark.getFullIncreasing())
-                        .withValue(BucksContract.CarPark.COLUMN_FULL_DECREASING,
+                        .withValue(BucksContract.BucksCarPark.COLUMN_FULL_DECREASING,
                                 carPark.getFullDecreasing())
-                        .withValue(BucksContract.CarPark.COLUMN_CAR_PARK_IDENTITY,
+                        .withValue(BucksContract.BucksCarPark.COLUMN_CAR_PARK_IDENTITY,
                                 carPark.getCarParkIdentity())
-                        .withValue(BucksContract.CarPark.COLUMN_TOTAL_PARKING_CAPACITY,
+                        .withValue(BucksContract.BucksCarPark.COLUMN_TOTAL_PARKING_CAPACITY,
                                 carPark.getTotalParkingCapacity())
-                        .withValue(BucksContract.CarPark.COLUMN_ALMOST_FULL_INCREASING,
+                        .withValue(BucksContract.BucksCarPark.COLUMN_ALMOST_FULL_INCREASING,
                                 carPark.getAlmostFullIncreasing())
-                        .withValue(BucksContract.CarPark.COLUMN_ALMOST_FULL_DECREASING,
+                        .withValue(BucksContract.BucksCarPark.COLUMN_ALMOST_FULL_DECREASING,
                                 carPark.getAlmostFullDecreasing())
                         .withYieldAllowed(true)
                         .build();
@@ -83,49 +82,49 @@ public class BucksContentHelper {
             for (TrafficFlow trafficFlow : trafficFlows) {
                 ContentProviderOperation operation = ContentProviderOperation
                         .newInsert(BucksProviderModule.TRAFFIC_FLOW_URI)
-                        .withValue(BucksContract.TrafficFlow.COLUMN_LOCATION_ID,
+                        .withValue(BucksContract.BucksTrafficFlow.COLUMN_LOCATION_ID,
                                 trafficFlow.getLocationId())
-                        .withValue(BucksContract.TrafficFlow.COLUMN_FROM_DESCRIPTOR,
+                        .withValue(BucksContract.BucksTrafficFlow.COLUMN_FROM_DESCRIPTOR,
                                 trafficFlow.getFromDescriptor())
-                        .withValue(BucksContract.TrafficFlow.COLUMN_FROM_LATITUDE,
+                        .withValue(BucksContract.BucksTrafficFlow.COLUMN_FROM_LATITUDE,
                                 trafficFlow.getFromLatitude())
-                        .withValue(BucksContract.TrafficFlow.COLUMN_FROM_LONGITUDE,
+                        .withValue(BucksContract.BucksTrafficFlow.COLUMN_FROM_LONGITUDE,
                                 trafficFlow.getFromLongitude())
-                        .withValue(BucksContract.TrafficFlow.COLUMN_TO_DESCRIPTOR,
+                        .withValue(BucksContract.BucksTrafficFlow.COLUMN_TO_DESCRIPTOR,
                                 trafficFlow.getToDescriptor())
-                        .withValue(BucksContract.TrafficFlow.COLUMN_TO_LATITUDE,
+                        .withValue(BucksContract.BucksTrafficFlow.COLUMN_TO_LATITUDE,
                                 trafficFlow.getToLatitude())
-                        .withValue(BucksContract.TrafficFlow.COLUMN_TO_LONGITUDE,
+                        .withValue(BucksContract.BucksTrafficFlow.COLUMN_TO_LONGITUDE,
                                 trafficFlow.getToLongitude())
-                        .withValue(BucksContract.TrafficFlow.COLUMN_TPEG_DIRECTION,
+                        .withValue(BucksContract.BucksTrafficFlow.COLUMN_TPEG_DIRECTION,
                                 trafficFlow.getTpegDirection())
-                        .withValue(BucksContract.TrafficFlow.COLUMN_VEHICLE_FLOW,
+                        .withValue(BucksContract.BucksTrafficFlow.COLUMN_VEHICLE_FLOW,
                                 trafficFlow.getVehicleFlow())
-                        .withValue(BucksContract.TrafficFlow.COLUMN_AVERAGE_VEHICLE_SPEED,
+                        .withValue(BucksContract.BucksTrafficFlow.COLUMN_AVERAGE_VEHICLE_SPEED,
                                 trafficFlow.getAverageVehicleSpeed())
-                        .withValue(BucksContract.TrafficFlow.COLUMN_TRAVEL_TIME,
+                        .withValue(BucksContract.BucksTrafficFlow.COLUMN_TRAVEL_TIME,
                                 trafficFlow.getTravelTime())
-                        .withValue(BucksContract.TrafficFlow.COLUMN_FREE_FLOW_SPEED,
+                        .withValue(BucksContract.BucksTrafficFlow.COLUMN_FREE_FLOW_SPEED,
                                 trafficFlow.getFreeFlowSpeed())
-                        .withValue(BucksContract.TrafficFlow.COLUMN_FREE_FLOW_TRAVEL_TIME,
+                        .withValue(BucksContract.BucksTrafficFlow.COLUMN_FREE_FLOW_TRAVEL_TIME,
                                 trafficFlow.getFreeFlowTravelTime())
-                        .withValue(BucksContract.TrafficFlow.COLUMN_CONGESTION_PERCENT,
+                        .withValue(BucksContract.BucksTrafficFlow.COLUMN_CONGESTION_PERCENT,
                                 trafficFlow.getCongestionPercent())
-                        .withValue(BucksContract.TrafficFlow.COLUMN_CURRENT_FLOW,
+                        .withValue(BucksContract.BucksTrafficFlow.COLUMN_CURRENT_FLOW,
                                 trafficFlow.getCurrentFlow())
-                        .withValue(BucksContract.TrafficFlow.COLUMN_AVERAGE_SPEED,
+                        .withValue(BucksContract.BucksTrafficFlow.COLUMN_AVERAGE_SPEED,
                                 trafficFlow.getAverageSpeed())
-                        .withValue(BucksContract.TrafficFlow.COLUMN_LINK_STATUS,
+                        .withValue(BucksContract.BucksTrafficFlow.COLUMN_LINK_STATUS,
                                 trafficFlow.getLinkStatus())
-                        .withValue(BucksContract.TrafficFlow.COLUMN_LINK_STATUS_TYPE,
+                        .withValue(BucksContract.BucksTrafficFlow.COLUMN_LINK_STATUS_TYPE,
                                 trafficFlow.getLinkStatusType())
-                        .withValue(BucksContract.TrafficFlow.COLUMN_LINK_TRAVEL_TIME,
+                        .withValue(BucksContract.BucksTrafficFlow.COLUMN_LINK_TRAVEL_TIME,
                                 trafficFlow.getLinkTravelTime())
-                        .withValue(BucksContract.TrafficFlow.COLUMN_QUEUE_PRESENT,
+                        .withValue(BucksContract.BucksTrafficFlow.COLUMN_QUEUE_PRESENT,
                                 trafficFlow.getQueuePresent())
-                        .withValue(BucksContract.TrafficFlow.COLUMN_QUEUE_SEVERITY,
+                        .withValue(BucksContract.BucksTrafficFlow.COLUMN_QUEUE_SEVERITY,
                                 trafficFlow.getQueueSeverity())
-                        .withValue(BucksContract.TrafficFlow.COLUMN_OCCUPANCY,
+                        .withValue(BucksContract.BucksTrafficFlow.COLUMN_OCCUPANCY,
                                 trafficFlow.getOccupancy())
                         .withYieldAllowed(true)
                         .build();
@@ -153,25 +152,25 @@ public class BucksContentHelper {
                 }
                 ContentProviderOperation operation = ContentProviderOperation
                         .newInsert(BucksProviderModule.VARIABLE_MESSAGE_SIGN_URI)
-                        .withValue(BucksContract.VariableMessageSign.COLUMN_LOCATION_ID,
+                        .withValue(BucksContract.BucksVariableMessageSign.COLUMN_LOCATION_ID,
                                 variableMessageSign.getLocationId())
-                        .withValue(BucksContract.VariableMessageSign.COLUMN_NAME,
+                        .withValue(BucksContract.BucksVariableMessageSign.COLUMN_NAME,
                                 variableMessageSign.getName())
-                        .withValue(BucksContract.VariableMessageSign.COLUMN_NUMBER_OF_CHARACTERS,
+                        .withValue(BucksContract.BucksVariableMessageSign.COLUMN_NUMBER_OF_CHARACTERS,
                                 variableMessageSign.getNumberOfCharacters())
-                        .withValue(BucksContract.VariableMessageSign.COLUMN_NUMBER_OF_ROWS,
+                        .withValue(BucksContract.BucksVariableMessageSign.COLUMN_NUMBER_OF_ROWS,
                                 variableMessageSign.getNumberOfRows())
-                        .withValue(BucksContract.VariableMessageSign.COLUMN_VMS_LEGENDS,
+                        .withValue(BucksContract.BucksVariableMessageSign.COLUMN_VMS_LEGENDS,
                                 builder.toString())
-                        .withValue(BucksContract.VariableMessageSign.COLUMN_VMS_TYPE,
+                        .withValue(BucksContract.BucksVariableMessageSign.COLUMN_VMS_TYPE,
                                 variableMessageSign.getVmsType())
-                        .withValue(BucksContract.VariableMessageSign.COLUMN_LATITUDE,
+                        .withValue(BucksContract.BucksVariableMessageSign.COLUMN_LATITUDE,
                                 variableMessageSign.getLatitude())
-                        .withValue(BucksContract.VariableMessageSign.COLUMN_LONGITUDE,
+                        .withValue(BucksContract.BucksVariableMessageSign.COLUMN_LONGITUDE,
                                 variableMessageSign.getLongitude())
-                        .withValue(BucksContract.VariableMessageSign.COLUMN_DESCRIPTOR,
+                        .withValue(BucksContract.BucksVariableMessageSign.COLUMN_DESCRIPTOR,
                                 variableMessageSign.getDescriptor())
-                        .withValue(BucksContract.VariableMessageSign.COLUMN_TPEG_DIRECTION,
+                        .withValue(BucksContract.BucksVariableMessageSign.COLUMN_TPEG_DIRECTION,
                                 variableMessageSign.getTpegDirection())
                         .withYieldAllowed(true)
                         .build();
@@ -201,26 +200,26 @@ public class BucksContentHelper {
                 }
                 ContentProviderOperation operation = ContentProviderOperation
                         .newInsert(BucksProviderModule.ROAD_WORKS_URI)
-                        .withValue(BucksContract.RoadWorks.COLUMN_ID, roadWork.getId())
-                        .withValue(BucksContract.RoadWorks.COLUMN_COMMENT, roadWork.getComment())
-                        .withValue(BucksContract.RoadWorks.COLUMN_EFFECT_ON_ROAD_LAYOUT,
+                        .withValue(BucksContract.BucksRoadWorks.COLUMN_ID, roadWork.getId())
+                        .withValue(BucksContract.BucksRoadWorks.COLUMN_COMMENT, roadWork.getComment())
+                        .withValue(BucksContract.BucksRoadWorks.COLUMN_EFFECT_ON_ROAD_LAYOUT,
                                 roadWork.getEffectOnRoadLayout())
-                        .withValue(BucksContract.RoadWorks.COLUMN_ROAD_MAINTENANCE_TYPE,
+                        .withValue(BucksContract.BucksRoadWorks.COLUMN_ROAD_MAINTENANCE_TYPE,
                                 roadWork.getRoadMaintenanceType())
-                        .withValue(BucksContract.RoadWorks.COLUMN_IMPACT_ON_TRAFFIC,
+                        .withValue(BucksContract.BucksRoadWorks.COLUMN_IMPACT_ON_TRAFFIC,
                                 roadWork.getImpactOnTraffic())
-                        .withValue(BucksContract.RoadWorks.COLUMN_TYPE, roadWork.getType())
-                        .withValue(BucksContract.RoadWorks.COLUMN_STATUS, roadWork.getValidity().getStatus())
-                        .withValue(BucksContract.RoadWorks.COLUMN_OVERALL_START_TIME,
+                        .withValue(BucksContract.BucksRoadWorks.COLUMN_TYPE, roadWork.getType())
+                        .withValue(BucksContract.BucksRoadWorks.COLUMN_STATUS, roadWork.getValidity().getStatus())
+                        .withValue(BucksContract.BucksRoadWorks.COLUMN_OVERALL_START_TIME,
                                 roadWork.getValidity().getOverallStartTime())
-                        .withValue(BucksContract.RoadWorks.COLUMN_OVERALL_END_TIME,
+                        .withValue(BucksContract.BucksRoadWorks.COLUMN_OVERALL_END_TIME,
                                 roadWork.getValidity().getOverallEndTime())
-                        .withValue(BucksContract.RoadWorks.COLUMN_PERIODS, builder.toString())
-                        .withValue(BucksContract.RoadWorks.COLUMN_LOCATION_DESCRIPTION,
+                        .withValue(BucksContract.BucksRoadWorks.COLUMN_PERIODS, builder.toString())
+                        .withValue(BucksContract.BucksRoadWorks.COLUMN_LOCATION_DESCRIPTION,
                                 roadWork.getLocation().getDescription())
-                        .withValue(BucksContract.RoadWorks.COLUMN_LATITUDE,
+                        .withValue(BucksContract.BucksRoadWorks.COLUMN_LATITUDE,
                                 roadWork.getLocation().getLatitude())
-                        .withValue(BucksContract.RoadWorks.COLUMN_LONGITUDE,
+                        .withValue(BucksContract.BucksRoadWorks.COLUMN_LONGITUDE,
                                 roadWork.getLocation().getLongitude())
                         .withYieldAllowed(true)
                         .build();
@@ -233,7 +232,7 @@ public class BucksContentHelper {
 
     public static Cursor getCarParks(@NonNull Context context) {
         return context.getContentResolver().query(BucksProviderModule.CAR_PARK_URI,
-                new String[]{"*"}, null, null, BucksContract.CarPark.COLUMN_CAR_PARK_IDENTITY);
+                new String[]{"*"}, null, null, BucksContract.BucksCarPark.COLUMN_CAR_PARK_IDENTITY);
     }
 
     public static Cursor getCarParks(@NonNull Context context, double minLatitude, double minLongitude,
@@ -244,12 +243,12 @@ public class BucksContentHelper {
                         String.valueOf(minLongitude),
                         String.valueOf(maxLatitude),
                         String.valueOf(maxLongitude)
-                }, BucksContract.CarPark.COLUMN_CAR_PARK_IDENTITY);
+                }, BucksContract.BucksCarPark.COLUMN_CAR_PARK_IDENTITY);
     }
 
     public static Cursor getTrafficFlows(@NonNull Context context) {
         return context.getContentResolver().query(BucksProviderModule.TRAFFIC_FLOW_URI,
-                new String[]{"*"}, null, null, BucksContract.TrafficFlow.COLUMN_LOCATION_ID);
+                new String[]{"*"}, null, null, BucksContract.BucksTrafficFlow.COLUMN_LOCATION_ID);
     }
 
     public static Cursor getTrafficFlows(@NonNull Context context, double minLatitude,
@@ -264,12 +263,12 @@ public class BucksContentHelper {
                         String.valueOf(minLongitude),
                         String.valueOf(maxLatitude),
                         String.valueOf(maxLongitude)
-                }, BucksContract.TrafficFlow.COLUMN_LOCATION_ID);
+                }, BucksContract.BucksTrafficFlow.COLUMN_LOCATION_ID);
     }
 
     public static Cursor getVariableMessageSigns(@NonNull Context context) {
         return context.getContentResolver().query(BucksProviderModule.VARIABLE_MESSAGE_SIGN_URI,
-                new String[]{"*"}, null, null, BucksContract.VariableMessageSign.COLUMN_NAME);
+                new String[]{"*"}, null, null, BucksContract.BucksVariableMessageSign.COLUMN_NAME);
     }
 
     public static Cursor getVariableMessageSigns(@NonNull Context context, double minLatitude,
@@ -280,12 +279,12 @@ public class BucksContentHelper {
                         String.valueOf(minLongitude),
                         String.valueOf(maxLatitude),
                         String.valueOf(maxLongitude)
-                }, BucksContract.VariableMessageSign.COLUMN_NAME);
+                }, BucksContract.BucksVariableMessageSign.COLUMN_NAME);
     }
 
     public static Cursor getRoadWorks(@NonNull Context context) {
         return context.getContentResolver().query(BucksProviderModule.ROAD_WORKS_URI,
-                new String[]{"*"}, null, null, BucksContract.RoadWorks.COLUMN_ID);
+                new String[]{"*"}, null, null, BucksContract.BucksRoadWorks.COLUMN_ID);
     }
 
     public static Cursor getRoadWorks(@NonNull Context context, double minLatitude,
@@ -296,7 +295,7 @@ public class BucksContentHelper {
                         String.valueOf(minLongitude),
                         String.valueOf(maxLatitude),
                         String.valueOf(maxLongitude)
-                }, BucksContract.RoadWorks.COLUMN_ID);
+                }, BucksContract.BucksRoadWorks.COLUMN_ID);
     }
 
     public static void deleteFromProvider(@NonNull Context context, @DataType int dataType) {
