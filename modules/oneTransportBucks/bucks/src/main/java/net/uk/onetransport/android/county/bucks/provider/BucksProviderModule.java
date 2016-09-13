@@ -16,7 +16,8 @@ import android.util.Log;
 
 import net.uk.onetransport.android.county.bucks.carparks.CarPark;
 import net.uk.onetransport.android.county.bucks.carparks.CarParkRetriever;
-import net.uk.onetransport.android.county.bucks.roadworks.RoadWorksArray;
+import net.uk.onetransport.android.county.bucks.roadworks.RoadWorks;
+import net.uk.onetransport.android.county.bucks.roadworks.RoadWorksRetriever;
 import net.uk.onetransport.android.county.bucks.trafficflow.TrafficFlowArray;
 import net.uk.onetransport.android.county.bucks.variablemessagesigns.VariableMessageSignArray;
 import net.uk.onetransport.android.modules.common.provider.OneTransportProvider;
@@ -323,7 +324,7 @@ public class BucksProviderModule implements ProviderModule {
                     BucksContentHelper.deleteFromProvider(context,
                             BucksContentHelper.DATA_TYPE_TRAFFIC_FLOW);
                     BucksContentHelper.insertIntoProvider(context, trafficFlowArray.getTrafficFlows());
-                    Log.i(TAG,"Traffic flows downloaded." );
+                    Log.i(TAG, "Traffic flows downloaded.");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -336,7 +337,7 @@ public class BucksProviderModule implements ProviderModule {
                     BucksContentHelper.deleteFromProvider(context, BucksContentHelper.DATA_TYPE_VMS);
                     BucksContentHelper.insertIntoProvider(context,
                             variableMessageSignArray.getVariableMessageSigns());
-                    Log.i(TAG,"Variable message signs downloaded." );
+                    Log.i(TAG, "Variable message signs downloaded.");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -344,11 +345,11 @@ public class BucksProviderModule implements ProviderModule {
             // Road works.
             if (extras.getBoolean(EXTRAS_ROAD_WORKS, false)) {
                 try {
-                    RoadWorksArray roadWorksArray = RoadWorksArray.getRoadWorksArray(context);
+                    RoadWorks[] roadWorkses = new RoadWorksRetriever(context).retrieve();
+                    // TODO    No deletions.
                     BucksContentHelper.deleteFromProvider(context,
                             BucksContentHelper.DATA_TYPE_ROAD_WORKS);
-                    BucksContentHelper.insertIntoProvider(context, roadWorksArray.getRoadWorks());
-                    Log.i(TAG,"Road works downloaded." );
+                    BucksContentHelper.insertIntoProvider(context, roadWorkses);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -364,6 +365,6 @@ public class BucksProviderModule implements ProviderModule {
         settingsBundle.putBoolean(EXTRAS_TRAFFIC_FLOW, trafficFlow);
         settingsBundle.putBoolean(EXTRAS_ROAD_WORKS, roadWorks);
         CommonSyncAdapter.refresh(context, settingsBundle);
-        Log.i(TAG,"Bucks refresh called.");
+        Log.i(TAG, "Bucks refresh called.");
     }
 }

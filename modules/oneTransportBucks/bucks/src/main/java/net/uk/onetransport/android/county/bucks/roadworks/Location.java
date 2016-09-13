@@ -5,19 +5,9 @@ import com.google.gson.annotations.Expose;
 public class Location {
 
     @Expose
-    private String description;
-    @Expose
     private Double latitude;
     @Expose
     private Double longitude;
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 
     public Double getLatitude() {
         return latitude;

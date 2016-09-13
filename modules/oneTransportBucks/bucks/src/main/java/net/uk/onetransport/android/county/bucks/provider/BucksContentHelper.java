@@ -208,15 +208,12 @@ public class BucksContentHelper {
                                 roadWork.getRoadMaintenanceType())
                         .withValue(BucksContract.BucksRoadWorks.COLUMN_IMPACT_ON_TRAFFIC,
                                 roadWork.getImpactOnTraffic())
-                        .withValue(BucksContract.BucksRoadWorks.COLUMN_TYPE, roadWork.getType())
                         .withValue(BucksContract.BucksRoadWorks.COLUMN_STATUS, roadWork.getValidity().getStatus())
                         .withValue(BucksContract.BucksRoadWorks.COLUMN_OVERALL_START_TIME,
                                 roadWork.getValidity().getOverallStartTime())
                         .withValue(BucksContract.BucksRoadWorks.COLUMN_OVERALL_END_TIME,
                                 roadWork.getValidity().getOverallEndTime())
                         .withValue(BucksContract.BucksRoadWorks.COLUMN_PERIODS, builder.toString())
-                        .withValue(BucksContract.BucksRoadWorks.COLUMN_LOCATION_DESCRIPTION,
-                                roadWork.getLocation().getDescription())
                         .withValue(BucksContract.BucksRoadWorks.COLUMN_LATITUDE,
                                 roadWork.getLocation().getLatitude())
                         .withValue(BucksContract.BucksRoadWorks.COLUMN_LONGITUDE,
@@ -316,7 +313,7 @@ public class BucksContentHelper {
         }
     }
 
-//    public static void refreshLastUpdated(@NonNull Context context) {
+    //    public static void refreshLastUpdated(@NonNull Context context) {
 //        ContentResolver contentResolver = context.getContentResolver();
 //        ContentValues values = new ContentValues();
 //        values.put(LastUpdatedContract.LastUpdated.COLUMN_LAST_UPDATE_MILLIS,

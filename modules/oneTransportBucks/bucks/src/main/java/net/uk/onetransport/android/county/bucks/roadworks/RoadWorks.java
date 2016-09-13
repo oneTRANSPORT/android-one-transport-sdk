@@ -7,19 +7,19 @@ public class RoadWorks {
     @Expose
     private String id;
     @Expose
-    private String comment;
-    @Expose
     private String effectOnRoadLayout;
     @Expose
     private String roadMaintenanceType;
     @Expose
+    private String comment;
+    @Expose
     private String impactOnTraffic;
     @Expose
-    private String type;
+    private Location location;
     @Expose
     private Validity validity;
-    @Expose
-    private Location location;
+    private String cinId;
+    private Long creationTime;
 
     public String getId() {
         return id;
@@ -27,14 +27,6 @@ public class RoadWorks {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
     }
 
     public String getEffectOnRoadLayout() {
@@ -53,6 +45,14 @@ public class RoadWorks {
         this.roadMaintenanceType = roadMaintenanceType;
     }
 
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
     public String getImpactOnTraffic() {
         return impactOnTraffic;
     }
@@ -61,12 +61,12 @@ public class RoadWorks {
         this.impactOnTraffic = impactOnTraffic;
     }
 
-    public String getType() {
-        return type;
+    public Location getLocation() {
+        return location;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setLocation(Location location) {
+        this.location = location;
     }
 
     public Validity getValidity() {
@@ -77,11 +77,19 @@ public class RoadWorks {
         this.validity = validity;
     }
 
-    public Location getLocation() {
-        return location;
+    public String getCinId() {
+        return cinId;
     }
 
-    public void setLocation(Location location) {
-        this.location = location;
+    public void setCinId(String cinId) {
+        this.cinId = cinId;
+    }
+
+    public Long getCreationTime() {
+        return creationTime;
+    }
+
+    public void setCreationTime(Long creationTime) {
+        this.creationTime = creationTime;
     }
 }
