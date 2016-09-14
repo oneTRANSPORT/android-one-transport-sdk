@@ -9,11 +9,9 @@ import com.interdigital.android.dougal.Types;
 import com.interdigital.android.dougal.resource.Resource;
 import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
-import net.uk.onetransport.android.county.bucks.events.Event;
-import net.uk.onetransport.android.county.bucks.events.EventRetriever;
-import net.uk.onetransport.android.county.bucks.events.EventRetrieverLoader;
 import net.uk.onetransport.android.county.bucks.generic.RetrieverResult;
 import net.uk.onetransport.android.county.bucks.roadworks.RoadWorks;
+import net.uk.onetransport.android.county.bucks.roadworks.RoadWorksRetriever;
 import net.uk.onetransport.android.county.bucks.roadworks.RoadWorksRetrieverLoader;
 import net.uk.onetransport.android.test.onetransporttest.RunnerFragment;
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
@@ -26,7 +24,7 @@ public class BucksRoadWorksRetrieveTest extends OneTransportTest
 
     @Override
     public void start(RunnerTask runnerTask) throws Exception {
-        getEventArray(runnerTask);
+        getRoadWorksArray(runnerTask);
     }
 
     @Override
@@ -59,10 +57,10 @@ public class BucksRoadWorksRetrieveTest extends OneTransportTest
         // Nothing needs to be done.
     }
 
-    private void getEventArray(RunnerTask runnerTask) throws Exception {
+    private void getRoadWorksArray(RunnerTask runnerTask) throws Exception {
         runnerTask.setCurrentTest("BUCKS get road works array");
-        Event[] events = new EventRetriever(getContext()).retrieve();
-        if (events == null || events.length == 0) {
+        RoadWorks[] roadWorkses = new RoadWorksRetriever(getContext()).retrieve();
+        if (roadWorkses == null || roadWorkses.length == 0) {
             runnerTask.report("BUCKS get road works array ... FAILED.", COLOUR_FAILED);
         } else {
             runnerTask.report("BUCKS get road works array ... PASSED.", COLOUR_PASSED);

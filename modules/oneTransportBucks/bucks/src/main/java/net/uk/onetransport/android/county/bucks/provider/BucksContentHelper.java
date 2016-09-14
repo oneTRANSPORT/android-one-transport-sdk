@@ -75,6 +75,7 @@ public class BucksContentHelper {
         }
     }
 
+    // TODO    All these inserts need to be checked.
     public static void insertIntoProvider(@NonNull Context context, @NonNull TrafficFlow[] trafficFlows)
             throws RemoteException, OperationApplicationException {
         if (trafficFlows.length > 0) {
@@ -83,7 +84,7 @@ public class BucksContentHelper {
                 ContentProviderOperation operation = ContentProviderOperation
                         .newInsert(BucksProviderModule.TRAFFIC_FLOW_URI)
                         .withValue(BucksContract.BucksTrafficFlow.COLUMN_LOCATION_ID,
-                                trafficFlow.getLocationId())
+                                trafficFlow.getId())
                         .withValue(BucksContract.BucksTrafficFlow.COLUMN_FROM_DESCRIPTOR,
                                 trafficFlow.getFromDescriptor())
                         .withValue(BucksContract.BucksTrafficFlow.COLUMN_FROM_LATITUDE,
@@ -100,32 +101,6 @@ public class BucksContentHelper {
                                 trafficFlow.getTpegDirection())
                         .withValue(BucksContract.BucksTrafficFlow.COLUMN_VEHICLE_FLOW,
                                 trafficFlow.getVehicleFlow())
-                        .withValue(BucksContract.BucksTrafficFlow.COLUMN_AVERAGE_VEHICLE_SPEED,
-                                trafficFlow.getAverageVehicleSpeed())
-                        .withValue(BucksContract.BucksTrafficFlow.COLUMN_TRAVEL_TIME,
-                                trafficFlow.getTravelTime())
-                        .withValue(BucksContract.BucksTrafficFlow.COLUMN_FREE_FLOW_SPEED,
-                                trafficFlow.getFreeFlowSpeed())
-                        .withValue(BucksContract.BucksTrafficFlow.COLUMN_FREE_FLOW_TRAVEL_TIME,
-                                trafficFlow.getFreeFlowTravelTime())
-                        .withValue(BucksContract.BucksTrafficFlow.COLUMN_CONGESTION_PERCENT,
-                                trafficFlow.getCongestionPercent())
-                        .withValue(BucksContract.BucksTrafficFlow.COLUMN_CURRENT_FLOW,
-                                trafficFlow.getCurrentFlow())
-                        .withValue(BucksContract.BucksTrafficFlow.COLUMN_AVERAGE_SPEED,
-                                trafficFlow.getAverageSpeed())
-                        .withValue(BucksContract.BucksTrafficFlow.COLUMN_LINK_STATUS,
-                                trafficFlow.getLinkStatus())
-                        .withValue(BucksContract.BucksTrafficFlow.COLUMN_LINK_STATUS_TYPE,
-                                trafficFlow.getLinkStatusType())
-                        .withValue(BucksContract.BucksTrafficFlow.COLUMN_LINK_TRAVEL_TIME,
-                                trafficFlow.getLinkTravelTime())
-                        .withValue(BucksContract.BucksTrafficFlow.COLUMN_QUEUE_PRESENT,
-                                trafficFlow.getQueuePresent())
-                        .withValue(BucksContract.BucksTrafficFlow.COLUMN_QUEUE_SEVERITY,
-                                trafficFlow.getQueueSeverity())
-                        .withValue(BucksContract.BucksTrafficFlow.COLUMN_OCCUPANCY,
-                                trafficFlow.getOccupancy())
                         .withYieldAllowed(true)
                         .build();
                 operationList.add(operation);

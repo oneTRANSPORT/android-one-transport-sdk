@@ -5,7 +5,11 @@ import com.google.gson.annotations.Expose;
 public class TrafficFlow {
 
     @Expose
-    private String locationId;
+    private String id;
+    @Expose
+    private String tpegDirection;
+    @Expose
+    private String fromType;
     @Expose
     private String fromDescriptor;
     @Expose
@@ -13,48 +17,42 @@ public class TrafficFlow {
     @Expose
     private Double fromLongitude;
     @Expose
+    private String toType;
+    @Expose
     private String toDescriptor;
     @Expose
     private Double toLatitude;
     @Expose
     private Double toLongitude;
     @Expose
-    private String tpegDirection;
+    private Double vehicleFlow;
     @Expose
-    private Integer vehicleFlow;
-    @Expose
-    private Double averageVehicleSpeed;
-    @Expose
-    private Integer travelTime;
-    @Expose
-    private Integer freeFlowSpeed;
-    @Expose
-    private Integer freeFlowTravelTime;
-    @Expose
-    private String queuePresent;
-    @Expose
-    private Integer queueSeverity;
-    @Expose
-    private Integer occupancy;
-    @Expose
-    private Double congestionPercent;
-    @Expose
-    private Double currentFlow;
-    @Expose
-    private Double averageSpeed;
-    @Expose
-    private String linkStatus;
-    @Expose
-    private String linkStatusType;
-    @Expose
-    private String linkTravelTime;
+    private String time;
+    private String cinId;
+    private Long creationTime;
 
-    public String getLocationId() {
-        return locationId;
+    public String getId() {
+        return id;
     }
 
-    public void setLocationId(String locationId) {
-        this.locationId = locationId;
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getTpegDirection() {
+        return tpegDirection;
+    }
+
+    public void setTpegDirection(String tpegDirection) {
+        this.tpegDirection = tpegDirection;
+    }
+
+    public String getFromType() {
+        return fromType;
+    }
+
+    public void setFromType(String fromType) {
+        this.fromType = fromType;
     }
 
     public String getFromDescriptor() {
@@ -81,6 +79,14 @@ public class TrafficFlow {
         this.fromLongitude = fromLongitude;
     }
 
+    public String getToType() {
+        return toType;
+    }
+
+    public void setToType(String toType) {
+        this.toType = toType;
+    }
+
     public String getToDescriptor() {
         return toDescriptor;
     }
@@ -105,123 +111,35 @@ public class TrafficFlow {
         this.toLongitude = toLongitude;
     }
 
-    public String getTpegDirection() {
-        return tpegDirection;
-    }
-
-    public void setTpegDirection(String tpegDirection) {
-        this.tpegDirection = tpegDirection;
-    }
-
-    public Integer getVehicleFlow() {
+    public Double getVehicleFlow() {
         return vehicleFlow;
     }
 
-    public void setVehicleFlow(Integer vehicleFlow) {
+    public void setVehicleFlow(Double vehicleFlow) {
         this.vehicleFlow = vehicleFlow;
     }
 
-    public Double getAverageVehicleSpeed() {
-        return averageVehicleSpeed;
+    public String getTime() {
+        return time;
     }
 
-    public void setAverageVehicleSpeed(Double averageVehicleSpeed) {
-        this.averageVehicleSpeed = averageVehicleSpeed;
+    public void setTime(String time) {
+        this.time = time;
     }
 
-    public Integer getTravelTime() {
-        return travelTime;
+    public String getCinId() {
+        return cinId;
     }
 
-    public void setTravelTime(Integer travelTime) {
-        this.travelTime = travelTime;
+    public void setCinId(String cinId) {
+        this.cinId = cinId;
     }
 
-    public Integer getFreeFlowSpeed() {
-        return freeFlowSpeed;
+    public Long getCreationTime() {
+        return creationTime;
     }
 
-    public void setFreeFlowSpeed(Integer freeFlowSpeed) {
-        this.freeFlowSpeed = freeFlowSpeed;
-    }
-
-    public Integer getFreeFlowTravelTime() {
-        return freeFlowTravelTime;
-    }
-
-    public void setFreeFlowTravelTime(Integer freeFlowTravelTime) {
-        this.freeFlowTravelTime = freeFlowTravelTime;
-    }
-
-    public String getQueuePresent() {
-        return queuePresent;
-    }
-
-    public void setQueuePresent(String queuePresent) {
-        this.queuePresent = queuePresent;
-    }
-
-    public Integer getQueueSeverity() {
-        return queueSeverity;
-    }
-
-    public void setQueueSeverity(Integer queueSeverity) {
-        this.queueSeverity = queueSeverity;
-    }
-
-    public Integer getOccupancy() {
-        return occupancy;
-    }
-
-    public void setOccupancy(Integer occupancy) {
-        this.occupancy = occupancy;
-    }
-
-    public Double getCongestionPercent() {
-        return congestionPercent;
-    }
-
-    public void setCongestionPercent(Double congestionPercent) {
-        this.congestionPercent = congestionPercent;
-    }
-
-    public Double getCurrentFlow() {
-        return currentFlow;
-    }
-
-    public void setCurrentFlow(Double currentFlow) {
-        this.currentFlow = currentFlow;
-    }
-
-    public Double getAverageSpeed() {
-        return averageSpeed;
-    }
-
-    public void setAverageSpeed(Double averageSpeed) {
-        this.averageSpeed = averageSpeed;
-    }
-
-    public String getLinkStatus() {
-        return linkStatus;
-    }
-
-    public void setLinkStatus(String linkStatus) {
-        this.linkStatus = linkStatus;
-    }
-
-    public String getLinkStatusType() {
-        return linkStatusType;
-    }
-
-    public void setLinkStatusType(String linkStatusType) {
-        this.linkStatusType = linkStatusType;
-    }
-
-    public String getLinkTravelTime() {
-        return linkTravelTime;
-    }
-
-    public void setLinkTravelTime(String linkTravelTime) {
-        this.linkTravelTime = linkTravelTime;
+    public void setCreationTime(Long creationTime) {
+        this.creationTime = creationTime;
     }
 }
