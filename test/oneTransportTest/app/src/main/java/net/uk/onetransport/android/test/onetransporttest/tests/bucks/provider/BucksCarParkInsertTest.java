@@ -27,11 +27,15 @@ public class BucksCarParkInsertTest extends OneTransportTest {
     private void insertCarParks(RunnerTask runnerTask) throws Exception {
         runnerTask.setCurrentTest("BUCKS car park insert");
         Context context = runnerTask.getContext();
+        // This is only needed if new CIs are created during the running of the tests.
+        BucksContentHelper.deleteFromProvider(context, BucksContentHelper.DATA_TYPE_CAR_PARK);
         CarPark[] carParks = new CarParkRetriever(context).retrieve();
         if (carParks == null || carParks.length == 0) {
             runnerTask.report("BUCKS car park insert ... FAILED.", COLOUR_FAILED);
             return;
         }
+        // Insert the same thing twice to check for a working UNIQUE ON CONFLICT IGNORE index.
+        BucksContentHelper.insertIntoProvider(context, carParks);
         BucksContentHelper.insertIntoProvider(context, carParks);
         Cursor cursor = BucksContentHelper.getCarParks(context);
         if (cursor != null) {

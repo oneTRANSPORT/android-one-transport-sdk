@@ -21,7 +21,9 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 
-public class BucksContentHelper {
+import static net.uk.onetransport.android.county.bucks.provider.BucksContract.BucksCarPark;
+
+public class BucksContentHelper { // TODO    Extends Common helper?
 
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({DATA_TYPE_CAR_PARK, DATA_TYPE_VMS, DATA_TYPE_TRAFFIC_FLOW,
@@ -33,6 +35,11 @@ public class BucksContentHelper {
     public static final int DATA_TYPE_TRAFFIC_FLOW = 4;
     public static final int DATA_TYPE_VMS = 5;
     public static final int DATA_TYPE_ROAD_WORKS = 6;
+
+    private static final String CREATION_INTERVAL_SELECTION = // TODO    From Common?
+            BucksBaseColumns.COLUMN_CREATION_TIME + ">=? AND "
+                    + BucksBaseColumns.COLUMN_CREATION_TIME + "<=?";
+    private static final String CREATED_BEFORE = "creation_time < ?";
 
     // Could really use the proper column identifiers here.
     private static final String LAT_LON_BOX = "latitude >= ? and longitude >= ? "
@@ -49,23 +56,29 @@ public class BucksContentHelper {
             for (CarPark carPark : carParks) {
                 ContentProviderOperation operation = ContentProviderOperation
                         .newInsert(BucksProviderModule.CAR_PARK_URI)
-                        .withValue(BucksContract.BucksCarPark.COLUMN_FILL_RATE, carPark.getFillRate())
-                        .withValue(BucksContract.BucksCarPark.COLUMN_EXIT_RATE, carPark.getExitRate())
-                        .withValue(BucksContract.BucksCarPark.COLUMN_LATITUDE, carPark.getLatitude())
-                        .withValue(BucksContract.BucksCarPark.COLUMN_LONGITUDE, carPark.getLongitude())
-                        .withValue(BucksContract.BucksCarPark.COLUMN_ENTRANCE_FULL, carPark.getEntranceFull())
-                        .withValue(BucksContract.BucksCarPark.COLUMN_FULL_INCREASING,
-                                carPark.getFullIncreasing())
-                        .withValue(BucksContract.BucksCarPark.COLUMN_FULL_DECREASING,
-                                carPark.getFullDecreasing())
-                        .withValue(BucksContract.BucksCarPark.COLUMN_CAR_PARK_IDENTITY,
-                                carPark.getCarParkIdentity())
-                        .withValue(BucksContract.BucksCarPark.COLUMN_TOTAL_PARKING_CAPACITY,
+                        .withValue(BucksCarPark.COLUMN_CAR_PARK_IDENTITY, carPark.getCarParkIdentity())
+                        .withValue(BucksCarPark.COLUMN_LATITUDE, carPark.getLatitude())
+                        .withValue(BucksCarPark.COLUMN_LONGITUDE, carPark.getLongitude())
+                        .withValue(BucksCarPark.COLUMN_OCCUPANCY, carPark.getOccupancy())
+                        .withValue(BucksCarPark.COLUMN_OCCUPANCY_TREND, carPark.getOccupancyTrend())
+                        .withValue(BucksCarPark.COLUMN_TOTAL_PARKING_CAPACITY,
                                 carPark.getTotalParkingCapacity())
-                        .withValue(BucksContract.BucksCarPark.COLUMN_ALMOST_FULL_INCREASING,
+                        .withValue(BucksCarPark.COLUMN_FILL_RATE, carPark.getFillRate())
+                        .withValue(BucksCarPark.COLUMN_EXIT_RATE, carPark.getExitRate())
+                        .withValue(BucksCarPark.COLUMN_ALMOST_FULL_INCREASING,
                                 carPark.getAlmostFullIncreasing())
-                        .withValue(BucksContract.BucksCarPark.COLUMN_ALMOST_FULL_DECREASING,
+                        .withValue(BucksCarPark.COLUMN_ALMOST_FULL_DECREASING,
                                 carPark.getAlmostFullDecreasing())
+                        .withValue(BucksCarPark.COLUMN_FULL_INCREASING, carPark.getFullIncreasing())
+                        .withValue(BucksCarPark.COLUMN_FULL_DECREASING, carPark.getFullDecreasing())
+                        .withValue(BucksCarPark.COLUMN_STATUS, carPark.getStatus())
+                        .withValue(BucksCarPark.COLUMN_STATUS_TIME, carPark.getStatusTime())
+                        .withValue(BucksCarPark.COLUMN_QUEUING_TIME, carPark.getQueuingTime())
+                        .withValue(BucksCarPark.COLUMN_PARKING_AREA_NAME,
+                                carPark.getParkingAreaName())
+                        .withValue(BucksCarPark.COLUMN_ENTRANCE_FULL, carPark.getEntranceFull())
+                        .withValue(BucksCarPark.COLUMN_CIN_ID, carPark.getCinId())
+                        .withValue(BucksCarPark.COLUMN_CREATION_TIME, carPark.getCreationTime())
                         .withYieldAllowed(true)
                         .build();
                 operationList.add(operation);
@@ -203,9 +216,10 @@ public class BucksContentHelper {
 
     public static Cursor getCarParks(@NonNull Context context) {
         return context.getContentResolver().query(BucksProviderModule.CAR_PARK_URI,
-                new String[]{"*"}, null, null, BucksContract.BucksCarPark.COLUMN_CAR_PARK_IDENTITY);
+                new String[]{"*"}, null, null, BucksCarPark.COLUMN_CAR_PARK_IDENTITY);
     }
 
+    // TODO    Get latest?  Get everything?
     public static Cursor getCarParks(@NonNull Context context, double minLatitude, double minLongitude,
                                      double maxLatitude, double maxLongitude) {
         return context.getContentResolver().query(BucksProviderModule.CAR_PARK_URI,
@@ -214,7 +228,14 @@ public class BucksContentHelper {
                         String.valueOf(minLongitude),
                         String.valueOf(maxLatitude),
                         String.valueOf(maxLongitude)
-                }, BucksContract.BucksCarPark.COLUMN_CAR_PARK_IDENTITY);
+                }, BucksCarPark.COLUMN_CAR_PARK_IDENTITY);
+    }
+
+    public static Cursor getCarParks(@NonNull Context context, long oldest, long newest) {
+        return context.getContentResolver().query(BucksProviderModule.CAR_PARK_URI,
+                new String[]{"*"}, CREATION_INTERVAL_SELECTION,
+                new String[]{String.valueOf(oldest), String.valueOf(newest)},
+                BucksBaseColumns.COLUMN_CREATION_TIME);
     }
 
     public static Cursor getTrafficFlows(@NonNull Context context) {
@@ -287,7 +308,30 @@ public class BucksContentHelper {
         }
     }
 
-    //    public static void refreshLastUpdated(@NonNull Context context) {
+    public static void deleteFromProviderBeforeTime(@NonNull Context context, @DataType int dataType,
+                                                    long creationTime) {
+        ContentResolver contentResolver = context.getContentResolver();
+        switch (dataType) {
+            case DATA_TYPE_CAR_PARK:
+                contentResolver.delete(BucksProviderModule.CAR_PARK_URI, CREATED_BEFORE,
+                        new String[]{String.valueOf(creationTime)});
+                break;
+            case DATA_TYPE_TRAFFIC_FLOW:
+                contentResolver.delete(BucksProviderModule.TRAFFIC_FLOW_URI,  CREATED_BEFORE,
+                        new String[]{String.valueOf(creationTime)});
+                break;
+            case DATA_TYPE_VMS:
+                contentResolver.delete(BucksProviderModule.VARIABLE_MESSAGE_SIGN_URI,
+                        CREATED_BEFORE, new String[]{String.valueOf(creationTime)});
+                break;
+            case DATA_TYPE_ROAD_WORKS:
+                contentResolver.delete(BucksProviderModule.ROAD_WORKS_URI,  CREATED_BEFORE,
+                        new String[]{String.valueOf(creationTime)});
+                break;
+        }
+    }
+
+            //    public static void refreshLastUpdated(@NonNull Context context) {
 //        ContentResolver contentResolver = context.getContentResolver();
 //        ContentValues values = new ContentValues();
 //        values.put(LastUpdatedContract.LastUpdated.COLUMN_LAST_UPDATE_MILLIS,

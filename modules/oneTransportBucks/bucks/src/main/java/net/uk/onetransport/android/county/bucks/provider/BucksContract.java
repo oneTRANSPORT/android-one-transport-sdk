@@ -8,18 +8,29 @@ public class BucksContract {
     public static final String CREATE_CAR_PARK_TABLE =
             "CREATE TABLE IF NOT EXISTS " + BucksCarPark.TABLE_NAME + " ("
                     + BucksCarPark._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-                    + BucksCarPark.COLUMN_CAR_PARK_IDENTITY + " TEXT NOT NULL,"
-                    + BucksCarPark.COLUMN_FILL_RATE + " INTEGER NOT NULL,"
-                    + BucksCarPark.COLUMN_EXIT_RATE + " INTEGER NOT NULL,"
-                    + BucksCarPark.COLUMN_TOTAL_PARKING_CAPACITY + " INTEGER NOT NULL,"
-                    + BucksCarPark.COLUMN_ALMOST_FULL_INCREASING + " INTEGER NOT NULL,"
-                    + BucksCarPark.COLUMN_ALMOST_FULL_DECREASING + " INTEGER NOT NULL,"
-                    + BucksCarPark.COLUMN_FULL_DECREASING + " INTEGER NOT NULL,"
-                    + BucksCarPark.COLUMN_FULL_INCREASING + " INTEGER NOT NULL,"
-                    + BucksCarPark.COLUMN_ENTRANCE_FULL + " INTEGER NOT NULL,"
-                    + BucksCarPark.COLUMN_LATITUDE + " REAL NOT NULL,"
-                    + BucksCarPark.COLUMN_LONGITUDE + " REAL NOT NULL"
-                    + ");";
+                    + BucksCarPark.COLUMN_CAR_PARK_IDENTITY + " TEXT,"
+                    + BucksCarPark.COLUMN_LATITUDE + " REAL,"
+                    + BucksCarPark.COLUMN_LONGITUDE + " REAL,"
+                    + BucksCarPark.COLUMN_OCCUPANCY + " REAL,"
+                    + BucksCarPark.COLUMN_OCCUPANCY_TREND + " TEXT,"
+                    + BucksCarPark.COLUMN_TOTAL_PARKING_CAPACITY + " REAL,"
+                    + BucksCarPark.COLUMN_FILL_RATE + " REAL,"
+                    + BucksCarPark.COLUMN_EXIT_RATE + " REAL,"
+                    + BucksCarPark.COLUMN_ALMOST_FULL_INCREASING + " REAL,"
+                    + BucksCarPark.COLUMN_ALMOST_FULL_DECREASING + " REAL,"
+                    + BucksCarPark.COLUMN_FULL_DECREASING + " REAL,"
+                    + BucksCarPark.COLUMN_FULL_INCREASING + " REAL,"
+                    + BucksCarPark.COLUMN_STATUS + " TEXT,"
+                    + BucksCarPark.COLUMN_STATUS_TIME + " TEXT,"
+                    + BucksCarPark.COLUMN_QUEUING_TIME + " REAL,"
+                    + BucksCarPark.COLUMN_PARKING_AREA_NAME + " TEXT,"
+                    + BucksCarPark.COLUMN_ENTRANCE_FULL + " REAL,"
+                    + BucksCarPark.COLUMN_CIN_ID + " TEXT,"
+                    + BucksCarPark.COLUMN_CREATION_TIME + " INTEGER,"
+                    + "UNIQUE ("
+                    + BucksCarPark.COLUMN_CAR_PARK_IDENTITY + ","
+                    + BucksCarPark.COLUMN_CIN_ID
+                    + ") ON CONFLICT IGNORE);";
     public static final String CREATE_VARIABLE_MESSAGE_SIGN_TABLE =
             "CREATE TABLE IF NOT EXISTS " + BucksVariableMessageSign.TABLE_NAME + " ("
                     + BucksVariableMessageSign._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -80,19 +91,25 @@ public class BucksContract {
     private BucksContract() {
     }
 
-    public static final class BucksCarPark implements BaseColumns {
+    public static final class BucksCarPark implements BucksBaseColumns{
         public static final String TABLE_NAME = "bucks_car_park";
         public static final String COLUMN_CAR_PARK_IDENTITY = "car_park_identity";
-        public static final String COLUMN_EXIT_RATE = "exit_rate";
-        public static final String COLUMN_FILL_RATE = "fill_rate";
-        public static final String COLUMN_TOTAL_PARKING_CAPACITY = "total_parking_capacity";
-        public static final String COLUMN_ALMOST_FULL_INCREASING = "almost_full_increasing";
-        public static final String COLUMN_ALMOST_FULL_DECREASING = "almost_full_decreasing";
-        public static final String COLUMN_FULL_DECREASING = "full_decreasing";
-        public static final String COLUMN_FULL_INCREASING = "full_increasing";
-        public static final String COLUMN_ENTRANCE_FULL = "entrance_full";
         public static final String COLUMN_LATITUDE = "latitude";
         public static final String COLUMN_LONGITUDE = "longitude";
+        public static final String COLUMN_OCCUPANCY = "occupancy";
+        public static final String COLUMN_OCCUPANCY_TREND = "occupancy_trend";
+        public static final String COLUMN_TOTAL_PARKING_CAPACITY = "total_parking_capacity";
+        public static final String COLUMN_FILL_RATE = "fill_rate";
+        public static final String COLUMN_EXIT_RATE = "exit_rate";
+        public static final String COLUMN_ALMOST_FULL_INCREASING = "almost_full_increasing";
+        public static final String COLUMN_ALMOST_FULL_DECREASING = "almost_full_decreasing";
+        public static final String COLUMN_FULL_INCREASING = "full_increasing";
+        public static final String COLUMN_FULL_DECREASING = "full_decreasing";
+        public static final String COLUMN_STATUS = "status";
+        public static final String COLUMN_STATUS_TIME = "status_time";
+        public static final String COLUMN_QUEUING_TIME = "queuing_time";
+        public static final String COLUMN_PARKING_AREA_NAME = "parking_area_name";
+        public static final String COLUMN_ENTRANCE_FULL = "entrance_full";
     }
 
     public static final class BucksVariableMessageSign implements BaseColumns {
