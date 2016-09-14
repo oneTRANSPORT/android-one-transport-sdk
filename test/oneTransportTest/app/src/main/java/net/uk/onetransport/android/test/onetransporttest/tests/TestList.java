@@ -1,7 +1,7 @@
 package net.uk.onetransport.android.test.onetransporttest.tests;
 
-import net.uk.onetransport.android.test.onetransporttest.tests.bucks.roadworks.BucksRoadWorksRetrieveTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bucks.trafficflow.BucksTrafficFlowRetrieveTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.bucks.trafficspeed.BucksTrafficSpeedRetrieveTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.bucks.traffictraveltime.BucksTrafficTravelTimeRetrieveTest;
 
 public class TestList {
 
@@ -9,8 +9,12 @@ public class TestList {
 //            new ApplicationEntityCreateTest(),
 //            new BucksCarParkRetrieveTest(),
 //            new BucksEventRetrieveTest(),
-            new BucksRoadWorksRetrieveTest(),
-            new BucksTrafficFlowRetrieveTest(),
+//            new BucksRoadWorksRetrieveTest(),
+//            new BucksTrafficFlowRetrieveTest(),
+//            new BucksTrafficQueueRetrieveTest(),
+//            new BucksTrafficScootRetrieveTest(),
+//            new BucksTrafficSpeedRetrieveTest(),
+            new BucksTrafficTravelTimeRetrieveTest()
 //            new GetVariableMessageSignArrayTest(),
 //            new GetTrafficFlowArrayTest(),
 //            new GetRoadWorksArrayTest(),
