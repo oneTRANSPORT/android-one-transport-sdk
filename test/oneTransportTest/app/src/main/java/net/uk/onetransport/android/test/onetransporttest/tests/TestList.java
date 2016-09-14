@@ -1,12 +1,16 @@
 package net.uk.onetransport.android.test.onetransporttest.tests;
 
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.carpark.BucksCarParkRetrieveTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.bucks.event.BucksEventRetrieveTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.bucks.roadworks.BucksRoadWorksRetrieveTest;
 
 public class TestList {
 
     public OneTransportTest[] oneTransportTests = {
 //            new ApplicationEntityCreateTest(),
-            new BucksCarParkRetrieveTest(),
+//            new BucksCarParkRetrieveTest(),
+//            new BucksEventRetrieveTest(),
+            new BucksRoadWorksRetrieveTest(),
 //            new GetVariableMessageSignArrayTest(),
 //            new GetTrafficFlowArrayTest(),
 //            new GetRoadWorksArrayTest(),
