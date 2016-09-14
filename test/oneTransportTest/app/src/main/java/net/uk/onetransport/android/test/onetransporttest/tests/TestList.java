@@ -1,7 +1,6 @@
 package net.uk.onetransport.android.test.onetransporttest.tests;
 
-import net.uk.onetransport.android.test.onetransporttest.tests.bucks.trafficspeed.BucksTrafficSpeedRetrieveTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bucks.traffictraveltime.BucksTrafficTravelTimeRetrieveTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.bucks.vms.BucksVariableMessageSignRetrieveTest;
 
 public class TestList {
 
@@ -14,7 +13,8 @@ public class TestList {
 //            new BucksTrafficQueueRetrieveTest(),
 //            new BucksTrafficScootRetrieveTest(),
 //            new BucksTrafficSpeedRetrieveTest(),
-            new BucksTrafficTravelTimeRetrieveTest()
+//            new BucksTrafficTravelTimeRetrieveTest(),
+            new BucksVariableMessageSignRetrieveTest(),
 //            new GetVariableMessageSignArrayTest(),
 //            new GetTrafficFlowArrayTest(),
 //            new GetRoadWorksArrayTest(),

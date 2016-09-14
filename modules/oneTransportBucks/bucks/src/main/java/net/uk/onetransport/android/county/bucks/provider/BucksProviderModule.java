@@ -20,7 +20,8 @@ import net.uk.onetransport.android.county.bucks.roadworks.RoadWorks;
 import net.uk.onetransport.android.county.bucks.roadworks.RoadWorksRetriever;
 import net.uk.onetransport.android.county.bucks.trafficflow.TrafficFlow;
 import net.uk.onetransport.android.county.bucks.trafficflow.TrafficFlowRetriever;
-import net.uk.onetransport.android.county.bucks.variablemessagesigns.VariableMessageSignArray;
+import net.uk.onetransport.android.county.bucks.variablemessagesigns.VariableMessageSign;
+import net.uk.onetransport.android.county.bucks.variablemessagesigns.VariableMessageSignRetriever;
 import net.uk.onetransport.android.modules.common.provider.OneTransportProvider;
 import net.uk.onetransport.android.modules.common.provider.ProviderModule;
 import net.uk.onetransport.android.modules.common.sync.CommonSyncAdapter;
@@ -328,10 +329,9 @@ public class BucksProviderModule implements ProviderModule {
             // Variable message signs.
             if (extras.getBoolean(EXTRAS_VMS, false)) {
                 try {
-                    VariableMessageSignArray variableMessageSignArray = VariableMessageSignArray
-                            .getVariableMessageSignArray(context);
-                    BucksContentHelper.insertIntoProvider(context,
-                            variableMessageSignArray.getVariableMessageSigns());
+                    VariableMessageSign[] variableMessageSigns = new VariableMessageSignRetriever(context)
+                            .retrieve();
+                    BucksContentHelper.insertIntoProvider(context, variableMessageSigns);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

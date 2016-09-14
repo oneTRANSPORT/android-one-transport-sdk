@@ -4,15 +4,14 @@ import com.google.gson.annotations.Expose;
 
 public class VariableMessageSign {
 
-    // TODO    Add meta data after discussion?
     @Expose
     private String locationId;
     @Expose
     private String name;
     @Expose
-    private Integer numberOfCharacters;
+    private Double numberOfCharacters;
     @Expose
-    private Integer numberOfRows;
+    private Double numberOfRows;
     @Expose
     private String[] vmsLegends;
     @Expose
@@ -22,9 +21,9 @@ public class VariableMessageSign {
     @Expose
     private Double longitude;
     @Expose
-    private String descriptor;
-    @Expose
-    private String tpegDirection;
+    private String description;
+    private String cinId;
+    private Long creationTime;
 
     public String getLocationId() {
         return locationId;
@@ -42,19 +41,19 @@ public class VariableMessageSign {
         this.name = name;
     }
 
-    public Integer getNumberOfCharacters() {
+    public Double getNumberOfCharacters() {
         return numberOfCharacters;
     }
 
-    public void setNumberOfCharacters(Integer numberOfCharacters) {
+    public void setNumberOfCharacters(Double numberOfCharacters) {
         this.numberOfCharacters = numberOfCharacters;
     }
 
-    public Integer getNumberOfRows() {
+    public Double getNumberOfRows() {
         return numberOfRows;
     }
 
-    public void setNumberOfRows(Integer numberOfRows) {
+    public void setNumberOfRows(Double numberOfRows) {
         this.numberOfRows = numberOfRows;
     }
 
@@ -90,19 +89,27 @@ public class VariableMessageSign {
         this.longitude = longitude;
     }
 
-    public String getDescriptor() {
-        return descriptor;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDescriptor(String descriptor) {
-        this.descriptor = descriptor;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public String getTpegDirection() {
-        return tpegDirection;
+    public String getCinId() {
+        return cinId;
     }
 
-    public void setTpegDirection(String tpegDirection) {
-        this.tpegDirection = tpegDirection;
+    public void setCinId(String cinId) {
+        this.cinId = cinId;
+    }
+
+    public Long getCreationTime() {
+        return creationTime;
+    }
+
+    public void setCreationTime(Long creationTime) {
+        this.creationTime = creationTime;
     }
 }

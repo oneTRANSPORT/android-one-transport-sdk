@@ -143,10 +143,9 @@ public class BucksContentHelper {
                                 variableMessageSign.getLatitude())
                         .withValue(BucksContract.BucksVariableMessageSign.COLUMN_LONGITUDE,
                                 variableMessageSign.getLongitude())
+// TODO    // FIXME: 14/09/2016
                         .withValue(BucksContract.BucksVariableMessageSign.COLUMN_DESCRIPTOR,
-                                variableMessageSign.getDescriptor())
-                        .withValue(BucksContract.BucksVariableMessageSign.COLUMN_TPEG_DIRECTION,
-                                variableMessageSign.getTpegDirection())
+                                variableMessageSign.getDescription())
                         .withYieldAllowed(true)
                         .build();
                 operationList.add(operation);
