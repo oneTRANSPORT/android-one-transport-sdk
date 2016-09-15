@@ -5,6 +5,7 @@ import android.database.Cursor;
 
 import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
+import net.uk.onetransport.android.modules.bitcarriersilverstone.data.vector.Vector;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContentHelper;
 import net.uk.onetransport.android.test.onetransporttest.RunnerFragment;
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
@@ -26,9 +27,10 @@ public class BcsDataVectorDeleteTest extends OneTransportTest {
         runnerTask.setCurrentTest("BCS data vector delete");
         Context context = runnerTask.getContext();
         BcsContentHelper.deleteFromProvider(context, BcsContentHelper.DATA_TYPE_DATA_VECTOR);
-        Cursor cursor = BcsContentHelper.getDataVectors(context);
+        Cursor cursor = BcsContentHelper.getDataVectorCursor(context);
+        Vector[] vectors = BcsContentHelper.getDataVectors(context);
         if (cursor != null) {
-            if (cursor.getCount() == 0) {
+            if (cursor.getCount() == 0 && vectors.length == 0) {
                 runnerTask.report("BCS data vector delete ... PASSED.", COLOUR_PASSED);
                 cursor.close();
                 return;

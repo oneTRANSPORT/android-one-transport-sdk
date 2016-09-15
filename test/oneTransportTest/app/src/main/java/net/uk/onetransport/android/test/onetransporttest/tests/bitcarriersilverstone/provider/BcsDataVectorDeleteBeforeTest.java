@@ -5,6 +5,7 @@ import android.database.Cursor;
 
 import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
+import net.uk.onetransport.android.modules.bitcarriersilverstone.data.vector.Vector;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContentHelper;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract;
 import net.uk.onetransport.android.test.onetransporttest.RunnerFragment;
@@ -26,10 +27,11 @@ public class BcsDataVectorDeleteBeforeTest extends OneTransportTest {
     private void deleteBeforeDataVectors(RunnerTask runnerTask) throws Exception {
         runnerTask.setCurrentTest("BCS data vector delete before");
         Context context = runnerTask.getContext();
-        Cursor cursor = BcsContentHelper.getDataVectors(context);
+        Cursor cursor = BcsContentHelper.getDataVectorCursor(context);
+        Vector[] vectors = BcsContentHelper.getDataVectors(context);
         int creationTime = 0;
         if (cursor != null) {
-            if (cursor.getCount() == 0) {
+            if (cursor.getCount() == 0 || vectors.length == 0) {
                 runnerTask.report("BCS data vector delete before ... FAILED.", COLOUR_FAILED);
                 cursor.close();
                 return;
@@ -43,9 +45,10 @@ public class BcsDataVectorDeleteBeforeTest extends OneTransportTest {
 
         BcsContentHelper.deleteFromProviderBeforeTime(context,
                 BcsContentHelper.DATA_TYPE_DATA_VECTOR, creationTime);
-        cursor = BcsContentHelper.getDataVectors(context);
+        cursor = BcsContentHelper.getDataVectorCursor(context);
+        vectors = BcsContentHelper.getDataVectors(context);
         if (cursor != null) {
-            if (cursor.getCount() == 0) {
+            if (cursor.getCount() == 0 || vectors.length == 0) {
                 runnerTask.report("BCS data vector delete before ... FAILED.", COLOUR_FAILED);
                 cursor.close();
                 return;
@@ -57,9 +60,10 @@ public class BcsDataVectorDeleteBeforeTest extends OneTransportTest {
         }
         BcsContentHelper.deleteFromProviderBeforeTime(context,
                 BcsContentHelper.DATA_TYPE_DATA_VECTOR, System.currentTimeMillis() / 1000L);
-        cursor = BcsContentHelper.getDataVectors(context);
+        cursor = BcsContentHelper.getDataVectorCursor(context);
+        vectors = BcsContentHelper.getDataVectors(context);
         if (cursor != null) {
-            if (cursor.getCount() > 0) {
+            if (cursor.getCount() > 0 || vectors.length > 0) {
                 runnerTask.report("BCS data vector delete before ... FAILED.", COLOUR_FAILED);
                 cursor.close();
                 return;

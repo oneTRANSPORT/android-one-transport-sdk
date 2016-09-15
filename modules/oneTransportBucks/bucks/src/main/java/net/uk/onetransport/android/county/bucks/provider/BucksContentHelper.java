@@ -214,12 +214,22 @@ public class BucksContentHelper { // TODO    Extends Common helper?
         }
     }
 
+    // TODO    Get everything.
+    // TODO    Get latest set.
+    // TODO    Get all sets in time interval.
+    // TODO    Get latest set in lat/lon rectangle.
+
     public static Cursor getCarParks(@NonNull Context context) {
         return context.getContentResolver().query(BucksProviderModule.CAR_PARK_URI,
                 new String[]{"*"}, null, null, BucksCarPark.COLUMN_CAR_PARK_IDENTITY);
     }
 
-    // TODO    Get latest?  Get everything?
+    public static Cursor getLatestCarParks(@NonNull Context context){
+        return context.getContentResolver().query(BucksProviderModule.LATEST_CAR_PARK_URI,
+                new String[]{"*"}, null, null,
+                BucksLatestCarPark.COLUMN_CAR_PARK_IDENTITY);
+    }
+
     public static Cursor getCarParks(@NonNull Context context, double minLatitude, double minLongitude,
                                      double maxLatitude, double maxLongitude) {
         return context.getContentResolver().query(BucksProviderModule.CAR_PARK_URI,

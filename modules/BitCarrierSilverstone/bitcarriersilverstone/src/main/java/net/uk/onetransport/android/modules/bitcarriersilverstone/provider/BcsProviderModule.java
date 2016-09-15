@@ -300,7 +300,7 @@ public class BcsProviderModule implements ProviderModule {
         }
         if (match == LATEST_TRAVEL_SUMMARY_ID) {
             Cursor cursor = sqLiteDatabase.query(BitCarrierSilverstoneLatestTravelSummary.TABLE_NAME,
-                    projection, BitCarrierSilverstoneLatestTravelSummary._ID + "=?",
+                    projection, BitCarrierSilverstoneTravelSummary._ID + "=?",
                     new String[]{uri.getLastPathSegment()}, null, null, sortOrder);
             cursor.setNotificationUri(contentResolver, LATEST_TRAVEL_SUMMARY_URI);
             return cursor;
@@ -339,7 +339,7 @@ public class BcsProviderModule implements ProviderModule {
         }
         if (match == LATEST_DATA_VECTOR_ID) {
             Cursor cursor = sqLiteDatabase.query(BitCarrierSilverstoneLatestDataVector.TABLE_NAME,
-                    projection, BitCarrierSilverstoneLatestDataVector._ID + "=?",
+                    projection, BitCarrierSilverstoneDataVector._ID + "=?",
                     new String[]{uri.getLastPathSegment()}, null, null, sortOrder);
             cursor.setNotificationUri(contentResolver, LATEST_DATA_VECTOR_URI);
             return cursor;

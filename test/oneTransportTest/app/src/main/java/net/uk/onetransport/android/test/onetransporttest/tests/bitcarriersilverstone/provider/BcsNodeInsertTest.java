@@ -35,9 +35,10 @@ public class BcsNodeInsertTest extends OneTransportTest {
             return;
         }
         BcsContentHelper.insertNodesIntoProvider(context, nodes);
-        Cursor cursor = BcsContentHelper.getNodes(context);
+        Cursor cursor = BcsContentHelper.getNodeCursor(context);
+        Node[] nodes1 = BcsContentHelper.getNodes(context);
         if (cursor != null) {
-            if (cursor.getCount() > 0) {
+            if (cursor.getCount() > 0 && cursor.getCount() == nodes1.length) {
                 runnerTask.report("BCS node insert ... PASSED.", COLOUR_PASSED);
                 cursor.close();
                 return;

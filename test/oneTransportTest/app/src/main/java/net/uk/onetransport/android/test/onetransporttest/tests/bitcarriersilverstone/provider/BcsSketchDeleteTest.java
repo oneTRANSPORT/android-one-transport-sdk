@@ -5,6 +5,7 @@ import android.database.Cursor;
 
 import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
+import net.uk.onetransport.android.modules.bitcarriersilverstone.config.sketch.Sketch;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContentHelper;
 import net.uk.onetransport.android.test.onetransporttest.RunnerFragment;
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
@@ -26,9 +27,10 @@ public class BcsSketchDeleteTest extends OneTransportTest {
         runnerTask.setCurrentTest("BCS sketch delete");
         Context context = runnerTask.getContext();
         BcsContentHelper.deleteFromProvider(context, BcsContentHelper.DATA_TYPE_SKETCH);
-        Cursor cursor = BcsContentHelper.getSketches(context);
+        Cursor cursor = BcsContentHelper.getSketchCursor(context);
+        Sketch[] sketches = BcsContentHelper.getSketches(context);
         if (cursor != null) {
-            if (cursor.getCount() == 0) {
+            if (cursor.getCount() == 0 && sketches.length == 0) {
                 runnerTask.report("BCS sketch delete ... PASSED.", COLOUR_PASSED);
                 cursor.close();
                 return;

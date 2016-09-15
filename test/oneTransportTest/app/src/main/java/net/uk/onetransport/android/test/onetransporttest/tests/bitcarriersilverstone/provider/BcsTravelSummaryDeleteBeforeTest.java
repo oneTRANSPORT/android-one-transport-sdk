@@ -5,6 +5,7 @@ import android.database.Cursor;
 
 import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
+import net.uk.onetransport.android.modules.bitcarriersilverstone.data.travelsummary.TravelSummary;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContentHelper;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract;
 import net.uk.onetransport.android.test.onetransporttest.RunnerFragment;
@@ -26,10 +27,11 @@ public class BcsTravelSummaryDeleteBeforeTest extends OneTransportTest {
     private void deleteBeforeTravelSummaries(RunnerTask runnerTask) throws Exception {
         runnerTask.setCurrentTest("BCS travel summary delete before");
         Context context = runnerTask.getContext();
-        Cursor cursor = BcsContentHelper.getTravelSummaries(context);
+        Cursor cursor = BcsContentHelper.getTravelSummaryCursor(context);
+        TravelSummary[] travelSummaries = BcsContentHelper.getTravelSummaries(context);
         int creationTime = 0;
         if (cursor != null) {
-            if (cursor.getCount() == 0) {
+            if (cursor.getCount() == 0 || travelSummaries.length == 0) {
                 runnerTask.report("BCS travel summary delete before ... FAILED.", COLOUR_FAILED);
                 cursor.close();
                 return;
@@ -43,9 +45,10 @@ public class BcsTravelSummaryDeleteBeforeTest extends OneTransportTest {
 
         BcsContentHelper.deleteFromProviderBeforeTime(context,
                 BcsContentHelper.DATA_TYPE_TRAVEL_SUMMARY, creationTime);
-        cursor = BcsContentHelper.getTravelSummaries(context);
+        cursor = BcsContentHelper.getTravelSummaryCursor(context);
+        travelSummaries = BcsContentHelper.getTravelSummaries(context);
         if (cursor != null) {
-            if (cursor.getCount() == 0) {
+            if (cursor.getCount() == 0 || travelSummaries.length == 0) {
                 runnerTask.report("BCS travel summary delete before ... FAILED.", COLOUR_FAILED);
                 cursor.close();
                 return;
@@ -57,9 +60,10 @@ public class BcsTravelSummaryDeleteBeforeTest extends OneTransportTest {
         }
         BcsContentHelper.deleteFromProviderBeforeTime(context,
                 BcsContentHelper.DATA_TYPE_TRAVEL_SUMMARY, System.currentTimeMillis() / 1000L);
-        cursor = BcsContentHelper.getTravelSummaries(context);
+        cursor = BcsContentHelper.getTravelSummaryCursor(context);
+        travelSummaries = BcsContentHelper.getTravelSummaries(context);
         if (cursor != null) {
-            if (cursor.getCount() > 0) {
+            if (cursor.getCount() > 0 || travelSummaries.length>0) {
                 runnerTask.report("BCS travel summary delete before ... FAILED.", COLOUR_FAILED);
                 cursor.close();
                 return;

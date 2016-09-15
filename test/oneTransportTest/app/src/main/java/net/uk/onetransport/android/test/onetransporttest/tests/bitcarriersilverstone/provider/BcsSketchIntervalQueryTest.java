@@ -4,6 +4,7 @@ import android.database.Cursor;
 
 import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
+import net.uk.onetransport.android.modules.bitcarriersilverstone.config.sketch.Sketch;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContentHelper;
 import net.uk.onetransport.android.test.onetransporttest.RunnerFragment;
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
@@ -26,9 +27,10 @@ public class BcsSketchIntervalQueryTest extends OneTransportTest {
         runnerTask.setCurrentTest("BCS sketch interval query");
         long oldest = 0L;
         long newest = System.currentTimeMillis() / 1000L;
-        Cursor cursor = BcsContentHelper.getSketches(runnerTask.getContext(),oldest,newest);
+        Cursor cursor = BcsContentHelper.getSketchCursor(runnerTask.getContext(), oldest, newest);
+        Sketch[] sketches = BcsContentHelper.getSketches(runnerTask.getContext(), oldest, newest);
         if (cursor != null) {
-            if (cursor.getCount() > 0) {
+            if (cursor.getCount() > 0 && cursor.getCount() == sketches.length) {
                 runnerTask.report("BCS sketch interval query ... PASSED.", COLOUR_PASSED);
                 cursor.close();
                 return;

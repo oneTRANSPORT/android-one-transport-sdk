@@ -36,9 +36,10 @@ public class BcsConfigVectorInsertTest extends OneTransportTest {
             return;
         }
         BcsContentHelper.insertConfigVectorsIntoProvider(context, vectors);
-        Cursor cursor = BcsContentHelper.getConfigVectors(context);
+        Cursor cursor = BcsContentHelper.getConfigVectorCursor(context);
+        Vector[] vectors1 = BcsContentHelper.getConfigVectors(context);
         if (cursor != null) {
-            if (cursor.getCount() > 0) {
+            if (cursor.getCount() > 0 && cursor.getCount() == vectors1.length) {
                 runnerTask.report("BCS config vector insert ... PASSED.", COLOUR_PASSED);
                 cursor.close();
                 return;

@@ -5,6 +5,7 @@ import android.database.Cursor;
 
 import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
+import net.uk.onetransport.android.modules.bitcarriersilverstone.data.travelsummary.TravelSummary;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContentHelper;
 import net.uk.onetransport.android.test.onetransporttest.RunnerFragment;
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
@@ -26,9 +27,10 @@ public class BcsTravelSummaryDeleteTest extends OneTransportTest {
         runnerTask.setCurrentTest("BCS travel summary delete");
         Context context = runnerTask.getContext();
         BcsContentHelper.deleteFromProvider(context, BcsContentHelper.DATA_TYPE_TRAVEL_SUMMARY);
-        Cursor cursor = BcsContentHelper.getTravelSummaries(context);
+        Cursor cursor = BcsContentHelper.getTravelSummaryCursor(context);
+        TravelSummary[] travelSummaries = BcsContentHelper.getTravelSummaries(context);
         if (cursor != null) {
-            if (cursor.getCount() == 0) {
+            if (cursor.getCount() == 0 && travelSummaries.length == 0) {
                 runnerTask.report("BCS travel summary delete ... PASSED.", COLOUR_PASSED);
                 cursor.close();
                 return;

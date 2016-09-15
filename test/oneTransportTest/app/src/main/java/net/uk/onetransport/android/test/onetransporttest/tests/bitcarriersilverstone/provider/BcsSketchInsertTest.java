@@ -35,9 +35,10 @@ public class BcsSketchInsertTest extends OneTransportTest {
             return;
         }
         BcsContentHelper.insertSketchesIntoProvider(context, sketches);
-        Cursor cursor = BcsContentHelper.getSketches(context);
+        Cursor cursor = BcsContentHelper.getSketchCursor(context);
+        Sketch[] sketches1 = BcsContentHelper.getSketches(context);
         if (cursor != null) {
-            if (cursor.getCount() > 0) {
+            if (cursor.getCount() > 0 && cursor.getCount() == sketches1.length) {
                 runnerTask.report("BCS sketch insert ... PASSED.", COLOUR_PASSED);
                 cursor.close();
                 return;

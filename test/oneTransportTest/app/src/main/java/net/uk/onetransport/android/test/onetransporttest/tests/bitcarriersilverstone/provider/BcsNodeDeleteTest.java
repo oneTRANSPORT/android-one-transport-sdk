@@ -5,6 +5,7 @@ import android.database.Cursor;
 
 import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
+import net.uk.onetransport.android.modules.bitcarriersilverstone.config.node.Node;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContentHelper;
 import net.uk.onetransport.android.test.onetransporttest.RunnerFragment;
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
@@ -26,9 +27,10 @@ public class BcsNodeDeleteTest extends OneTransportTest {
         runnerTask.setCurrentTest("BCS node delete");
         Context context = runnerTask.getContext();
         BcsContentHelper.deleteFromProvider(context, BcsContentHelper.DATA_TYPE_NODE);
-        Cursor cursor = BcsContentHelper.getNodes(context);
+        Cursor cursor = BcsContentHelper.getNodeCursor(context);
+        Node[] nodes = BcsContentHelper.getNodes(context);
         if (cursor != null) {
-            if (cursor.getCount() == 0) {
+            if (cursor.getCount() == 0 || nodes.length == 0) {
                 runnerTask.report("BCS node delete ... PASSED.", COLOUR_PASSED);
                 cursor.close();
                 return;

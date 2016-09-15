@@ -4,6 +4,7 @@ import android.database.Cursor;
 
 import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
+import net.uk.onetransport.android.modules.bitcarriersilverstone.config.node.Node;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContentHelper;
 import net.uk.onetransport.android.test.onetransporttest.RunnerFragment;
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
@@ -23,7 +24,8 @@ public class BcsNodeQueryTest extends OneTransportTest {
 
     private void nodeQuery(RunnerTask runnerTask) throws Exception {
         runnerTask.setCurrentTest("BCS node query");
-        Cursor cursor = BcsContentHelper.getNodes(runnerTask.getContext());
+        Cursor cursor = BcsContentHelper.getNodeCursor(runnerTask.getContext());
+        Node[] nodes = BcsContentHelper.getNodes(runnerTask.getContext());
         if (cursor != null) {
             if (cursor.getCount() > 0) {
                 runnerTask.report("BCS node query ... PASSED.", COLOUR_PASSED);

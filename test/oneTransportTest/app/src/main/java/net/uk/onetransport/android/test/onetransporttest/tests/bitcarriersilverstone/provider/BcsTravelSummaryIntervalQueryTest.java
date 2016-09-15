@@ -4,6 +4,7 @@ import android.database.Cursor;
 
 import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
+import net.uk.onetransport.android.modules.bitcarriersilverstone.data.travelsummary.TravelSummary;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContentHelper;
 import net.uk.onetransport.android.test.onetransporttest.RunnerFragment;
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
@@ -25,9 +26,11 @@ public class BcsTravelSummaryIntervalQueryTest extends OneTransportTest {
         runnerTask.setCurrentTest("BCS travel summary interval query");
         long oldest = 0L;
         long newest = System.currentTimeMillis() / 1000L;
-        Cursor cursor = BcsContentHelper.getTravelSummaries(runnerTask.getContext(), oldest, newest);
+        Cursor cursor = BcsContentHelper.getTravelSummaryCursor(runnerTask.getContext(), oldest, newest);
+        TravelSummary[] travelSummaries = BcsContentHelper.getTravelSummaries(
+                runnerTask.getContext(), oldest, newest);
         if (cursor != null) {
-            if (cursor.getCount() > 0) {
+            if (cursor.getCount() > 0 && cursor.getCount() == travelSummaries.length) {
                 runnerTask.report("BCS travel summary interval query ... PASSED.", COLOUR_PASSED);
                 cursor.close();
                 return;

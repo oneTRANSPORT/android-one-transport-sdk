@@ -63,45 +63,52 @@ public class BcsSyncAdapterTest extends OneTransportTest {
         ArrayList<Sketch> sketches = new SketchRetriever(context).retrieve();
         ArrayList<TravelSummary> travelSummaries = new TravelSummaryRetriever(context).retrieve();
         context.getContentResolver().unregisterContentObserver(adapterObserver);
-        Cursor cursor = BcsContentHelper.getNodes(context);
+        Cursor cursor = BcsContentHelper.getNodeCursor(context);
+        Node[] nodes1 = BcsContentHelper.getNodes(context);
         if (cursor != null) {
-            if (cursor.getCount() != nodes.size()) {
+            if (cursor.getCount() != nodes.size() || nodes.size() != nodes1.length) {
                 runnerTask.report("BCS sync adapter nodes ... FAILED.", COLOUR_FAILED);
                 cursor.close();
                 return;
             }
             cursor.close();
         }
-        cursor = BcsContentHelper.getConfigVectors(context);
+        cursor = BcsContentHelper.getConfigVectorCursor(context);
+        net.uk.onetransport.android.modules.bitcarriersilverstone.config.vector
+                .Vector[] configVectors1 = BcsContentHelper.getConfigVectors(context);
         if (cursor != null) {
-            if (cursor.getCount() != configVectors.size()) {
+            if (cursor.getCount() != configVectors.size() || configVectors.size() != configVectors1.length) {
                 runnerTask.report("BCS sync adapter config vectors ... FAILED.", COLOUR_FAILED);
                 cursor.close();
                 return;
             }
             cursor.close();
         }
-        cursor = BcsContentHelper.getDataVectors(context);
+        cursor = BcsContentHelper.getDataVectorCursor(context);
+        Vector[] dataVectors1 = BcsContentHelper.getDataVectors(context);
         if (cursor != null) {
-            if (cursor.getCount() != dataVectors.size()) {
+            if (cursor.getCount() != dataVectors.size() || dataVectors.size() != dataVectors1.length) {
                 runnerTask.report("BCS sync adapter data vectors ... FAILED.", COLOUR_FAILED);
                 cursor.close();
                 return;
             }
             cursor.close();
         }
-        cursor = BcsContentHelper.getSketches(context);
+        cursor = BcsContentHelper.getSketchCursor(context);
+        Sketch[] sketches1 = BcsContentHelper.getSketches(context);
         if (cursor != null) {
-            if (cursor.getCount() != sketches.size()) {
+            if (cursor.getCount() != sketches.size() || sketches.size() != sketches1.length) {
                 runnerTask.report("BCS sync adapter sketches ... FAILED.", COLOUR_FAILED);
                 cursor.close();
                 return;
             }
             cursor.close();
         }
-        cursor = BcsContentHelper.getTravelSummaries(context);
+        cursor = BcsContentHelper.getTravelSummaryCursor(context);
+        TravelSummary[] travelSummaries1 = BcsContentHelper.getTravelSummaries(context);
         if (cursor != null) {
-            if (cursor.getCount() != travelSummaries.size()) {
+            if (cursor.getCount() != travelSummaries.size()
+                    || travelSummaries.size() != travelSummaries1.length) {
                 runnerTask.report("BCS sync adapter travel summaries ... FAILED.", COLOUR_FAILED);
                 cursor.close();
                 return;

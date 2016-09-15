@@ -36,9 +36,10 @@ public class BcsDataVectorInsertTest extends OneTransportTest {
             return;
         }
         BcsContentHelper.insertDataVectorsIntoProvider(context, vectors);
-        Cursor cursor = BcsContentHelper.getDataVectors(context);
+        Cursor cursor = BcsContentHelper.getDataVectorCursor(context);
+        Vector[] vectors1 = BcsContentHelper.getDataVectors(context);
         if (cursor != null) {
-            if (cursor.getCount() > 0) {
+            if (cursor.getCount() > 0 || cursor.getCount() == vectors1.length) {
                 runnerTask.report("BCS data vector insert ... PASSED.", COLOUR_PASSED);
                 cursor.close();
                 return;

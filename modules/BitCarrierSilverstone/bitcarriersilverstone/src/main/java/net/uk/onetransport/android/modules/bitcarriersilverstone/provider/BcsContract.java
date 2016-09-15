@@ -131,16 +131,8 @@ public class BcsContract {
         public static final String COLUMN_TREND = "trend";
     }
 
-    public static final class BitCarrierSilverstoneLatestTravelSummary implements BcsBaseColumns {
+    public static final class BitCarrierSilverstoneLatestTravelSummary {
         public static final String TABLE_NAME = "bit_carrier_silverstone_latest_travel_summary";
-        public static final String COLUMN_TRAVEL_SUMMARY_ID = "travel_summary_id";
-        public static final String COLUMN_CLOCK_TIME = "clock_time";
-        public static final String COLUMN_FROM_LOCATION = "from_location";
-        public static final String COLUMN_TO_LOCATION = "to_location";
-        public static final String COLUMN_SCORE = "score";
-        public static final String COLUMN_SPEED = "speed";
-        public static final String COLUMN_ELAPSED = "elapsed";
-        public static final String COLUMN_TREND = "trend";
     }
 
     public static final class BitCarrierSilverstoneConfigVector implements BcsBaseColumns {
@@ -163,12 +155,7 @@ public class BcsContract {
         public static final String COLUMN_LEVEL_OF_SERVICE = "level_of_service";
     }
 
-    public static final class BitCarrierSilverstoneLatestDataVector implements BcsBaseColumns {
+    public static final class BitCarrierSilverstoneLatestDataVector {
         public static final String TABLE_NAME = "bit_carrier_silverstone_latest_data_vector";
-        public static final String COLUMN_VECTOR_ID = "vector_id";
-        public static final String COLUMN_TIMESTAMP = "timestamp";
-        public static final String COLUMN_SPEED = "SPEED";
-        public static final String COLUMN_ELAPSED = "elapsed";
-        public static final String COLUMN_LEVEL_OF_SERVICE = "level_of_service";
     }
 }

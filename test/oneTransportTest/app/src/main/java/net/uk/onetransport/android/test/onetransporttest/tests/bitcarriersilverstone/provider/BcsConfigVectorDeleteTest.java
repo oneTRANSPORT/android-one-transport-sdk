@@ -6,6 +6,7 @@ import android.database.Cursor;
 
 import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
+import net.uk.onetransport.android.modules.bitcarriersilverstone.config.vector.Vector;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContentHelper;
 import net.uk.onetransport.android.test.onetransporttest.RunnerFragment;
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
@@ -27,9 +28,10 @@ public class BcsConfigVectorDeleteTest extends OneTransportTest {
         runnerTask.setCurrentTest("BCS config vector delete");
         Context context = runnerTask.getContext();
         BcsContentHelper.deleteFromProvider(context, BcsContentHelper.DATA_TYPE_CONFIG_VECTOR);
-        Cursor cursor = BcsContentHelper.getConfigVectors(context);
+        Cursor cursor = BcsContentHelper.getConfigVectorCursor(context);
+        Vector[] vectors = BcsContentHelper.getConfigVectors(context);
         if (cursor != null) {
-            if (cursor.getCount() == 0) {
+            if (cursor.getCount() == 0 && vectors.length == 0) {
                 runnerTask.report("BCS config vector delete ... PASSED.", COLOUR_PASSED);
                 cursor.close();
                 return;

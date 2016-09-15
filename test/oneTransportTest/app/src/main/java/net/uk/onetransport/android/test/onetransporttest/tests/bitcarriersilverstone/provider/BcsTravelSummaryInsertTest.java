@@ -35,9 +35,11 @@ public class BcsTravelSummaryInsertTest extends OneTransportTest {
             return;
         }
         BcsContentHelper.insertTravelSummariesIntoProvider(context, travelSummaries);
-        Cursor cursor = BcsContentHelper.getTravelSummaries(context);
+        Cursor cursor = BcsContentHelper.getTravelSummaryCursor(context);
+        TravelSummary[] travelSummaries1 = BcsContentHelper.getTravelSummaries(context);
         if (cursor != null) {
-            if (cursor.getCount() == travelSummaries.size()) {
+            if (cursor.getCount() == travelSummaries.size()
+                    && travelSummaries.size() == travelSummaries1.length) {
                 runnerTask.report("BCS travel summary insert ... PASSED.", COLOUR_PASSED);
                 cursor.close();
                 return;
