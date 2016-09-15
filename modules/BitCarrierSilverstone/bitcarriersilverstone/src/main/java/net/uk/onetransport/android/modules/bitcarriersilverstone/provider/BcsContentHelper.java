@@ -16,6 +16,8 @@ import net.uk.onetransport.android.modules.bitcarriersilverstone.data.travelsumm
 import net.uk.onetransport.android.modules.bitcarriersilverstone.data.travelsummary.TravelSummary;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.data.travelsummary.TravelTime;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.data.vector.Vector;
+import net.uk.onetransport.android.modules.common.provider.CommonBaseColumns;
+import net.uk.onetransport.android.modules.common.provider.CommonContentHelper;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -27,7 +29,7 @@ import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider
 import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneSketch;
 import static net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContract.BitCarrierSilverstoneTravelSummary;
 
-public class BcsContentHelper {
+public class BcsContentHelper extends CommonContentHelper {
 
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({
@@ -45,11 +47,6 @@ public class BcsContentHelper {
     public static final int DATA_TYPE_TRAVEL_SUMMARY = 6;
     public static final int DATA_TYPE_CONFIG_VECTOR = 3;
     public static final int DATA_TYPE_DATA_VECTOR = 4;
-
-    private static final String CREATION_INTERVAL_SELECTION =
-            BcsBaseColumns.COLUMN_CREATION_TIME + ">=? AND "
-                    + BcsBaseColumns.COLUMN_CREATION_TIME + "<=?";
-    private static final String CREATED_BEFORE = "creation_time < ?";
 
     public static void insertSketchesIntoProvider(@NonNull Context context,
                                                   @NonNull ArrayList<Sketch> sketches)
@@ -218,7 +215,7 @@ public class BcsContentHelper {
         return context.getContentResolver().query(BcsProviderModule.NODE_URI, new String[]{"*"},
                 CREATION_INTERVAL_SELECTION,
                 new String[]{String.valueOf(oldest), String.valueOf(newest)},
-                BcsBaseColumns.COLUMN_CREATION_TIME);
+                CommonBaseColumns.COLUMN_CREATION_TIME);
     }
 
     public static Node[] getNodes(@NonNull Context context) {
@@ -238,8 +235,8 @@ public class BcsContentHelper {
         return context.getContentResolver().query(BcsProviderModule.SKETCH_URI,
                 new String[]{"*"},
                 CREATION_INTERVAL_SELECTION,
-                new String[]{String.valueOf(oldest), String.valueOf(newest)},
-                BcsBaseColumns.COLUMN_CREATION_TIME);
+                interval(oldest, newest),
+                CommonBaseColumns.COLUMN_CREATION_TIME);
     }
 
     public static Sketch[] getSketches(@NonNull Context context) {
@@ -260,8 +257,8 @@ public class BcsContentHelper {
         return context.getContentResolver().query(BcsProviderModule.TRAVEL_SUMMARY_URI,
                 new String[]{"*"},
                 CREATION_INTERVAL_SELECTION,
-                new String[]{String.valueOf(oldest), String.valueOf(newest)},
-                BcsBaseColumns.COLUMN_CREATION_TIME);
+                interval(oldest, newest),
+                CommonBaseColumns.COLUMN_CREATION_TIME);
     }
 
     public static Cursor getLatestTravelSummaryCursor(@NonNull Context context) {
@@ -292,8 +289,8 @@ public class BcsContentHelper {
         return context.getContentResolver().query(BcsProviderModule.CONFIG_VECTOR_URI,
                 new String[]{"*"},
                 CREATION_INTERVAL_SELECTION,
-                new String[]{String.valueOf(oldest), String.valueOf(newest)},
-                BcsBaseColumns.COLUMN_CREATION_TIME);
+                interval(oldest, newest),
+                CommonBaseColumns.COLUMN_CREATION_TIME);
     }
 
     public static net.uk.onetransport.android.modules.bitcarriersilverstone.config.vector.Vector[]
@@ -315,8 +312,8 @@ public class BcsContentHelper {
         return context.getContentResolver().query(BcsProviderModule.DATA_VECTOR_URI,
                 new String[]{"*"},
                 CREATION_INTERVAL_SELECTION,
-                new String[]{String.valueOf(oldest), String.valueOf(newest)},
-                BcsBaseColumns.COLUMN_CREATION_TIME);
+                interval(oldest, newest),
+                CommonBaseColumns.COLUMN_CREATION_TIME);
     }
 
     public static Cursor getLatestDataVectorCursor(@NonNull Context context) {

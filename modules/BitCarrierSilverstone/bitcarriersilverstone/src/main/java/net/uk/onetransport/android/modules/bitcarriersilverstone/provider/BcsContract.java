@@ -1,5 +1,7 @@
 package net.uk.onetransport.android.modules.bitcarriersilverstone.provider;
 
+import net.uk.onetransport.android.modules.common.provider.CommonBaseColumns;
+
 public class BcsContract {
 
     public static final String CREATE_BIT_CARRIER_DATA_SKETCH_TABLE =
@@ -98,7 +100,7 @@ public class BcsContract {
     private BcsContract() {
     }
 
-    public static final class BitCarrierSilverstoneSketch implements BcsBaseColumns {
+    public static final class BitCarrierSilverstoneSketch implements CommonBaseColumns {
         public static final String TABLE_NAME = "bit_carrier_silverstone_sketch";
         public static final String COLUMN_SKETCH_ID = "sketch_id";
         public static final String COLUMN_VECTOR_ID = "vector_id";
@@ -107,7 +109,7 @@ public class BcsContract {
         public static final String COLUMN_COORDINATES = "coordinates";
     }
 
-    public static final class BitCarrierSilverstoneNode implements BcsBaseColumns {
+    public static final class BitCarrierSilverstoneNode implements CommonBaseColumns {
         public static final String TABLE_NAME = "bit_carrier_silverstone_node";
         public static final String COLUMN_NODE_ID = "node_id";
         // The customer id is a prefix of the customer name.  Need to extract manually.
@@ -119,7 +121,7 @@ public class BcsContract {
         public static final String COLUMN_LONGITUDE = "lon";
     }
 
-    public static final class BitCarrierSilverstoneTravelSummary implements BcsBaseColumns {
+    public static final class BitCarrierSilverstoneTravelSummary implements CommonBaseColumns {
         public static final String TABLE_NAME = "bit_carrier_silverstone_travel_summary";
         public static final String COLUMN_TRAVEL_SUMMARY_ID = "travel_summary_id";
         public static final String COLUMN_CLOCK_TIME = "clock_time";
@@ -135,7 +137,7 @@ public class BcsContract {
         public static final String TABLE_NAME = "bit_carrier_silverstone_latest_travel_summary";
     }
 
-    public static final class BitCarrierSilverstoneConfigVector implements BcsBaseColumns {
+    public static final class BitCarrierSilverstoneConfigVector implements CommonBaseColumns {
         public static final String TABLE_NAME = "bit_carrier_silverstone_config_vector";
         public static final String COLUMN_VECTOR_ID = "vector_id";
         public static final String COLUMN_NAME = "name";
@@ -146,7 +148,7 @@ public class BcsContract {
         public static final String COLUMN_SKETCH_ID = "sketch_id";
     }
 
-    public static final class BitCarrierSilverstoneDataVector implements BcsBaseColumns {
+    public static final class BitCarrierSilverstoneDataVector implements CommonBaseColumns {
         public static final String TABLE_NAME = "bit_carrier_silverstone_data_vector";
         public static final String COLUMN_VECTOR_ID = "vector_id";
         public static final String COLUMN_TIMESTAMP = "timestamp";
