@@ -50,7 +50,7 @@ public class CvsSyncAdapterTest extends OneTransportTest {
         }
         context.getContentResolver().unregisterContentObserver(adapterObserver);
         ArrayList<Device> devices = new DeviceRetriever(context).retrieve();
-        Cursor cursor = CvsContentHelper.getDevices(context);
+        Cursor cursor = CvsContentHelper.getDeviceCursor(context);
         if (cursor != null) {
             if (cursor.getCount() != devices.size()) {
                 runnerTask.report("CVS sync adapter ... FAILED.", COLOUR_FAILED);
@@ -65,7 +65,7 @@ public class CvsSyncAdapterTest extends OneTransportTest {
         for (TrafficGroup trafficGroup : trafficGroups) {
             count += trafficGroup.getTraffic().length;
         }
-        cursor = CvsContentHelper.getTraffic(context);
+        cursor = CvsContentHelper.getTrafficItemCursor(context);
         if (cursor != null) {
             if (cursor.getCount() != count) {
                 runnerTask.report("CVS sync adapter ... FAILED.", COLOUR_FAILED);

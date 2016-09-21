@@ -12,7 +12,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 
 import net.uk.onetransport.android.modules.clearviewsilverstone.R;
 import net.uk.onetransport.android.modules.clearviewsilverstone.device.Device;
@@ -23,13 +22,12 @@ import net.uk.onetransport.android.modules.common.provider.OneTransportProvider;
 import net.uk.onetransport.android.modules.common.provider.ProviderModule;
 import net.uk.onetransport.android.modules.common.sync.CommonSyncAdapter;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import static net.uk.onetransport.android.modules.clearviewsilverstone.provider.CvsContract.ClearviewSilverstoneDevice;
+import static net.uk.onetransport.android.modules.clearviewsilverstone.provider.CvsContract.ClearviewSilverstoneLatestDevice;
 import static net.uk.onetransport.android.modules.clearviewsilverstone.provider.CvsContract.ClearviewSilverstoneTraffic;
+import static net.uk.onetransport.android.modules.clearviewsilverstone.provider.CvsContract.ClearviewSilverstoneLatestTraffic;
 
 public class CvsProviderModule implements ProviderModule {
 
@@ -38,7 +36,9 @@ public class CvsProviderModule implements ProviderModule {
     public static String AUTHORITY;
     public static Uri AUTHORITY_URI;
     public static Uri DEVICE_URI;
+    public static Uri LATEST_DEVICE_URI;
     public static Uri TRAFFIC_URI;
+    public static Uri LATEST_TRAFFIC_URI;
     // Sync adapter extras.
     private static final String EXTRAS_DEVICES =
             "net.uk.onetransport.android.modules.clearviewsilverstone.sync.DEVICES";
@@ -47,8 +47,12 @@ public class CvsProviderModule implements ProviderModule {
 
     private static int DEVICES;
     private static int DEVICE_ID;
+    private static int LATEST_DEVICES;
+    private static int LATEST_DEVICE_ID;
     private static int TRAFFIC;
     private static int TRAFFIC_ID;
+    private static int LATEST_TRAFFIC;
+    private static int LATEST_TRAFFIC_ID;
 
     private Context context;
 
@@ -59,7 +63,9 @@ public class CvsProviderModule implements ProviderModule {
     @Override
     public void createDatabase(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL(CvsContract.CREATE_CLEARVIEW_SILVERSTONE_DEVICE_TABLE);
+        sqLiteDatabase.execSQL(CvsContract.CREATE_CLEARVIEW_SILVERSTONE_LATEST_DEVICE_TABLE);
         sqLiteDatabase.execSQL(CvsContract.CREATE_CLEARVIEW_SILVERSTONE_TRAFFIC_TABLE);
+        sqLiteDatabase.execSQL(CvsContract.CREATE_CLEARVIEW_SILVERSTONE_LATEST_TRAFFIC_TABLE);
     }
 
     @Override
@@ -69,8 +75,12 @@ public class CvsProviderModule implements ProviderModule {
         AUTHORITY_URI = Uri.parse("content://" + authority + "/");
         DEVICE_URI = Uri.withAppendedPath(AUTHORITY_URI,
                 ClearviewSilverstoneDevice.TABLE_NAME);
+        LATEST_DEVICE_URI = Uri.withAppendedPath(AUTHORITY_URI,
+                CvsContract.ClearviewSilverstoneLatestDevice.TABLE_NAME);
         TRAFFIC_URI = Uri.withAppendedPath(AUTHORITY_URI,
                 ClearviewSilverstoneTraffic.TABLE_NAME);
+        LATEST_TRAFFIC_URI = Uri.withAppendedPath(AUTHORITY_URI,
+                ClearviewSilverstoneLatestTraffic.TABLE_NAME);
 
         DEVICES = providerModules.size();
         uriMatcher.addURI(authority, ClearviewSilverstoneDevice.TABLE_NAME, DEVICES);
@@ -78,11 +88,25 @@ public class CvsProviderModule implements ProviderModule {
         DEVICE_ID = providerModules.size();
         uriMatcher.addURI(authority, ClearviewSilverstoneDevice.TABLE_NAME + "/#", DEVICE_ID);
         providerModules.add(this);
+        LATEST_DEVICES = providerModules.size();
+        uriMatcher.addURI(authority, ClearviewSilverstoneLatestDevice.TABLE_NAME, LATEST_DEVICES);
+        providerModules.add(this);
+        LATEST_DEVICE_ID = providerModules.size();
+        uriMatcher.addURI(authority, ClearviewSilverstoneLatestDevice.TABLE_NAME + "/#",
+                LATEST_DEVICE_ID);
+        providerModules.add(this);
         TRAFFIC = providerModules.size();
         uriMatcher.addURI(authority, ClearviewSilverstoneTraffic.TABLE_NAME, TRAFFIC);
         providerModules.add(this);
         TRAFFIC_ID = providerModules.size();
         uriMatcher.addURI(authority, ClearviewSilverstoneTraffic.TABLE_NAME + "/#", TRAFFIC_ID);
+        providerModules.add(this);
+        LATEST_TRAFFIC = providerModules.size();
+        uriMatcher.addURI(authority, ClearviewSilverstoneLatestTraffic.TABLE_NAME, LATEST_TRAFFIC);
+        providerModules.add(this);
+        LATEST_TRAFFIC_ID = providerModules.size();
+        uriMatcher.addURI(authority, ClearviewSilverstoneLatestTraffic.TABLE_NAME + "/#",
+                LATEST_TRAFFIC_ID);
         providerModules.add(this);
     }
 
@@ -94,11 +118,23 @@ public class CvsProviderModule implements ProviderModule {
         if (match == DEVICE_ID) {
             return mimeItemPrefix + ClearviewSilverstoneDevice.TABLE_NAME;
         }
+        if (match == LATEST_DEVICES) {
+            return mimeDirPrefix + ClearviewSilverstoneLatestDevice.TABLE_NAME;
+        }
+        if (match == LATEST_DEVICE_ID) {
+            return mimeItemPrefix + ClearviewSilverstoneLatestDevice.TABLE_NAME;
+        }
         if (match == TRAFFIC) {
             return mimeDirPrefix + ClearviewSilverstoneTraffic.TABLE_NAME;
         }
         if (match == TRAFFIC_ID) {
             return mimeItemPrefix + ClearviewSilverstoneTraffic.TABLE_NAME;
+        }
+        if (match == LATEST_TRAFFIC) {
+            return mimeDirPrefix + ClearviewSilverstoneLatestTraffic.TABLE_NAME;
+        }
+        if (match == LATEST_TRAFFIC_ID) {
+            return mimeItemPrefix + ClearviewSilverstoneLatestTraffic.TABLE_NAME;
         }
         return null;
     }
@@ -112,10 +148,18 @@ public class CvsProviderModule implements ProviderModule {
             contentResolver.notifyChange(DEVICE_URI, null);
             return ContentUris.withAppendedId(DEVICE_URI, id);
         }
+        if (match == LATEST_DEVICES) {
+            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed)
+                    + ClearviewSilverstoneLatestDevice.TABLE_NAME);
+        }
         if (match == TRAFFIC) {
             id = sqLiteDatabase.insert(ClearviewSilverstoneTraffic.TABLE_NAME, null, contentValues);
             contentResolver.notifyChange(TRAFFIC_URI, null);
             return ContentUris.withAppendedId(TRAFFIC_URI, id);
+        }
+        if (match == LATEST_TRAFFIC) {
+            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed)
+                    + ClearviewSilverstoneLatestTraffic.TABLE_NAME);
         }
         return null;
     }
@@ -137,6 +181,19 @@ public class CvsProviderModule implements ProviderModule {
             cursor.setNotificationUri(contentResolver, DEVICE_URI);
             return cursor;
         }
+        if (match == LATEST_DEVICES) {
+            Cursor cursor = sqLiteDatabase.query(ClearviewSilverstoneLatestDevice.TABLE_NAME,
+                    projection, selection, selectionArgs, null, null, sortOrder);
+            cursor.setNotificationUri(contentResolver, LATEST_DEVICE_URI);
+            return cursor;
+        }
+        if (match == LATEST_DEVICE_ID) {
+            Cursor cursor = sqLiteDatabase.query(ClearviewSilverstoneLatestDevice.TABLE_NAME,
+                    projection, ClearviewSilverstoneLatestDevice._ID + "=?",
+                    new String[]{uri.getLastPathSegment()}, null, null, sortOrder);
+            cursor.setNotificationUri(contentResolver, LATEST_DEVICE_URI);
+            return cursor;
+        }
         if (match == TRAFFIC) {
             Cursor cursor = sqLiteDatabase.query(ClearviewSilverstoneTraffic.TABLE_NAME, projection,
                     selection, selectionArgs, null, null, sortOrder);
@@ -148,6 +205,19 @@ public class CvsProviderModule implements ProviderModule {
                     ClearviewSilverstoneTraffic._ID + "=?", new String[]{uri.getLastPathSegment()}, null, null,
                     sortOrder);
             cursor.setNotificationUri(contentResolver, TRAFFIC_URI);
+            return cursor;
+        }
+        if (match == LATEST_TRAFFIC) {
+            Cursor cursor = sqLiteDatabase.query(ClearviewSilverstoneLatestTraffic.TABLE_NAME, projection,
+                    selection, selectionArgs, null, null, sortOrder);
+            cursor.setNotificationUri(contentResolver, LATEST_TRAFFIC_URI);
+            return cursor;
+        }
+        if (match == LATEST_TRAFFIC_ID) {
+            Cursor cursor = sqLiteDatabase.query(ClearviewSilverstoneLatestTraffic.TABLE_NAME,
+                    projection, ClearviewSilverstoneLatestTraffic._ID + "=?",
+                    new String[]{uri.getLastPathSegment()}, null, null, sortOrder);
+            cursor.setNotificationUri(contentResolver, LATEST_TRAFFIC_URI);
             return cursor;
         }
         return null;
@@ -169,6 +239,14 @@ public class CvsProviderModule implements ProviderModule {
             contentResolver.notifyChange(DEVICE_URI, null);
             return rows;
         }
+        if (match == LATEST_DEVICES) {
+            throw new IllegalArgumentException(context.getString(R.string.error_update_not_allowed)
+                    + ClearviewSilverstoneLatestDevice.TABLE_NAME);
+        }
+        if (match == LATEST_DEVICE_ID) {
+            throw new IllegalArgumentException(context.getString(R.string.error_update_not_allowed)
+                    + ClearviewSilverstoneLatestDevice.TABLE_NAME);
+        }
         if (match == TRAFFIC) {
             int rows = sqLiteDatabase.update(ClearviewSilverstoneTraffic.TABLE_NAME, values, selection,
                     selectionArgs);
@@ -181,6 +259,14 @@ public class CvsProviderModule implements ProviderModule {
             contentResolver.notifyChange(TRAFFIC_URI, null);
             return rows;
         }
+        if (match == LATEST_TRAFFIC) {
+            throw new IllegalArgumentException(context.getString(R.string.error_update_not_allowed)
+                    + ClearviewSilverstoneLatestTraffic.TABLE_NAME);
+        }
+        if (match == LATEST_TRAFFIC_ID) {
+            throw new IllegalArgumentException(context.getString(R.string.error_update_not_allowed)
+                    + ClearviewSilverstoneTraffic.TABLE_NAME);
+        }
         return 0;
     }
 
@@ -192,9 +278,17 @@ public class CvsProviderModule implements ProviderModule {
             rows = sqLiteDatabase.delete(ClearviewSilverstoneDevice.TABLE_NAME, selection, selectionArgs);
             contentResolver.notifyChange(DEVICE_URI, null);
         }
+        if (match == LATEST_DEVICES) {
+            throw new IllegalArgumentException(context.getString(R.string.error_delete_not_allowed)
+                    + ClearviewSilverstoneLatestDevice.TABLE_NAME);
+        }
         if (match == TRAFFIC) {
             rows = sqLiteDatabase.delete(ClearviewSilverstoneTraffic.TABLE_NAME, selection, selectionArgs);
             contentResolver.notifyChange(TRAFFIC_URI, null);
+        }
+        if (match == LATEST_TRAFFIC) {
+            throw new IllegalArgumentException(context.getString(R.string.error_delete_not_allowed)
+                    + ClearviewSilverstoneLatestTraffic.TABLE_NAME);
         }
         return rows;
     }

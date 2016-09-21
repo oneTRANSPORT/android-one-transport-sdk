@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    compileSdkVersion 24
+    buildToolsVersion "24.0.2"
 
     defaultConfig {
         applicationId "net.uk.onetransport.android.test.onetransporttest"
         minSdkVersion 16
-        targetSdkVersion 22
+        targetSdkVersion 24
         versionCode 1
         versionName "1.0"
     }
@@ -28,7 +28,7 @@ repositories {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.3.0'
+    compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.interdigital.android:bucks-debug:1.0.0@aar'
     compile 'com.interdigital.android:clearviewsilverstone-debug:1.0.0@aar'
     compile 'com.interdigital.android:bitcarriersilverstone-debug:1.0.0@aar'

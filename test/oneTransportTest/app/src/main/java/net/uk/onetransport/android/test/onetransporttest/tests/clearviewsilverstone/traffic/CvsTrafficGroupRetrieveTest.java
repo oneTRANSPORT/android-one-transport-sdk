@@ -19,7 +19,7 @@ import net.uk.onetransport.android.test.onetransporttest.tests.OneTransportTest;
 
 import java.util.ArrayList;
 
-public class TrafficGroupRetrieveTest extends OneTransportTest
+public class CvsTrafficGroupRetrieveTest extends OneTransportTest
         implements LoaderManager.LoaderCallbacks<RetrieverResult<TrafficGroup>> {
 
     private DougalCallback dougalCallback;

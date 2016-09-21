@@ -5,6 +5,7 @@ import android.database.Cursor;
 
 import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
+import net.uk.onetransport.android.modules.clearviewsilverstone.device.Device;
 import net.uk.onetransport.android.modules.clearviewsilverstone.provider.CvsContentHelper;
 import net.uk.onetransport.android.test.onetransporttest.RunnerFragment;
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
@@ -26,9 +27,10 @@ public class CvsDeviceDeleteTest extends OneTransportTest {
         runnerTask.setCurrentTest("CVS device delete");
         Context context = runnerTask.getContext();
         CvsContentHelper.deleteFromProvider(context, CvsContentHelper.DATA_TYPE_DEVICE);
-        Cursor cursor = CvsContentHelper.getDevices(context);
+        Cursor cursor = CvsContentHelper.getDeviceCursor(context);
+        Device[] devices = CvsContentHelper.getDevices(context);
         if (cursor != null) {
-            if (cursor.getCount() == 0) {
+            if (cursor.getCount() == 0 && devices.length == 0) {
                 runnerTask.report("CVS device delete ... PASSED.", COLOUR_PASSED);
                 cursor.close();
                 return;

@@ -36,9 +36,11 @@ public class CvsDeviceInsertTest extends OneTransportTest {
             return;
         }
         CvsContentHelper.insertDevicesIntoProvider(context, devices);
-        Cursor cursor = CvsContentHelper.getDevices(context);
+        Cursor cursor = CvsContentHelper.getDeviceCursor(context);
+        Device[] devices1 = CvsContentHelper.getDevices(context);
         if (cursor != null) {
-            if (cursor.getCount() > 0) {
+            if (cursor.getCount() > 0 && cursor.getCount() == devices1.length
+                    && devices.size() == devices1.length) {
                 runnerTask.report("CVS device insert ... PASSED.", COLOUR_PASSED);
                 cursor.close();
                 return;

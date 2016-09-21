@@ -10,7 +10,7 @@ import net.uk.onetransport.android.test.onetransporttest.RunnerFragment;
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
 import net.uk.onetransport.android.test.onetransporttest.tests.OneTransportTest;
 
-public class CvsDeviceQueryTest extends OneTransportTest {
+public class CvsDeviceIntervalQueryTest extends OneTransportTest {
 
     @Override
     public void start(RunnerTask runnerTask) throws Exception {
@@ -18,22 +18,24 @@ public class CvsDeviceQueryTest extends OneTransportTest {
     }
 
     public void startAsync(DougalCallback dougalCallback) {
-        ((RunnerFragment) dougalCallback).setCurrentTest("CVS device query");
+        ((RunnerFragment) dougalCallback).setCurrentTest("CVS device interval query");
         dougalCallback.getResponse(null, new Exception("Not implemented"));
     }
 
     private void deviceQuery(RunnerTask runnerTask) throws Exception {
-        runnerTask.setCurrentTest("CVS device query");
-        Cursor cursor = CvsContentHelper.getDeviceCursor(runnerTask.getContext());
-        Device[] devices = CvsContentHelper.getDevices(runnerTask.getContext());
+        runnerTask.setCurrentTest("CVS device interval query");
+        long oldest = 0L;
+        long newest = System.currentTimeMillis() / 1000L;
+        Cursor cursor = CvsContentHelper.getDeviceCursor(runnerTask.getContext(), oldest, newest);
+        Device[] devices = CvsContentHelper.getDevices(runnerTask.getContext(), oldest, newest);
         if (cursor != null) {
             if (cursor.getCount() > 0 && cursor.getCount() == devices.length) {
-                runnerTask.report("CVS device query ... PASSED.", COLOUR_PASSED);
+                runnerTask.report("Cvs device interval query ... PASSED.", COLOUR_PASSED);
                 cursor.close();
                 return;
             }
             cursor.close();
         }
-        runnerTask.report("CVS device query ... FAILED.", COLOUR_FAILED);
+        runnerTask.report("Cvs device interval query ... FAILED.", COLOUR_FAILED);
     }
 }
