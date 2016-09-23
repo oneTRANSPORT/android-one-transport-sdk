@@ -3,7 +3,7 @@ package net.uk.onetransport.android.modules.clearviewsilverstone.provider;
 import net.uk.onetransport.android.modules.common.provider.CommonBaseColumns;
 
 public class CvsContract {
-
+// TODO    Check all indexes and accumulation of data.
     public static final String CREATE_CLEARVIEW_SILVERSTONE_DEVICE_TABLE =
             "CREATE TABLE IF NOT EXISTS " + ClearviewSilverstoneDevice.TABLE_NAME + " ("
                     + ClearviewSilverstoneDevice._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -15,7 +15,7 @@ public class CvsContract {
                     + ClearviewSilverstoneDevice.COLUMN_LONGITUDE + " REAL,"
                     + ClearviewSilverstoneDevice.COLUMN_CHANGED + " TEXT,"
                     + ClearviewSilverstoneDevice.COLUMN_CIN_ID
-                    + " TEXT UNIQUE ON CONFLICT REPLACE,"
+                    + " TEXT NOT NULL UNIQUE ON CONFLICT REPLACE,"
                     + ClearviewSilverstoneDevice.COLUMN_CREATION_TIME + " INTEGER"
                     + ");";
     public static final String CREATE_CLEARVIEW_SILVERSTONE_LATEST_DEVICE_TABLE =

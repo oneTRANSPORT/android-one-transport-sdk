@@ -25,9 +25,9 @@ public class TrafficFlow {
     @Expose
     private Double toLongitude;
     @Expose
-    private Double vehicleFlow;
-    @Expose
     private String time;
+    @Expose
+    private Double vehicleFlow;
     private String cinId;
     private Long creationTime;
 
@@ -111,20 +111,20 @@ public class TrafficFlow {
         this.toLongitude = toLongitude;
     }
 
-    public Double getVehicleFlow() {
-        return vehicleFlow;
-    }
-
-    public void setVehicleFlow(Double vehicleFlow) {
-        this.vehicleFlow = vehicleFlow;
-    }
-
     public String getTime() {
         return time;
     }
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public Double getVehicleFlow() {
+        return vehicleFlow;
+    }
+
+    public void setVehicleFlow(Double vehicleFlow) {
+        this.vehicleFlow = vehicleFlow;
     }
 
     public String getCinId() {

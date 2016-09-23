@@ -7,6 +7,8 @@ public class TrafficScoot {
     @Expose
     private String id;
     @Expose
+    private String tpegDirection;
+    @Expose
     private String fromType;
     @Expose
     private String fromDescriptor;
@@ -23,7 +25,7 @@ public class TrafficScoot {
     @Expose
     private Double toLongitude;
     @Expose
-    private String tpegDirection;
+    private String time;
     @Expose
     private Double currentFlow;
     @Expose
@@ -35,8 +37,6 @@ public class TrafficScoot {
     @Expose
     private Double linkTravelTime;
     @Expose
-    private String time;
-    @Expose
     private Double congestionPercent;
     private String cinId;
     private Long creationTime;
@@ -47,6 +47,14 @@ public class TrafficScoot {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getTpegDirection() {
+        return tpegDirection;
+    }
+
+    public void setTpegDirection(String tpegDirection) {
+        this.tpegDirection = tpegDirection;
     }
 
     public String getFromType() {
@@ -113,12 +121,12 @@ public class TrafficScoot {
         this.toLongitude = toLongitude;
     }
 
-    public String getTpegDirection() {
-        return tpegDirection;
+    public String getTime() {
+        return time;
     }
 
-    public void setTpegDirection(String tpegDirection) {
-        this.tpegDirection = tpegDirection;
+    public void setTime(String time) {
+        this.time = time;
     }
 
     public Double getCurrentFlow() {
@@ -159,14 +167,6 @@ public class TrafficScoot {
 
     public void setLinkTravelTime(Double linkTravelTime) {
         this.linkTravelTime = linkTravelTime;
-    }
-
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
     }
 
     public Double getCongestionPercent() {

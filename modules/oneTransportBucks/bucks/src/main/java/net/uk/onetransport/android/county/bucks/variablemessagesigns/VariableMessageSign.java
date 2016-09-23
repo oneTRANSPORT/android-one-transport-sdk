@@ -7,13 +7,7 @@ public class VariableMessageSign {
     @Expose
     private String locationId;
     @Expose
-    private String name;
-    @Expose
-    private Double numberOfCharacters;
-    @Expose
-    private Double numberOfRows;
-    @Expose
-    private String[] vmsLegends;
+    private String description;
     @Expose
     private String vmsType;
     @Expose
@@ -21,7 +15,11 @@ public class VariableMessageSign {
     @Expose
     private Double longitude;
     @Expose
-    private String description;
+    private Double numberOfCharacters;
+    @Expose
+    private Double numberOfRows;
+    @Expose
+    private String[] legends;
     private String cinId;
     private Long creationTime;
 
@@ -33,36 +31,12 @@ public class VariableMessageSign {
         this.locationId = locationId;
     }
 
-    public String getName() {
-        return name;
+    public String getDescription() {
+        return description;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Double getNumberOfCharacters() {
-        return numberOfCharacters;
-    }
-
-    public void setNumberOfCharacters(Double numberOfCharacters) {
-        this.numberOfCharacters = numberOfCharacters;
-    }
-
-    public Double getNumberOfRows() {
-        return numberOfRows;
-    }
-
-    public void setNumberOfRows(Double numberOfRows) {
-        this.numberOfRows = numberOfRows;
-    }
-
-    public String[] getVmsLegends() {
-        return vmsLegends;
-    }
-
-    public void setVmsLegends(String[] vmsLegends) {
-        this.vmsLegends = vmsLegends;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getVmsType() {
@@ -89,12 +63,28 @@ public class VariableMessageSign {
         this.longitude = longitude;
     }
 
-    public String getDescription() {
-        return description;
+    public Double getNumberOfCharacters() {
+        return numberOfCharacters;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setNumberOfCharacters(Double numberOfCharacters) {
+        this.numberOfCharacters = numberOfCharacters;
+    }
+
+    public Double getNumberOfRows() {
+        return numberOfRows;
+    }
+
+    public void setNumberOfRows(Double numberOfRows) {
+        this.numberOfRows = numberOfRows;
+    }
+
+    public String[] getLegends() {
+        return legends;
+    }
+
+    public void setLegends(String[] legends) {
+        this.legends = legends;
     }
 
     public String getCinId() {

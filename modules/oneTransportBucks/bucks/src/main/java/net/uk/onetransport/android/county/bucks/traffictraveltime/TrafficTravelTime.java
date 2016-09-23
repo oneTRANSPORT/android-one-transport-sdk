@@ -7,13 +7,7 @@ public class TrafficTravelTime {
     @Expose
     private String id;
     @Expose
-    private String toType;
-    @Expose
-    private String toDescriptor;
-    @Expose
-    private Double toLongitude;
-    @Expose
-    private Double toLatitude;
+    private String tpegDirection;
     @Expose
     private String fromType;
     @Expose
@@ -23,15 +17,21 @@ public class TrafficTravelTime {
     @Expose
     private Double fromLongitude;
     @Expose
-    private String tpegDirection;
+    private String toType;
+    @Expose
+    private String toDescriptor;
+    @Expose
+    private Double toLongitude;
+    @Expose
+    private Double toLatitude;
+    @Expose
+    private String time;
     @Expose
     private Double travelTime;
     @Expose
     private Double freeFlowTravelTime;
     @Expose
     private Double freeFlowSpeed;
-    @Expose
-    private String time;
     private String cinId;
     private Long creationTime;
 
@@ -43,36 +43,12 @@ public class TrafficTravelTime {
         this.id = id;
     }
 
-    public String getToType() {
-        return toType;
+    public String getTpegDirection() {
+        return tpegDirection;
     }
 
-    public void setToType(String toType) {
-        this.toType = toType;
-    }
-
-    public String getToDescriptor() {
-        return toDescriptor;
-    }
-
-    public void setToDescriptor(String toDescriptor) {
-        this.toDescriptor = toDescriptor;
-    }
-
-    public Double getToLongitude() {
-        return toLongitude;
-    }
-
-    public void setToLongitude(Double toLongitude) {
-        this.toLongitude = toLongitude;
-    }
-
-    public Double getToLatitude() {
-        return toLatitude;
-    }
-
-    public void setToLatitude(Double toLatitude) {
-        this.toLatitude = toLatitude;
+    public void setTpegDirection(String tpegDirection) {
+        this.tpegDirection = tpegDirection;
     }
 
     public String getFromType() {
@@ -107,12 +83,44 @@ public class TrafficTravelTime {
         this.fromLongitude = fromLongitude;
     }
 
-    public String getTpegDirection() {
-        return tpegDirection;
+    public String getToType() {
+        return toType;
     }
 
-    public void setTpegDirection(String tpegDirection) {
-        this.tpegDirection = tpegDirection;
+    public void setToType(String toType) {
+        this.toType = toType;
+    }
+
+    public String getToDescriptor() {
+        return toDescriptor;
+    }
+
+    public void setToDescriptor(String toDescriptor) {
+        this.toDescriptor = toDescriptor;
+    }
+
+    public Double getToLongitude() {
+        return toLongitude;
+    }
+
+    public void setToLongitude(Double toLongitude) {
+        this.toLongitude = toLongitude;
+    }
+
+    public Double getToLatitude() {
+        return toLatitude;
+    }
+
+    public void setToLatitude(Double toLatitude) {
+        this.toLatitude = toLatitude;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 
     public Double getTravelTime() {
@@ -137,14 +145,6 @@ public class TrafficTravelTime {
 
     public void setFreeFlowSpeed(Double freeFlowSpeed) {
         this.freeFlowSpeed = freeFlowSpeed;
-    }
-
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
     }
 
     public String getCinId() {

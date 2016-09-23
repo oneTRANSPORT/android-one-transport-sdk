@@ -7,6 +7,8 @@ public class TrafficQueue {
     @Expose
     private String id;
     @Expose
+    private String tpegDirection;
+    @Expose
     private String fromType;
     @Expose
     private String fromDescriptor;
@@ -23,11 +25,9 @@ public class TrafficQueue {
     @Expose
     private Double toLongitude;
     @Expose
-    private Double severity;
-    @Expose
-    private String tpegDirection;
-    @Expose
     private String time;
+    @Expose
+    private Double severity;
     @Expose
     private String present;
     private String cinId;
@@ -39,6 +39,14 @@ public class TrafficQueue {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getTpegDirection() {
+        return tpegDirection;
+    }
+
+    public void setTpegDirection(String tpegDirection) {
+        this.tpegDirection = tpegDirection;
     }
 
     public String getFromType() {
@@ -105,28 +113,20 @@ public class TrafficQueue {
         this.toLongitude = toLongitude;
     }
 
-    public Double getSeverity() {
-        return severity;
-    }
-
-    public void setSeverity(Double severity) {
-        this.severity = severity;
-    }
-
-    public String getTpegDirection() {
-        return tpegDirection;
-    }
-
-    public void setTpegDirection(String tpegDirection) {
-        this.tpegDirection = tpegDirection;
-    }
-
     public String getTime() {
         return time;
     }
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public Double getSeverity() {
+        return severity;
+    }
+
+    public void setSeverity(Double severity) {
+        this.severity = severity;
     }
 
     public String getPresent() {

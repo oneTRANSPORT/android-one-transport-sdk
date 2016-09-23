@@ -7,6 +7,8 @@ public class TrafficSpeed {
     @Expose
     private String id;
     @Expose
+    private String tpegDirection;
+    @Expose
     private String fromType;
     @Expose
     private String fromDescriptor;
@@ -23,11 +25,9 @@ public class TrafficSpeed {
     @Expose
     private Double toLongitude;
     @Expose
-    private String tpegDirection;
+    private String time;
     @Expose
     private Double averageVehicleSpeed;
-    @Expose
-    private String time;
     private String cinId;
     private Long creationTime;
 
@@ -37,6 +37,14 @@ public class TrafficSpeed {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getTpegDirection() {
+        return tpegDirection;
+    }
+
+    public void setTpegDirection(String tpegDirection) {
+        this.tpegDirection = tpegDirection;
     }
 
     public String getFromType() {
@@ -103,12 +111,12 @@ public class TrafficSpeed {
         this.toLongitude = toLongitude;
     }
 
-    public String getTpegDirection() {
-        return tpegDirection;
+    public String getTime() {
+        return time;
     }
 
-    public void setTpegDirection(String tpegDirection) {
-        this.tpegDirection = tpegDirection;
+    public void setTime(String time) {
+        this.time = time;
     }
 
     public Double getAverageVehicleSpeed() {
@@ -117,14 +125,6 @@ public class TrafficSpeed {
 
     public void setAverageVehicleSpeed(Double averageVehicleSpeed) {
         this.averageVehicleSpeed = averageVehicleSpeed;
-    }
-
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
     }
 
     public String getCinId() {
