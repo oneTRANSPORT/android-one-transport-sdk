@@ -1,7 +1,6 @@
 package net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider;
 
 import android.content.Context;
-import android.database.Cursor;
 
 import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
@@ -37,14 +36,10 @@ public class BucksCarParkInsertTest extends OneTransportTest {
         // Insert the same thing twice to check for a working UNIQUE ON CONFLICT IGNORE index.
         BucksContentHelper.insertIntoProvider(context, carParks);
         BucksContentHelper.insertIntoProvider(context, carParks);
-        Cursor cursor = BucksContentHelper.getCarParks(context);
-        if (cursor != null) {
-            if (cursor.getCount() == carParks.length) {
-                runnerTask.report("BUCKS car park insert ... PASSED.", COLOUR_PASSED);
-                cursor.close();
-                return;
-            }
-            cursor.close();
+        CarPark[] carParks1 = BucksContentHelper.getCarParks(context);
+        if (carParks.length == carParks1.length) {
+            runnerTask.report("BUCKS car park insert ... PASSED.", COLOUR_PASSED);
+            return;
         }
         runnerTask.report("BUCKS car park insert ... FAILED.", COLOUR_FAILED);
     }

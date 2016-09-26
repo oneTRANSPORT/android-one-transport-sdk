@@ -30,13 +30,12 @@ public class BucksSyncAdapterTest extends OneTransportTest {
     private void startSync(RunnerTask runnerTask) throws Exception {
         runnerTask.setCurrentTest("BUCKS sync adapter");
         Context context = runnerTask.getContext();
-        // The sync adapter should do this anyway, but just setting the pre-condition for the test.
         BucksContentHelper.deleteFromProvider(context, BucksContentHelper.DATA_TYPE_CAR_PARK);
         AdapterObserver adapterObserver = new AdapterObserver(null, this);
         context.getContentResolver().registerContentObserver(
                 LastUpdatedProviderModule.LAST_UPDATED_URI, true, adapterObserver);
 
-        BucksProviderModule.refresh(context, true, true, true, true);
+        BucksProviderModule.refresh(context, true, true, true, true, true, true, true, true, true);
         // Now block until the adapter finishes?  Will the observer run?
         // The observer should modify adapterFinished.
         while (!adapterFinished) {
@@ -44,15 +43,15 @@ public class BucksSyncAdapterTest extends OneTransportTest {
         }
         CarPark[] carParks = new CarParkRetriever(context).retrieve();
         context.getContentResolver().unregisterContentObserver(adapterObserver);
-        Cursor cursor = BucksContentHelper.getCarParks(context);
-        if (cursor != null) {
-            if (cursor.getCount() == carParks.length) {
-                runnerTask.report("BUCKS sync adapter ... PASSED.", COLOUR_PASSED);
-                cursor.close();
-                return;
-            }
-            cursor.close();
-        }
+//        Cursor cursor = BucksContentHelper.getCarParks(context);
+//        if (cursor != null) {
+//            if (cursor.getCount() == carParks.length) {
+//                runnerTask.report("BUCKS sync adapter ... PASSED.", COLOUR_PASSED);
+//                cursor.close();
+//                return;
+//            }
+//            cursor.close();
+//        }
         runnerTask.report("BUCKS sync adapter ... FAILED.", COLOUR_FAILED);
     }
 }

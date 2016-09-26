@@ -1,7 +1,6 @@
 package net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider;
 
 import android.content.Context;
-import android.database.Cursor;
 
 import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
@@ -27,20 +26,18 @@ public class BucksRoadWorksInsertTest extends OneTransportTest {
     private void insertRoadWorks(RunnerTask runnerTask) throws Exception {
         runnerTask.setCurrentTest("BUCKS road works insert");
         Context context = runnerTask.getContext();
-        RoadWorks[] roadWorkses= new RoadWorksRetriever(context).retrieve();
+        BucksContentHelper.deleteFromProvider(context, BucksContentHelper.DATA_TYPE_ROAD_WORKS);
+        RoadWorks[] roadWorkses = new RoadWorksRetriever(context).retrieve();
         if (roadWorkses == null || roadWorkses.length == 0) {
             runnerTask.report("BUCKS road works insert ... FAILED.", COLOUR_FAILED);
             return;
         }
         BucksContentHelper.insertIntoProvider(context, roadWorkses);
-        Cursor cursor = BucksContentHelper.getRoadWorks(context);
-        if (cursor != null) {
-            if (cursor.getCount() > 0) {
-                runnerTask.report("BUCKS road works insert ... PASSED.", COLOUR_PASSED);
-                cursor.close();
-                return;
-            }
-            cursor.close();
+        BucksContentHelper.insertIntoProvider(context, roadWorkses);
+        RoadWorks[] roadWorkses1 = BucksContentHelper.getRoadWorks(context);
+        if (roadWorkses.length == roadWorkses1.length) {
+            runnerTask.report("BUCKS road works insert ... PASSED.", COLOUR_PASSED);
+            return;
         }
         runnerTask.report("BUCKS road works insert ... FAILED.", COLOUR_FAILED);
     }

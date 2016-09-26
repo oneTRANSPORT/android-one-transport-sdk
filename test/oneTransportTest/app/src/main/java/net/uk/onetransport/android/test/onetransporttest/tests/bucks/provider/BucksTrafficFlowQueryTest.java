@@ -23,7 +23,7 @@ public class BucksTrafficFlowQueryTest extends OneTransportTest {
 
     private void trafficFlowQuery(RunnerTask runnerTask) throws Exception {
         runnerTask.setCurrentTest("BUCKS traffic flow query");
-        Cursor cursor = BucksContentHelper.getTrafficFlows(runnerTask.getContext());
+        Cursor cursor = BucksContentHelper.getTrafficFlowCursor(runnerTask.getContext());
         if (cursor != null) {
             if (cursor.getCount() > 0) {
                 runnerTask.report("BUCKS traffic flow query ... PASSED.", COLOUR_PASSED);

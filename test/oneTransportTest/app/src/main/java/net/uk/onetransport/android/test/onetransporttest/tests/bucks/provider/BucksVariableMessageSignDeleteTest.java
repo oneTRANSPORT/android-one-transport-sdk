@@ -26,7 +26,7 @@ public class BucksVariableMessageSignDeleteTest extends OneTransportTest {
         runnerTask.setCurrentTest("BUCKS variable message sign delete");
         Context context = runnerTask.getContext();
         BucksContentHelper.deleteFromProvider(context, BucksContentHelper.DATA_TYPE_VMS);
-        Cursor cursor = BucksContentHelper.getVariableMessageSigns(context);
+        Cursor cursor = BucksContentHelper.getVariableMessageSignCursor(context);
         if (cursor != null) {
             if (cursor.getCount() == 0) {
                 runnerTask.report("BUCKS variable message sign delete ... PASSED.", COLOUR_PASSED);

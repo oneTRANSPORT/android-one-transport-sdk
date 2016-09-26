@@ -1,7 +1,6 @@
 package net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider;
 
 import android.content.Context;
-import android.database.Cursor;
 
 import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
@@ -26,21 +25,19 @@ public class BucksTrafficFlowInsertTest extends OneTransportTest {
 
     private void insertTrafficFlow(RunnerTask runnerTask) throws Exception {
         runnerTask.setCurrentTest("BUCKS traffic flow insert");
-        TrafficFlow[] trafficFlows = new TrafficFlowRetriever(runnerTask.getContext()).retrieve();
+        Context context = runnerTask.getContext();
+        BucksContentHelper.deleteFromProvider(context, BucksContentHelper.DATA_TYPE_CAR_PARK);
+        TrafficFlow[] trafficFlows = new TrafficFlowRetriever(context).retrieve();
         if (trafficFlows == null || trafficFlows.length == 0) {
             runnerTask.report("BUCKS traffic flow insert ... FAILED.", COLOUR_FAILED);
             return;
         }
-        Context context = runnerTask.getContext();
         BucksContentHelper.insertIntoProvider(context, trafficFlows);
-        Cursor cursor = BucksContentHelper.getTrafficFlows(context);
-        if (cursor != null) {
-            if (cursor.getCount() == trafficFlows.length) {
-                runnerTask.report("BUCKS traffic flow insert ... PASSED.", COLOUR_PASSED);
-                cursor.close();
-                return;
-            }
-            cursor.close();
+        BucksContentHelper.insertIntoProvider(context, trafficFlows);
+        TrafficFlow[] trafficFlows1 = BucksContentHelper.getTrafficFlows(context);
+        if (trafficFlows.length == trafficFlows1.length) {
+            runnerTask.report("BUCKS traffic flow insert ... PASSED.", COLOUR_PASSED);
+            return;
         }
         runnerTask.report("BUCKS traffic flow insert ... FAILED.", COLOUR_FAILED);
     }

@@ -1,5 +1,8 @@
 package net.uk.onetransport.android.county.bucks.provider;
 
+import com.google.gson.annotations.Expose;
+
+import net.uk.onetransport.android.county.bucks.events.Description;
 import net.uk.onetransport.android.modules.common.provider.CommonBaseColumns;
 
 public class BucksContract {
@@ -44,6 +47,22 @@ public class BucksContract {
                     + BucksCarPark.COLUMN_CAR_PARK_IDENTITY + " AND a."
                     + BucksCarPark.COLUMN_CREATION_TIME + "=b."
                     + BucksCarPark.COLUMN_CREATION_TIME + ";";
+    // TODO    On hold for now while we check if this is correct.
+//    public static final String CREATE_EVENT_TABLE =
+//            "CREATE TABLE IF NOT EXISTS " + BucksEvent.TABLE_NAME + " ("
+//                    + BucksEvent._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+//    private String startOfPeriod;
+//    private String endOfPeriod;
+//    private String overallStartTime;
+//    private String overallEndTime;
+//    private Double latitude;
+//    private Double longitude;
+//    private Description description;
+//    private String impactOnTraffic;
+//    private String validityStatus;
+//    private String cinId;
+//    private Long creationTime;
+//;
     public static final String CREATE_ROAD_WORKS_TABLE =
             "CREATE TABLE IF NOT EXISTS " + BucksRoadWorks.TABLE_NAME + " ("
                     + BucksRoadWorks.COLUMN_ID + " TEXT NOT NULL,"
@@ -52,7 +71,7 @@ public class BucksContract {
                     + BucksRoadWorks.COLUMN_COMMENT + " TEXT,"
                     + BucksRoadWorks.COLUMN_IMPACT_ON_TRAFFIC + " TEXT,"
                     + BucksRoadWorks.COLUMN_LATITUDE + " REAL,"
-                    + BucksRoadWorks.COLUMN_LONGITUDE + " REAL"
+                    + BucksRoadWorks.COLUMN_LONGITUDE + " REAL,"
                     + BucksRoadWorks.COLUMN_STATUS + " TEXT,"
                     + BucksRoadWorks.COLUMN_OVERALL_START_TIME + " TEXT,"
                     + BucksRoadWorks.COLUMN_OVERALL_END_TIME + " TEXT,"
@@ -312,6 +331,25 @@ public class BucksContract {
     // Just a view, so all columns come from the car park table.
     public static final class BucksLatestCarPark {
         public static final String TABLE_NAME = "bucks_latest_car_park";
+    }
+
+    public static final class BucksEvent implements CommonBaseColumns {
+        public static final String TABLE_NAME = "bucks_event";
+        public static final String COLUMN_ID = "id";
+        public static final String COLUMN_START_OF_PERIOD = "start_of_period";
+        public static final String COLUMN_END_OF_PERIOD = "end_of_period";
+        public static final String COLUMN_OVERALL_START_TIME = "overall_start_time";
+        public static final String COLUMN_OVERALL_END_TIME = "overall_end_time";
+        public static final String COLUMN_LATITUDE = "latitude";
+        public static final String COLUMN_LONGITUDE = "longitude";
+        public static final String COLUMN_LANG = "lang";
+        public static final String COLUMN_CONTENT = "content";
+        public static final String COLUMN_IMPACT_ON_TRAFFIC = "impact_on_traffic";
+        public static final String COLUMN_VALIDITY_STATUS = "validity_status";
+    }
+
+    public static final class BucksLatestEvent {
+        public static final String TABLE_NAME = "bucks_latest_event";
     }
 
     public static final class BucksRoadWorks implements CommonBaseColumns {

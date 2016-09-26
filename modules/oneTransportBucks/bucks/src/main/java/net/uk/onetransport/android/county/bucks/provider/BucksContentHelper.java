@@ -41,6 +41,7 @@ public class BucksContentHelper extends CommonContentHelper {
 
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({DATA_TYPE_CAR_PARK,
+            DATA_TYPE_EVENT,
             DATA_TYPE_ROAD_WORKS,
             DATA_TYPE_TRAFFIC_FLOW,
             DATA_TYPE_TRAFFIC_QUEUE,
@@ -52,13 +53,14 @@ public class BucksContentHelper extends CommonContentHelper {
     }
 
     public static final int DATA_TYPE_CAR_PARK = 1;
-    public static final int DATA_TYPE_ROAD_WORKS = 2;
-    public static final int DATA_TYPE_TRAFFIC_FLOW = 3;
-    public static final int DATA_TYPE_TRAFFIC_QUEUE = 4;
-    public static final int DATA_TYPE_TRAFFIC_SCOOT = 5;
-    public static final int DATA_TYPE_TRAFFIC_SPEED = 6;
-    public static final int DATA_TYPE_TRAFFIC_TRAVEL_TIME = 7;
-    public static final int DATA_TYPE_VMS = 8;
+    public static final int DATA_TYPE_EVENT = 2;
+    public static final int DATA_TYPE_ROAD_WORKS = 3;
+    public static final int DATA_TYPE_TRAFFIC_FLOW = 4;
+    public static final int DATA_TYPE_TRAFFIC_QUEUE = 5;
+    public static final int DATA_TYPE_TRAFFIC_SCOOT = 6;
+    public static final int DATA_TYPE_TRAFFIC_SPEED = 7;
+    public static final int DATA_TYPE_TRAFFIC_TRAVEL_TIME = 8;
+    public static final int DATA_TYPE_VMS = 9;
 
     public static void insertIntoProvider(@NonNull Context context, @NonNull CarPark[] carParks)
             throws RemoteException, OperationApplicationException {
@@ -591,6 +593,9 @@ public class BucksContentHelper extends CommonContentHelper {
             case DATA_TYPE_CAR_PARK:
                 contentResolver.delete(BucksProviderModule.CAR_PARK_URI, null, null);
                 break;
+            case DATA_TYPE_EVENT:
+//                contentResolver.delete(BucksProviderModule.EVENT_URI, null, null);
+                break;
             case DATA_TYPE_ROAD_WORKS:
                 contentResolver.delete(BucksProviderModule.ROAD_WORKS_URI, null, null);
                 break;
@@ -623,6 +628,10 @@ public class BucksContentHelper extends CommonContentHelper {
                 contentResolver.delete(BucksProviderModule.CAR_PARK_URI, CREATED_BEFORE,
                         new String[]{String.valueOf(creationTime)});
                 break;
+            case DATA_TYPE_EVENT:
+//                contentResolver.delete(BucksProviderModule.EVENT_URI, CREATED_BEFORE,
+//                        new String[]{String.valueOf(creationTime)});
+                break;
             case DATA_TYPE_ROAD_WORKS:
                 contentResolver.delete(BucksProviderModule.ROAD_WORKS_URI, CREATED_BEFORE,
                         new String[]{String.valueOf(creationTime)});
@@ -652,14 +661,6 @@ public class BucksContentHelper extends CommonContentHelper {
                         CREATED_BEFORE, new String[]{String.valueOf(creationTime)});
                 break;
         }
-    }
-
-    // TODO    Should be in Common?
-    public static Cursor getLastUpdated(@NonNull Context context) {
-        return context.getContentResolver().query(LastUpdatedProviderModule.LAST_UPDATED_URI,
-                new String[]{
-                        LastUpdatedContract.LastUpdated.COLUMN_LAST_UPDATE_MILLIS
-                }, null, null, null);
     }
 
     public static CarPark[] carParksFromCursor(Cursor cursor) {

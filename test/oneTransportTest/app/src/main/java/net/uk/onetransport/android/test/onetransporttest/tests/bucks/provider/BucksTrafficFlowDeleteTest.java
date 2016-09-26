@@ -27,7 +27,7 @@ public class BucksTrafficFlowDeleteTest extends OneTransportTest {
         Context context = runnerTask.getContext();
         BucksContentHelper.deleteFromProvider(context,
                 BucksContentHelper.DATA_TYPE_TRAFFIC_FLOW);
-        Cursor cursor = BucksContentHelper.getTrafficFlows(context);
+        Cursor cursor = BucksContentHelper.getTrafficFlowCursor(context);
         if (cursor != null) {
             if (cursor.getCount() == 0) {
                 runnerTask.report("BUCKS traffic flow delete ... PASSED.", COLOUR_PASSED);

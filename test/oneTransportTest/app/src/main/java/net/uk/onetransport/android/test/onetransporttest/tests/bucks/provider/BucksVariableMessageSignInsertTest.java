@@ -34,7 +34,7 @@ public class BucksVariableMessageSignInsertTest extends OneTransportTest {
             return;
         }
         BucksContentHelper.insertIntoProvider(context, variableMessageSigns);
-        Cursor cursor = BucksContentHelper.getVariableMessageSigns(context);
+        Cursor cursor = BucksContentHelper.getVariableMessageSignCursor(context);
         if (cursor != null) {
             if (cursor.getCount() > 0) {
                 runnerTask.report("BUCKS VMS insert ... PASSED.", COLOUR_PASSED);

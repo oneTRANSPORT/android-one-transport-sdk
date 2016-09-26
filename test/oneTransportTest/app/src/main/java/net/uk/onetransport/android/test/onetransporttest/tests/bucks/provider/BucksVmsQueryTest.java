@@ -23,7 +23,7 @@ public class BucksVmsQueryTest extends OneTransportTest {
 
     private void vmsQuery(RunnerTask runnerTask) throws Exception {
         runnerTask.setCurrentTest("BUCKS vms query");
-        Cursor cursor = BucksContentHelper.getVariableMessageSigns(runnerTask.getContext());
+        Cursor cursor = BucksContentHelper.getVariableMessageSignCursor(runnerTask.getContext());
         if (cursor != null) {
             if (cursor.getCount() > 0) {
                 runnerTask.report("BUCKS vms query ... PASSED.", COLOUR_PASSED);

@@ -5,7 +5,6 @@ import android.database.Cursor;
 
 import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
-import net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsContentHelper;
 import net.uk.onetransport.android.modules.clearviewsilverstone.provider.CvsContentHelper;
 import net.uk.onetransport.android.modules.clearviewsilverstone.provider.CvsContract;
 import net.uk.onetransport.android.modules.clearviewsilverstone.traffic.TrafficItem;

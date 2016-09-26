@@ -79,6 +79,9 @@ public class BucksProviderModule implements ProviderModule {
     // Sync adapter extras.
     private static final String EXTRAS_CAR_PARKS =
             "net.uk.onetransport.android.county.bucks.sync.CAR_PARKS";
+    // TODO    We don't have events yet until Ismail completes the updates.
+    private static final String EXTRAS_EVENTS =
+            "net.uk.onetransport.android.county.bucks.sync.EVENTS";
     private static final String EXTRAS_ROAD_WORKS =
             "net.uk.onetransport.android.county.bucks.sync.ROAD_WORKS";
     private static final String EXTRAS_TRAFFIC_FLOW =
@@ -761,6 +764,10 @@ public class BucksProviderModule implements ProviderModule {
                     e.printStackTrace();
                 }
             }
+            // Events.
+            if (extras.getBoolean(EXTRAS_EVENTS, false)) {
+                // TODO
+            }
             // Road works.
             if (extras.getBoolean(EXTRAS_ROAD_WORKS, false)) {
                 try {
@@ -828,8 +835,8 @@ public class BucksProviderModule implements ProviderModule {
         }
     }
 
-    public static void refresh(Context context, boolean carParks, boolean roadWorks, boolean trafficFlow,
-                               boolean trafficQueue, boolean trafficScoot, boolean trafficSpeed,
+    public static void refresh(Context context, boolean carParks, boolean events, boolean roadWorks,
+                               boolean trafficFlow, boolean trafficQueue, boolean trafficScoot, boolean trafficSpeed,
                                boolean trafficTravelTime, boolean variableMessageSigns) {
         Bundle settingsBundle = new Bundle();
         settingsBundle.putBoolean(EXTRAS_CAR_PARKS, carParks);

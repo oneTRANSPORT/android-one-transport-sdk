@@ -27,7 +27,7 @@ public class BucksRoadWorksDeleteTest extends OneTransportTest {
         Context context = runnerTask.getContext();
         BucksContentHelper.deleteFromProvider(context,
                 BucksContentHelper.DATA_TYPE_ROAD_WORKS);
-        Cursor cursor = BucksContentHelper.getRoadWorks(context);
+        Cursor cursor = BucksContentHelper.getRoadWorksCursor(context);
         if (cursor != null) {
             if (cursor.getCount() == 0) {
                 runnerTask.report("BUCKS road works delete ... PASSED.", COLOUR_PASSED);
