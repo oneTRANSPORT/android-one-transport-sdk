@@ -102,4 +102,19 @@ public class VariableMessageSign {
     public void setCreationTime(Long creationTime) {
         this.creationTime = creationTime;
     }
+
+    public String getLegendsAsString() {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < legends.length; i++) {
+            builder.append(legends[i]);
+            if (i < legends.length - 1) {
+                builder.append("|");
+            }
+        }
+        return builder.toString();
+    }
+
+    public void setLegendsFromString(String legendString) {
+        legends = legendString.split("\\|");
+    }
 }

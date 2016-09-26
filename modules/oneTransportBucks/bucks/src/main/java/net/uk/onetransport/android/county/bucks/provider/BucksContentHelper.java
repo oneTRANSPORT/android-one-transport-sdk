@@ -10,8 +10,9 @@ import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 
 import net.uk.onetransport.android.county.bucks.carparks.CarPark;
-import net.uk.onetransport.android.county.bucks.roadworks.Period;
+import net.uk.onetransport.android.county.bucks.roadworks.Location;
 import net.uk.onetransport.android.county.bucks.roadworks.RoadWorks;
+import net.uk.onetransport.android.county.bucks.roadworks.Validity;
 import net.uk.onetransport.android.county.bucks.trafficflow.TrafficFlow;
 import net.uk.onetransport.android.county.bucks.trafficqueue.TrafficQueue;
 import net.uk.onetransport.android.county.bucks.trafficscoot.TrafficScoot;
@@ -102,19 +103,8 @@ public class BucksContentHelper extends CommonContentHelper {
                                           @NonNull RoadWorks[] roadWorkses)
             throws RemoteException, OperationApplicationException {
         if (roadWorkses.length > 0) {
-            StringBuilder builder = new StringBuilder();
             ArrayList<ContentProviderOperation> operationList = new ArrayList<>();
             for (RoadWorks roadWorks : roadWorkses) {
-                builder.setLength(0);
-                Period[] periods = roadWorks.getValidity().getPeriods();
-                for (int i = 0; i < periods.length; i++) {
-                    builder.append(periods[i].getStart());
-                    builder.append("|");
-                    builder.append(periods[i].getEnd());
-                    if (i < periods.length - 1) {
-                        builder.append("|");
-                    }
-                }
                 ContentProviderOperation operation = ContentProviderOperation
                         .newInsert(BucksProviderModule.ROAD_WORKS_URI)
                         .withValue(BucksRoadWorks.COLUMN_ID, roadWorks.getId())
@@ -134,7 +124,8 @@ public class BucksContentHelper extends CommonContentHelper {
                                 roadWorks.getValidity().getOverallStartTime())
                         .withValue(BucksRoadWorks.COLUMN_OVERALL_END_TIME,
                                 roadWorks.getValidity().getOverallEndTime())
-                        .withValue(BucksRoadWorks.COLUMN_PERIODS, builder.toString())
+                        .withValue(BucksRoadWorks.COLUMN_PERIODS,
+                                roadWorks.getValidity().getPeriodsAsString())
                         .withValue(BucksRoadWorks.COLUMN_CIN_ID, roadWorks.getCinId())
                         .withValue(BucksRoadWorks.COLUMN_CREATION_TIME, roadWorks.getCreationTime())
                         .withYieldAllowed(true)
@@ -333,17 +324,8 @@ public class BucksContentHelper extends CommonContentHelper {
                                           @NonNull VariableMessageSign[] variableMessageSigns)
             throws RemoteException, OperationApplicationException {
         if (variableMessageSigns.length > 0) {
-            StringBuilder builder = new StringBuilder();
             ArrayList<ContentProviderOperation> operationList = new ArrayList<>();
             for (VariableMessageSign variableMessageSign : variableMessageSigns) {
-                builder.delete(0, builder.length());
-                String[] vmsLegends = variableMessageSign.getLegends();
-                for (int i = 0; i < vmsLegends.length; i++) {
-                    builder.append(vmsLegends[i]);
-                    if (i < vmsLegends.length - 1) {
-                        builder.append("|");
-                    }
-                }
                 ContentProviderOperation operation = ContentProviderOperation
                         .newInsert(BucksProviderModule.VARIABLE_MESSAGE_SIGN_URI)
                         .withValue(BucksVariableMessageSign.COLUMN_LOCATION_ID,
@@ -361,7 +343,7 @@ public class BucksContentHelper extends CommonContentHelper {
                         .withValue(BucksVariableMessageSign.COLUMN_NUMBER_OF_ROWS,
                                 variableMessageSign.getNumberOfRows())
                         .withValue(BucksVariableMessageSign.COLUMN_VMS_LEGENDS,
-                                builder.toString())
+                                variableMessageSign.getLegendsAsString())
                         .withValue(BucksVariableMessageSign.COLUMN_CIN_ID, variableMessageSign.getCinId())
                         .withValue(BucksVariableMessageSign.COLUMN_CREATION_TIME,
                                 variableMessageSign.getCreationTime())
@@ -373,10 +355,6 @@ public class BucksContentHelper extends CommonContentHelper {
             contentResolver.applyBatch(BucksProviderModule.AUTHORITY, operationList);
         }
     }
-
-    // TODO    Get everything.
-    // TODO    Get latest set.
-    // TODO    Get all sets in time interval.
 
     public static Cursor getCarParkCursor(@NonNull Context context) {
         return context.getContentResolver().query(BucksProviderModule.CAR_PARK_URI,
@@ -404,6 +382,34 @@ public class BucksContentHelper extends CommonContentHelper {
 
     public static CarPark[] getLatestCarParks(@NonNull Context context) {
         return carParksFromCursor(getLatestCarParkCursor(context));
+    }
+
+    public static Cursor getRoadWorksCursor(@NonNull Context context) {
+        return context.getContentResolver().query(BucksProviderModule.ROAD_WORKS_URI,
+                new String[]{"*"}, null, null, BucksRoadWorks.COLUMN_ID);
+    }
+
+    public static Cursor getRoadWorksCursor(@NonNull Context context, long oldest, long newest) {
+        return context.getContentResolver().query(BucksProviderModule.ROAD_WORKS_URI,
+                new String[]{"*"}, CREATION_INTERVAL_SELECTION, interval(oldest, newest),
+                CommonBaseColumns.COLUMN_CREATION_TIME);
+    }
+
+    public static Cursor getLatestRoadWorksCursor(@NonNull Context context) {
+        return context.getContentResolver().query(BucksProviderModule.LATEST_ROAD_WORKS_URI,
+                new String[]{"*"}, null, null, BucksRoadWorks.COLUMN_ID);
+    }
+
+    public static RoadWorks[] getRoadWorks(@NonNull Context context) {
+        return roadWorksesFromCursor(getRoadWorksCursor(context));
+    }
+
+    public static RoadWorks[] getRoadWorks(@NonNull Context context, long oldest, long newest) {
+        return roadWorksesFromCursor(getRoadWorksCursor(context, oldest, newest));
+    }
+
+    public static RoadWorks[] getLatestRoadWorks(@NonNull Context context) {
+        return roadWorksesFromCursor(getLatestRoadWorksCursor(context));
     }
 
     public static Cursor getTrafficFlowCursor(@NonNull Context context) {
@@ -434,16 +440,149 @@ public class BucksContentHelper extends CommonContentHelper {
         return trafficFlowsFromCursor(getLatestTrafficFlowCursor(context));
     }
 
-    // TODO    Queues, Scoots, Speeds, Travel times.
+    public static Cursor getTrafficQueueCursor(@NonNull Context context) {
+        return context.getContentResolver().query(BucksProviderModule.TRAFFIC_QUEUE_URI,
+                new String[]{"*"}, null, null, BucksTrafficQueue.COLUMN_ID);
+    }
 
-    public static Cursor getVariableMessageSigns(@NonNull Context context) {
+    public static Cursor getTrafficQueueCursor(@NonNull Context context, long oldest, long newest) {
+        return context.getContentResolver().query(BucksProviderModule.TRAFFIC_QUEUE_URI,
+                new String[]{"*"}, CREATION_INTERVAL_SELECTION, interval(oldest, newest),
+                CommonBaseColumns.COLUMN_CREATION_TIME);
+    }
+
+    public static Cursor getLatestTrafficQueueCursor(@NonNull Context context) {
+        return context.getContentResolver().query(BucksProviderModule.LATEST_TRAFFIC_QUEUE_URI,
+                new String[]{"*"}, null, null, BucksTrafficQueue.COLUMN_ID);
+    }
+
+    public static TrafficQueue[] getTrafficQueues(@NonNull Context context) {
+        return trafficQueuesFromCursor(getTrafficQueueCursor(context));
+    }
+
+    public static TrafficQueue[] getTrafficQueues(@NonNull Context context, long oldest, long newest) {
+        return trafficQueuesFromCursor(getTrafficQueueCursor(context, oldest, newest));
+    }
+
+    public static TrafficQueue[] getLatestTrafficQueues(@NonNull Context context) {
+        return trafficQueuesFromCursor(getLatestTrafficQueueCursor(context));
+    }
+
+    public static Cursor getTrafficScootCursor(@NonNull Context context) {
+        return context.getContentResolver().query(BucksProviderModule.TRAFFIC_SCOOT_URI,
+                new String[]{"*"}, null, null, BucksTrafficScoot.COLUMN_ID);
+    }
+
+    public static Cursor getTrafficScootCursor(@NonNull Context context, long oldest, long newest) {
+        return context.getContentResolver().query(BucksProviderModule.TRAFFIC_SCOOT_URI,
+                new String[]{"*"}, CREATION_INTERVAL_SELECTION, interval(oldest, newest),
+                CommonBaseColumns.COLUMN_CREATION_TIME);
+    }
+
+    public static Cursor getLatestTrafficScootCursor(@NonNull Context context) {
+        return context.getContentResolver().query(BucksProviderModule.LATEST_TRAFFIC_SCOOT_URI,
+                new String[]{"*"}, null, null, BucksTrafficScoot.COLUMN_ID);
+    }
+
+    public static TrafficScoot[] getTrafficScoots(@NonNull Context context) {
+        return trafficScootsFromCursor(getTrafficScootCursor(context));
+    }
+
+    public static TrafficScoot[] getTrafficScoots(@NonNull Context context, long oldest, long newest) {
+        return trafficScootsFromCursor(getTrafficScootCursor(context, oldest, newest));
+    }
+
+    public static TrafficScoot[] getLatestTrafficScoots(@NonNull Context context) {
+        return trafficScootsFromCursor(getLatestTrafficScootCursor(context));
+    }
+
+    public static Cursor getTrafficSpeedCursor(@NonNull Context context) {
+        return context.getContentResolver().query(BucksProviderModule.TRAFFIC_SPEED_URI,
+                new String[]{"*"}, null, null, BucksTrafficSpeed.COLUMN_ID);
+    }
+
+    public static Cursor getTrafficSpeedCursor(@NonNull Context context, long oldest, long newest) {
+        return context.getContentResolver().query(BucksProviderModule.TRAFFIC_SPEED_URI,
+                new String[]{"*"}, CREATION_INTERVAL_SELECTION, interval(oldest, newest),
+                CommonBaseColumns.COLUMN_CREATION_TIME);
+    }
+
+    public static Cursor getLatestTrafficSpeedCursor(@NonNull Context context) {
+        return context.getContentResolver().query(BucksProviderModule.LATEST_TRAFFIC_SPEED_URI,
+                new String[]{"*"}, null, null, BucksTrafficSpeed.COLUMN_ID);
+    }
+
+    public static TrafficSpeed[] getTrafficSpeeds(@NonNull Context context) {
+        return trafficSpeedsFromCursor(getTrafficSpeedCursor(context));
+    }
+
+    public static TrafficSpeed[] getTrafficSpeeds(@NonNull Context context, long oldest, long newest) {
+        return trafficSpeedsFromCursor(getTrafficSpeedCursor(context, oldest, newest));
+    }
+
+    public static TrafficSpeed[] getLatestTrafficSpeeds(@NonNull Context context) {
+        return trafficSpeedsFromCursor(getLatestTrafficSpeedCursor(context));
+    }
+
+    public static Cursor getTrafficTravelTimeCursor(@NonNull Context context) {
+        return context.getContentResolver().query(BucksProviderModule.TRAFFIC_TRAVEL_TIME_URI,
+                new String[]{"*"}, null, null, BucksTrafficTravelTime.COLUMN_ID);
+    }
+
+    public static Cursor getTrafficTravelTimeCursor(@NonNull Context context, long oldest, long newest) {
+        return context.getContentResolver().query(BucksProviderModule.TRAFFIC_TRAVEL_TIME_URI,
+                new String[]{"*"}, CREATION_INTERVAL_SELECTION, interval(oldest, newest),
+                CommonBaseColumns.COLUMN_CREATION_TIME);
+    }
+
+    public static Cursor getLatestTrafficTravelTimeCursor(@NonNull Context context) {
+        return context.getContentResolver().query(
+                BucksProviderModule.LATEST_TRAFFIC_TRAVEL_TIME_URI, new String[]{"*"},
+                null, null, BucksTrafficTravelTime.COLUMN_ID);
+    }
+
+    public static TrafficTravelTime[] getTrafficTravelTimes(@NonNull Context context) {
+        return trafficTravelTimesFromCursor(getTrafficTravelTimeCursor(context));
+    }
+
+    public static TrafficTravelTime[] getTrafficTravelTimes(@NonNull Context context, long oldest,
+                                                            long newest) {
+        return trafficTravelTimesFromCursor(getTrafficTravelTimeCursor(context, oldest, newest));
+    }
+
+    public static TrafficTravelTime[] getLatestTrafficTravelTimes(@NonNull Context context) {
+        return trafficTravelTimesFromCursor(getLatestTrafficTravelTimeCursor(context));
+    }
+
+    public static Cursor getVariableMessageSignCursor(@NonNull Context context) {
         return context.getContentResolver().query(BucksProviderModule.VARIABLE_MESSAGE_SIGN_URI,
                 new String[]{"*"}, null, null, BucksVariableMessageSign.COLUMN_LOCATION_ID);
     }
 
-    public static Cursor getRoadWorks(@NonNull Context context) {
-        return context.getContentResolver().query(BucksProviderModule.ROAD_WORKS_URI,
-                new String[]{"*"}, null, null, BucksContract.BucksRoadWorks.COLUMN_ID);
+    public static Cursor getVariableMessageSignCursor(@NonNull Context context,
+                                                      long oldest, long newest) {
+        return context.getContentResolver().query(BucksProviderModule.VARIABLE_MESSAGE_SIGN_URI,
+                new String[]{"*"}, CREATION_INTERVAL_SELECTION, interval(oldest, newest),
+                CommonBaseColumns.COLUMN_CREATION_TIME);
+    }
+
+    public static Cursor getLatestVariableMessageSignCursor(@NonNull Context context) {
+        return context.getContentResolver().query(
+                BucksProviderModule.LATEST_VARIABLE_MESSAGE_SIGN_URI,
+                new String[]{"*"}, null, null, BucksVariableMessageSign.COLUMN_LOCATION_ID);
+    }
+
+    public static VariableMessageSign[] getVariableMessageSigns(@NonNull Context context) {
+        return variableMessageSignsFromCursor(getVariableMessageSignCursor(context));
+    }
+
+    public static VariableMessageSign[] getVariableMessageSigns(@NonNull Context context,
+                                                                long oldest, long newest) {
+        return variableMessageSignsFromCursor(getVariableMessageSignCursor(context, oldest, newest));
+    }
+
+    public static VariableMessageSign[] getLatestVariableMessageSigns(@NonNull Context context) {
+        return variableMessageSignsFromCursor(getLatestVariableMessageSignCursor(context));
     }
 
     public static void deleteFromProvider(@NonNull Context context, @DataType int dataType) {
@@ -603,8 +742,6 @@ public class BucksContentHelper extends CommonContentHelper {
                             BucksTrafficFlow.COLUMN_TO_LONGITUDE)));
                     trafficFlows[i].setTime(cursor.getString(cursor.getColumnIndex(
                             BucksTrafficFlow.COLUMN_TIME)));
-                    trafficFlows[i].setId(cursor.getString(cursor.getColumnIndex(
-                            BucksTrafficFlow.COLUMN_ID)));
                     trafficFlows[i].setVehicleFlow(cursor.getDouble(cursor.getColumnIndex(
                             BucksTrafficFlow.COLUMN_VEHICLE_FLOW)));
                     trafficFlows[i].setCinId(cursor.getString(cursor.getColumnIndex(
@@ -621,4 +758,283 @@ public class BucksContentHelper extends CommonContentHelper {
         return trafficFlows;
     }
 
+    public static TrafficQueue[] trafficQueuesFromCursor(Cursor cursor) {
+        TrafficQueue[] trafficQueues = null;
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                trafficQueues = new TrafficQueue[cursor.getCount()];
+                for (int i = 0; i < trafficQueues.length; i++) {
+                    trafficQueues[i] = new TrafficQueue();
+                    trafficQueues[i].setId(cursor.getString(cursor.getColumnIndex(
+                            BucksTrafficQueue.COLUMN_ID)));
+                    trafficQueues[i].setTpegDirection(cursor.getString(cursor.getColumnIndex(
+                            BucksTrafficQueue.COLUMN_TPEG_DIRECTION)));
+                    trafficQueues[i].setFromType(cursor.getString(cursor.getColumnIndex(
+                            BucksTrafficQueue.COLUMN_FROM_TYPE)));
+                    trafficQueues[i].setFromDescriptor(cursor.getString(cursor.getColumnIndex(
+                            BucksTrafficQueue.COLUMN_FROM_DESCRIPTOR)));
+                    trafficQueues[i].setFromLatitude(cursor.getDouble(cursor.getColumnIndex(
+                            BucksTrafficQueue.COLUMN_FROM_LATITUDE)));
+                    trafficQueues[i].setFromLongitude(cursor.getDouble(cursor.getColumnIndex(
+                            BucksTrafficQueue.COLUMN_FROM_LONGITUDE)));
+                    trafficQueues[i].setToType(cursor.getString(cursor.getColumnIndex(
+                            BucksTrafficQueue.COLUMN_TO_TYPE)));
+                    trafficQueues[i].setToDescriptor(cursor.getString(cursor.getColumnIndex(
+                            BucksTrafficQueue.COLUMN_TO_DESCRIPTOR)));
+                    trafficQueues[i].setToLatitude(cursor.getDouble(cursor.getColumnIndex(
+                            BucksTrafficQueue.COLUMN_TO_LATITUDE)));
+                    trafficQueues[i].setToLongitude(cursor.getDouble(cursor.getColumnIndex(
+                            BucksTrafficQueue.COLUMN_TO_LONGITUDE)));
+                    trafficQueues[i].setTime(cursor.getString(cursor.getColumnIndex(
+                            BucksTrafficQueue.COLUMN_TIME)));
+                    trafficQueues[i].setSeverity(cursor.getDouble(cursor.getColumnIndex(
+                            BucksTrafficQueue.COLUMN_SEVERITY)));
+                    trafficQueues[i].setPresent(cursor.getString(cursor.getColumnIndex(
+                            BucksTrafficQueue.COLUMN_PRESENT)));
+                    trafficQueues[i].setCinId(cursor.getString(cursor.getColumnIndex(
+                            BucksTrafficQueue.COLUMN_CIN_ID)));
+                    trafficQueues[i].setCreationTime(cursor.getLong(cursor.getColumnIndex(
+                            BucksTrafficQueue.COLUMN_CREATION_TIME)));
+                }
+            }
+            cursor.close();
+        }
+        if (trafficQueues == null) {
+            return new TrafficQueue[0];
+        }
+        return trafficQueues;
+    }
+
+    public static TrafficScoot[] trafficScootsFromCursor(Cursor cursor) {
+        TrafficScoot[] trafficScoots = null;
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                trafficScoots = new TrafficScoot[cursor.getCount()];
+                for (int i = 0; i < trafficScoots.length; i++) {
+                    trafficScoots[i] = new TrafficScoot();
+                    trafficScoots[i].setId(cursor.getString(cursor.getColumnIndex(
+                            BucksTrafficScoot.COLUMN_ID)));
+                    trafficScoots[i].setTpegDirection(cursor.getString(cursor.getColumnIndex(
+                            BucksTrafficScoot.COLUMN_TPEG_DIRECTION)));
+                    trafficScoots[i].setFromType(cursor.getString(cursor.getColumnIndex(
+                            BucksTrafficScoot.COLUMN_FROM_TYPE)));
+                    trafficScoots[i].setFromDescriptor(cursor.getString(cursor.getColumnIndex(
+                            BucksTrafficScoot.COLUMN_FROM_DESCRIPTOR)));
+                    trafficScoots[i].setFromLatitude(cursor.getDouble(cursor.getColumnIndex(
+                            BucksTrafficScoot.COLUMN_FROM_LATITUDE)));
+                    trafficScoots[i].setFromLongitude(cursor.getDouble(cursor.getColumnIndex(
+                            BucksTrafficScoot.COLUMN_FROM_LONGITUDE)));
+                    trafficScoots[i].setToType(cursor.getString(cursor.getColumnIndex(
+                            BucksTrafficScoot.COLUMN_TO_TYPE)));
+                    trafficScoots[i].setToDescriptor(cursor.getString(cursor.getColumnIndex(
+                            BucksTrafficScoot.COLUMN_TO_DESCRIPTOR)));
+                    trafficScoots[i].setToLatitude(cursor.getDouble(cursor.getColumnIndex(
+                            BucksTrafficScoot.COLUMN_TO_LATITUDE)));
+                    trafficScoots[i].setToLongitude(cursor.getDouble(cursor.getColumnIndex(
+                            BucksTrafficScoot.COLUMN_TO_LONGITUDE)));
+                    trafficScoots[i].setTime(cursor.getString(cursor.getColumnIndex(
+                            BucksTrafficScoot.COLUMN_TIME)));
+                    trafficScoots[i].setCurrentFlow(cursor.getDouble(cursor.getColumnIndex(
+                            BucksTrafficScoot.COLUMN_CURRENT_FLOW)));
+                    trafficScoots[i].setAverageSpeed(cursor.getDouble(cursor.getColumnIndex(
+                            BucksTrafficScoot.COLUMN_AVERAGE_SPEED)));
+                    trafficScoots[i].setLinkStatusType(cursor.getDouble(cursor.getColumnIndex(
+                            BucksTrafficScoot.COLUMN_LINK_STATUS_TYPE)));
+                    trafficScoots[i].setLinkStatus(cursor.getDouble(cursor.getColumnIndex(
+                            BucksTrafficScoot.COLUMN_LINK_STATUS)));
+                    trafficScoots[i].setLinkTravelTime(cursor.getDouble(cursor.getColumnIndex(
+                            BucksTrafficScoot.COLUMN_LINK_TRAVEL_TIME)));
+                    trafficScoots[i].setCongestionPercent(cursor.getDouble(cursor.getColumnIndex(
+                            BucksTrafficScoot.COLUMN_CONGESTION_PERCENT)));
+                    trafficScoots[i].setCinId(cursor.getString(cursor.getColumnIndex(
+                            BucksTrafficScoot.COLUMN_CIN_ID)));
+                    trafficScoots[i].setCreationTime(cursor.getLong(cursor.getColumnIndex(
+                            BucksTrafficScoot.COLUMN_CREATION_TIME)));
+                }
+            }
+            cursor.close();
+        }
+        if (trafficScoots == null) {
+            return new TrafficScoot[0];
+        }
+        return trafficScoots;
+    }
+
+    public static TrafficSpeed[] trafficSpeedsFromCursor(Cursor cursor) {
+        TrafficSpeed[] trafficSpeeds = null;
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                trafficSpeeds = new TrafficSpeed[cursor.getCount()];
+                for (int i = 0; i < trafficSpeeds.length; i++) {
+                    trafficSpeeds[i] = new TrafficSpeed();
+                    trafficSpeeds[i].setId(cursor.getString(cursor.getColumnIndex(
+                            BucksTrafficSpeed.COLUMN_ID)));
+                    trafficSpeeds[i].setTpegDirection(cursor.getString(cursor.getColumnIndex(
+                            BucksTrafficSpeed.COLUMN_TPEG_DIRECTION)));
+                    trafficSpeeds[i].setFromType(cursor.getString(cursor.getColumnIndex(
+                            BucksTrafficSpeed.COLUMN_FROM_TYPE)));
+                    trafficSpeeds[i].setFromDescriptor(cursor.getString(cursor.getColumnIndex(
+                            BucksTrafficSpeed.COLUMN_FROM_DESCRIPTOR)));
+                    trafficSpeeds[i].setFromLatitude(cursor.getDouble(cursor.getColumnIndex(
+                            BucksTrafficSpeed.COLUMN_FROM_LATITUDE)));
+                    trafficSpeeds[i].setFromLongitude(cursor.getDouble(cursor.getColumnIndex(
+                            BucksTrafficSpeed.COLUMN_FROM_LONGITUDE)));
+                    trafficSpeeds[i].setToType(cursor.getString(cursor.getColumnIndex(
+                            BucksTrafficSpeed.COLUMN_TO_TYPE)));
+                    trafficSpeeds[i].setToDescriptor(cursor.getString(cursor.getColumnIndex(
+                            BucksTrafficSpeed.COLUMN_TO_DESCRIPTOR)));
+                    trafficSpeeds[i].setToLatitude(cursor.getDouble(cursor.getColumnIndex(
+                            BucksTrafficSpeed.COLUMN_TO_LATITUDE)));
+                    trafficSpeeds[i].setToLongitude(cursor.getDouble(cursor.getColumnIndex(
+                            BucksTrafficSpeed.COLUMN_TO_LONGITUDE)));
+                    trafficSpeeds[i].setTime(cursor.getString(cursor.getColumnIndex(
+                            BucksTrafficSpeed.COLUMN_TIME)));
+                    trafficSpeeds[i].setAverageVehicleSpeed(cursor.getDouble(cursor.getColumnIndex(
+                            BucksTrafficSpeed.COLUMN_AVERAGE_VEHICLE_SPEED)));
+                    trafficSpeeds[i].setCinId(cursor.getString(cursor.getColumnIndex(
+                            BucksTrafficSpeed.COLUMN_CIN_ID)));
+                    trafficSpeeds[i].setCreationTime(cursor.getLong(cursor.getColumnIndex(
+                            BucksTrafficSpeed.COLUMN_CREATION_TIME)));
+                }
+            }
+            cursor.close();
+        }
+        if (trafficSpeeds == null) {
+            return new TrafficSpeed[0];
+        }
+        return trafficSpeeds;
+    }
+
+    public static TrafficTravelTime[] trafficTravelTimesFromCursor(Cursor cursor) {
+        TrafficTravelTime[] trafficTravelTimes = null;
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                trafficTravelTimes = new TrafficTravelTime[cursor.getCount()];
+                for (int i = 0; i < trafficTravelTimes.length; i++) {
+                    trafficTravelTimes[i] = new TrafficTravelTime();
+                    trafficTravelTimes[i].setId(cursor.getString(cursor.getColumnIndex(
+                            BucksTrafficTravelTime.COLUMN_ID)));
+                    trafficTravelTimes[i].setTpegDirection(cursor.getString(cursor.getColumnIndex(
+                            BucksTrafficTravelTime.COLUMN_TPEG_DIRECTION)));
+                    trafficTravelTimes[i].setFromType(cursor.getString(cursor.getColumnIndex(
+                            BucksTrafficTravelTime.COLUMN_FROM_TYPE)));
+                    trafficTravelTimes[i].setFromDescriptor(cursor.getString(cursor.getColumnIndex(
+                            BucksTrafficTravelTime.COLUMN_FROM_DESCRIPTOR)));
+                    trafficTravelTimes[i].setFromLatitude(cursor.getDouble(cursor.getColumnIndex(
+                            BucksTrafficTravelTime.COLUMN_FROM_LATITUDE)));
+                    trafficTravelTimes[i].setFromLongitude(cursor.getDouble(cursor.getColumnIndex(
+                            BucksTrafficTravelTime.COLUMN_FROM_LONGITUDE)));
+                    trafficTravelTimes[i].setToType(cursor.getString(cursor.getColumnIndex(
+                            BucksTrafficTravelTime.COLUMN_TO_TYPE)));
+                    trafficTravelTimes[i].setToDescriptor(cursor.getString(cursor.getColumnIndex(
+                            BucksTrafficTravelTime.COLUMN_TO_DESCRIPTOR)));
+                    trafficTravelTimes[i].setToLatitude(cursor.getDouble(cursor.getColumnIndex(
+                            BucksTrafficTravelTime.COLUMN_TO_LATITUDE)));
+                    trafficTravelTimes[i].setToLongitude(cursor.getDouble(cursor.getColumnIndex(
+                            BucksTrafficTravelTime.COLUMN_TO_LONGITUDE)));
+                    trafficTravelTimes[i].setTime(cursor.getString(cursor.getColumnIndex(
+                            BucksTrafficTravelTime.COLUMN_TIME)));
+                    trafficTravelTimes[i].setTravelTime(cursor.getDouble(cursor.getColumnIndex(
+                            BucksTrafficTravelTime.COLUMN_TRAVEL_TIME)));
+                    trafficTravelTimes[i].setFreeFlowTravelTime(cursor.getDouble(cursor.getColumnIndex(
+                            BucksTrafficTravelTime.COLUMN_FREE_FLOW_TRAVEL_TIME)));
+                    trafficTravelTimes[i].setFreeFlowSpeed(cursor.getDouble(cursor.getColumnIndex(
+                            BucksTrafficTravelTime.COLUMN_FREE_FLOW_SPEED)));
+                    trafficTravelTimes[i].setCinId(cursor.getString(cursor.getColumnIndex(
+                            BucksTrafficTravelTime.COLUMN_CIN_ID)));
+                    trafficTravelTimes[i].setCreationTime(cursor.getLong(cursor.getColumnIndex(
+                            BucksTrafficTravelTime.COLUMN_CREATION_TIME)));
+                }
+            }
+            cursor.close();
+        }
+        if (trafficTravelTimes == null) {
+            return new TrafficTravelTime[0];
+        }
+        return trafficTravelTimes;
+    }
+
+    public static RoadWorks[] roadWorksesFromCursor(Cursor cursor) {
+        RoadWorks[] roadWorkses = null;
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                roadWorkses = new RoadWorks[cursor.getCount()];
+                for (int i = 0; i < roadWorkses.length; i++) {
+                    roadWorkses[i] = new RoadWorks();
+                    roadWorkses[i].setId(cursor.getString(cursor.getColumnIndex(
+                            BucksRoadWorks.COLUMN_ID)));
+                    roadWorkses[i].setEffectOnRoadLayout(cursor.getString(cursor.getColumnIndex(
+                            BucksRoadWorks.COLUMN_EFFECT_ON_ROAD_LAYOUT)));
+                    roadWorkses[i].setRoadMaintenanceType(cursor.getString(cursor.getColumnIndex(
+                            BucksRoadWorks.COLUMN_ROAD_MAINTENANCE_TYPE)));
+                    roadWorkses[i].setComment(cursor.getString(cursor.getColumnIndex(
+                            BucksRoadWorks.COLUMN_COMMENT)));
+                    roadWorkses[i].setImpactOnTraffic(cursor.getString(cursor.getColumnIndex(
+                            BucksRoadWorks.COLUMN_IMPACT_ON_TRAFFIC)));
+                    Location location = new Location();
+                    location.setLatitude(cursor.getDouble(cursor.getColumnIndex(
+                            BucksRoadWorks.COLUMN_LATITUDE)));
+                    location.setLongitude(cursor.getDouble(cursor.getColumnIndex(
+                            BucksRoadWorks.COLUMN_LONGITUDE)));
+                    roadWorkses[i].setLocation(location);
+                    Validity validity = new Validity();
+                    validity.setStatus(cursor.getString(cursor.getColumnIndex(
+                            BucksRoadWorks.COLUMN_STATUS)));
+                    validity.setOverallStartTime(cursor.getString(cursor.getColumnIndex(
+                            BucksRoadWorks.COLUMN_OVERALL_START_TIME)));
+                    validity.setOverallEndTime(cursor.getString(cursor.getColumnIndex(
+                            BucksRoadWorks.COLUMN_OVERALL_END_TIME)));
+                    validity.setPeriodsFromString(cursor.getString(cursor.getColumnIndex(
+                            BucksRoadWorks.COLUMN_PERIODS)));
+                    roadWorkses[i].setValidity(validity);
+                    roadWorkses[i].setCinId(cursor.getString(cursor.getColumnIndex(
+                            BucksRoadWorks.COLUMN_CIN_ID)));
+                    roadWorkses[i].setCreationTime(cursor.getLong(cursor.getColumnIndex(
+                            BucksRoadWorks.COLUMN_CREATION_TIME)));
+                }
+            }
+            cursor.close();
+        }
+        if (roadWorkses == null) {
+            return new RoadWorks[0];
+        }
+        return roadWorkses;
+    }
+
+    public static VariableMessageSign[] variableMessageSignsFromCursor(Cursor cursor) {
+        VariableMessageSign[] variableMessageSigns = null;
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                variableMessageSigns = new VariableMessageSign[cursor.getCount()];
+                for (int i = 0; i < variableMessageSigns.length; i++) {
+                    variableMessageSigns[i] = new VariableMessageSign();
+                    variableMessageSigns[i].setLocationId(cursor.getString(cursor.getColumnIndex(
+                            BucksVariableMessageSign.COLUMN_LOCATION_ID)));
+                    variableMessageSigns[i].setDescription(cursor.getString(cursor.getColumnIndex(
+                            BucksVariableMessageSign.COLUMN_DESCRIPTION)));
+                    variableMessageSigns[i].setVmsType(cursor.getString(cursor.getColumnIndex(
+                            BucksVariableMessageSign.COLUMN_VMS_TYPE)));
+                    variableMessageSigns[i].setLatitude(cursor.getDouble(cursor.getColumnIndex(
+                            BucksVariableMessageSign.COLUMN_LATITUDE)));
+                    variableMessageSigns[i].setLongitude(cursor.getDouble(cursor.getColumnIndex(
+                            BucksVariableMessageSign.COLUMN_LONGITUDE)));
+                    variableMessageSigns[i].setNumberOfCharacters(cursor.getDouble(cursor.getColumnIndex(
+                            BucksVariableMessageSign.COLUMN_NUMBER_OF_CHARACTERS)));
+                    variableMessageSigns[i].setNumberOfRows(cursor.getDouble(cursor.getColumnIndex(
+                            BucksVariableMessageSign.COLUMN_NUMBER_OF_ROWS)));
+                    variableMessageSigns[i].setLegendsFromString(cursor.getString(cursor.getColumnIndex(
+                            BucksVariableMessageSign.COLUMN_VMS_LEGENDS)));
+                    variableMessageSigns[i].setCinId(cursor.getString(cursor.getColumnIndex(
+                            BucksVariableMessageSign.COLUMN_CIN_ID)));
+                    variableMessageSigns[i].setCreationTime(cursor.getLong(cursor.getColumnIndex(
+                            BucksVariableMessageSign.COLUMN_CREATION_TIME)));
+                }
+            }
+            cursor.close();
+        }
+        if (variableMessageSigns == null) {
+            return new VariableMessageSign[0];
+        }
+        return variableMessageSigns;
+    }
 }
