@@ -10,27 +10,27 @@ import net.uk.onetransport.android.test.onetransporttest.RunnerFragment;
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
 import net.uk.onetransport.android.test.onetransporttest.tests.OneTransportTest;
 
-public class BucksVariableMessageSignDeleteTest extends OneTransportTest {
+public class BucksVariableMessageSignLatestTest extends OneTransportTest {
 
     @Override
     public void start(RunnerTask runnerTask) throws Exception {
-        deleteVariableMessageSigns(runnerTask);
+        variableMessageSignQuery(runnerTask);
     }
 
     public void startAsync(DougalCallback dougalCallback) {
-        ((RunnerFragment) dougalCallback).setCurrentTest("BUCKS variable message sign delete");
+        ((RunnerFragment) dougalCallback).setCurrentTest("Bucks variable message sign latest query");
         dougalCallback.getResponse(null, new Exception("Not implemented"));
     }
 
-    private void deleteVariableMessageSigns(RunnerTask runnerTask) throws Exception {
-        runnerTask.setCurrentTest("BUCKS variable message sign delete");
+    private void variableMessageSignQuery(RunnerTask runnerTask) throws Exception {
+        runnerTask.setCurrentTest("Bucks variable message sign latest query");
         Context context = runnerTask.getContext();
-        BucksContentHelper.deleteFromProvider(context, BucksContentHelper.DATA_TYPE_VMS);
-        VariableMessageSign[] variableMessageSigns = BucksContentHelper.getVariableMessageSigns(context);
-        if (variableMessageSigns.length == 0) {
-            runnerTask.report("BUCKS variable message sign delete ... PASSED.", COLOUR_PASSED);
+        VariableMessageSign[] variableMessageSigns = BucksContentHelper
+                .getLatestVariableMessageSigns(context);
+        if (variableMessageSigns.length > 0) {
+            runnerTask.report("Bucks variable message sign latest query ... PASSED.", COLOUR_PASSED);
             return;
         }
-        runnerTask.report("BUCKS variable message sign delete ... FAILED.", COLOUR_FAILED);
+        runnerTask.report("Bucks variable message sign latest query ... FAILED.", COLOUR_FAILED);
     }
 }

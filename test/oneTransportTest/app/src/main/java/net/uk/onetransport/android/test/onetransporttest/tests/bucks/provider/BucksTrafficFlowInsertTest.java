@@ -26,7 +26,7 @@ public class BucksTrafficFlowInsertTest extends OneTransportTest {
     private void insertTrafficFlow(RunnerTask runnerTask) throws Exception {
         runnerTask.setCurrentTest("BUCKS traffic flow insert");
         Context context = runnerTask.getContext();
-        BucksContentHelper.deleteFromProvider(context, BucksContentHelper.DATA_TYPE_CAR_PARK);
+        BucksContentHelper.deleteFromProvider(context, BucksContentHelper.DATA_TYPE_TRAFFIC_FLOW);
         TrafficFlow[] trafficFlows = new TrafficFlowRetriever(context).retrieve();
         if (trafficFlows == null || trafficFlows.length == 0) {
             runnerTask.report("BUCKS traffic flow insert ... FAILED.", COLOUR_FAILED);

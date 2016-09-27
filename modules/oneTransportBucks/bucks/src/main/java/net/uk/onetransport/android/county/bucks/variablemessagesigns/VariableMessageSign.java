@@ -19,7 +19,7 @@ public class VariableMessageSign {
     @Expose
     private Double numberOfRows;
     @Expose
-    private String[] legends;
+    private String[] legend;
     private String cinId;
     private Long creationTime;
 
@@ -79,12 +79,12 @@ public class VariableMessageSign {
         this.numberOfRows = numberOfRows;
     }
 
-    public String[] getLegends() {
-        return legends;
+    public String[] getLegend() {
+        return legend;
     }
 
-    public void setLegends(String[] legends) {
-        this.legends = legends;
+    public void setLegend(String[] legend) {
+        this.legend = legend;
     }
 
     public String getCinId() {
@@ -103,18 +103,18 @@ public class VariableMessageSign {
         this.creationTime = creationTime;
     }
 
-    public String getLegendsAsString() {
+    public String getLegendAsString() {
         StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < legends.length; i++) {
-            builder.append(legends[i]);
-            if (i < legends.length - 1) {
+        for (int i = 0; i < legend.length; i++) {
+            builder.append(legend[i]);
+            if (i < legend.length - 1) {
                 builder.append("|");
             }
         }
         return builder.toString();
     }
 
-    public void setLegendsFromString(String legendString) {
-        legends = legendString.split("\\|");
+    public void setLegendFromString(String legendString) {
+        legend = legendString.split("\\|");
     }
 }

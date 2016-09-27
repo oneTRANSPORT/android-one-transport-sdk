@@ -5,33 +5,31 @@ import android.content.Context;
 import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
 import net.uk.onetransport.android.county.bucks.provider.BucksContentHelper;
-import net.uk.onetransport.android.county.bucks.roadworks.RoadWorks;
+import net.uk.onetransport.android.county.bucks.trafficscoot.TrafficScoot;
 import net.uk.onetransport.android.test.onetransporttest.RunnerFragment;
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
 import net.uk.onetransport.android.test.onetransporttest.tests.OneTransportTest;
 
-public class BucksRoadWorksDeleteTest extends OneTransportTest {
+public class BucksTrafficScootLatestTest extends OneTransportTest {
 
     @Override
     public void start(RunnerTask runnerTask) throws Exception {
-        deleteRoadWorks(runnerTask);
+        trafficScootQuery(runnerTask);
     }
 
     public void startAsync(DougalCallback dougalCallback) {
-        ((RunnerFragment) dougalCallback).setCurrentTest("BUCKS road works delete");
+        ((RunnerFragment) dougalCallback).setCurrentTest("Bucks traffic scoot latest query");
         dougalCallback.getResponse(null, new Exception("Not implemented"));
     }
 
-    private void deleteRoadWorks(RunnerTask runnerTask) throws Exception {
-        runnerTask.setCurrentTest("BUCKS road works delete");
+    private void trafficScootQuery(RunnerTask runnerTask) throws Exception {
+        runnerTask.setCurrentTest("Bucks traffic scoot latest query");
         Context context = runnerTask.getContext();
-        BucksContentHelper.deleteFromProvider(context,
-                BucksContentHelper.DATA_TYPE_ROAD_WORKS);
-        RoadWorks[] roadWorkses = BucksContentHelper.getRoadWorks(context);
-        if (roadWorkses.length == 0) {
-            runnerTask.report("BUCKS road works delete ... PASSED.", COLOUR_PASSED);
+        TrafficScoot[] trafficScoots = BucksContentHelper.getLatestTrafficScoots(context);
+        if (trafficScoots.length > 0) {
+            runnerTask.report("Bucks traffic scoot latest query ... PASSED.", COLOUR_PASSED);
             return;
         }
-        runnerTask.report("BUCKS road works delete ... FAILED.", COLOUR_FAILED);
+        runnerTask.report("Bucks traffic scoot latest query ... FAILED.", COLOUR_FAILED);
     }
 }

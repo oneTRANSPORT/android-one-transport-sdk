@@ -345,7 +345,7 @@ public class BucksContentHelper extends CommonContentHelper {
                         .withValue(BucksVariableMessageSign.COLUMN_NUMBER_OF_ROWS,
                                 variableMessageSign.getNumberOfRows())
                         .withValue(BucksVariableMessageSign.COLUMN_VMS_LEGENDS,
-                                variableMessageSign.getLegendsAsString())
+                                variableMessageSign.getLegendAsString())
                         .withValue(BucksVariableMessageSign.COLUMN_CIN_ID, variableMessageSign.getCinId())
                         .withValue(BucksVariableMessageSign.COLUMN_CREATION_TIME,
                                 variableMessageSign.getCreationTime())
@@ -1023,7 +1023,7 @@ public class BucksContentHelper extends CommonContentHelper {
                             BucksVariableMessageSign.COLUMN_NUMBER_OF_CHARACTERS)));
                     variableMessageSigns[i].setNumberOfRows(cursor.getDouble(cursor.getColumnIndex(
                             BucksVariableMessageSign.COLUMN_NUMBER_OF_ROWS)));
-                    variableMessageSigns[i].setLegendsFromString(cursor.getString(cursor.getColumnIndex(
+                    variableMessageSigns[i].setLegendFromString(cursor.getString(cursor.getColumnIndex(
                             BucksVariableMessageSign.COLUMN_VMS_LEGENDS)));
                     variableMessageSigns[i].setCinId(cursor.getString(cursor.getColumnIndex(
                             BucksVariableMessageSign.COLUMN_CIN_ID)));

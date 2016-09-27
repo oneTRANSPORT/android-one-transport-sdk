@@ -1,7 +1,6 @@
 package net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider;
 
 import android.content.Context;
-import android.database.Cursor;
 
 import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
@@ -16,33 +15,31 @@ public class BucksVariableMessageSignInsertTest extends OneTransportTest {
 
     @Override
     public void start(RunnerTask runnerTask) throws Exception {
-        insertVariableMessageSigns(runnerTask);
+        insertVariableMessageSign(runnerTask);
     }
 
     public void startAsync(DougalCallback dougalCallback) {
-        ((RunnerFragment) dougalCallback).setCurrentTest("BUCKS VMS insert");
+        ((RunnerFragment) dougalCallback).setCurrentTest("BUCKS variable message sign insert");
         dougalCallback.getResponse(null, new Exception("Not implemented"));
     }
 
-    private void insertVariableMessageSigns(RunnerTask runnerTask) throws Exception {
-        runnerTask.setCurrentTest("BUCKS VMS insert");
+    private void insertVariableMessageSign(RunnerTask runnerTask) throws Exception {
+        runnerTask.setCurrentTest("BUCKS variable message sign insert");
         Context context = runnerTask.getContext();
-        VariableMessageSign[] variableMessageSigns=new VariableMessageSignRetriever(context)
-                .retrieve();
+        BucksContentHelper.deleteFromProvider(context,
+                BucksContentHelper.DATA_TYPE_VMS);
+        VariableMessageSign[] variableMessageSigns = new VariableMessageSignRetriever(context).retrieve();
         if (variableMessageSigns == null || variableMessageSigns.length == 0) {
-            runnerTask.report("BUCKS VMS insert ... FAILED.", COLOUR_FAILED);
+            runnerTask.report("BUCKS variable message sign insert ... FAILED.", COLOUR_FAILED);
             return;
         }
         BucksContentHelper.insertIntoProvider(context, variableMessageSigns);
-        Cursor cursor = BucksContentHelper.getVariableMessageSignCursor(context);
-        if (cursor != null) {
-            if (cursor.getCount() > 0) {
-                runnerTask.report("BUCKS VMS insert ... PASSED.", COLOUR_PASSED);
-                cursor.close();
-                return;
-            }
-            cursor.close();
+        BucksContentHelper.insertIntoProvider(context, variableMessageSigns);
+        VariableMessageSign[] variableMessageSigns1 = BucksContentHelper.getVariableMessageSigns(context);
+        if (variableMessageSigns.length == variableMessageSigns1.length) {
+            runnerTask.report("BUCKS variable message sign insert ... PASSED.", COLOUR_PASSED);
+            return;
         }
-        runnerTask.report("BUCKS VMS insert ... FAILED.", COLOUR_FAILED);
+        runnerTask.report("BUCKS variable message sign insert ... FAILED.", COLOUR_FAILED);
     }
 }

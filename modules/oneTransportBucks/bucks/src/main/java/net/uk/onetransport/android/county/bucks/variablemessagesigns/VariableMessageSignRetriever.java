@@ -16,7 +16,7 @@ public class VariableMessageSignRetriever extends Retriever<VariableMessageSign>
         return RETRIEVE_PREFIX;
     }
 
-    @Override // TODO    Needs Unique index title, cinId?
+    @Override
     protected VariableMessageSign[] fromJson(String content, String cinId, Long creationTime) {
         VariableMessageSign[] variableMessageSigns = GSON.fromJson(content, VariableMessageSign[].class);
         for (VariableMessageSign variableMessageSign : variableMessageSigns) {

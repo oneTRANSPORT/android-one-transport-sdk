@@ -10,28 +10,26 @@ import net.uk.onetransport.android.test.onetransporttest.RunnerFragment;
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
 import net.uk.onetransport.android.test.onetransporttest.tests.OneTransportTest;
 
-public class BucksRoadWorksDeleteTest extends OneTransportTest {
+public class BucksRoadWorksLatestTest extends OneTransportTest {
 
     @Override
     public void start(RunnerTask runnerTask) throws Exception {
-        deleteRoadWorks(runnerTask);
+        roadWorksQuery(runnerTask);
     }
 
     public void startAsync(DougalCallback dougalCallback) {
-        ((RunnerFragment) dougalCallback).setCurrentTest("BUCKS road works delete");
+        ((RunnerFragment) dougalCallback).setCurrentTest("Bucks road works latest query");
         dougalCallback.getResponse(null, new Exception("Not implemented"));
     }
 
-    private void deleteRoadWorks(RunnerTask runnerTask) throws Exception {
-        runnerTask.setCurrentTest("BUCKS road works delete");
+    private void roadWorksQuery(RunnerTask runnerTask) throws Exception {
+        runnerTask.setCurrentTest("Bucks road works latest query");
         Context context = runnerTask.getContext();
-        BucksContentHelper.deleteFromProvider(context,
-                BucksContentHelper.DATA_TYPE_ROAD_WORKS);
-        RoadWorks[] roadWorkses = BucksContentHelper.getRoadWorks(context);
-        if (roadWorkses.length == 0) {
-            runnerTask.report("BUCKS road works delete ... PASSED.", COLOUR_PASSED);
+        RoadWorks[] roadWorkses = BucksContentHelper.getLatestRoadWorks(context);
+        if (roadWorkses.length > 0) {
+            runnerTask.report("Bucks road works latest query ... PASSED.", COLOUR_PASSED);
             return;
         }
-        runnerTask.report("BUCKS road works delete ... FAILED.", COLOUR_FAILED);
+        runnerTask.report("Bucks road works latest query ... FAILED.", COLOUR_FAILED);
     }
 }
