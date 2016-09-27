@@ -19,7 +19,7 @@ public class Event {
     @Expose
     private Double longitude;
     @Expose
-    private Description description;
+    private String description;
     @Expose
     private String impactOnTraffic;
     @Expose
@@ -83,11 +83,11 @@ public class Event {
         this.longitude = longitude;
     }
 
-    public Description getDescription() {
+    public String getDescription() {
         return description;
     }
 
-    public void setDescription(Description description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 

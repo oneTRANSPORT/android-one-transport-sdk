@@ -17,6 +17,8 @@ import android.util.Log;
 import net.uk.onetransport.android.county.bucks.R;
 import net.uk.onetransport.android.county.bucks.carparks.CarPark;
 import net.uk.onetransport.android.county.bucks.carparks.CarParkRetriever;
+import net.uk.onetransport.android.county.bucks.events.Event;
+import net.uk.onetransport.android.county.bucks.events.EventRetriever;
 import net.uk.onetransport.android.county.bucks.roadworks.RoadWorks;
 import net.uk.onetransport.android.county.bucks.roadworks.RoadWorksRetriever;
 import net.uk.onetransport.android.county.bucks.trafficflow.TrafficFlow;
@@ -53,6 +55,8 @@ import static net.uk.onetransport.android.county.bucks.provider.BucksContract.Bu
 import static net.uk.onetransport.android.county.bucks.provider.BucksContract.BucksTrafficSpeed;
 import static net.uk.onetransport.android.county.bucks.provider.BucksContract.BucksTrafficTravelTime;
 import static net.uk.onetransport.android.county.bucks.provider.BucksContract.BucksVariableMessageSign;
+import static net.uk.onetransport.android.county.bucks.provider.BucksContract.BucksEvent;
+import static net.uk.onetransport.android.county.bucks.provider.BucksContract.BucksLatestEvent;
 
 public class BucksProviderModule implements ProviderModule {
 
@@ -62,6 +66,8 @@ public class BucksProviderModule implements ProviderModule {
     public static Uri AUTHORITY_URI;
     public static Uri CAR_PARK_URI;
     public static Uri LATEST_CAR_PARK_URI;
+    public static Uri EVENT_URI;
+    public static Uri LATEST_EVENT_URI;
     public static Uri ROAD_WORKS_URI;
     public static Uri LATEST_ROAD_WORKS_URI;
     public static Uri TRAFFIC_FLOW_URI;
@@ -79,7 +85,6 @@ public class BucksProviderModule implements ProviderModule {
     // Sync adapter extras.
     private static final String EXTRAS_CAR_PARKS =
             "net.uk.onetransport.android.county.bucks.sync.CAR_PARKS";
-    // TODO    We don't have events yet until Ismail completes the updates.
     private static final String EXTRAS_EVENTS =
             "net.uk.onetransport.android.county.bucks.sync.EVENTS";
     private static final String EXTRAS_ROAD_WORKS =
@@ -99,6 +104,9 @@ public class BucksProviderModule implements ProviderModule {
     private static int CAR_PARKS;
     private static int LATEST_CAR_PARKS;
     private static int CAR_PARK_ID;
+    private static int EVENTS;
+    private static int LATEST_EVENTS;
+    private static int EVENT_ID;
     private static int ROAD_WORKS;
     private static int LATEST_ROAD_WORKS;
     private static int ROAD_WORKS_ID;
@@ -131,6 +139,8 @@ public class BucksProviderModule implements ProviderModule {
     public void createDatabase(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL(BucksContract.CREATE_CAR_PARK_TABLE);
         sqLiteDatabase.execSQL(BucksContract.CREATE_LATEST_CAR_PARK_TABLE);
+        sqLiteDatabase.execSQL(BucksContract.CREATE_EVENT_TABLE);
+        sqLiteDatabase.execSQL(BucksContract.CREATE_LATEST_EVENT_TABLE);
         sqLiteDatabase.execSQL(BucksContract.CREATE_ROAD_WORKS_TABLE);
         sqLiteDatabase.execSQL(BucksContract.CREATE_LATEST_ROAD_WORKS_TABLE);
         sqLiteDatabase.execSQL(BucksContract.CREATE_TRAFFIC_FLOW_TABLE);
@@ -155,6 +165,9 @@ public class BucksProviderModule implements ProviderModule {
         CAR_PARK_URI = Uri.withAppendedPath(AUTHORITY_URI, BucksCarPark.TABLE_NAME);
         LATEST_CAR_PARK_URI = Uri.withAppendedPath(AUTHORITY_URI,
                 BucksLatestCarPark.TABLE_NAME);
+        EVENT_URI = Uri.withAppendedPath(AUTHORITY_URI, BucksEvent.TABLE_NAME);
+        LATEST_EVENT_URI = Uri.withAppendedPath(AUTHORITY_URI,
+                BucksLatestEvent.TABLE_NAME);
         ROAD_WORKS_URI = Uri.withAppendedPath(AUTHORITY_URI, BucksRoadWorks.TABLE_NAME);
         LATEST_ROAD_WORKS_URI = Uri.withAppendedPath(AUTHORITY_URI,
                 BucksLatestRoadWorks.TABLE_NAME);
@@ -190,6 +203,15 @@ public class BucksProviderModule implements ProviderModule {
         providerModules.add(this);
         CAR_PARK_ID = providerModules.size();
         uriMatcher.addURI(authority, BucksCarPark.TABLE_NAME + "/#", CAR_PARK_ID);
+        providerModules.add(this);
+        EVENTS = providerModules.size();
+        uriMatcher.addURI(authority, BucksEvent.TABLE_NAME, EVENTS);
+        providerModules.add(this);
+        LATEST_EVENTS = providerModules.size();
+        uriMatcher.addURI(authority, BucksLatestEvent.TABLE_NAME, LATEST_EVENTS);
+        providerModules.add(this);
+        EVENT_ID = providerModules.size();
+        uriMatcher.addURI(authority, BucksEvent.TABLE_NAME + "/#", EVENT_ID);
         providerModules.add(this);
         ROAD_WORKS = providerModules.size();
         uriMatcher.addURI(authority, BucksRoadWorks.TABLE_NAME, ROAD_WORKS);
@@ -272,6 +294,15 @@ public class BucksProviderModule implements ProviderModule {
         if (match == CAR_PARK_ID) {
             return mimeItemPrefix + BucksCarPark.TABLE_NAME;
         }
+        if (match == EVENTS) {
+            return mimeDirPrefix + BucksEvent.TABLE_NAME;
+        }
+        if (match == LATEST_EVENTS) {
+            return mimeDirPrefix + BucksLatestEvent.TABLE_NAME;
+        }
+        if (match == EVENT_ID) {
+            return mimeItemPrefix + BucksEvent.TABLE_NAME;
+        }
         if (match == ROAD_WORKS) {
             return mimeDirPrefix + BucksRoadWorks.TABLE_NAME;
         }
@@ -348,6 +379,14 @@ public class BucksProviderModule implements ProviderModule {
             return ContentUris.withAppendedId(CAR_PARK_URI, id);
         }
         if (match == LATEST_CAR_PARKS) {
+            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed));
+        }
+        if (match == EVENTS) {
+            id = sqLiteDatabase.insert(BucksEvent.TABLE_NAME, null, contentValues);
+            contentResolver.notifyChange(EVENT_URI, null);
+            return ContentUris.withAppendedId(EVENT_URI, id);
+        }
+        if (match == LATEST_EVENTS) {
             throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed));
         }
         if (match == ROAD_WORKS) {
@@ -429,6 +468,24 @@ public class BucksProviderModule implements ProviderModule {
             Cursor cursor = sqLiteDatabase.query(BucksCarPark.TABLE_NAME, projection,
                     BucksCarPark._ID + "=?", new String[]{uri.getLastPathSegment()}, null, null, sortOrder);
             cursor.setNotificationUri(contentResolver, CAR_PARK_URI);
+            return cursor;
+        }
+        if (match == EVENTS) {
+            Cursor cursor = sqLiteDatabase.query(BucksEvent.TABLE_NAME, projection,
+                    selection, selectionArgs, null, null, sortOrder);
+            cursor.setNotificationUri(contentResolver, EVENT_URI);
+            return cursor;
+        }
+        if (match == LATEST_EVENTS) {
+            Cursor cursor = sqLiteDatabase.query(BucksLatestEvent.TABLE_NAME, projection,
+                    selection, selectionArgs, null, null, sortOrder);
+            cursor.setNotificationUri(contentResolver, LATEST_EVENT_URI);
+            return cursor;
+        }
+        if (match == EVENT_ID) {
+            Cursor cursor = sqLiteDatabase.query(BucksEvent.TABLE_NAME, projection,
+                    BucksEvent._ID + "=?", new String[]{uri.getLastPathSegment()}, null, null, sortOrder);
+            cursor.setNotificationUri(contentResolver, EVENT_URI);
             return cursor;
         }
         if (match == ROAD_WORKS) {
@@ -585,6 +642,20 @@ public class BucksProviderModule implements ProviderModule {
             contentResolver.notifyChange(CAR_PARK_URI, null);
             return rows;
         }
+        if (match == EVENTS) {
+            int rows = sqLiteDatabase.update(BucksEvent.TABLE_NAME, values, selection, selectionArgs);
+            contentResolver.notifyChange(EVENT_URI, null);
+            return rows;
+        }
+        if (match == LATEST_EVENTS) {
+            throw new IllegalArgumentException(context.getString(R.string.error_update_not_allowed));
+        }
+        if (match == EVENT_ID) {
+            int rows = sqLiteDatabase.update(BucksEvent.TABLE_NAME, values, BucksEvent._ID + "=?",
+                    new String[]{uri.getLastPathSegment()});
+            contentResolver.notifyChange(EVENT_URI, null);
+            return rows;
+        }
         if (match == ROAD_WORKS) {
             int rows = sqLiteDatabase.update(BucksRoadWorks.TABLE_NAME, values, selection, selectionArgs);
             contentResolver.notifyChange(ROAD_WORKS_URI, null);
@@ -699,6 +770,13 @@ public class BucksProviderModule implements ProviderModule {
         if (match == LATEST_CAR_PARKS) {
             throw new IllegalArgumentException(context.getString(R.string.error_delete_not_allowed));
         }
+        if (match == EVENTS) {
+            rows = sqLiteDatabase.delete(BucksEvent.TABLE_NAME, selection, selectionArgs);
+            contentResolver.notifyChange(EVENT_URI, null);
+        }
+        if (match == LATEST_EVENTS) {
+            throw new IllegalArgumentException(context.getString(R.string.error_delete_not_allowed));
+        }
         if (match == ROAD_WORKS) {
             rows = sqLiteDatabase.delete(BucksRoadWorks.TABLE_NAME, selection, selectionArgs);
             contentResolver.notifyChange(ROAD_WORKS_URI, null);
@@ -766,7 +844,12 @@ public class BucksProviderModule implements ProviderModule {
             }
             // Events.
             if (extras.getBoolean(EXTRAS_EVENTS, false)) {
-                // TODO
+                try {
+                    Event[] events = new EventRetriever(context).retrieve();
+                    BucksContentHelper.insertIntoProvider(context, events);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
             // Road works.
             if (extras.getBoolean(EXTRAS_ROAD_WORKS, false)) {
@@ -840,6 +923,7 @@ public class BucksProviderModule implements ProviderModule {
                                boolean trafficTravelTime, boolean variableMessageSigns) {
         Bundle settingsBundle = new Bundle();
         settingsBundle.putBoolean(EXTRAS_CAR_PARKS, carParks);
+        settingsBundle.putBoolean(EXTRAS_EVENTS, events);
         settingsBundle.putBoolean(EXTRAS_ROAD_WORKS, roadWorks);
         settingsBundle.putBoolean(EXTRAS_TRAFFIC_FLOW, trafficFlow);
         settingsBundle.putBoolean(EXTRAS_TRAFFIC_QUEUE, trafficQueue);

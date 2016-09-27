@@ -104,6 +104,9 @@ public class VariableMessageSign {
     }
 
     public String getLegendAsString() {
+        if (legend == null) {
+            return "";
+        }
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < legend.length; i++) {
             builder.append(legend[i]);

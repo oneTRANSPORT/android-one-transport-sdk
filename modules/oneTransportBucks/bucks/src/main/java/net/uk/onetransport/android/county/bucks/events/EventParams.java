@@ -4,5 +4,5 @@ import net.uk.onetransport.android.county.bucks.generic.Params;
 
 public interface EventParams extends Params {
 
-    String RETRIEVE_PREFIX = AE_NAME + "/v1.0/Event/All";
+    String RETRIEVE_PREFIX = AE_NAME + "/v" + VERSION + "/Event/All";
 }

@@ -15,9 +15,19 @@ public class RoadWorks {
     @Expose
     private String impactOnTraffic;
     @Expose
-    private Location location;
+    private Double latitude;
     @Expose
-    private Validity validity;
+    private Double longitude;
+    @Expose
+    private String validityStatus;
+    @Expose
+    private String overallStartTime;
+    @Expose
+    private String overallEndTime;
+    @Expose
+    private String startOfPeriod;
+    @Expose
+    private String endOfPeriod;
     private String cinId;
     private Long creationTime;
 
@@ -61,20 +71,60 @@ public class RoadWorks {
         this.impactOnTraffic = impactOnTraffic;
     }
 
-    public Location getLocation() {
-        return location;
+    public Double getLatitude() {
+        return latitude;
     }
 
-    public void setLocation(Location location) {
-        this.location = location;
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
     }
 
-    public Validity getValidity() {
-        return validity;
+    public Double getLongitude() {
+        return longitude;
     }
 
-    public void setValidity(Validity validity) {
-        this.validity = validity;
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
+
+    public String getValidityStatus() {
+        return validityStatus;
+    }
+
+    public void setValidityStatus(String validityStatus) {
+        this.validityStatus = validityStatus;
+    }
+
+    public String getOverallStartTime() {
+        return overallStartTime;
+    }
+
+    public void setOverallStartTime(String overallStartTime) {
+        this.overallStartTime = overallStartTime;
+    }
+
+    public String getOverallEndTime() {
+        return overallEndTime;
+    }
+
+    public void setOverallEndTime(String overallEndTime) {
+        this.overallEndTime = overallEndTime;
+    }
+
+    public String getStartOfPeriod() {
+        return startOfPeriod;
+    }
+
+    public void setStartOfPeriod(String startOfPeriod) {
+        this.startOfPeriod = startOfPeriod;
+    }
+
+    public String getEndOfPeriod() {
+        return endOfPeriod;
+    }
+
+    public void setEndOfPeriod(String endOfPeriod) {
+        this.endOfPeriod = endOfPeriod;
     }
 
     public String getCinId() {

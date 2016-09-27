@@ -6,10 +6,15 @@ import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.Bu
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksCarParkInsertTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksCarParkIntervalQueryTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksCarParkLatestTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksEventDeleteTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksEventInsertTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksEventIntervalQueryTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksEventLatestTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksRoadWorksDeleteTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksRoadWorksInsertTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksRoadWorksIntervalQueryTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksRoadWorksLatestTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksSyncAdapterTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksTrafficFlowDeleteTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksTrafficFlowInsertTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksTrafficFlowIntervalQueryTest;
@@ -46,38 +51,38 @@ public class TestList {
 
     public OneTransportTest[] oneTransportTests = {
 //            new ApplicationEntityCreateTest(),
-//            new BucksCarParkRetrieveTest(),
-//            new BucksEventRetrieveTest(), // TODO    Feed fixed?
-//            new BucksRoadWorksRetrieveTest(),
-//            new BucksTrafficFlowRetrieveTest(),
-//            new BucksTrafficQueueRetrieveTest(),
-//            new BucksTrafficScootRetrieveTest(),
-//            new BucksTrafficSpeedRetrieveTest(),
-//            new BucksTrafficTravelTimeRetrieveTest(),
-//            new BucksVariableMessageSignRetrieveTest(), // TODO    Ismail to fix defect.
+            new BucksCarParkRetrieveTest(),
+            new BucksEventRetrieveTest(),
+            new BucksRoadWorksRetrieveTest(),
+            new BucksTrafficFlowRetrieveTest(),
+            new BucksTrafficQueueRetrieveTest(),
+            new BucksTrafficScootRetrieveTest(),
+            new BucksTrafficSpeedRetrieveTest(),
+            new BucksTrafficTravelTimeRetrieveTest(),
+            new BucksVariableMessageSignRetrieveTest(),
 
             new BucksCarParkInsertTest(), // Also query test.
-//            new BucksEventInsertTest(),
+            new BucksEventInsertTest(),
             new BucksRoadWorksInsertTest(),
             new BucksTrafficFlowInsertTest(),
             new BucksTrafficQueueInsertTest(),
             new BucksTrafficScootInsertTest(),
             new BucksTrafficSpeedInsertTest(),
             new BucksTrafficTravelTimeInsertTest(),
-//            new BucksVariableMessageSignInsertTest(), // TODO    Ismail to fix feed.
+            new BucksVariableMessageSignInsertTest(),
 
-//            new BucksCarParkIntervalQueryTest(),
-//            new BucksEventIntervalQueryTest(),
-//            new BucksRoadWorksIntervalQueryTest(),
-//            new BucksTrafficFlowIntervalQueryTest(),
-//            new BucksTrafficQueueIntervalQueryTest(),
-//            new BucksTrafficScootIntervalQueryTest(),
-//            new BucksTrafficSpeedIntervalQueryTest(),
-//            new BucksTrafficTravelTimeIntervalQueryTest(),
-//            new BucksVariableMessageSignIntervalQueryTest(),
+            new BucksCarParkIntervalQueryTest(),
+            new BucksEventIntervalQueryTest(),
+            new BucksRoadWorksIntervalQueryTest(),
+            new BucksTrafficFlowIntervalQueryTest(),
+            new BucksTrafficQueueIntervalQueryTest(),
+            new BucksTrafficScootIntervalQueryTest(),
+            new BucksTrafficSpeedIntervalQueryTest(),
+            new BucksTrafficTravelTimeIntervalQueryTest(),
+            new BucksVariableMessageSignIntervalQueryTest(),
 
             new BucksCarParkLatestTest(),
-//            new BucksEventLatestTest(),
+            new BucksEventLatestTest(),
             new BucksRoadWorksLatestTest(),
             new BucksTrafficFlowLatestTest(),
             new BucksTrafficQueueLatestTest(),
@@ -87,7 +92,7 @@ public class TestList {
             new BucksVariableMessageSignLatestTest(),
 
             new BucksCarParkDeleteTest(),
-//            new BucksEventDeleteTest(),
+            new BucksEventDeleteTest(),
             new BucksRoadWorksDeleteTest(),
             new BucksTrafficFlowDeleteTest(),
             new BucksTrafficQueueDeleteTest(),
@@ -95,8 +100,9 @@ public class TestList {
             new BucksTrafficSpeedDeleteTest(),
             new BucksTrafficTravelTimeDeleteTest(),
             new BucksVariableMessageSignDeleteTest(),
-//
-//            new BucksSyncAdapterTest(),
+
+            new BucksSyncAdapterTest(),
+
             // Clearview Silverstone.
 //            new CvsDeviceRetrieveTest(),
 //            new CvsDeviceDeleteTest(),
