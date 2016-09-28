@@ -5,6 +5,7 @@
     <string name="error_delete_not_allowed">Delete not allowed from </string>
     <!-- Set module class names, overridden by library if present. -->
     <string name="bucks_provider_module_class" translatable="false">none</string>
+    <string name="herts_provider_module_class" translatable="false">none</string>
     <string name="clearview_silverstone_provider_module_class" translatable="false">none</string>
     <string name="bitcarrier_silverstone_provider_module_class" translatable="false">none</string>
     <!-- App MUST override these three strings. -->

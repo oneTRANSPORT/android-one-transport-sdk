@@ -8,13 +8,11 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
-import android.os.Environment;
 import android.support.annotation.NonNull;
 
 import net.uk.onetransport.android.modules.common.R;
 import net.uk.onetransport.android.modules.common.provider.lastupdated.LastUpdatedProviderModule;
 
-import java.io.File;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -98,6 +96,8 @@ public class OneTransportProvider extends ContentProvider {
     private static void addModules(Context context) {
         // Add Bucks if available.
         addModule(context, R.string.bucks_provider_module_class);
+        // Add Herts if available.
+        addModule(context, R.string.herts_provider_module_class);
         // Add Clearview Silverstone if available.
         addModule(context, R.string.clearview_silverstone_provider_module_class);
         // Add BitCarrier Silverstone if available.

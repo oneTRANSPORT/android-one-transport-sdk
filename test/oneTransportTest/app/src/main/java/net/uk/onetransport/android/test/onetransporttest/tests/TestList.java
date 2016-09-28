@@ -1,53 +1,44 @@
 package net.uk.onetransport.android.test.onetransporttest.tests;
 
-import net.uk.onetransport.android.test.onetransporttest.tests.bucks.carpark.BucksCarParkRetrieveTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bucks.event.BucksEventRetrieveTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksCarParkDeleteTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksCarParkInsertTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksCarParkIntervalQueryTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksCarParkLatestTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksEventDeleteTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksEventInsertTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksEventIntervalQueryTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksEventLatestTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksRoadWorksDeleteTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksRoadWorksInsertTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksRoadWorksIntervalQueryTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksRoadWorksLatestTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksSyncAdapterTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksTrafficFlowDeleteTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksTrafficFlowInsertTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksTrafficFlowIntervalQueryTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksTrafficFlowLatestTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksTrafficQueueDeleteTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksTrafficQueueInsertTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksTrafficQueueIntervalQueryTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksTrafficQueueLatestTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksTrafficScootDeleteTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksTrafficScootInsertTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksTrafficScootIntervalQueryTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksTrafficScootLatestTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksTrafficSpeedDeleteTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksTrafficSpeedInsertTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksTrafficSpeedIntervalQueryTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksTrafficSpeedLatestTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksTrafficTravelTimeDeleteTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksTrafficTravelTimeInsertTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksTrafficTravelTimeIntervalQueryTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksTrafficTravelTimeLatestTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksVariableMessageSignDeleteTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksVariableMessageSignInsertTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksVariableMessageSignIntervalQueryTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bucks.provider.BucksVariableMessageSignLatestTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bucks.roadworks.BucksRoadWorksRetrieveTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bucks.trafficflow.BucksTrafficFlowRetrieveTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bucks.trafficqueue.BucksTrafficQueueRetrieveTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bucks.trafficscoot.BucksTrafficScootRetrieveTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bucks.trafficspeed.BucksTrafficSpeedRetrieveTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bucks.traffictraveltime.BucksTrafficTravelTimeRetrieveTest;
-import net.uk.onetransport.android.test.onetransporttest.tests.bucks.vms.BucksVariableMessageSignRetrieveTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.herts.carpark.HertsCarParkRetrieveTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.herts.event.HertsEventRetrieveTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.herts.provider.HertsCarParkDeleteTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.herts.provider.HertsCarParkInsertTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.herts.provider.HertsCarParkIntervalQueryTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.herts.provider.HertsCarParkLatestTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.herts.provider.HertsEventDeleteTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.herts.provider.HertsEventInsertTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.herts.provider.HertsEventIntervalQueryTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.herts.provider.HertsEventLatestTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.herts.provider.HertsRoadWorksDeleteTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.herts.provider.HertsRoadWorksInsertTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.herts.provider.HertsRoadWorksIntervalQueryTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.herts.provider.HertsRoadWorksLatestTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.herts.provider.HertsSyncAdapterTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.herts.provider.HertsTrafficFlowDeleteTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.herts.provider.HertsTrafficFlowInsertTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.herts.provider.HertsTrafficFlowIntervalQueryTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.herts.provider.HertsTrafficFlowLatestTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.herts.provider.HertsTrafficQueueDeleteTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.herts.provider.HertsTrafficQueueInsertTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.herts.provider.HertsTrafficQueueIntervalQueryTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.herts.provider.HertsTrafficQueueLatestTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.herts.provider.HertsTrafficScootDeleteTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.herts.provider.HertsTrafficScootInsertTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.herts.provider.HertsTrafficScootIntervalQueryTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.herts.provider.HertsTrafficScootLatestTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.herts.provider.HertsTrafficSpeedDeleteTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.herts.provider.HertsTrafficSpeedInsertTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.herts.provider.HertsTrafficSpeedIntervalQueryTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.herts.provider.HertsTrafficSpeedLatestTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.herts.provider.HertsTrafficTravelTimeDeleteTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.herts.provider.HertsTrafficTravelTimeInsertTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.herts.provider.HertsTrafficTravelTimeIntervalQueryTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.herts.provider.HertsTrafficTravelTimeLatestTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.herts.provider.HertsVariableMessageSignDeleteTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.herts.provider.HertsVariableMessageSignInsertTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.herts.provider.HertsVariableMessageSignIntervalQueryTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.herts.provider.HertsVariableMessageSignLatestTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.herts.roadworks.HertsRoadWorksRetrieveTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.herts.trafficflow.HertsTrafficFlowRetrieveTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.herts.trafficqueue.HertsTrafficQueueRetrieveTest;
@@ -123,6 +114,48 @@ public class TestList {
             new HertsTrafficSpeedRetrieveTest(),
             new HertsTrafficTravelTimeRetrieveTest(),
             new HertsVariableMessageSignRetrieveTest(),
+
+            new HertsCarParkInsertTest(), // Also query test.
+            new HertsEventInsertTest(),
+            new HertsRoadWorksInsertTest(),
+            new HertsTrafficFlowInsertTest(),
+            new HertsTrafficQueueInsertTest(),
+            new HertsTrafficScootInsertTest(),
+            new HertsTrafficSpeedInsertTest(),
+            new HertsTrafficTravelTimeInsertTest(),
+            new HertsVariableMessageSignInsertTest(),
+
+            new HertsCarParkIntervalQueryTest(),
+            new HertsEventIntervalQueryTest(),
+            new HertsRoadWorksIntervalQueryTest(),
+            new HertsTrafficFlowIntervalQueryTest(),
+            new HertsTrafficQueueIntervalQueryTest(),
+            new HertsTrafficScootIntervalQueryTest(),
+            new HertsTrafficSpeedIntervalQueryTest(),
+            new HertsTrafficTravelTimeIntervalQueryTest(),
+            new HertsVariableMessageSignIntervalQueryTest(),
+
+            new HertsCarParkLatestTest(),
+            new HertsEventLatestTest(),
+            new HertsRoadWorksLatestTest(),
+            new HertsTrafficFlowLatestTest(),
+            new HertsTrafficQueueLatestTest(),
+            new HertsTrafficScootLatestTest(),
+            new HertsTrafficSpeedLatestTest(),
+            new HertsTrafficTravelTimeLatestTest(),
+            new HertsVariableMessageSignLatestTest(),
+
+            new HertsCarParkDeleteTest(),
+            new HertsEventDeleteTest(),
+            new HertsRoadWorksDeleteTest(),
+            new HertsTrafficFlowDeleteTest(),
+            new HertsTrafficQueueDeleteTest(),
+            new HertsTrafficScootDeleteTest(),
+            new HertsTrafficSpeedDeleteTest(),
+            new HertsTrafficTravelTimeDeleteTest(),
+            new HertsVariableMessageSignDeleteTest(),
+
+            new HertsSyncAdapterTest(),
 
             // Clearview Silverstone.
 //            new CvsDeviceRetrieveTest(),
