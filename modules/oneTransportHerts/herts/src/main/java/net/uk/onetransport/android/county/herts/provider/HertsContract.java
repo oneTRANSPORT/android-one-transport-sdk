@@ -322,7 +322,7 @@ public class HertsContract {
     }
 
     public static final class HertsCarPark implements CommonBaseColumns {
-        public static final String TABLE_NAME = "bucks_car_park";
+        public static final String TABLE_NAME = "herts_car_park";
         public static final String COLUMN_CAR_PARK_IDENTITY = "car_park_identity";
         public static final String COLUMN_LATITUDE = "latitude";
         public static final String COLUMN_LONGITUDE = "longitude";
@@ -344,11 +344,11 @@ public class HertsContract {
 
     // Just a view, so all columns come from the car park table.
     public static final class HertsLatestCarPark {
-        public static final String TABLE_NAME = "bucks_latest_car_park";
+        public static final String TABLE_NAME = "herts_latest_car_park";
     }
 
     public static final class HertsEvent implements CommonBaseColumns {
-        public static final String TABLE_NAME = "bucks_event";
+        public static final String TABLE_NAME = "herts_event";
         public static final String COLUMN_ID = "id";
         public static final String COLUMN_START_OF_PERIOD = "start_of_period";
         public static final String COLUMN_END_OF_PERIOD = "end_of_period";
@@ -362,11 +362,11 @@ public class HertsContract {
     }
 
     public static final class HertsLatestEvent {
-        public static final String TABLE_NAME = "bucks_latest_event";
+        public static final String TABLE_NAME = "herts_latest_event";
     }
 
     public static final class HertsRoadWorks implements CommonBaseColumns {
-        public static final String TABLE_NAME = "bucks_road_works";
+        public static final String TABLE_NAME = "herts_road_works";
         public static final String COLUMN_ID = "id";
         public static final String COLUMN_EFFECT_ON_ROAD_LAYOUT = "effect_on_road_layout";
         public static final String COLUMN_ROAD_MAINTENANCE_TYPE = "road_maintenance_type";
@@ -382,11 +382,11 @@ public class HertsContract {
     }
 
     public static final class HertsLatestRoadWorks {
-        public static final String TABLE_NAME = "bucks_latest_road_works";
+        public static final String TABLE_NAME = "herts_latest_road_works";
     }
 
     public static final class HertsTrafficFlow implements CommonBaseColumns {
-        public static final String TABLE_NAME = "bucks_traffic_flow";
+        public static final String TABLE_NAME = "herts_traffic_flow";
         public static final String COLUMN_ID = "id";
         public static final String COLUMN_TPEG_DIRECTION = "tpeg_direction";
         public static final String COLUMN_FROM_TYPE = "from_type";
@@ -402,11 +402,11 @@ public class HertsContract {
     }
 
     public static final class HertsLatestTrafficFlow {
-        public static final String TABLE_NAME = "bucks_latest_traffic_flow";
+        public static final String TABLE_NAME = "herts_latest_traffic_flow";
     }
 
     public static final class HertsTrafficQueue implements CommonBaseColumns {
-        public static final String TABLE_NAME = "bucks_traffic_queue";
+        public static final String TABLE_NAME = "herts_traffic_queue";
         public static final String COLUMN_ID = "id";
         public static final String COLUMN_TPEG_DIRECTION = "tpeg_direction";
         public static final String COLUMN_FROM_TYPE = "from_type";
@@ -423,11 +423,11 @@ public class HertsContract {
     }
 
     public static final class HertsLatestTrafficQueue {
-        public static final String TABLE_NAME = "bucks_latest_traffic_queue";
+        public static final String TABLE_NAME = "herts_latest_traffic_queue";
     }
 
     public static final class HertsTrafficScoot implements CommonBaseColumns {
-        public static final String TABLE_NAME = "bucks_traffic_scoot";
+        public static final String TABLE_NAME = "herts_traffic_scoot";
         public static final String COLUMN_ID = "id";
         public static final String COLUMN_TPEG_DIRECTION = "tpeg_direction";
         public static final String COLUMN_FROM_TYPE = "from_type";
@@ -448,11 +448,11 @@ public class HertsContract {
     }
 
     public static final class HertsLatestTrafficScoot {
-        public static final String TABLE_NAME = "bucks_latest_traffic_scoot";
+        public static final String TABLE_NAME = "herts_latest_traffic_scoot";
     }
 
     public static final class HertsTrafficSpeed implements CommonBaseColumns {
-        public static final String TABLE_NAME = "bucks_traffic_speed";
+        public static final String TABLE_NAME = "herts_traffic_speed";
         public static final String COLUMN_ID = "id";
         public static final String COLUMN_TPEG_DIRECTION = "tpeg_direction";
         public static final String COLUMN_FROM_TYPE = "from_type";
@@ -468,11 +468,11 @@ public class HertsContract {
     }
 
     public static final class HertsLatestTrafficSpeed {
-        public static final String TABLE_NAME = "bucks_latest_traffic_speed";
+        public static final String TABLE_NAME = "herts_latest_traffic_speed";
     }
 
     public static final class HertsTrafficTravelTime implements CommonBaseColumns {
-        public static final String TABLE_NAME = "bucks_traffic_travel_time";
+        public static final String TABLE_NAME = "herts_traffic_travel_time";
         public static final String COLUMN_ID = "id";
         public static final String COLUMN_TPEG_DIRECTION = "tpeg_direction";
         public static final String COLUMN_FROM_TYPE = "from_type";
@@ -490,11 +490,11 @@ public class HertsContract {
     }
 
     public static final class HertsLatestTrafficTravelTime {
-        public static final String TABLE_NAME = "bucks_latest_traffic_travel_time";
+        public static final String TABLE_NAME = "herts_latest_traffic_travel_time";
     }
 
     public static final class HertsVariableMessageSign implements CommonBaseColumns {
-        public static final String TABLE_NAME = "bucks_variable_message_sign";
+        public static final String TABLE_NAME = "herts_variable_message_sign";
         public static final String COLUMN_LOCATION_ID = "location_id";
         public static final String COLUMN_DESCRIPTION = "description";
         public static final String COLUMN_VMS_TYPE = "vms_type";
@@ -506,6 +506,6 @@ public class HertsContract {
     }
 
     public static final class HertsLatestVariableMessageSign {
-        public static final String TABLE_NAME = "bucks_latest_variable_message_sign";
+        public static final String TABLE_NAME = "herts_latest_variable_message_sign";
     }
 }

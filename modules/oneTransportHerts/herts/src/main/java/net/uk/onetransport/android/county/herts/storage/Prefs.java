@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 
 public class Prefs {
 
-    public static final String FILE_NAME = "one_transport_bucks_prefs";
+    public static final String FILE_NAME = "one_transport_herts_prefs";
     public static final String KEY_INSTALLATION_ID = "pref_installation_id";
     public static final String KEY_AE_ID = "pref_ae_id";
     public static final String KEY_SESSION_TOKEN = "pref_session_token";

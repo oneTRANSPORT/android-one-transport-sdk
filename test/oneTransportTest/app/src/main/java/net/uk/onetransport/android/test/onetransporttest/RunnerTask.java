@@ -33,6 +33,12 @@ public class RunnerTask extends AsyncTask<Void, Object[], Void> {
         net.uk.onetransport.android.county.bucks.authentication.CredentialHelper
                 .initialiseCredentials(context, OneTransportTest.USER_NAME,
                         OneTransportTest.PASSWORD, "installation-id");
+        net.uk.onetransport.android.county.herts.authentication.CredentialHelper
+                .initialiseCredentials(context, OneTransportTest.USER_NAME,
+                        OneTransportTest.PASSWORD, "installation-id");
+//        net.uk.onetransport.android.county.northants.authentication.CredentialHelper
+//                .initialiseCredentials(context, OneTransportTest.USER_NAME,
+//                        OneTransportTest.PASSWORD, "installation-id");
         net.uk.onetransport.android.modules.clearviewsilverstone.authentication.CredentialHelper
                 .initialiseCredentials(context, OneTransportTest.USER_NAME,
                         OneTransportTest.PASSWORD, "installation-id");
