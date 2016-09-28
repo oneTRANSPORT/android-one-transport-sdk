@@ -3,8 +3,6 @@ package net.uk.onetransport.android.county.northants.storage;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-// TODO    Almost completely common to other counties.
-// TODO    Create common library?
 public class Prefs {
 
     public static final String FILE_NAME = "one_transport_northants_prefs";
