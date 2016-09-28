@@ -46,62 +46,83 @@ import net.uk.onetransport.android.test.onetransporttest.tests.bucks.trafficscoo
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.trafficspeed.BucksTrafficSpeedRetrieveTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.traffictraveltime.BucksTrafficTravelTimeRetrieveTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.bucks.vms.BucksVariableMessageSignRetrieveTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.herts.carpark.HertsCarParkRetrieveTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.herts.event.HertsEventRetrieveTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.herts.roadworks.HertsRoadWorksRetrieveTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.herts.trafficflow.HertsTrafficFlowRetrieveTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.herts.trafficqueue.HertsTrafficQueueRetrieveTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.herts.trafficscoot.HertsTrafficScootRetrieveTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.herts.trafficspeed.HertsTrafficSpeedRetrieveTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.herts.traffictraveltime.HertsTrafficTravelTimeRetrieveTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.herts.vms.HertsVariableMessageSignRetrieveTest;
 
 public class TestList {
 
     public OneTransportTest[] oneTransportTests = {
 //            new ApplicationEntityCreateTest(),
-            new BucksCarParkRetrieveTest(),
-            new BucksEventRetrieveTest(),
-            new BucksRoadWorksRetrieveTest(),
-            new BucksTrafficFlowRetrieveTest(),
-            new BucksTrafficQueueRetrieveTest(),
-            new BucksTrafficScootRetrieveTest(),
-            new BucksTrafficSpeedRetrieveTest(),
-            new BucksTrafficTravelTimeRetrieveTest(),
-            new BucksVariableMessageSignRetrieveTest(),
+            // Buckinghamshire.
+//            new BucksCarParkRetrieveTest(),
+//            new BucksEventRetrieveTest(),
+//            new BucksRoadWorksRetrieveTest(),
+//            new BucksTrafficFlowRetrieveTest(),
+//            new BucksTrafficQueueRetrieveTest(),
+//            new BucksTrafficScootRetrieveTest(),
+//            new BucksTrafficSpeedRetrieveTest(),
+//            new BucksTrafficTravelTimeRetrieveTest(),
+//            new BucksVariableMessageSignRetrieveTest(),
+//
+//            new BucksCarParkInsertTest(), // Also query test.
+//            new BucksEventInsertTest(),
+//            new BucksRoadWorksInsertTest(),
+//            new BucksTrafficFlowInsertTest(),
+//            new BucksTrafficQueueInsertTest(),
+//            new BucksTrafficScootInsertTest(),
+//            new BucksTrafficSpeedInsertTest(),
+//            new BucksTrafficTravelTimeInsertTest(),
+//            new BucksVariableMessageSignInsertTest(),
+//
+//            new BucksCarParkIntervalQueryTest(),
+//            new BucksEventIntervalQueryTest(),
+//            new BucksRoadWorksIntervalQueryTest(),
+//            new BucksTrafficFlowIntervalQueryTest(),
+//            new BucksTrafficQueueIntervalQueryTest(),
+//            new BucksTrafficScootIntervalQueryTest(),
+//            new BucksTrafficSpeedIntervalQueryTest(),
+//            new BucksTrafficTravelTimeIntervalQueryTest(),
+//            new BucksVariableMessageSignIntervalQueryTest(),
+//
+//            new BucksCarParkLatestTest(),
+//            new BucksEventLatestTest(),
+//            new BucksRoadWorksLatestTest(),
+//            new BucksTrafficFlowLatestTest(),
+//            new BucksTrafficQueueLatestTest(),
+//            new BucksTrafficScootLatestTest(),
+//            new BucksTrafficSpeedLatestTest(),
+//            new BucksTrafficTravelTimeLatestTest(),
+//            new BucksVariableMessageSignLatestTest(),
+//
+//            new BucksCarParkDeleteTest(),
+//            new BucksEventDeleteTest(),
+//            new BucksRoadWorksDeleteTest(),
+//            new BucksTrafficFlowDeleteTest(),
+//            new BucksTrafficQueueDeleteTest(),
+//            new BucksTrafficScootDeleteTest(),
+//            new BucksTrafficSpeedDeleteTest(),
+//            new BucksTrafficTravelTimeDeleteTest(),
+//            new BucksVariableMessageSignDeleteTest(),
+//
+//            new BucksSyncAdapterTest(),
 
-            new BucksCarParkInsertTest(), // Also query test.
-            new BucksEventInsertTest(),
-            new BucksRoadWorksInsertTest(),
-            new BucksTrafficFlowInsertTest(),
-            new BucksTrafficQueueInsertTest(),
-            new BucksTrafficScootInsertTest(),
-            new BucksTrafficSpeedInsertTest(),
-            new BucksTrafficTravelTimeInsertTest(),
-            new BucksVariableMessageSignInsertTest(),
-
-            new BucksCarParkIntervalQueryTest(),
-            new BucksEventIntervalQueryTest(),
-            new BucksRoadWorksIntervalQueryTest(),
-            new BucksTrafficFlowIntervalQueryTest(),
-            new BucksTrafficQueueIntervalQueryTest(),
-            new BucksTrafficScootIntervalQueryTest(),
-            new BucksTrafficSpeedIntervalQueryTest(),
-            new BucksTrafficTravelTimeIntervalQueryTest(),
-            new BucksVariableMessageSignIntervalQueryTest(),
-
-            new BucksCarParkLatestTest(),
-            new BucksEventLatestTest(),
-            new BucksRoadWorksLatestTest(),
-            new BucksTrafficFlowLatestTest(),
-            new BucksTrafficQueueLatestTest(),
-            new BucksTrafficScootLatestTest(),
-            new BucksTrafficSpeedLatestTest(),
-            new BucksTrafficTravelTimeLatestTest(),
-            new BucksVariableMessageSignLatestTest(),
-
-            new BucksCarParkDeleteTest(),
-            new BucksEventDeleteTest(),
-            new BucksRoadWorksDeleteTest(),
-            new BucksTrafficFlowDeleteTest(),
-            new BucksTrafficQueueDeleteTest(),
-            new BucksTrafficScootDeleteTest(),
-            new BucksTrafficSpeedDeleteTest(),
-            new BucksTrafficTravelTimeDeleteTest(),
-            new BucksVariableMessageSignDeleteTest(),
-
-            new BucksSyncAdapterTest(),
+            // Hertfordshire.
+            new HertsCarParkRetrieveTest(),
+            new HertsEventRetrieveTest(),
+            new HertsRoadWorksRetrieveTest(),
+            new HertsTrafficFlowRetrieveTest(),
+            new HertsTrafficQueueRetrieveTest(),
+            new HertsTrafficScootRetrieveTest(),
+            new HertsTrafficSpeedRetrieveTest(),
+            new HertsTrafficTravelTimeRetrieveTest(),
+            new HertsVariableMessageSignRetrieveTest(),
 
             // Clearview Silverstone.
 //            new CvsDeviceRetrieveTest(),
