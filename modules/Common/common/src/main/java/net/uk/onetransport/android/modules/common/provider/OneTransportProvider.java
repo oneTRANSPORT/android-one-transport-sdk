@@ -98,6 +98,8 @@ public class OneTransportProvider extends ContentProvider {
         addModule(context, R.string.bucks_provider_module_class);
         // Add Herts if available.
         addModule(context, R.string.herts_provider_module_class);
+        // Add Northants if available.
+        addModule(context, R.string.northants_provider_module_class);
         // Add Clearview Silverstone if available.
         addModule(context, R.string.clearview_silverstone_provider_module_class);
         // Add BitCarrier Silverstone if available.

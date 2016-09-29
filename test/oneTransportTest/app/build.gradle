@@ -31,6 +31,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.interdigital.android:bucks-debug:1.0.0@aar'
     compile 'com.interdigital.android:herts-debug:1.0.0@aar'
+    compile 'com.interdigital.android:northants-debug:1.0.0@aar'
     compile 'com.interdigital.android:clearviewsilverstone-debug:1.0.0@aar'
     compile 'com.interdigital.android:bitcarriersilverstone-debug:1.0.0@aar'
     compile 'com.interdigital.android:common-debug:1.0.0@aar'
