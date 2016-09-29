@@ -2,7 +2,6 @@ package net.uk.onetransport.android.test.onetransporttest;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.support.v4.app.LoaderManager;
 
 import net.uk.onetransport.android.test.onetransporttest.tests.OneTransportTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.TestList;
@@ -37,6 +36,9 @@ public class RunnerTask extends AsyncTask<Void, Object[], Void> {
                 .initialiseCredentials(context, OneTransportTest.USER_NAME,
                         OneTransportTest.PASSWORD, "installation-id");
         net.uk.onetransport.android.county.northants.authentication.CredentialHelper
+                .initialiseCredentials(context, OneTransportTest.USER_NAME,
+                        OneTransportTest.PASSWORD, "installation-id");
+        net.uk.onetransport.android.county.oxon.authentication.CredentialHelper
                 .initialiseCredentials(context, OneTransportTest.USER_NAME,
                         OneTransportTest.PASSWORD, "installation-id");
         net.uk.onetransport.android.modules.clearviewsilverstone.authentication.CredentialHelper
