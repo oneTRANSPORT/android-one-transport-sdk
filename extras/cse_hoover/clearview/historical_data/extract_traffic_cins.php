@@ -57,23 +57,24 @@ while (($file = readdir($dh)) !== false) {
       $lane = $traffic['lane'];
       $direction = $traffic['direction'];
 
-      if ($direction != NULL) {
-        $insert = 'INSERT INTO clearview_silverstone_traffic VALUES (NULL,'
-                            . "$sensor_id,"
-                           . "'$timestamp',"
-                            . "$lane,"
-                            . "$direction,"
-                           . "'$resource_name',"
-                            . "$creation_time);\n";
-  
-        if (ereg('[0-9]', $insert)) {
-          $insert = str_replace(',)', ',NULL)', $insert, $count);
-          $count = 1;
-          while ($count > 0) {
-            $insert = str_replace(',,', ',NULL,', $insert, $count);
-          }
-          echo $insert;
+      if ($direction != 1) {
+        $direction = 0;
+      }
+      $insert = 'INSERT INTO clearview_silverstone_traffic VALUES (NULL,'
+                          . "$sensor_id,"
+                         . "'$timestamp',"
+                          . "$lane,"
+                          . "$direction,"
+                         . "'$resource_name',"
+                          . "$creation_time);\n";
+ 
+      if (ereg('[0-9]', $insert)) {
+        $insert = str_replace(',)', ',NULL)', $insert, $count);
+        $count = 1;
+        while ($count > 0) {
+          $insert = str_replace(',,', ',NULL,', $insert, $count);
         }
+        echo $insert;
       }
     }
   }
