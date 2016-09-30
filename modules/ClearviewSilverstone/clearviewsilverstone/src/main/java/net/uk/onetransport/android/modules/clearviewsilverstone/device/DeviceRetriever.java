@@ -37,6 +37,7 @@ public class DeviceRetriever extends Retriever<Device> implements DeviceParams {
     @Override
     protected Device fromJson(String content, String container, String cinId, Long creationTime) {
         Device device = GSON.fromJson(content, Device.class);
+        device.setSensorId(Integer.parseInt(container.replaceAll("[^0-9]+", "")));
         device.setCinId(cinId);
         device.setCreationTime(creationTime);
         return device;
