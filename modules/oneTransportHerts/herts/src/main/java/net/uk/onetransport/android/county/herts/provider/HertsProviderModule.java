@@ -22,8 +22,6 @@ import net.uk.onetransport.android.county.herts.roadworks.RoadWorks;
 import net.uk.onetransport.android.county.herts.roadworks.RoadWorksRetriever;
 import net.uk.onetransport.android.county.herts.trafficflow.TrafficFlow;
 import net.uk.onetransport.android.county.herts.trafficflow.TrafficFlowRetriever;
-import net.uk.onetransport.android.county.herts.trafficqueue.TrafficQueue;
-import net.uk.onetransport.android.county.herts.trafficqueue.TrafficQueueRetriever;
 import net.uk.onetransport.android.county.herts.trafficscoot.TrafficScoot;
 import net.uk.onetransport.android.county.herts.trafficscoot.TrafficScootRetriever;
 import net.uk.onetransport.android.county.herts.trafficspeed.TrafficSpeed;
@@ -44,14 +42,12 @@ import static net.uk.onetransport.android.county.herts.provider.HertsContract.He
 import static net.uk.onetransport.android.county.herts.provider.HertsContract.HertsLatestEvent;
 import static net.uk.onetransport.android.county.herts.provider.HertsContract.HertsLatestRoadWorks;
 import static net.uk.onetransport.android.county.herts.provider.HertsContract.HertsLatestTrafficFlow;
-import static net.uk.onetransport.android.county.herts.provider.HertsContract.HertsLatestTrafficQueue;
 import static net.uk.onetransport.android.county.herts.provider.HertsContract.HertsLatestTrafficScoot;
 import static net.uk.onetransport.android.county.herts.provider.HertsContract.HertsLatestTrafficSpeed;
 import static net.uk.onetransport.android.county.herts.provider.HertsContract.HertsLatestTrafficTravelTime;
 import static net.uk.onetransport.android.county.herts.provider.HertsContract.HertsLatestVariableMessageSign;
 import static net.uk.onetransport.android.county.herts.provider.HertsContract.HertsRoadWorks;
 import static net.uk.onetransport.android.county.herts.provider.HertsContract.HertsTrafficFlow;
-import static net.uk.onetransport.android.county.herts.provider.HertsContract.HertsTrafficQueue;
 import static net.uk.onetransport.android.county.herts.provider.HertsContract.HertsTrafficScoot;
 import static net.uk.onetransport.android.county.herts.provider.HertsContract.HertsTrafficSpeed;
 import static net.uk.onetransport.android.county.herts.provider.HertsContract.HertsTrafficTravelTime;
@@ -69,8 +65,6 @@ public class HertsProviderModule implements ProviderModule {
     public static Uri LATEST_ROAD_WORKS_URI;
     public static Uri TRAFFIC_FLOW_URI;
     public static Uri LATEST_TRAFFIC_FLOW_URI;
-    public static Uri TRAFFIC_QUEUE_URI;
-    public static Uri LATEST_TRAFFIC_QUEUE_URI;
     public static Uri TRAFFIC_SCOOT_URI;
     public static Uri LATEST_TRAFFIC_SCOOT_URI;
     public static Uri TRAFFIC_SPEED_URI;
@@ -88,8 +82,6 @@ public class HertsProviderModule implements ProviderModule {
             "net.uk.onetransport.android.county.herts.sync.ROAD_WORKS";
     private static final String EXTRAS_TRAFFIC_FLOW =
             "net.uk.onetransport.android.county.herts.sync.TRAFFIC_FLOW";
-    private static final String EXTRAS_TRAFFIC_QUEUE =
-            "net.uk.onetransport.android.county.herts.sync.TRAFFIC_QUEUE";
     private static final String EXTRAS_TRAFFIC_SCOOT =
             "net.uk.onetransport.android.county.herts.sync.TRAFFIC_SCOOT";
     private static final String EXTRAS_TRAFFIC_SPEED =
@@ -110,9 +102,6 @@ public class HertsProviderModule implements ProviderModule {
     private static int TRAFFIC_FLOWS;
     private static int LATEST_TRAFFIC_FLOWS;
     private static int TRAFFIC_FLOW_ID;
-    private static int TRAFFIC_QUEUES;
-    private static int LATEST_TRAFFIC_QUEUES;
-    private static int TRAFFIC_QUEUE_ID;
     private static int TRAFFIC_SCOOTS;
     private static int LATEST_TRAFFIC_SCOOTS;
     private static int TRAFFIC_SCOOT_ID;
@@ -142,8 +131,6 @@ public class HertsProviderModule implements ProviderModule {
         sqLiteDatabase.execSQL(HertsContract.CREATE_LATEST_ROAD_WORKS_TABLE);
         sqLiteDatabase.execSQL(HertsContract.CREATE_TRAFFIC_FLOW_TABLE);
         sqLiteDatabase.execSQL(HertsContract.CREATE_LATEST_TRAFFIC_FLOW_TABLE);
-        sqLiteDatabase.execSQL(HertsContract.CREATE_TRAFFIC_QUEUE_TABLE);
-        sqLiteDatabase.execSQL(HertsContract.CREATE_LATEST_TRAFFIC_QUEUE_TABLE);
         sqLiteDatabase.execSQL(HertsContract.CREATE_TRAFFIC_SCOOT_TABLE);
         sqLiteDatabase.execSQL(HertsContract.CREATE_LATEST_TRAFFIC_SCOOT_TABLE);
         sqLiteDatabase.execSQL(HertsContract.CREATE_TRAFFIC_SPEED_TABLE);
@@ -171,10 +158,6 @@ public class HertsProviderModule implements ProviderModule {
         TRAFFIC_FLOW_URI = Uri.withAppendedPath(AUTHORITY_URI, HertsTrafficFlow.TABLE_NAME);
         LATEST_TRAFFIC_FLOW_URI = Uri.withAppendedPath(AUTHORITY_URI,
                 HertsLatestTrafficFlow.TABLE_NAME);
-        TRAFFIC_QUEUE_URI = Uri.withAppendedPath(AUTHORITY_URI,
-                HertsTrafficQueue.TABLE_NAME);
-        LATEST_TRAFFIC_QUEUE_URI = Uri.withAppendedPath(AUTHORITY_URI,
-                HertsLatestTrafficQueue.TABLE_NAME);
         TRAFFIC_SCOOT_URI = Uri.withAppendedPath(AUTHORITY_URI,
                 HertsTrafficScoot.TABLE_NAME);
         LATEST_TRAFFIC_SCOOT_URI = Uri.withAppendedPath(AUTHORITY_URI,
@@ -227,15 +210,6 @@ public class HertsProviderModule implements ProviderModule {
         providerModules.add(this);
         TRAFFIC_FLOW_ID = providerModules.size();
         uriMatcher.addURI(authority, HertsTrafficFlow.TABLE_NAME + "/#", TRAFFIC_FLOW_ID);
-        providerModules.add(this);
-        TRAFFIC_QUEUES = providerModules.size();
-        uriMatcher.addURI(authority, HertsTrafficQueue.TABLE_NAME, TRAFFIC_QUEUES);
-        providerModules.add(this);
-        LATEST_TRAFFIC_QUEUES = providerModules.size();
-        uriMatcher.addURI(authority, HertsLatestTrafficQueue.TABLE_NAME, LATEST_TRAFFIC_QUEUES);
-        providerModules.add(this);
-        TRAFFIC_QUEUE_ID = providerModules.size();
-        uriMatcher.addURI(authority, HertsTrafficQueue.TABLE_NAME + "/#", TRAFFIC_QUEUE_ID);
         providerModules.add(this);
         TRAFFIC_SCOOTS = providerModules.size();
         uriMatcher.addURI(authority, HertsTrafficScoot.TABLE_NAME, TRAFFIC_SCOOTS);
@@ -318,15 +292,6 @@ public class HertsProviderModule implements ProviderModule {
         if (match == TRAFFIC_FLOW_ID) {
             return mimeItemPrefix + HertsTrafficFlow.TABLE_NAME;
         }
-        if (match == TRAFFIC_QUEUES) {
-            return mimeDirPrefix + HertsTrafficQueue.TABLE_NAME;
-        }
-        if (match == LATEST_TRAFFIC_QUEUES) {
-            return mimeDirPrefix + HertsLatestTrafficQueue.TABLE_NAME;
-        }
-        if (match == TRAFFIC_QUEUE_ID) {
-            return mimeItemPrefix + HertsTrafficQueue.TABLE_NAME;
-        }
         if (match == TRAFFIC_SCOOTS) {
             return mimeDirPrefix + HertsTrafficScoot.TABLE_NAME;
         }
@@ -400,14 +365,6 @@ public class HertsProviderModule implements ProviderModule {
             return ContentUris.withAppendedId(TRAFFIC_FLOW_URI, id);
         }
         if (match == LATEST_TRAFFIC_FLOWS) {
-            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed));
-        }
-        if (match == TRAFFIC_QUEUES) {
-            id = sqLiteDatabase.insert(HertsTrafficQueue.TABLE_NAME, null, contentValues);
-            contentResolver.notifyChange(TRAFFIC_QUEUE_URI, null);
-            return ContentUris.withAppendedId(TRAFFIC_QUEUE_URI, id);
-        }
-        if (match == LATEST_TRAFFIC_QUEUES) {
             throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed));
         }
         if (match == TRAFFIC_SCOOTS) {
@@ -521,25 +478,6 @@ public class HertsProviderModule implements ProviderModule {
                     HertsTrafficFlow._ID + "=?", new String[]{uri.getLastPathSegment()}, null, null,
                     sortOrder);
             cursor.setNotificationUri(contentResolver, TRAFFIC_FLOW_URI);
-            return cursor;
-        }
-        if (match == TRAFFIC_QUEUES) {
-            Cursor cursor = sqLiteDatabase.query(HertsTrafficQueue.TABLE_NAME, projection,
-                    selection, selectionArgs, null, null, sortOrder);
-            cursor.setNotificationUri(contentResolver, TRAFFIC_QUEUE_URI);
-            return cursor;
-        }
-        if (match == LATEST_TRAFFIC_QUEUES) {
-            Cursor cursor = sqLiteDatabase.query(HertsLatestTrafficQueue.TABLE_NAME, projection,
-                    selection, selectionArgs, null, null, sortOrder);
-            cursor.setNotificationUri(contentResolver, LATEST_TRAFFIC_QUEUE_URI);
-            return cursor;
-        }
-        if (match == TRAFFIC_QUEUE_ID) {
-            Cursor cursor = sqLiteDatabase.query(HertsTrafficQueue.TABLE_NAME, projection,
-                    HertsTrafficQueue._ID + "=?", new String[]{uri.getLastPathSegment()}, null, null,
-                    sortOrder);
-            cursor.setNotificationUri(contentResolver, TRAFFIC_QUEUE_URI);
             return cursor;
         }
         if (match == TRAFFIC_SCOOTS) {
@@ -681,20 +619,6 @@ public class HertsProviderModule implements ProviderModule {
             contentResolver.notifyChange(TRAFFIC_FLOW_URI, null);
             return rows;
         }
-        if (match == TRAFFIC_QUEUES) {
-            int rows = sqLiteDatabase.update(HertsTrafficQueue.TABLE_NAME, values, selection, selectionArgs);
-            contentResolver.notifyChange(TRAFFIC_QUEUE_URI, null);
-            return rows;
-        }
-        if (match == LATEST_TRAFFIC_QUEUES) {
-            throw new IllegalArgumentException(context.getString(R.string.error_update_not_allowed));
-        }
-        if (match == TRAFFIC_QUEUE_ID) {
-            int rows = sqLiteDatabase.update(HertsTrafficQueue.TABLE_NAME, values,
-                    HertsTrafficQueue._ID + "=?", new String[]{uri.getLastPathSegment()});
-            contentResolver.notifyChange(TRAFFIC_QUEUE_URI, null);
-            return rows;
-        }
         if (match == TRAFFIC_SCOOTS) {
             int rows = sqLiteDatabase.update(HertsTrafficScoot.TABLE_NAME, values, selection, selectionArgs);
             contentResolver.notifyChange(TRAFFIC_SCOOT_URI, null);
@@ -788,13 +712,6 @@ public class HertsProviderModule implements ProviderModule {
         if (match == LATEST_TRAFFIC_FLOWS) {
             throw new IllegalArgumentException(context.getString(R.string.error_delete_not_allowed));
         }
-        if (match == TRAFFIC_QUEUES) {
-            rows = sqLiteDatabase.delete(HertsTrafficQueue.TABLE_NAME, selection, selectionArgs);
-            contentResolver.notifyChange(TRAFFIC_QUEUE_URI, null);
-        }
-        if (match == LATEST_TRAFFIC_QUEUES) {
-            throw new IllegalArgumentException(context.getString(R.string.error_delete_not_allowed));
-        }
         if (match == TRAFFIC_SCOOTS) {
             rows = sqLiteDatabase.delete(HertsTrafficScoot.TABLE_NAME, selection, selectionArgs);
             contentResolver.notifyChange(TRAFFIC_SCOOT_URI, null);
@@ -866,15 +783,6 @@ public class HertsProviderModule implements ProviderModule {
                     e.printStackTrace();
                 }
             }
-            // Traffic queues.
-            if (extras.getBoolean(EXTRAS_TRAFFIC_QUEUE, false)) {
-                try {
-                    TrafficQueue[] trafficQueues = new TrafficQueueRetriever(context).retrieve();
-                    HertsContentHelper.insertIntoProvider(context, trafficQueues);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
             // Traffic scoots.
             if (extras.getBoolean(EXTRAS_TRAFFIC_SCOOT, false)) {
                 try {
@@ -916,14 +824,13 @@ public class HertsProviderModule implements ProviderModule {
     }
 
     public static void refresh(Context context, boolean carParks, boolean events, boolean roadWorks,
-                               boolean trafficFlow, boolean trafficQueue, boolean trafficScoot, boolean trafficSpeed,
+                               boolean trafficFlow, boolean trafficScoot, boolean trafficSpeed,
                                boolean trafficTravelTime, boolean variableMessageSigns) {
         Bundle settingsBundle = new Bundle();
         settingsBundle.putBoolean(EXTRAS_CAR_PARKS, carParks);
         settingsBundle.putBoolean(EXTRAS_EVENTS, events);
         settingsBundle.putBoolean(EXTRAS_ROAD_WORKS, roadWorks);
         settingsBundle.putBoolean(EXTRAS_TRAFFIC_FLOW, trafficFlow);
-        settingsBundle.putBoolean(EXTRAS_TRAFFIC_QUEUE, trafficQueue);
         settingsBundle.putBoolean(EXTRAS_TRAFFIC_SCOOT, trafficScoot);
         settingsBundle.putBoolean(EXTRAS_TRAFFIC_SPEED, trafficSpeed);
         settingsBundle.putBoolean(EXTRAS_TRAFFIC_TRAVEL_TIME, trafficTravelTime);

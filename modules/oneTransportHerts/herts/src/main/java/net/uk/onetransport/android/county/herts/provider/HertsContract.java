@@ -143,41 +143,6 @@ public class HertsContract {
                     + HertsTrafficFlow.COLUMN_ID + " AND a."
                     + HertsTrafficFlow.COLUMN_CREATION_TIME + "=b."
                     + HertsTrafficFlow.COLUMN_CREATION_TIME + ";";
-    public static final String CREATE_TRAFFIC_QUEUE_TABLE =
-            "CREATE TABLE IF NOT EXISTS " + HertsTrafficQueue.TABLE_NAME + " ("
-                    + HertsTrafficQueue._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-                    + HertsTrafficQueue.COLUMN_ID + " TEXT NOT NULL,"
-                    + HertsTrafficQueue.COLUMN_TPEG_DIRECTION + " TEXT,"
-                    + HertsTrafficQueue.COLUMN_FROM_TYPE + " TEXT,"
-                    + HertsTrafficQueue.COLUMN_FROM_DESCRIPTOR + " TEXT,"
-                    + HertsTrafficQueue.COLUMN_FROM_LATITUDE + " REAL,"
-                    + HertsTrafficQueue.COLUMN_FROM_LONGITUDE + " REAL,"
-                    + HertsTrafficQueue.COLUMN_TO_TYPE + " TEXT,"
-                    + HertsTrafficQueue.COLUMN_TO_DESCRIPTOR + " TEXT,"
-                    + HertsTrafficQueue.COLUMN_TO_LATITUDE + " REAL,"
-                    + HertsTrafficQueue.COLUMN_TO_LONGITUDE + " REAL,"
-                    + HertsTrafficQueue.COLUMN_TIME + " TEXT,"
-                    + HertsTrafficQueue.COLUMN_SEVERITY + " REAL,"
-                    + HertsTrafficQueue.COLUMN_PRESENT + " TEXT,"
-                    + HertsTrafficQueue.COLUMN_CIN_ID + " TEXT NOT NULL,"
-                    + HertsTrafficQueue.COLUMN_CREATION_TIME + " INTEGER,"
-                    + "UNIQUE ("
-                    + HertsTrafficQueue.COLUMN_ID + ","
-                    + HertsTrafficQueue.COLUMN_CIN_ID
-                    + ") ON CONFLICT IGNORE);";
-    public static final String CREATE_LATEST_TRAFFIC_QUEUE_TABLE =
-            "CREATE VIEW IF NOT EXISTS " + HertsLatestTrafficQueue.TABLE_NAME + " AS "
-                    + "SELECT a.* FROM " + HertsTrafficQueue.TABLE_NAME + " AS a "
-                    + "INNER JOIN (SELECT " + HertsTrafficQueue.COLUMN_ID
-                    + ", MAX("
-                    + HertsTrafficQueue.COLUMN_CREATION_TIME + ") AS "
-                    + HertsTrafficQueue.COLUMN_CREATION_TIME + " FROM "
-                    + HertsTrafficQueue.TABLE_NAME + " GROUP BY "
-                    + HertsTrafficQueue.COLUMN_ID + ") AS b ON a."
-                    + HertsTrafficQueue.COLUMN_ID + "=b."
-                    + HertsTrafficQueue.COLUMN_ID + " AND a."
-                    + HertsTrafficQueue.COLUMN_CREATION_TIME + "=b."
-                    + HertsTrafficQueue.COLUMN_CREATION_TIME + ";";
     public static final String CREATE_TRAFFIC_SCOOT_TABLE =
             "CREATE TABLE IF NOT EXISTS " + HertsTrafficScoot.TABLE_NAME + " ("
                     + HertsTrafficScoot._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -403,27 +368,6 @@ public class HertsContract {
 
     public static final class HertsLatestTrafficFlow {
         public static final String TABLE_NAME = "herts_latest_traffic_flow";
-    }
-
-    public static final class HertsTrafficQueue implements CommonBaseColumns {
-        public static final String TABLE_NAME = "herts_traffic_queue";
-        public static final String COLUMN_ID = "id";
-        public static final String COLUMN_TPEG_DIRECTION = "tpeg_direction";
-        public static final String COLUMN_FROM_TYPE = "from_type";
-        public static final String COLUMN_FROM_DESCRIPTOR = "from_descriptor";
-        public static final String COLUMN_FROM_LATITUDE = "from_latitude";
-        public static final String COLUMN_FROM_LONGITUDE = "from_longitude";
-        public static final String COLUMN_TO_TYPE = "to_type";
-        public static final String COLUMN_TO_DESCRIPTOR = "to_descriptor";
-        public static final String COLUMN_TO_LATITUDE = "to_latitude";
-        public static final String COLUMN_TO_LONGITUDE = "to_longitude";
-        public static final String COLUMN_TIME = "time";
-        public static final String COLUMN_SEVERITY = "severity";
-        public static final String COLUMN_PRESENT = "present";
-    }
-
-    public static final class HertsLatestTrafficQueue {
-        public static final String TABLE_NAME = "herts_latest_traffic_queue";
     }
 
     public static final class HertsTrafficScoot implements CommonBaseColumns {

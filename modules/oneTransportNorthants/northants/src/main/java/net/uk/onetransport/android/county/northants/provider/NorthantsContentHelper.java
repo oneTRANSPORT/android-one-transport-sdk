@@ -10,12 +10,8 @@ import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 
 import net.uk.onetransport.android.county.northants.carparks.CarPark;
-import net.uk.onetransport.android.county.northants.events.Event;
 import net.uk.onetransport.android.county.northants.roadworks.RoadWorks;
 import net.uk.onetransport.android.county.northants.trafficflow.TrafficFlow;
-import net.uk.onetransport.android.county.northants.trafficqueue.TrafficQueue;
-import net.uk.onetransport.android.county.northants.trafficscoot.TrafficScoot;
-import net.uk.onetransport.android.county.northants.trafficspeed.TrafficSpeed;
 import net.uk.onetransport.android.county.northants.traffictraveltime.TrafficTravelTime;
 import net.uk.onetransport.android.county.northants.variablemessagesigns.VariableMessageSign;
 import net.uk.onetransport.android.modules.common.provider.CommonBaseColumns;
@@ -26,12 +22,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 
 import static net.uk.onetransport.android.county.northants.provider.NorthantsContract.NorthantsCarPark;
-import static net.uk.onetransport.android.county.northants.provider.NorthantsContract.NorthantsEvent;
 import static net.uk.onetransport.android.county.northants.provider.NorthantsContract.NorthantsRoadWorks;
 import static net.uk.onetransport.android.county.northants.provider.NorthantsContract.NorthantsTrafficFlow;
-import static net.uk.onetransport.android.county.northants.provider.NorthantsContract.NorthantsTrafficQueue;
-import static net.uk.onetransport.android.county.northants.provider.NorthantsContract.NorthantsTrafficScoot;
-import static net.uk.onetransport.android.county.northants.provider.NorthantsContract.NorthantsTrafficSpeed;
 import static net.uk.onetransport.android.county.northants.provider.NorthantsContract.NorthantsTrafficTravelTime;
 import static net.uk.onetransport.android.county.northants.provider.NorthantsContract.NorthantsVariableMessageSign;
 
@@ -39,26 +31,18 @@ public class NorthantsContentHelper extends CommonContentHelper {
 
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({DATA_TYPE_CAR_PARK,
-            DATA_TYPE_EVENT,
             DATA_TYPE_ROAD_WORKS,
             DATA_TYPE_TRAFFIC_FLOW,
-            DATA_TYPE_TRAFFIC_QUEUE,
-            DATA_TYPE_TRAFFIC_SCOOT,
-            DATA_TYPE_TRAFFIC_SPEED,
             DATA_TYPE_TRAFFIC_TRAVEL_TIME,
             DATA_TYPE_VMS})
     public @interface DataType {
     }
 
     public static final int DATA_TYPE_CAR_PARK = 1;
-    public static final int DATA_TYPE_EVENT = 2;
-    public static final int DATA_TYPE_ROAD_WORKS = 3;
-    public static final int DATA_TYPE_TRAFFIC_FLOW = 4;
-    public static final int DATA_TYPE_TRAFFIC_QUEUE = 5;
-    public static final int DATA_TYPE_TRAFFIC_SCOOT = 6;
-    public static final int DATA_TYPE_TRAFFIC_SPEED = 7;
-    public static final int DATA_TYPE_TRAFFIC_TRAVEL_TIME = 8;
-    public static final int DATA_TYPE_VMS = 9;
+    public static final int DATA_TYPE_ROAD_WORKS = 2;
+    public static final int DATA_TYPE_TRAFFIC_FLOW = 3;
+    public static final int DATA_TYPE_TRAFFIC_TRAVEL_TIME = 4;
+    public static final int DATA_TYPE_VMS = 5;
 
     public static void insertIntoProvider(@NonNull Context context, @NonNull CarPark[] carParks)
             throws RemoteException, OperationApplicationException {
@@ -90,34 +74,6 @@ public class NorthantsContentHelper extends CommonContentHelper {
                         .withValue(NorthantsCarPark.COLUMN_ENTRANCE_FULL, carPark.getEntranceFull())
                         .withValue(NorthantsCarPark.COLUMN_CIN_ID, carPark.getCinId())
                         .withValue(NorthantsCarPark.COLUMN_CREATION_TIME, carPark.getCreationTime())
-                        .withYieldAllowed(true)
-                        .build();
-                operationList.add(operation);
-            }
-            ContentResolver contentResolver = context.getContentResolver();
-            contentResolver.applyBatch(NorthantsProviderModule.AUTHORITY, operationList);
-        }
-    }
-
-    public static void insertIntoProvider(@NonNull Context context, @NonNull Event[] events)
-            throws RemoteException, OperationApplicationException {
-        if (events.length > 0) {
-            ArrayList<ContentProviderOperation> operationList = new ArrayList<>();
-            for (Event event : events) {
-                ContentProviderOperation operation = ContentProviderOperation
-                        .newInsert(NorthantsProviderModule.EVENT_URI)
-                        .withValue(NorthantsEvent.COLUMN_ID, event.getId())
-                        .withValue(NorthantsEvent.COLUMN_START_OF_PERIOD, event.getStartOfPeriod())
-                        .withValue(NorthantsEvent.COLUMN_END_OF_PERIOD, event.getEndOfPeriod())
-                        .withValue(NorthantsEvent.COLUMN_OVERALL_START_TIME, event.getOverallStartTime())
-                        .withValue(NorthantsEvent.COLUMN_OVERALL_END_TIME, event.getOverallEndTime())
-                        .withValue(NorthantsEvent.COLUMN_LATITUDE, event.getLatitude())
-                        .withValue(NorthantsEvent.COLUMN_LONGITUDE, event.getLongitude())
-                        .withValue(NorthantsEvent.COLUMN_DESCRIPTION, event.getDescription())
-                        .withValue(NorthantsEvent.COLUMN_IMPACT_ON_TRAFFIC, event.getImpactOnTraffic())
-                        .withValue(NorthantsEvent.COLUMN_VALIDITY_STATUS, event.getValidityStatus())
-                        .withValue(NorthantsEvent.COLUMN_CIN_ID, event.getCinId())
-                        .withValue(NorthantsEvent.COLUMN_CREATION_TIME, event.getCreationTime())
                         .withYieldAllowed(true)
                         .build();
                 operationList.add(operation);
@@ -191,112 +147,6 @@ public class NorthantsContentHelper extends CommonContentHelper {
                         .withValue(NorthantsTrafficFlow.COLUMN_VEHICLE_FLOW, trafficFlow.getVehicleFlow())
                         .withValue(NorthantsTrafficFlow.COLUMN_CIN_ID, trafficFlow.getCinId())
                         .withValue(NorthantsTrafficFlow.COLUMN_CREATION_TIME, trafficFlow.getCreationTime())
-                        .withYieldAllowed(true)
-                        .build();
-                operationList.add(operation);
-            }
-            ContentResolver contentResolver = context.getContentResolver();
-            contentResolver.applyBatch(NorthantsProviderModule.AUTHORITY, operationList);
-        }
-    }
-
-    public static void insertIntoProvider(@NonNull Context context, @NonNull TrafficQueue[] trafficQueues)
-            throws RemoteException, OperationApplicationException {
-        if (trafficQueues.length > 0) {
-            ArrayList<ContentProviderOperation> operationList = new ArrayList<>();
-            for (TrafficQueue trafficQueue : trafficQueues) {
-                ContentProviderOperation operation = ContentProviderOperation
-                        .newInsert(NorthantsProviderModule.TRAFFIC_QUEUE_URI)
-                        .withValue(NorthantsTrafficQueue.COLUMN_ID, trafficQueue.getId())
-                        .withValue(NorthantsTrafficQueue.COLUMN_TPEG_DIRECTION, trafficQueue.getTpegDirection())
-                        .withValue(NorthantsTrafficQueue.COLUMN_FROM_TYPE, trafficQueue.getFromType())
-                        .withValue(NorthantsTrafficQueue.COLUMN_FROM_DESCRIPTOR,
-                                trafficQueue.getFromDescriptor())
-                        .withValue(NorthantsTrafficQueue.COLUMN_FROM_LATITUDE, trafficQueue.getFromLatitude())
-                        .withValue(NorthantsTrafficQueue.COLUMN_FROM_LONGITUDE,
-                                trafficQueue.getFromLongitude())
-                        .withValue(NorthantsTrafficQueue.COLUMN_TO_TYPE, trafficQueue.getToType())
-                        .withValue(NorthantsTrafficQueue.COLUMN_TO_DESCRIPTOR, trafficQueue.getToDescriptor())
-                        .withValue(NorthantsTrafficQueue.COLUMN_TO_LATITUDE, trafficQueue.getToLatitude())
-                        .withValue(NorthantsTrafficQueue.COLUMN_TO_LONGITUDE, trafficQueue.getToLongitude())
-                        .withValue(NorthantsTrafficQueue.COLUMN_TIME, trafficQueue.getTime())
-                        .withValue(NorthantsTrafficQueue.COLUMN_SEVERITY, trafficQueue.getSeverity())
-                        .withValue(NorthantsTrafficQueue.COLUMN_PRESENT, trafficQueue.getPresent())
-                        .withValue(NorthantsTrafficQueue.COLUMN_CIN_ID, trafficQueue.getCinId())
-                        .withValue(NorthantsTrafficQueue.COLUMN_CREATION_TIME, trafficQueue.getCreationTime())
-                        .withYieldAllowed(true)
-                        .build();
-                operationList.add(operation);
-            }
-            ContentResolver contentResolver = context.getContentResolver();
-            contentResolver.applyBatch(NorthantsProviderModule.AUTHORITY, operationList);
-        }
-    }
-
-    public static void insertIntoProvider(@NonNull Context context, @NonNull TrafficScoot[] trafficScoots)
-            throws RemoteException, OperationApplicationException {
-        if (trafficScoots.length > 0) {
-            ArrayList<ContentProviderOperation> operationList = new ArrayList<>();
-            for (TrafficScoot trafficScoot : trafficScoots) {
-                ContentProviderOperation operation = ContentProviderOperation
-                        .newInsert(NorthantsProviderModule.TRAFFIC_SCOOT_URI)
-                        .withValue(NorthantsTrafficScoot.COLUMN_ID, trafficScoot.getId())
-                        .withValue(NorthantsTrafficScoot.COLUMN_TPEG_DIRECTION, trafficScoot.getTpegDirection())
-                        .withValue(NorthantsTrafficScoot.COLUMN_FROM_TYPE, trafficScoot.getFromType())
-                        .withValue(NorthantsTrafficScoot.COLUMN_FROM_DESCRIPTOR,
-                                trafficScoot.getFromDescriptor())
-                        .withValue(NorthantsTrafficScoot.COLUMN_FROM_LATITUDE, trafficScoot.getFromLatitude())
-                        .withValue(NorthantsTrafficScoot.COLUMN_FROM_LONGITUDE,
-                                trafficScoot.getFromLongitude())
-                        .withValue(NorthantsTrafficScoot.COLUMN_TO_TYPE, trafficScoot.getToType())
-                        .withValue(NorthantsTrafficScoot.COLUMN_TO_DESCRIPTOR, trafficScoot.getToDescriptor())
-                        .withValue(NorthantsTrafficScoot.COLUMN_TO_LATITUDE, trafficScoot.getToLatitude())
-                        .withValue(NorthantsTrafficScoot.COLUMN_TO_LONGITUDE, trafficScoot.getToLongitude())
-                        .withValue(NorthantsTrafficScoot.COLUMN_TIME, trafficScoot.getTime())
-                        .withValue(NorthantsTrafficScoot.COLUMN_CURRENT_FLOW, trafficScoot.getCurrentFlow())
-                        .withValue(NorthantsTrafficScoot.COLUMN_AVERAGE_SPEED, trafficScoot.getAverageSpeed())
-                        .withValue(NorthantsTrafficScoot.COLUMN_LINK_STATUS_TYPE,
-                                trafficScoot.getLinkStatusType())
-                        .withValue(NorthantsTrafficScoot.COLUMN_LINK_STATUS, trafficScoot.getLinkStatus())
-                        .withValue(NorthantsTrafficScoot.COLUMN_LINK_TRAVEL_TIME,
-                                trafficScoot.getLinkTravelTime())
-                        .withValue(NorthantsTrafficScoot.COLUMN_CONGESTION_PERCENT,
-                                trafficScoot.getCongestionPercent())
-                        .withValue(NorthantsTrafficScoot.COLUMN_CIN_ID, trafficScoot.getCinId())
-                        .withValue(NorthantsTrafficScoot.COLUMN_CREATION_TIME, trafficScoot.getCreationTime())
-                        .withYieldAllowed(true)
-                        .build();
-                operationList.add(operation);
-            }
-            ContentResolver contentResolver = context.getContentResolver();
-            contentResolver.applyBatch(NorthantsProviderModule.AUTHORITY, operationList);
-        }
-    }
-
-    public static void insertIntoProvider(@NonNull Context context, @NonNull TrafficSpeed[] trafficSpeeds)
-            throws RemoteException, OperationApplicationException {
-        if (trafficSpeeds.length > 0) {
-            ArrayList<ContentProviderOperation> operationList = new ArrayList<>();
-            for (TrafficSpeed trafficSpeed : trafficSpeeds) {
-                ContentProviderOperation operation = ContentProviderOperation
-                        .newInsert(NorthantsProviderModule.TRAFFIC_SPEED_URI)
-                        .withValue(NorthantsTrafficSpeed.COLUMN_ID, trafficSpeed.getId())
-                        .withValue(NorthantsTrafficSpeed.COLUMN_TPEG_DIRECTION, trafficSpeed.getTpegDirection())
-                        .withValue(NorthantsTrafficSpeed.COLUMN_FROM_TYPE, trafficSpeed.getFromType())
-                        .withValue(NorthantsTrafficSpeed.COLUMN_FROM_DESCRIPTOR,
-                                trafficSpeed.getFromDescriptor())
-                        .withValue(NorthantsTrafficSpeed.COLUMN_FROM_LATITUDE, trafficSpeed.getFromLatitude())
-                        .withValue(NorthantsTrafficSpeed.COLUMN_FROM_LONGITUDE,
-                                trafficSpeed.getFromLongitude())
-                        .withValue(NorthantsTrafficSpeed.COLUMN_TO_TYPE, trafficSpeed.getToType())
-                        .withValue(NorthantsTrafficSpeed.COLUMN_TO_DESCRIPTOR, trafficSpeed.getToDescriptor())
-                        .withValue(NorthantsTrafficSpeed.COLUMN_TO_LATITUDE, trafficSpeed.getToLatitude())
-                        .withValue(NorthantsTrafficSpeed.COLUMN_TO_LONGITUDE, trafficSpeed.getToLongitude())
-                        .withValue(NorthantsTrafficSpeed.COLUMN_TIME, trafficSpeed.getTime())
-                        .withValue(NorthantsTrafficSpeed.COLUMN_AVERAGE_VEHICLE_SPEED,
-                                trafficSpeed.getAverageVehicleSpeed())
-                        .withValue(NorthantsTrafficSpeed.COLUMN_CIN_ID, trafficSpeed.getCinId())
-                        .withValue(NorthantsTrafficSpeed.COLUMN_CREATION_TIME, trafficSpeed.getCreationTime())
                         .withYieldAllowed(true)
                         .build();
                 operationList.add(operation);
@@ -415,34 +265,6 @@ public class NorthantsContentHelper extends CommonContentHelper {
         return carParksFromCursor(getLatestCarParkCursor(context));
     }
 
-    public static Cursor getEventCursor(@NonNull Context context) {
-        return context.getContentResolver().query(NorthantsProviderModule.EVENT_URI,
-                new String[]{"*"}, null, null, NorthantsEvent.COLUMN_ID);
-    }
-
-    public static Cursor getEventCursor(@NonNull Context context, long oldest, long newest) {
-        return context.getContentResolver().query(NorthantsProviderModule.EVENT_URI,
-                new String[]{"*"}, CREATION_INTERVAL_SELECTION, interval(oldest, newest),
-                CommonBaseColumns.COLUMN_CREATION_TIME);
-    }
-
-    public static Cursor getLatestEventCursor(@NonNull Context context) {
-        return context.getContentResolver().query(NorthantsProviderModule.LATEST_EVENT_URI,
-                new String[]{"*"}, null, null, NorthantsEvent.COLUMN_ID);
-    }
-
-    public static Event[] getEvents(@NonNull Context context) {
-        return eventsFromCursor(getEventCursor(context));
-    }
-
-    public static Event[] getEvents(@NonNull Context context, long oldest, long newest) {
-        return eventsFromCursor(getEventCursor(context, oldest, newest));
-    }
-
-    public static Event[] getLatestEvents(@NonNull Context context) {
-        return eventsFromCursor(getLatestEventCursor(context));
-    }
-
     public static Cursor getRoadWorksCursor(@NonNull Context context) {
         return context.getContentResolver().query(NorthantsProviderModule.ROAD_WORKS_URI,
                 new String[]{"*"}, null, null, NorthantsRoadWorks.COLUMN_ID);
@@ -497,90 +319,6 @@ public class NorthantsContentHelper extends CommonContentHelper {
 
     public static TrafficFlow[] getLatestTrafficFlows(@NonNull Context context) {
         return trafficFlowsFromCursor(getLatestTrafficFlowCursor(context));
-    }
-
-    public static Cursor getTrafficQueueCursor(@NonNull Context context) {
-        return context.getContentResolver().query(NorthantsProviderModule.TRAFFIC_QUEUE_URI,
-                new String[]{"*"}, null, null, NorthantsTrafficQueue.COLUMN_ID);
-    }
-
-    public static Cursor getTrafficQueueCursor(@NonNull Context context, long oldest, long newest) {
-        return context.getContentResolver().query(NorthantsProviderModule.TRAFFIC_QUEUE_URI,
-                new String[]{"*"}, CREATION_INTERVAL_SELECTION, interval(oldest, newest),
-                CommonBaseColumns.COLUMN_CREATION_TIME);
-    }
-
-    public static Cursor getLatestTrafficQueueCursor(@NonNull Context context) {
-        return context.getContentResolver().query(NorthantsProviderModule.LATEST_TRAFFIC_QUEUE_URI,
-                new String[]{"*"}, null, null, NorthantsTrafficQueue.COLUMN_ID);
-    }
-
-    public static TrafficQueue[] getTrafficQueues(@NonNull Context context) {
-        return trafficQueuesFromCursor(getTrafficQueueCursor(context));
-    }
-
-    public static TrafficQueue[] getTrafficQueues(@NonNull Context context, long oldest, long newest) {
-        return trafficQueuesFromCursor(getTrafficQueueCursor(context, oldest, newest));
-    }
-
-    public static TrafficQueue[] getLatestTrafficQueues(@NonNull Context context) {
-        return trafficQueuesFromCursor(getLatestTrafficQueueCursor(context));
-    }
-
-    public static Cursor getTrafficScootCursor(@NonNull Context context) {
-        return context.getContentResolver().query(NorthantsProviderModule.TRAFFIC_SCOOT_URI,
-                new String[]{"*"}, null, null, NorthantsTrafficScoot.COLUMN_ID);
-    }
-
-    public static Cursor getTrafficScootCursor(@NonNull Context context, long oldest, long newest) {
-        return context.getContentResolver().query(NorthantsProviderModule.TRAFFIC_SCOOT_URI,
-                new String[]{"*"}, CREATION_INTERVAL_SELECTION, interval(oldest, newest),
-                CommonBaseColumns.COLUMN_CREATION_TIME);
-    }
-
-    public static Cursor getLatestTrafficScootCursor(@NonNull Context context) {
-        return context.getContentResolver().query(NorthantsProviderModule.LATEST_TRAFFIC_SCOOT_URI,
-                new String[]{"*"}, null, null, NorthantsTrafficScoot.COLUMN_ID);
-    }
-
-    public static TrafficScoot[] getTrafficScoots(@NonNull Context context) {
-        return trafficScootsFromCursor(getTrafficScootCursor(context));
-    }
-
-    public static TrafficScoot[] getTrafficScoots(@NonNull Context context, long oldest, long newest) {
-        return trafficScootsFromCursor(getTrafficScootCursor(context, oldest, newest));
-    }
-
-    public static TrafficScoot[] getLatestTrafficScoots(@NonNull Context context) {
-        return trafficScootsFromCursor(getLatestTrafficScootCursor(context));
-    }
-
-    public static Cursor getTrafficSpeedCursor(@NonNull Context context) {
-        return context.getContentResolver().query(NorthantsProviderModule.TRAFFIC_SPEED_URI,
-                new String[]{"*"}, null, null, NorthantsTrafficSpeed.COLUMN_ID);
-    }
-
-    public static Cursor getTrafficSpeedCursor(@NonNull Context context, long oldest, long newest) {
-        return context.getContentResolver().query(NorthantsProviderModule.TRAFFIC_SPEED_URI,
-                new String[]{"*"}, CREATION_INTERVAL_SELECTION, interval(oldest, newest),
-                CommonBaseColumns.COLUMN_CREATION_TIME);
-    }
-
-    public static Cursor getLatestTrafficSpeedCursor(@NonNull Context context) {
-        return context.getContentResolver().query(NorthantsProviderModule.LATEST_TRAFFIC_SPEED_URI,
-                new String[]{"*"}, null, null, NorthantsTrafficSpeed.COLUMN_ID);
-    }
-
-    public static TrafficSpeed[] getTrafficSpeeds(@NonNull Context context) {
-        return trafficSpeedsFromCursor(getTrafficSpeedCursor(context));
-    }
-
-    public static TrafficSpeed[] getTrafficSpeeds(@NonNull Context context, long oldest, long newest) {
-        return trafficSpeedsFromCursor(getTrafficSpeedCursor(context, oldest, newest));
-    }
-
-    public static TrafficSpeed[] getLatestTrafficSpeeds(@NonNull Context context) {
-        return trafficSpeedsFromCursor(getLatestTrafficSpeedCursor(context));
     }
 
     public static Cursor getTrafficTravelTimeCursor(@NonNull Context context) {
@@ -650,23 +388,11 @@ public class NorthantsContentHelper extends CommonContentHelper {
             case DATA_TYPE_CAR_PARK:
                 contentResolver.delete(NorthantsProviderModule.CAR_PARK_URI, null, null);
                 break;
-            case DATA_TYPE_EVENT:
-                contentResolver.delete(NorthantsProviderModule.EVENT_URI, null, null);
-                break;
             case DATA_TYPE_ROAD_WORKS:
                 contentResolver.delete(NorthantsProviderModule.ROAD_WORKS_URI, null, null);
                 break;
             case DATA_TYPE_TRAFFIC_FLOW:
                 contentResolver.delete(NorthantsProviderModule.TRAFFIC_FLOW_URI, null, null);
-                break;
-            case DATA_TYPE_TRAFFIC_QUEUE:
-                contentResolver.delete(NorthantsProviderModule.TRAFFIC_QUEUE_URI, null, null);
-                break;
-            case DATA_TYPE_TRAFFIC_SCOOT:
-                contentResolver.delete(NorthantsProviderModule.TRAFFIC_SCOOT_URI, null, null);
-                break;
-            case DATA_TYPE_TRAFFIC_SPEED:
-                contentResolver.delete(NorthantsProviderModule.TRAFFIC_SPEED_URI, null, null);
                 break;
             case DATA_TYPE_TRAFFIC_TRAVEL_TIME:
                 contentResolver.delete(NorthantsProviderModule.TRAFFIC_TRAVEL_TIME_URI, null, null);
@@ -685,28 +411,12 @@ public class NorthantsContentHelper extends CommonContentHelper {
                 contentResolver.delete(NorthantsProviderModule.CAR_PARK_URI, CREATED_BEFORE,
                         new String[]{String.valueOf(creationTime)});
                 break;
-            case DATA_TYPE_EVENT:
-                contentResolver.delete(NorthantsProviderModule.EVENT_URI, CREATED_BEFORE,
-                        new String[]{String.valueOf(creationTime)});
-                break;
             case DATA_TYPE_ROAD_WORKS:
                 contentResolver.delete(NorthantsProviderModule.ROAD_WORKS_URI, CREATED_BEFORE,
                         new String[]{String.valueOf(creationTime)});
                 break;
             case DATA_TYPE_TRAFFIC_FLOW:
                 contentResolver.delete(NorthantsProviderModule.TRAFFIC_FLOW_URI, CREATED_BEFORE,
-                        new String[]{String.valueOf(creationTime)});
-                break;
-            case DATA_TYPE_TRAFFIC_QUEUE:
-                contentResolver.delete(NorthantsProviderModule.TRAFFIC_QUEUE_URI, CREATED_BEFORE,
-                        new String[]{String.valueOf(creationTime)});
-                break;
-            case DATA_TYPE_TRAFFIC_SCOOT:
-                contentResolver.delete(NorthantsProviderModule.TRAFFIC_SCOOT_URI, CREATED_BEFORE,
-                        new String[]{String.valueOf(creationTime)});
-                break;
-            case DATA_TYPE_TRAFFIC_SPEED:
-                contentResolver.delete(NorthantsProviderModule.TRAFFIC_SPEED_URI, CREATED_BEFORE,
                         new String[]{String.valueOf(creationTime)});
                 break;
             case DATA_TYPE_TRAFFIC_TRAVEL_TIME:
@@ -769,45 +479,6 @@ public class NorthantsContentHelper extends CommonContentHelper {
             return new CarPark[0];
         }
         return carParks;
-    }
-
-    public static Event[] eventsFromCursor(Cursor cursor) {
-        Event[] events = null;
-        if (cursor != null) {
-            if (cursor.moveToFirst()) {
-                events = new Event[cursor.getCount()];
-                for (int i = 0; i < events.length; i++) {
-                    events[i] = new Event();
-                    events[i].setId(cursor.getString(cursor.getColumnIndex(
-                            NorthantsEvent.COLUMN_ID)));
-                    events[i].setStartOfPeriod(cursor.getString(cursor.getColumnIndex(
-                            NorthantsEvent.COLUMN_START_OF_PERIOD)));
-                    events[i].setEndOfPeriod(cursor.getString(cursor.getColumnIndex(
-                            NorthantsEvent.COLUMN_END_OF_PERIOD)));
-                    events[i].setOverallStartTime(cursor.getString(cursor.getColumnIndex(
-                            NorthantsEvent.COLUMN_OVERALL_START_TIME)));
-                    events[i].setOverallEndTime(cursor.getString(cursor.getColumnIndex(
-                            NorthantsEvent.COLUMN_OVERALL_END_TIME)));
-                    events[i].setLatitude(cursor.getDouble(cursor.getColumnIndex(
-                            NorthantsEvent.COLUMN_LATITUDE)));
-                    events[i].setLongitude(cursor.getDouble(cursor.getColumnIndex(
-                            NorthantsEvent.COLUMN_LONGITUDE)));
-                    events[i].setImpactOnTraffic(cursor.getString(cursor.getColumnIndex(
-                            NorthantsEvent.COLUMN_IMPACT_ON_TRAFFIC)));
-                    events[i].setValidityStatus(cursor.getString(cursor.getColumnIndex(
-                            NorthantsEvent.COLUMN_VALIDITY_STATUS)));
-                    events[i].setCinId(cursor.getString(cursor.getColumnIndex(
-                            NorthantsEvent.COLUMN_CIN_ID)));
-                    events[i].setCreationTime(cursor.getLong(cursor.getColumnIndex(
-                            NorthantsEvent.COLUMN_CREATION_TIME)));
-                }
-            }
-            cursor.close();
-        }
-        if (events == null) {
-            return new Event[0];
-        }
-        return events;
     }
 
     public static RoadWorks[] roadWorksesFromCursor(Cursor cursor) {
@@ -898,153 +569,6 @@ public class NorthantsContentHelper extends CommonContentHelper {
             return new TrafficFlow[0];
         }
         return trafficFlows;
-    }
-
-    public static TrafficQueue[] trafficQueuesFromCursor(Cursor cursor) {
-        TrafficQueue[] trafficQueues = null;
-        if (cursor != null) {
-            if (cursor.moveToFirst()) {
-                trafficQueues = new TrafficQueue[cursor.getCount()];
-                for (int i = 0; i < trafficQueues.length; i++) {
-                    trafficQueues[i] = new TrafficQueue();
-                    trafficQueues[i].setId(cursor.getString(cursor.getColumnIndex(
-                            NorthantsTrafficQueue.COLUMN_ID)));
-                    trafficQueues[i].setTpegDirection(cursor.getString(cursor.getColumnIndex(
-                            NorthantsTrafficQueue.COLUMN_TPEG_DIRECTION)));
-                    trafficQueues[i].setFromType(cursor.getString(cursor.getColumnIndex(
-                            NorthantsTrafficQueue.COLUMN_FROM_TYPE)));
-                    trafficQueues[i].setFromDescriptor(cursor.getString(cursor.getColumnIndex(
-                            NorthantsTrafficQueue.COLUMN_FROM_DESCRIPTOR)));
-                    trafficQueues[i].setFromLatitude(cursor.getDouble(cursor.getColumnIndex(
-                            NorthantsTrafficQueue.COLUMN_FROM_LATITUDE)));
-                    trafficQueues[i].setFromLongitude(cursor.getDouble(cursor.getColumnIndex(
-                            NorthantsTrafficQueue.COLUMN_FROM_LONGITUDE)));
-                    trafficQueues[i].setToType(cursor.getString(cursor.getColumnIndex(
-                            NorthantsTrafficQueue.COLUMN_TO_TYPE)));
-                    trafficQueues[i].setToDescriptor(cursor.getString(cursor.getColumnIndex(
-                            NorthantsTrafficQueue.COLUMN_TO_DESCRIPTOR)));
-                    trafficQueues[i].setToLatitude(cursor.getDouble(cursor.getColumnIndex(
-                            NorthantsTrafficQueue.COLUMN_TO_LATITUDE)));
-                    trafficQueues[i].setToLongitude(cursor.getDouble(cursor.getColumnIndex(
-                            NorthantsTrafficQueue.COLUMN_TO_LONGITUDE)));
-                    trafficQueues[i].setTime(cursor.getString(cursor.getColumnIndex(
-                            NorthantsTrafficQueue.COLUMN_TIME)));
-                    trafficQueues[i].setSeverity(cursor.getDouble(cursor.getColumnIndex(
-                            NorthantsTrafficQueue.COLUMN_SEVERITY)));
-                    trafficQueues[i].setPresent(cursor.getString(cursor.getColumnIndex(
-                            NorthantsTrafficQueue.COLUMN_PRESENT)));
-                    trafficQueues[i].setCinId(cursor.getString(cursor.getColumnIndex(
-                            NorthantsTrafficQueue.COLUMN_CIN_ID)));
-                    trafficQueues[i].setCreationTime(cursor.getLong(cursor.getColumnIndex(
-                            NorthantsTrafficQueue.COLUMN_CREATION_TIME)));
-                }
-            }
-            cursor.close();
-        }
-        if (trafficQueues == null) {
-            return new TrafficQueue[0];
-        }
-        return trafficQueues;
-    }
-
-    public static TrafficScoot[] trafficScootsFromCursor(Cursor cursor) {
-        TrafficScoot[] trafficScoots = null;
-        if (cursor != null) {
-            if (cursor.moveToFirst()) {
-                trafficScoots = new TrafficScoot[cursor.getCount()];
-                for (int i = 0; i < trafficScoots.length; i++) {
-                    trafficScoots[i] = new TrafficScoot();
-                    trafficScoots[i].setId(cursor.getString(cursor.getColumnIndex(
-                            NorthantsTrafficScoot.COLUMN_ID)));
-                    trafficScoots[i].setTpegDirection(cursor.getString(cursor.getColumnIndex(
-                            NorthantsTrafficScoot.COLUMN_TPEG_DIRECTION)));
-                    trafficScoots[i].setFromType(cursor.getString(cursor.getColumnIndex(
-                            NorthantsTrafficScoot.COLUMN_FROM_TYPE)));
-                    trafficScoots[i].setFromDescriptor(cursor.getString(cursor.getColumnIndex(
-                            NorthantsTrafficScoot.COLUMN_FROM_DESCRIPTOR)));
-                    trafficScoots[i].setFromLatitude(cursor.getDouble(cursor.getColumnIndex(
-                            NorthantsTrafficScoot.COLUMN_FROM_LATITUDE)));
-                    trafficScoots[i].setFromLongitude(cursor.getDouble(cursor.getColumnIndex(
-                            NorthantsTrafficScoot.COLUMN_FROM_LONGITUDE)));
-                    trafficScoots[i].setToType(cursor.getString(cursor.getColumnIndex(
-                            NorthantsTrafficScoot.COLUMN_TO_TYPE)));
-                    trafficScoots[i].setToDescriptor(cursor.getString(cursor.getColumnIndex(
-                            NorthantsTrafficScoot.COLUMN_TO_DESCRIPTOR)));
-                    trafficScoots[i].setToLatitude(cursor.getDouble(cursor.getColumnIndex(
-                            NorthantsTrafficScoot.COLUMN_TO_LATITUDE)));
-                    trafficScoots[i].setToLongitude(cursor.getDouble(cursor.getColumnIndex(
-                            NorthantsTrafficScoot.COLUMN_TO_LONGITUDE)));
-                    trafficScoots[i].setTime(cursor.getString(cursor.getColumnIndex(
-                            NorthantsTrafficScoot.COLUMN_TIME)));
-                    trafficScoots[i].setCurrentFlow(cursor.getDouble(cursor.getColumnIndex(
-                            NorthantsTrafficScoot.COLUMN_CURRENT_FLOW)));
-                    trafficScoots[i].setAverageSpeed(cursor.getDouble(cursor.getColumnIndex(
-                            NorthantsTrafficScoot.COLUMN_AVERAGE_SPEED)));
-                    trafficScoots[i].setLinkStatusType(cursor.getDouble(cursor.getColumnIndex(
-                            NorthantsTrafficScoot.COLUMN_LINK_STATUS_TYPE)));
-                    trafficScoots[i].setLinkStatus(cursor.getDouble(cursor.getColumnIndex(
-                            NorthantsTrafficScoot.COLUMN_LINK_STATUS)));
-                    trafficScoots[i].setLinkTravelTime(cursor.getDouble(cursor.getColumnIndex(
-                            NorthantsTrafficScoot.COLUMN_LINK_TRAVEL_TIME)));
-                    trafficScoots[i].setCongestionPercent(cursor.getDouble(cursor.getColumnIndex(
-                            NorthantsTrafficScoot.COLUMN_CONGESTION_PERCENT)));
-                    trafficScoots[i].setCinId(cursor.getString(cursor.getColumnIndex(
-                            NorthantsTrafficScoot.COLUMN_CIN_ID)));
-                    trafficScoots[i].setCreationTime(cursor.getLong(cursor.getColumnIndex(
-                            NorthantsTrafficScoot.COLUMN_CREATION_TIME)));
-                }
-            }
-            cursor.close();
-        }
-        if (trafficScoots == null) {
-            return new TrafficScoot[0];
-        }
-        return trafficScoots;
-    }
-
-    public static TrafficSpeed[] trafficSpeedsFromCursor(Cursor cursor) {
-        TrafficSpeed[] trafficSpeeds = null;
-        if (cursor != null) {
-            if (cursor.moveToFirst()) {
-                trafficSpeeds = new TrafficSpeed[cursor.getCount()];
-                for (int i = 0; i < trafficSpeeds.length; i++) {
-                    trafficSpeeds[i] = new TrafficSpeed();
-                    trafficSpeeds[i].setId(cursor.getString(cursor.getColumnIndex(
-                            NorthantsTrafficSpeed.COLUMN_ID)));
-                    trafficSpeeds[i].setTpegDirection(cursor.getString(cursor.getColumnIndex(
-                            NorthantsTrafficSpeed.COLUMN_TPEG_DIRECTION)));
-                    trafficSpeeds[i].setFromType(cursor.getString(cursor.getColumnIndex(
-                            NorthantsTrafficSpeed.COLUMN_FROM_TYPE)));
-                    trafficSpeeds[i].setFromDescriptor(cursor.getString(cursor.getColumnIndex(
-                            NorthantsTrafficSpeed.COLUMN_FROM_DESCRIPTOR)));
-                    trafficSpeeds[i].setFromLatitude(cursor.getDouble(cursor.getColumnIndex(
-                            NorthantsTrafficSpeed.COLUMN_FROM_LATITUDE)));
-                    trafficSpeeds[i].setFromLongitude(cursor.getDouble(cursor.getColumnIndex(
-                            NorthantsTrafficSpeed.COLUMN_FROM_LONGITUDE)));
-                    trafficSpeeds[i].setToType(cursor.getString(cursor.getColumnIndex(
-                            NorthantsTrafficSpeed.COLUMN_TO_TYPE)));
-                    trafficSpeeds[i].setToDescriptor(cursor.getString(cursor.getColumnIndex(
-                            NorthantsTrafficSpeed.COLUMN_TO_DESCRIPTOR)));
-                    trafficSpeeds[i].setToLatitude(cursor.getDouble(cursor.getColumnIndex(
-                            NorthantsTrafficSpeed.COLUMN_TO_LATITUDE)));
-                    trafficSpeeds[i].setToLongitude(cursor.getDouble(cursor.getColumnIndex(
-                            NorthantsTrafficSpeed.COLUMN_TO_LONGITUDE)));
-                    trafficSpeeds[i].setTime(cursor.getString(cursor.getColumnIndex(
-                            NorthantsTrafficSpeed.COLUMN_TIME)));
-                    trafficSpeeds[i].setAverageVehicleSpeed(cursor.getDouble(cursor.getColumnIndex(
-                            NorthantsTrafficSpeed.COLUMN_AVERAGE_VEHICLE_SPEED)));
-                    trafficSpeeds[i].setCinId(cursor.getString(cursor.getColumnIndex(
-                            NorthantsTrafficSpeed.COLUMN_CIN_ID)));
-                    trafficSpeeds[i].setCreationTime(cursor.getLong(cursor.getColumnIndex(
-                            NorthantsTrafficSpeed.COLUMN_CREATION_TIME)));
-                }
-            }
-            cursor.close();
-        }
-        if (trafficSpeeds == null) {
-            return new TrafficSpeed[0];
-        }
-        return trafficSpeeds;
     }
 
     public static TrafficTravelTime[] trafficTravelTimesFromCursor(Cursor cursor) {

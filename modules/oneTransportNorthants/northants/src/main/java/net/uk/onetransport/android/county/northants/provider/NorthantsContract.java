@@ -44,38 +44,6 @@ public class NorthantsContract {
                     + NorthantsCarPark.COLUMN_CAR_PARK_IDENTITY + " AND a."
                     + NorthantsCarPark.COLUMN_CREATION_TIME + "=b."
                     + NorthantsCarPark.COLUMN_CREATION_TIME + ";";
-    public static final String CREATE_EVENT_TABLE =
-            "CREATE TABLE IF NOT EXISTS " + NorthantsEvent.TABLE_NAME + " ("
-                    + NorthantsEvent._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-                    + NorthantsEvent.COLUMN_ID + " TEXT,"
-                    + NorthantsEvent.COLUMN_START_OF_PERIOD + " TEXT,"
-                    + NorthantsEvent.COLUMN_END_OF_PERIOD + " TEXT,"
-                    + NorthantsEvent.COLUMN_OVERALL_START_TIME + " TEXT,"
-                    + NorthantsEvent.COLUMN_OVERALL_END_TIME + " TEXT,"
-                    + NorthantsEvent.COLUMN_LATITUDE + " REAL,"
-                    + NorthantsEvent.COLUMN_LONGITUDE + " REAL,"
-                    + NorthantsEvent.COLUMN_DESCRIPTION + " TEXT,"
-                    + NorthantsEvent.COLUMN_IMPACT_ON_TRAFFIC + " TEXT,"
-                    + NorthantsEvent.COLUMN_VALIDITY_STATUS + " TEXT,"
-                    + NorthantsEvent.COLUMN_CIN_ID + " TEXT NOT NULL,"
-                    + NorthantsEvent.COLUMN_CREATION_TIME + " INTEGER,"
-                    + "UNIQUE ("
-                    + NorthantsEvent.COLUMN_ID + ","
-                    + NorthantsEvent.COLUMN_CIN_ID
-                    + ") ON CONFLICT IGNORE);";
-    public static final String CREATE_LATEST_EVENT_TABLE =
-            "CREATE VIEW IF NOT EXISTS " + NorthantsLatestEvent.TABLE_NAME + " AS "
-                    + "SELECT a.* FROM " + NorthantsEvent.TABLE_NAME + " AS a "
-                    + "INNER JOIN (SELECT " + NorthantsEvent.COLUMN_ID
-                    + ", MAX("
-                    + NorthantsEvent.COLUMN_CREATION_TIME + ") AS "
-                    + NorthantsEvent.COLUMN_CREATION_TIME + " FROM "
-                    + NorthantsEvent.TABLE_NAME + " GROUP BY "
-                    + NorthantsEvent.COLUMN_ID + ") AS b ON a."
-                    + NorthantsEvent.COLUMN_ID + "=b."
-                    + NorthantsEvent.COLUMN_ID + " AND a."
-                    + NorthantsEvent.COLUMN_CREATION_TIME + "=b."
-                    + NorthantsEvent.COLUMN_CREATION_TIME + ";";
     public static final String CREATE_ROAD_WORKS_TABLE =
             "CREATE TABLE IF NOT EXISTS " + NorthantsRoadWorks.TABLE_NAME + " ("
                     + NorthantsRoadWorks.COLUMN_ID + " TEXT NOT NULL,"
@@ -143,114 +111,6 @@ public class NorthantsContract {
                     + NorthantsTrafficFlow.COLUMN_ID + " AND a."
                     + NorthantsTrafficFlow.COLUMN_CREATION_TIME + "=b."
                     + NorthantsTrafficFlow.COLUMN_CREATION_TIME + ";";
-    public static final String CREATE_TRAFFIC_QUEUE_TABLE =
-            "CREATE TABLE IF NOT EXISTS " + NorthantsTrafficQueue.TABLE_NAME + " ("
-                    + NorthantsTrafficQueue._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-                    + NorthantsTrafficQueue.COLUMN_ID + " TEXT NOT NULL,"
-                    + NorthantsTrafficQueue.COLUMN_TPEG_DIRECTION + " TEXT,"
-                    + NorthantsTrafficQueue.COLUMN_FROM_TYPE + " TEXT,"
-                    + NorthantsTrafficQueue.COLUMN_FROM_DESCRIPTOR + " TEXT,"
-                    + NorthantsTrafficQueue.COLUMN_FROM_LATITUDE + " REAL,"
-                    + NorthantsTrafficQueue.COLUMN_FROM_LONGITUDE + " REAL,"
-                    + NorthantsTrafficQueue.COLUMN_TO_TYPE + " TEXT,"
-                    + NorthantsTrafficQueue.COLUMN_TO_DESCRIPTOR + " TEXT,"
-                    + NorthantsTrafficQueue.COLUMN_TO_LATITUDE + " REAL,"
-                    + NorthantsTrafficQueue.COLUMN_TO_LONGITUDE + " REAL,"
-                    + NorthantsTrafficQueue.COLUMN_TIME + " TEXT,"
-                    + NorthantsTrafficQueue.COLUMN_SEVERITY + " REAL,"
-                    + NorthantsTrafficQueue.COLUMN_PRESENT + " TEXT,"
-                    + NorthantsTrafficQueue.COLUMN_CIN_ID + " TEXT NOT NULL,"
-                    + NorthantsTrafficQueue.COLUMN_CREATION_TIME + " INTEGER,"
-                    + "UNIQUE ("
-                    + NorthantsTrafficQueue.COLUMN_ID + ","
-                    + NorthantsTrafficQueue.COLUMN_CIN_ID
-                    + ") ON CONFLICT IGNORE);";
-    public static final String CREATE_LATEST_TRAFFIC_QUEUE_TABLE =
-            "CREATE VIEW IF NOT EXISTS " + NorthantsLatestTrafficQueue.TABLE_NAME + " AS "
-                    + "SELECT a.* FROM " + NorthantsTrafficQueue.TABLE_NAME + " AS a "
-                    + "INNER JOIN (SELECT " + NorthantsTrafficQueue.COLUMN_ID
-                    + ", MAX("
-                    + NorthantsTrafficQueue.COLUMN_CREATION_TIME + ") AS "
-                    + NorthantsTrafficQueue.COLUMN_CREATION_TIME + " FROM "
-                    + NorthantsTrafficQueue.TABLE_NAME + " GROUP BY "
-                    + NorthantsTrafficQueue.COLUMN_ID + ") AS b ON a."
-                    + NorthantsTrafficQueue.COLUMN_ID + "=b."
-                    + NorthantsTrafficQueue.COLUMN_ID + " AND a."
-                    + NorthantsTrafficQueue.COLUMN_CREATION_TIME + "=b."
-                    + NorthantsTrafficQueue.COLUMN_CREATION_TIME + ";";
-    public static final String CREATE_TRAFFIC_SCOOT_TABLE =
-            "CREATE TABLE IF NOT EXISTS " + NorthantsTrafficScoot.TABLE_NAME + " ("
-                    + NorthantsTrafficScoot._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-                    + NorthantsTrafficScoot.COLUMN_ID + " TEXT NOT NULL,"
-                    + NorthantsTrafficScoot.COLUMN_TPEG_DIRECTION + " TEXT,"
-                    + NorthantsTrafficScoot.COLUMN_FROM_TYPE + " TEXT,"
-                    + NorthantsTrafficScoot.COLUMN_FROM_DESCRIPTOR + " TEXT,"
-                    + NorthantsTrafficScoot.COLUMN_FROM_LATITUDE + " REAL,"
-                    + NorthantsTrafficScoot.COLUMN_FROM_LONGITUDE + " REAL,"
-                    + NorthantsTrafficScoot.COLUMN_TO_TYPE + " TEXT,"
-                    + NorthantsTrafficScoot.COLUMN_TO_DESCRIPTOR + " TEXT,"
-                    + NorthantsTrafficScoot.COLUMN_TO_LATITUDE + " REAL,"
-                    + NorthantsTrafficScoot.COLUMN_TO_LONGITUDE + " REAL,"
-                    + NorthantsTrafficScoot.COLUMN_TIME + " TEXT,"
-                    + NorthantsTrafficScoot.COLUMN_CURRENT_FLOW + " REAL,"
-                    + NorthantsTrafficScoot.COLUMN_AVERAGE_SPEED + " REAL,"
-                    + NorthantsTrafficScoot.COLUMN_LINK_STATUS_TYPE + " REAL,"
-                    + NorthantsTrafficScoot.COLUMN_LINK_STATUS + " REAL,"
-                    + NorthantsTrafficScoot.COLUMN_LINK_TRAVEL_TIME + " REAL,"
-                    + NorthantsTrafficScoot.COLUMN_CONGESTION_PERCENT + " REAL,"
-                    + NorthantsTrafficScoot.COLUMN_CIN_ID + " TEXT NOT NULL,"
-                    + NorthantsTrafficScoot.COLUMN_CREATION_TIME + " INTEGER,"
-                    + "UNIQUE ("
-                    + NorthantsTrafficScoot.COLUMN_ID + ","
-                    + NorthantsTrafficScoot.COLUMN_CIN_ID
-                    + ") ON CONFLICT IGNORE);";
-    public static final String CREATE_LATEST_TRAFFIC_SCOOT_TABLE =
-            "CREATE VIEW IF NOT EXISTS " + NorthantsLatestTrafficScoot.TABLE_NAME + " AS "
-                    + "SELECT a.* FROM " + NorthantsTrafficScoot.TABLE_NAME + " AS a "
-                    + "INNER JOIN (SELECT " + NorthantsTrafficScoot.COLUMN_ID
-                    + ", MAX("
-                    + NorthantsTrafficScoot.COLUMN_CREATION_TIME + ") AS "
-                    + NorthantsTrafficScoot.COLUMN_CREATION_TIME + " FROM "
-                    + NorthantsTrafficScoot.TABLE_NAME + " GROUP BY "
-                    + NorthantsTrafficScoot.COLUMN_ID + ") AS b ON a."
-                    + NorthantsTrafficScoot.COLUMN_ID + "=b."
-                    + NorthantsTrafficScoot.COLUMN_ID + " AND a."
-                    + NorthantsTrafficScoot.COLUMN_CREATION_TIME + "=b."
-                    + NorthantsTrafficScoot.COLUMN_CREATION_TIME + ";";
-    public static final String CREATE_TRAFFIC_SPEED_TABLE =
-            "CREATE TABLE IF NOT EXISTS " + NorthantsTrafficSpeed.TABLE_NAME + " ("
-                    + NorthantsTrafficSpeed._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-                    + NorthantsTrafficSpeed.COLUMN_ID + " TEXT NOT NULL,"
-                    + NorthantsTrafficSpeed.COLUMN_TPEG_DIRECTION + " TEXT,"
-                    + NorthantsTrafficSpeed.COLUMN_FROM_TYPE + " TEXT,"
-                    + NorthantsTrafficSpeed.COLUMN_FROM_DESCRIPTOR + " TEXT,"
-                    + NorthantsTrafficSpeed.COLUMN_FROM_LATITUDE + " REAL,"
-                    + NorthantsTrafficSpeed.COLUMN_FROM_LONGITUDE + " REAL,"
-                    + NorthantsTrafficSpeed.COLUMN_TO_TYPE + " TEXT,"
-                    + NorthantsTrafficSpeed.COLUMN_TO_DESCRIPTOR + " TEXT,"
-                    + NorthantsTrafficSpeed.COLUMN_TO_LATITUDE + " REAL,"
-                    + NorthantsTrafficSpeed.COLUMN_TO_LONGITUDE + " REAL,"
-                    + NorthantsTrafficSpeed.COLUMN_TIME + " TEXT,"
-                    + NorthantsTrafficSpeed.COLUMN_AVERAGE_VEHICLE_SPEED + " REAL,"
-                    + NorthantsTrafficSpeed.COLUMN_CIN_ID + " TEXT NOT NULL,"
-                    + NorthantsTrafficSpeed.COLUMN_CREATION_TIME + " INTEGER,"
-                    + "UNIQUE ("
-                    + NorthantsTrafficSpeed.COLUMN_ID + ","
-                    + NorthantsTrafficSpeed.COLUMN_CIN_ID
-                    + ") ON CONFLICT IGNORE);";
-    public static final String CREATE_LATEST_TRAFFIC_SPEED_TABLE =
-            "CREATE VIEW IF NOT EXISTS " + NorthantsLatestTrafficSpeed.TABLE_NAME + " AS "
-                    + "SELECT a.* FROM " + NorthantsTrafficSpeed.TABLE_NAME + " AS a "
-                    + "INNER JOIN (SELECT " + NorthantsTrafficSpeed.COLUMN_ID
-                    + ", MAX("
-                    + NorthantsTrafficSpeed.COLUMN_CREATION_TIME + ") AS "
-                    + NorthantsTrafficSpeed.COLUMN_CREATION_TIME + " FROM "
-                    + NorthantsTrafficSpeed.TABLE_NAME + " GROUP BY "
-                    + NorthantsTrafficSpeed.COLUMN_ID + ") AS b ON a."
-                    + NorthantsTrafficSpeed.COLUMN_ID + "=b."
-                    + NorthantsTrafficSpeed.COLUMN_ID + " AND a."
-                    + NorthantsTrafficSpeed.COLUMN_CREATION_TIME + "=b."
-                    + NorthantsTrafficSpeed.COLUMN_CREATION_TIME + ";";
     public static final String CREATE_TRAFFIC_TRAVEL_TIME_TABLE =
             "CREATE TABLE IF NOT EXISTS " + NorthantsTrafficTravelTime.TABLE_NAME + " ("
                     + NorthantsTrafficTravelTime._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -347,24 +207,6 @@ public class NorthantsContract {
         public static final String TABLE_NAME = "northants_latest_car_park";
     }
 
-    public static final class NorthantsEvent implements CommonBaseColumns {
-        public static final String TABLE_NAME = "northants_event";
-        public static final String COLUMN_ID = "id";
-        public static final String COLUMN_START_OF_PERIOD = "start_of_period";
-        public static final String COLUMN_END_OF_PERIOD = "end_of_period";
-        public static final String COLUMN_OVERALL_START_TIME = "overall_start_time";
-        public static final String COLUMN_OVERALL_END_TIME = "overall_end_time";
-        public static final String COLUMN_LATITUDE = "latitude";
-        public static final String COLUMN_LONGITUDE = "longitude";
-        public static final String COLUMN_DESCRIPTION = "description";
-        public static final String COLUMN_IMPACT_ON_TRAFFIC = "impact_on_traffic";
-        public static final String COLUMN_VALIDITY_STATUS = "validity_status";
-    }
-
-    public static final class NorthantsLatestEvent {
-        public static final String TABLE_NAME = "northants_latest_event";
-    }
-
     public static final class NorthantsRoadWorks implements CommonBaseColumns {
         public static final String TABLE_NAME = "northants_road_works";
         public static final String COLUMN_ID = "id";
@@ -403,72 +245,6 @@ public class NorthantsContract {
 
     public static final class NorthantsLatestTrafficFlow {
         public static final String TABLE_NAME = "northants_latest_traffic_flow";
-    }
-
-    public static final class NorthantsTrafficQueue implements CommonBaseColumns {
-        public static final String TABLE_NAME = "northants_traffic_queue";
-        public static final String COLUMN_ID = "id";
-        public static final String COLUMN_TPEG_DIRECTION = "tpeg_direction";
-        public static final String COLUMN_FROM_TYPE = "from_type";
-        public static final String COLUMN_FROM_DESCRIPTOR = "from_descriptor";
-        public static final String COLUMN_FROM_LATITUDE = "from_latitude";
-        public static final String COLUMN_FROM_LONGITUDE = "from_longitude";
-        public static final String COLUMN_TO_TYPE = "to_type";
-        public static final String COLUMN_TO_DESCRIPTOR = "to_descriptor";
-        public static final String COLUMN_TO_LATITUDE = "to_latitude";
-        public static final String COLUMN_TO_LONGITUDE = "to_longitude";
-        public static final String COLUMN_TIME = "time";
-        public static final String COLUMN_SEVERITY = "severity";
-        public static final String COLUMN_PRESENT = "present";
-    }
-
-    public static final class NorthantsLatestTrafficQueue {
-        public static final String TABLE_NAME = "northants_latest_traffic_queue";
-    }
-
-    public static final class NorthantsTrafficScoot implements CommonBaseColumns {
-        public static final String TABLE_NAME = "northants_traffic_scoot";
-        public static final String COLUMN_ID = "id";
-        public static final String COLUMN_TPEG_DIRECTION = "tpeg_direction";
-        public static final String COLUMN_FROM_TYPE = "from_type";
-        public static final String COLUMN_FROM_DESCRIPTOR = "from_descriptor";
-        public static final String COLUMN_FROM_LATITUDE = "from_latitude";
-        public static final String COLUMN_FROM_LONGITUDE = "from_longitude";
-        public static final String COLUMN_TO_TYPE = "to_type";
-        public static final String COLUMN_TO_DESCRIPTOR = "to_descriptor";
-        public static final String COLUMN_TO_LATITUDE = "to_latitude";
-        public static final String COLUMN_TO_LONGITUDE = "to_longitude";
-        public static final String COLUMN_TIME = "time";
-        public static final String COLUMN_CURRENT_FLOW = "current_flow";
-        public static final String COLUMN_AVERAGE_SPEED = "average_speed";
-        public static final String COLUMN_LINK_STATUS_TYPE = "link_status_type";
-        public static final String COLUMN_LINK_STATUS = "link_status";
-        public static final String COLUMN_LINK_TRAVEL_TIME = "link_travel_time";
-        public static final String COLUMN_CONGESTION_PERCENT = "congestion_percent";
-    }
-
-    public static final class NorthantsLatestTrafficScoot {
-        public static final String TABLE_NAME = "northants_latest_traffic_scoot";
-    }
-
-    public static final class NorthantsTrafficSpeed implements CommonBaseColumns {
-        public static final String TABLE_NAME = "northants_traffic_speed";
-        public static final String COLUMN_ID = "id";
-        public static final String COLUMN_TPEG_DIRECTION = "tpeg_direction";
-        public static final String COLUMN_FROM_TYPE = "from_type";
-        public static final String COLUMN_FROM_DESCRIPTOR = "from_descriptor";
-        public static final String COLUMN_FROM_LATITUDE = "from_latitude";
-        public static final String COLUMN_FROM_LONGITUDE = "from_longitude";
-        public static final String COLUMN_TO_TYPE = "to_type";
-        public static final String COLUMN_TO_DESCRIPTOR = "to_descriptor";
-        public static final String COLUMN_TO_LATITUDE = "to_latitude";
-        public static final String COLUMN_TO_LONGITUDE = "to_longitude";
-        public static final String COLUMN_TIME = "time";
-        public static final String COLUMN_AVERAGE_VEHICLE_SPEED = "average_vehicle_speed";
-    }
-
-    public static final class NorthantsLatestTrafficSpeed {
-        public static final String TABLE_NAME = "northants_latest_traffic_speed";
     }
 
     public static final class NorthantsTrafficTravelTime implements CommonBaseColumns {

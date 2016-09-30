@@ -15,8 +15,6 @@ import net.uk.onetransport.android.county.herts.roadworks.RoadWorks;
 import net.uk.onetransport.android.county.herts.roadworks.RoadWorksRetriever;
 import net.uk.onetransport.android.county.herts.trafficflow.TrafficFlow;
 import net.uk.onetransport.android.county.herts.trafficflow.TrafficFlowRetriever;
-import net.uk.onetransport.android.county.herts.trafficqueue.TrafficQueue;
-import net.uk.onetransport.android.county.herts.trafficqueue.TrafficQueueRetriever;
 import net.uk.onetransport.android.county.herts.trafficscoot.TrafficScoot;
 import net.uk.onetransport.android.county.herts.trafficscoot.TrafficScootRetriever;
 import net.uk.onetransport.android.county.herts.trafficspeed.TrafficSpeed;
@@ -58,7 +56,7 @@ public class HertsSyncAdapterTest extends OneTransportTest {
         context.getContentResolver().registerContentObserver(
                 LastUpdatedProviderModule.LAST_UPDATED_URI, true, adapterObserver);
 
-        HertsProviderModule.refresh(context, true, true, true, true, true, true, true, true, true);
+        HertsProviderModule.refresh(context, true, true, true, true, true, true, true, true);
         // Now block until the adapter finishes?  Will the observer run?
         // The observer should modify adapterFinished.
         while (!adapterFinished) {
@@ -86,12 +84,6 @@ public class HertsSyncAdapterTest extends OneTransportTest {
         TrafficFlow[] trafficFlows = new TrafficFlowRetriever(context).retrieve();
         TrafficFlow[] trafficFlows1 = HertsContentHelper.getTrafficFlows(context);
         if (trafficFlows.length != trafficFlows1.length) {
-            runnerTask.report("HERTS sync adapter ... FAILED.", COLOUR_FAILED);
-            return;
-        }
-        TrafficQueue[] trafficQueues = new TrafficQueueRetriever(context).retrieve();
-        TrafficQueue[] trafficQueues1 = HertsContentHelper.getTrafficQueues(context);
-        if (trafficQueues.length != trafficQueues1.length) {
             runnerTask.report("HERTS sync adapter ... FAILED.", COLOUR_FAILED);
             return;
         }

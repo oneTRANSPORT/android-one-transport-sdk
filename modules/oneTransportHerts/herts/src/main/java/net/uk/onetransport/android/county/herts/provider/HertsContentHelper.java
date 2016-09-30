@@ -13,7 +13,6 @@ import net.uk.onetransport.android.county.herts.carparks.CarPark;
 import net.uk.onetransport.android.county.herts.events.Event;
 import net.uk.onetransport.android.county.herts.roadworks.RoadWorks;
 import net.uk.onetransport.android.county.herts.trafficflow.TrafficFlow;
-import net.uk.onetransport.android.county.herts.trafficqueue.TrafficQueue;
 import net.uk.onetransport.android.county.herts.trafficscoot.TrafficScoot;
 import net.uk.onetransport.android.county.herts.trafficspeed.TrafficSpeed;
 import net.uk.onetransport.android.county.herts.traffictraveltime.TrafficTravelTime;
@@ -29,7 +28,6 @@ import static net.uk.onetransport.android.county.herts.provider.HertsContract.He
 import static net.uk.onetransport.android.county.herts.provider.HertsContract.HertsEvent;
 import static net.uk.onetransport.android.county.herts.provider.HertsContract.HertsRoadWorks;
 import static net.uk.onetransport.android.county.herts.provider.HertsContract.HertsTrafficFlow;
-import static net.uk.onetransport.android.county.herts.provider.HertsContract.HertsTrafficQueue;
 import static net.uk.onetransport.android.county.herts.provider.HertsContract.HertsTrafficScoot;
 import static net.uk.onetransport.android.county.herts.provider.HertsContract.HertsTrafficSpeed;
 import static net.uk.onetransport.android.county.herts.provider.HertsContract.HertsTrafficTravelTime;
@@ -191,39 +189,6 @@ public class HertsContentHelper extends CommonContentHelper {
                         .withValue(HertsTrafficFlow.COLUMN_VEHICLE_FLOW, trafficFlow.getVehicleFlow())
                         .withValue(HertsTrafficFlow.COLUMN_CIN_ID, trafficFlow.getCinId())
                         .withValue(HertsTrafficFlow.COLUMN_CREATION_TIME, trafficFlow.getCreationTime())
-                        .withYieldAllowed(true)
-                        .build();
-                operationList.add(operation);
-            }
-            ContentResolver contentResolver = context.getContentResolver();
-            contentResolver.applyBatch(HertsProviderModule.AUTHORITY, operationList);
-        }
-    }
-
-    public static void insertIntoProvider(@NonNull Context context, @NonNull TrafficQueue[] trafficQueues)
-            throws RemoteException, OperationApplicationException {
-        if (trafficQueues.length > 0) {
-            ArrayList<ContentProviderOperation> operationList = new ArrayList<>();
-            for (TrafficQueue trafficQueue : trafficQueues) {
-                ContentProviderOperation operation = ContentProviderOperation
-                        .newInsert(HertsProviderModule.TRAFFIC_QUEUE_URI)
-                        .withValue(HertsTrafficQueue.COLUMN_ID, trafficQueue.getId())
-                        .withValue(HertsTrafficQueue.COLUMN_TPEG_DIRECTION, trafficQueue.getTpegDirection())
-                        .withValue(HertsTrafficQueue.COLUMN_FROM_TYPE, trafficQueue.getFromType())
-                        .withValue(HertsTrafficQueue.COLUMN_FROM_DESCRIPTOR,
-                                trafficQueue.getFromDescriptor())
-                        .withValue(HertsTrafficQueue.COLUMN_FROM_LATITUDE, trafficQueue.getFromLatitude())
-                        .withValue(HertsTrafficQueue.COLUMN_FROM_LONGITUDE,
-                                trafficQueue.getFromLongitude())
-                        .withValue(HertsTrafficQueue.COLUMN_TO_TYPE, trafficQueue.getToType())
-                        .withValue(HertsTrafficQueue.COLUMN_TO_DESCRIPTOR, trafficQueue.getToDescriptor())
-                        .withValue(HertsTrafficQueue.COLUMN_TO_LATITUDE, trafficQueue.getToLatitude())
-                        .withValue(HertsTrafficQueue.COLUMN_TO_LONGITUDE, trafficQueue.getToLongitude())
-                        .withValue(HertsTrafficQueue.COLUMN_TIME, trafficQueue.getTime())
-                        .withValue(HertsTrafficQueue.COLUMN_SEVERITY, trafficQueue.getSeverity())
-                        .withValue(HertsTrafficQueue.COLUMN_PRESENT, trafficQueue.getPresent())
-                        .withValue(HertsTrafficQueue.COLUMN_CIN_ID, trafficQueue.getCinId())
-                        .withValue(HertsTrafficQueue.COLUMN_CREATION_TIME, trafficQueue.getCreationTime())
                         .withYieldAllowed(true)
                         .build();
                 operationList.add(operation);
@@ -499,34 +464,6 @@ public class HertsContentHelper extends CommonContentHelper {
         return trafficFlowsFromCursor(getLatestTrafficFlowCursor(context));
     }
 
-    public static Cursor getTrafficQueueCursor(@NonNull Context context) {
-        return context.getContentResolver().query(HertsProviderModule.TRAFFIC_QUEUE_URI,
-                new String[]{"*"}, null, null, HertsTrafficQueue.COLUMN_ID);
-    }
-
-    public static Cursor getTrafficQueueCursor(@NonNull Context context, long oldest, long newest) {
-        return context.getContentResolver().query(HertsProviderModule.TRAFFIC_QUEUE_URI,
-                new String[]{"*"}, CREATION_INTERVAL_SELECTION, interval(oldest, newest),
-                CommonBaseColumns.COLUMN_CREATION_TIME);
-    }
-
-    public static Cursor getLatestTrafficQueueCursor(@NonNull Context context) {
-        return context.getContentResolver().query(HertsProviderModule.LATEST_TRAFFIC_QUEUE_URI,
-                new String[]{"*"}, null, null, HertsTrafficQueue.COLUMN_ID);
-    }
-
-    public static TrafficQueue[] getTrafficQueues(@NonNull Context context) {
-        return trafficQueuesFromCursor(getTrafficQueueCursor(context));
-    }
-
-    public static TrafficQueue[] getTrafficQueues(@NonNull Context context, long oldest, long newest) {
-        return trafficQueuesFromCursor(getTrafficQueueCursor(context, oldest, newest));
-    }
-
-    public static TrafficQueue[] getLatestTrafficQueues(@NonNull Context context) {
-        return trafficQueuesFromCursor(getLatestTrafficQueueCursor(context));
-    }
-
     public static Cursor getTrafficScootCursor(@NonNull Context context) {
         return context.getContentResolver().query(HertsProviderModule.TRAFFIC_SCOOT_URI,
                 new String[]{"*"}, null, null, HertsTrafficScoot.COLUMN_ID);
@@ -659,9 +596,6 @@ public class HertsContentHelper extends CommonContentHelper {
             case DATA_TYPE_TRAFFIC_FLOW:
                 contentResolver.delete(HertsProviderModule.TRAFFIC_FLOW_URI, null, null);
                 break;
-            case DATA_TYPE_TRAFFIC_QUEUE:
-                contentResolver.delete(HertsProviderModule.TRAFFIC_QUEUE_URI, null, null);
-                break;
             case DATA_TYPE_TRAFFIC_SCOOT:
                 contentResolver.delete(HertsProviderModule.TRAFFIC_SCOOT_URI, null, null);
                 break;
@@ -695,10 +629,6 @@ public class HertsContentHelper extends CommonContentHelper {
                 break;
             case DATA_TYPE_TRAFFIC_FLOW:
                 contentResolver.delete(HertsProviderModule.TRAFFIC_FLOW_URI, CREATED_BEFORE,
-                        new String[]{String.valueOf(creationTime)});
-                break;
-            case DATA_TYPE_TRAFFIC_QUEUE:
-                contentResolver.delete(HertsProviderModule.TRAFFIC_QUEUE_URI, CREATED_BEFORE,
                         new String[]{String.valueOf(creationTime)});
                 break;
             case DATA_TYPE_TRAFFIC_SCOOT:
@@ -898,53 +828,6 @@ public class HertsContentHelper extends CommonContentHelper {
             return new TrafficFlow[0];
         }
         return trafficFlows;
-    }
-
-    public static TrafficQueue[] trafficQueuesFromCursor(Cursor cursor) {
-        TrafficQueue[] trafficQueues = null;
-        if (cursor != null) {
-            if (cursor.moveToFirst()) {
-                trafficQueues = new TrafficQueue[cursor.getCount()];
-                for (int i = 0; i < trafficQueues.length; i++) {
-                    trafficQueues[i] = new TrafficQueue();
-                    trafficQueues[i].setId(cursor.getString(cursor.getColumnIndex(
-                            HertsTrafficQueue.COLUMN_ID)));
-                    trafficQueues[i].setTpegDirection(cursor.getString(cursor.getColumnIndex(
-                            HertsTrafficQueue.COLUMN_TPEG_DIRECTION)));
-                    trafficQueues[i].setFromType(cursor.getString(cursor.getColumnIndex(
-                            HertsTrafficQueue.COLUMN_FROM_TYPE)));
-                    trafficQueues[i].setFromDescriptor(cursor.getString(cursor.getColumnIndex(
-                            HertsTrafficQueue.COLUMN_FROM_DESCRIPTOR)));
-                    trafficQueues[i].setFromLatitude(cursor.getDouble(cursor.getColumnIndex(
-                            HertsTrafficQueue.COLUMN_FROM_LATITUDE)));
-                    trafficQueues[i].setFromLongitude(cursor.getDouble(cursor.getColumnIndex(
-                            HertsTrafficQueue.COLUMN_FROM_LONGITUDE)));
-                    trafficQueues[i].setToType(cursor.getString(cursor.getColumnIndex(
-                            HertsTrafficQueue.COLUMN_TO_TYPE)));
-                    trafficQueues[i].setToDescriptor(cursor.getString(cursor.getColumnIndex(
-                            HertsTrafficQueue.COLUMN_TO_DESCRIPTOR)));
-                    trafficQueues[i].setToLatitude(cursor.getDouble(cursor.getColumnIndex(
-                            HertsTrafficQueue.COLUMN_TO_LATITUDE)));
-                    trafficQueues[i].setToLongitude(cursor.getDouble(cursor.getColumnIndex(
-                            HertsTrafficQueue.COLUMN_TO_LONGITUDE)));
-                    trafficQueues[i].setTime(cursor.getString(cursor.getColumnIndex(
-                            HertsTrafficQueue.COLUMN_TIME)));
-                    trafficQueues[i].setSeverity(cursor.getDouble(cursor.getColumnIndex(
-                            HertsTrafficQueue.COLUMN_SEVERITY)));
-                    trafficQueues[i].setPresent(cursor.getString(cursor.getColumnIndex(
-                            HertsTrafficQueue.COLUMN_PRESENT)));
-                    trafficQueues[i].setCinId(cursor.getString(cursor.getColumnIndex(
-                            HertsTrafficQueue.COLUMN_CIN_ID)));
-                    trafficQueues[i].setCreationTime(cursor.getLong(cursor.getColumnIndex(
-                            HertsTrafficQueue.COLUMN_CREATION_TIME)));
-                }
-            }
-            cursor.close();
-        }
-        if (trafficQueues == null) {
-            return new TrafficQueue[0];
-        }
-        return trafficQueues;
     }
 
     public static TrafficScoot[] trafficScootsFromCursor(Cursor cursor) {
