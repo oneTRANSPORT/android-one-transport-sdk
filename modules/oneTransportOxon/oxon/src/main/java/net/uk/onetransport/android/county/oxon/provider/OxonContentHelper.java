@@ -761,6 +761,7 @@ public class OxonContentHelper extends CommonContentHelper {
                             OxonCarPark.COLUMN_CIN_ID)));
                     carParks[i].setCreationTime(cursor.getLong(cursor.getColumnIndex(
                             OxonCarPark.COLUMN_CREATION_TIME)));
+                    cursor.moveToNext();
                 }
             }
             cursor.close();
@@ -800,6 +801,7 @@ public class OxonContentHelper extends CommonContentHelper {
                             OxonEvent.COLUMN_CIN_ID)));
                     events[i].setCreationTime(cursor.getLong(cursor.getColumnIndex(
                             OxonEvent.COLUMN_CREATION_TIME)));
+                    cursor.moveToNext();
                 }
             }
             cursor.close();
@@ -845,6 +847,7 @@ public class OxonContentHelper extends CommonContentHelper {
                             OxonRoadWorks.COLUMN_CIN_ID)));
                     roadWorkses[i].setCreationTime(cursor.getLong(cursor.getColumnIndex(
                             OxonRoadWorks.COLUMN_CREATION_TIME)));
+                    cursor.moveToNext();
                 }
             }
             cursor.close();
@@ -890,6 +893,7 @@ public class OxonContentHelper extends CommonContentHelper {
                             OxonTrafficFlow.COLUMN_CIN_ID)));
                     trafficFlows[i].setCreationTime(cursor.getLong(cursor.getColumnIndex(
                             OxonTrafficFlow.COLUMN_CREATION_TIME)));
+                    cursor.moveToNext();
                 }
             }
             cursor.close();
@@ -937,6 +941,7 @@ public class OxonContentHelper extends CommonContentHelper {
                             OxonTrafficQueue.COLUMN_CIN_ID)));
                     trafficQueues[i].setCreationTime(cursor.getLong(cursor.getColumnIndex(
                             OxonTrafficQueue.COLUMN_CREATION_TIME)));
+                    cursor.moveToNext();
                 }
             }
             cursor.close();
@@ -992,6 +997,7 @@ public class OxonContentHelper extends CommonContentHelper {
                             OxonTrafficScoot.COLUMN_CIN_ID)));
                     trafficScoots[i].setCreationTime(cursor.getLong(cursor.getColumnIndex(
                             OxonTrafficScoot.COLUMN_CREATION_TIME)));
+                    cursor.moveToNext();
                 }
             }
             cursor.close();
@@ -1037,6 +1043,7 @@ public class OxonContentHelper extends CommonContentHelper {
                             OxonTrafficSpeed.COLUMN_CIN_ID)));
                     trafficSpeeds[i].setCreationTime(cursor.getLong(cursor.getColumnIndex(
                             OxonTrafficSpeed.COLUMN_CREATION_TIME)));
+                    cursor.moveToNext();
                 }
             }
             cursor.close();
@@ -1086,6 +1093,7 @@ public class OxonContentHelper extends CommonContentHelper {
                             OxonTrafficTravelTime.COLUMN_CIN_ID)));
                     trafficTravelTimes[i].setCreationTime(cursor.getLong(cursor.getColumnIndex(
                             OxonTrafficTravelTime.COLUMN_CREATION_TIME)));
+                    cursor.moveToNext();
                 }
             }
             cursor.close();
@@ -1124,6 +1132,7 @@ public class OxonContentHelper extends CommonContentHelper {
                             OxonVariableMessageSign.COLUMN_CIN_ID)));
                     variableMessageSigns[i].setCreationTime(cursor.getLong(cursor.getColumnIndex(
                             OxonVariableMessageSign.COLUMN_CREATION_TIME)));
+                    cursor.moveToNext();
                 }
             }
             cursor.close();

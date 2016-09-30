@@ -761,6 +761,7 @@ public class BucksContentHelper extends CommonContentHelper {
                             BucksCarPark.COLUMN_CIN_ID)));
                     carParks[i].setCreationTime(cursor.getLong(cursor.getColumnIndex(
                             BucksCarPark.COLUMN_CREATION_TIME)));
+                    cursor.moveToNext();
                 }
             }
             cursor.close();
@@ -800,6 +801,7 @@ public class BucksContentHelper extends CommonContentHelper {
                             BucksEvent.COLUMN_CIN_ID)));
                     events[i].setCreationTime(cursor.getLong(cursor.getColumnIndex(
                             BucksEvent.COLUMN_CREATION_TIME)));
+                    cursor.moveToNext();
                 }
             }
             cursor.close();
@@ -845,6 +847,7 @@ public class BucksContentHelper extends CommonContentHelper {
                             BucksRoadWorks.COLUMN_CIN_ID)));
                     roadWorkses[i].setCreationTime(cursor.getLong(cursor.getColumnIndex(
                             BucksRoadWorks.COLUMN_CREATION_TIME)));
+                    cursor.moveToNext();
                 }
             }
             cursor.close();
@@ -890,6 +893,7 @@ public class BucksContentHelper extends CommonContentHelper {
                             BucksTrafficFlow.COLUMN_CIN_ID)));
                     trafficFlows[i].setCreationTime(cursor.getLong(cursor.getColumnIndex(
                             BucksTrafficFlow.COLUMN_CREATION_TIME)));
+                    cursor.moveToNext();
                 }
             }
             cursor.close();
@@ -937,6 +941,7 @@ public class BucksContentHelper extends CommonContentHelper {
                             BucksTrafficQueue.COLUMN_CIN_ID)));
                     trafficQueues[i].setCreationTime(cursor.getLong(cursor.getColumnIndex(
                             BucksTrafficQueue.COLUMN_CREATION_TIME)));
+                    cursor.moveToNext();
                 }
             }
             cursor.close();
@@ -992,6 +997,7 @@ public class BucksContentHelper extends CommonContentHelper {
                             BucksTrafficScoot.COLUMN_CIN_ID)));
                     trafficScoots[i].setCreationTime(cursor.getLong(cursor.getColumnIndex(
                             BucksTrafficScoot.COLUMN_CREATION_TIME)));
+                    cursor.moveToNext();
                 }
             }
             cursor.close();
@@ -1037,6 +1043,7 @@ public class BucksContentHelper extends CommonContentHelper {
                             BucksTrafficSpeed.COLUMN_CIN_ID)));
                     trafficSpeeds[i].setCreationTime(cursor.getLong(cursor.getColumnIndex(
                             BucksTrafficSpeed.COLUMN_CREATION_TIME)));
+                    cursor.moveToNext();
                 }
             }
             cursor.close();
@@ -1086,6 +1093,7 @@ public class BucksContentHelper extends CommonContentHelper {
                             BucksTrafficTravelTime.COLUMN_CIN_ID)));
                     trafficTravelTimes[i].setCreationTime(cursor.getLong(cursor.getColumnIndex(
                             BucksTrafficTravelTime.COLUMN_CREATION_TIME)));
+                    cursor.moveToNext();
                 }
             }
             cursor.close();
@@ -1124,6 +1132,7 @@ public class BucksContentHelper extends CommonContentHelper {
                             BucksVariableMessageSign.COLUMN_CIN_ID)));
                     variableMessageSigns[i].setCreationTime(cursor.getLong(cursor.getColumnIndex(
                             BucksVariableMessageSign.COLUMN_CREATION_TIME)));
+                    cursor.moveToNext();
                 }
             }
             cursor.close();

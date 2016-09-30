@@ -691,6 +691,7 @@ public class HertsContentHelper extends CommonContentHelper {
                             HertsCarPark.COLUMN_CIN_ID)));
                     carParks[i].setCreationTime(cursor.getLong(cursor.getColumnIndex(
                             HertsCarPark.COLUMN_CREATION_TIME)));
+                    cursor.moveToNext();
                 }
             }
             cursor.close();
@@ -730,6 +731,7 @@ public class HertsContentHelper extends CommonContentHelper {
                             HertsEvent.COLUMN_CIN_ID)));
                     events[i].setCreationTime(cursor.getLong(cursor.getColumnIndex(
                             HertsEvent.COLUMN_CREATION_TIME)));
+                    cursor.moveToNext();
                 }
             }
             cursor.close();
@@ -775,6 +777,7 @@ public class HertsContentHelper extends CommonContentHelper {
                             HertsRoadWorks.COLUMN_CIN_ID)));
                     roadWorkses[i].setCreationTime(cursor.getLong(cursor.getColumnIndex(
                             HertsRoadWorks.COLUMN_CREATION_TIME)));
+                    cursor.moveToNext();
                 }
             }
             cursor.close();
@@ -820,6 +823,7 @@ public class HertsContentHelper extends CommonContentHelper {
                             HertsTrafficFlow.COLUMN_CIN_ID)));
                     trafficFlows[i].setCreationTime(cursor.getLong(cursor.getColumnIndex(
                             HertsTrafficFlow.COLUMN_CREATION_TIME)));
+                    cursor.moveToNext();
                 }
             }
             cursor.close();
@@ -875,6 +879,7 @@ public class HertsContentHelper extends CommonContentHelper {
                             HertsTrafficScoot.COLUMN_CIN_ID)));
                     trafficScoots[i].setCreationTime(cursor.getLong(cursor.getColumnIndex(
                             HertsTrafficScoot.COLUMN_CREATION_TIME)));
+                    cursor.moveToNext();
                 }
             }
             cursor.close();
@@ -920,6 +925,7 @@ public class HertsContentHelper extends CommonContentHelper {
                             HertsTrafficSpeed.COLUMN_CIN_ID)));
                     trafficSpeeds[i].setCreationTime(cursor.getLong(cursor.getColumnIndex(
                             HertsTrafficSpeed.COLUMN_CREATION_TIME)));
+                    cursor.moveToNext();
                 }
             }
             cursor.close();
@@ -969,6 +975,7 @@ public class HertsContentHelper extends CommonContentHelper {
                             HertsTrafficTravelTime.COLUMN_CIN_ID)));
                     trafficTravelTimes[i].setCreationTime(cursor.getLong(cursor.getColumnIndex(
                             HertsTrafficTravelTime.COLUMN_CREATION_TIME)));
+                    cursor.moveToNext();
                 }
             }
             cursor.close();
@@ -1007,6 +1014,7 @@ public class HertsContentHelper extends CommonContentHelper {
                             HertsVariableMessageSign.COLUMN_CIN_ID)));
                     variableMessageSigns[i].setCreationTime(cursor.getLong(cursor.getColumnIndex(
                             HertsVariableMessageSign.COLUMN_CREATION_TIME)));
+                    cursor.moveToNext();
                 }
             }
             cursor.close();

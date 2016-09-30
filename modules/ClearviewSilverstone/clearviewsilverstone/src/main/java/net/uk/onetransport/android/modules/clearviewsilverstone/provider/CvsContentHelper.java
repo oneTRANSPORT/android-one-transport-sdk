@@ -204,6 +204,7 @@ public class CvsContentHelper extends CommonContentHelper {
                             ClearviewSilverstoneDevice.COLUMN_CIN_ID)));
                     devices[i].setCreationTime(cursor.getLong(cursor.getColumnIndex(
                             ClearviewSilverstoneDevice.COLUMN_CREATION_TIME)));
+                    cursor.moveToNext();
                 }
             }
             cursor.close();
@@ -233,6 +234,7 @@ public class CvsContentHelper extends CommonContentHelper {
                             ClearviewSilverstoneTraffic.COLUMN_CIN_ID)));
                     trafficItems[i].setCreationTime(cursor.getLong(cursor.getColumnIndex(
                             ClearviewSilverstoneTraffic.COLUMN_CREATION_TIME)));
+                    cursor.moveToNext();
                 }
             }
             cursor.close();

@@ -471,6 +471,7 @@ public class NorthantsContentHelper extends CommonContentHelper {
                             NorthantsCarPark.COLUMN_CIN_ID)));
                     carParks[i].setCreationTime(cursor.getLong(cursor.getColumnIndex(
                             NorthantsCarPark.COLUMN_CREATION_TIME)));
+                    cursor.moveToNext();
                 }
             }
             cursor.close();
@@ -516,6 +517,7 @@ public class NorthantsContentHelper extends CommonContentHelper {
                             NorthantsRoadWorks.COLUMN_CIN_ID)));
                     roadWorkses[i].setCreationTime(cursor.getLong(cursor.getColumnIndex(
                             NorthantsRoadWorks.COLUMN_CREATION_TIME)));
+                    cursor.moveToNext();
                 }
             }
             cursor.close();
@@ -561,6 +563,7 @@ public class NorthantsContentHelper extends CommonContentHelper {
                             NorthantsTrafficFlow.COLUMN_CIN_ID)));
                     trafficFlows[i].setCreationTime(cursor.getLong(cursor.getColumnIndex(
                             NorthantsTrafficFlow.COLUMN_CREATION_TIME)));
+                    cursor.moveToNext();
                 }
             }
             cursor.close();
@@ -610,6 +613,7 @@ public class NorthantsContentHelper extends CommonContentHelper {
                             NorthantsTrafficTravelTime.COLUMN_CIN_ID)));
                     trafficTravelTimes[i].setCreationTime(cursor.getLong(cursor.getColumnIndex(
                             NorthantsTrafficTravelTime.COLUMN_CREATION_TIME)));
+                    cursor.moveToNext();
                 }
             }
             cursor.close();
@@ -648,6 +652,7 @@ public class NorthantsContentHelper extends CommonContentHelper {
                             NorthantsVariableMessageSign.COLUMN_CIN_ID)));
                     variableMessageSigns[i].setCreationTime(cursor.getLong(cursor.getColumnIndex(
                             NorthantsVariableMessageSign.COLUMN_CREATION_TIME)));
+                    cursor.moveToNext();
                 }
             }
             cursor.close();

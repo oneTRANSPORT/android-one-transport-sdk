@@ -401,6 +401,7 @@ public class BcsContentHelper extends CommonContentHelper {
                             BitCarrierSilverstoneNode.COLUMN_CIN_ID)));
                     nodes[i].setCreationTime(cursor.getLong(cursor.getColumnIndex(
                             BitCarrierSilverstoneNode.COLUMN_CREATION_TIME)));
+                    cursor.moveToNext();
                 }
             }
             cursor.close();
@@ -433,6 +434,7 @@ public class BcsContentHelper extends CommonContentHelper {
                             BitCarrierSilverstoneSketch.COLUMN_CIN_ID)));
                     sketches[i].setCreationTime(cursor.getLong(cursor.getColumnIndex(
                             BitCarrierSilverstoneSketch.COLUMN_CREATION_TIME)));
+                    cursor.moveToNext();
                 }
             }
             cursor.close();
@@ -476,6 +478,7 @@ public class BcsContentHelper extends CommonContentHelper {
                             BitCarrierSilverstoneTravelSummary.COLUMN_CIN_ID)));
                     travelSummaries[i].setCreationTime(cursor.getLong(cursor.getColumnIndex(
                             BitCarrierSilverstoneTravelSummary.COLUMN_CREATION_TIME)));
+                    cursor.moveToNext();
                 }
             }
             cursor.close();
@@ -514,6 +517,7 @@ public class BcsContentHelper extends CommonContentHelper {
                             BitCarrierSilverstoneConfigVector.COLUMN_CIN_ID)));
                     vectors[i].setCreationTime(cursor.getLong(cursor.getColumnIndex(
                             BitCarrierSilverstoneConfigVector.COLUMN_CREATION_TIME)));
+                    cursor.moveToNext();
                 }
             }
             cursor.close();
@@ -549,6 +553,7 @@ public class BcsContentHelper extends CommonContentHelper {
                             BitCarrierSilverstoneDataVector.COLUMN_CIN_ID)));
                     vectors[i].setCreationTime(cursor.getLong(cursor.getColumnIndex(
                             BitCarrierSilverstoneDataVector.COLUMN_CREATION_TIME)));
+                    cursor.moveToNext();
                 }
             }
             cursor.close();
