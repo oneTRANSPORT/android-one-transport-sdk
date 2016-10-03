@@ -20,7 +20,7 @@ public class Sketch {
     @SerializedName("copyrights")
     private String copyrights;
     @Expose
-    @SerializedName("coordinates")
+    @SerializedName("json")
     private String coordinates;
     private Position[] positions;
     private String cinId;
