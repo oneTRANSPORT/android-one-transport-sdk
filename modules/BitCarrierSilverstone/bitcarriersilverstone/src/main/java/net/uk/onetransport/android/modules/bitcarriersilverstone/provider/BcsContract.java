@@ -152,7 +152,7 @@ public class BcsContract {
         public static final String TABLE_NAME = "bit_carrier_silverstone_data_vector";
         public static final String COLUMN_VECTOR_ID = "vector_id";
         public static final String COLUMN_TIMESTAMP = "timestamp";
-        public static final String COLUMN_SPEED = "SPEED";
+        public static final String COLUMN_SPEED = "speed";
         public static final String COLUMN_ELAPSED = "elapsed";
         public static final String COLUMN_LEVEL_OF_SERVICE = "level_of_service";
     }
