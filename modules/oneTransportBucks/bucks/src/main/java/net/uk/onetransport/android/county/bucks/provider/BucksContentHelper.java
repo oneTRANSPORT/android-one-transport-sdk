@@ -797,6 +797,8 @@ public class BucksContentHelper extends CommonContentHelper {
                             BucksEvent.COLUMN_IMPACT_ON_TRAFFIC)));
                     events[i].setValidityStatus(cursor.getString(cursor.getColumnIndex(
                             BucksEvent.COLUMN_VALIDITY_STATUS)));
+                    events[i].setDescription((cursor.getString(cursor.getColumnIndex(
+                            BucksEvent.COLUMN_DESCRIPTION))));
                     events[i].setCinId(cursor.getString(cursor.getColumnIndex(
                             BucksEvent.COLUMN_CIN_ID)));
                     events[i].setCreationTime(cursor.getLong(cursor.getColumnIndex(

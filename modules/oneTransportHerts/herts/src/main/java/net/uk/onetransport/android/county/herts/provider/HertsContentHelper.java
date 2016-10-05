@@ -727,6 +727,8 @@ public class HertsContentHelper extends CommonContentHelper {
                             HertsEvent.COLUMN_IMPACT_ON_TRAFFIC)));
                     events[i].setValidityStatus(cursor.getString(cursor.getColumnIndex(
                             HertsEvent.COLUMN_VALIDITY_STATUS)));
+                    events[i].setDescription(cursor.getString(cursor.getColumnIndex(
+                            HertsEvent.COLUMN_DESCRIPTION)));
                     events[i].setCinId(cursor.getString(cursor.getColumnIndex(
                             HertsEvent.COLUMN_CIN_ID)));
                     events[i].setCreationTime(cursor.getLong(cursor.getColumnIndex(
