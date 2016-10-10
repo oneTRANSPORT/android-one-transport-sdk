@@ -95,7 +95,7 @@ public class OxonProviderModule implements ProviderModule {
     private static final String EXTRAS_TRAFFIC_SPEED =
             "net.uk.onetransport.android.county.oxon.sync.TRAFFIC_SPEED";
     private static final String EXTRAS_TRAFFIC_TRAVEL_TIME =
-            "net.uk.onetransport.android.county.oxon.sync.TRAFFIC_FLOW";
+            "net.uk.onetransport.android.county.oxon.sync.TRAFFIC_TRAVEL_TIME";
     private static final String EXTRAS_VMS = "net.uk.onetransport.android.county.oxon.sync.VMS";
     // Uri matching
     private static int CAR_PARKS;
