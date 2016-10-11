@@ -1,0 +1,30 @@
+What data is available?
+=======================
+
+Data sources are provided by county and by data type, but note that there
+is a fair amount of overlap between the regions and counties may control
+items outside their boundaries.  For example, Northamptonshire has variable
+message signs near Luton and Leicester.  We suggest consuming all the feeds
+for the items in which you are interested and then filtering geographically
+if needed.
+
+Also, not every county provides every type of data.  These feeds are
+available:
+
+> ### Buckinghamshire
+> > Car parks, events, traffic flow, traffic queue, traffic scoot, traffic
+> > speed, traffic travel time, roadworks, variable message signs
+
+> ### Hertfordshire
+> > Car parks, events, traffic flow, traffic scoot, traffic
+> > speed, traffic travel time, roadworks, variable message signs
+
+> ### Northamptonshire
+> > Car parks, traffic flow, traffic travel time, roadworks,
+> > variable message signs
+
+> ### Oxfordshire
+> > Car parks, events, traffic flow, traffic queue, traffic scoot, traffic
+> > speed, traffic travel time, roadworks, variable message signs
+
+
