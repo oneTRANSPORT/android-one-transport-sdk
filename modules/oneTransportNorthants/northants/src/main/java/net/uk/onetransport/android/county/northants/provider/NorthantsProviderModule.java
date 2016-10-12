@@ -10,6 +10,7 @@ import android.content.SyncResult;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteStatement;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -227,6 +228,483 @@ public class NorthantsProviderModule implements ProviderModule {
         return null;
     }
 
+    @Override
+    public int bulkInsert(int match, ContentValues[] contentValues, SQLiteDatabase sqLiteDatabase) {
+        ContentResolver contentResolver = context.getContentResolver();
+        int numInserted = 0;
+        if (match == CAR_PARKS) {
+            sqLiteDatabase.beginTransaction();
+            try {
+                SQLiteStatement insert = sqLiteDatabase.compileStatement(
+                        "INSERT INTO " + NorthantsCarPark.TABLE_NAME + "("
+                                + NorthantsCarPark.COLUMN_CAR_PARK_IDENTITY + ","
+                                + NorthantsCarPark.COLUMN_LATITUDE + ","
+                                + NorthantsCarPark.COLUMN_LONGITUDE + ","
+                                + NorthantsCarPark.COLUMN_OCCUPANCY + ","
+                                + NorthantsCarPark.COLUMN_OCCUPANCY_TREND + ","
+                                + NorthantsCarPark.COLUMN_TOTAL_PARKING_CAPACITY + ","
+                                + NorthantsCarPark.COLUMN_FILL_RATE + ","
+                                + NorthantsCarPark.COLUMN_EXIT_RATE + ","
+                                + NorthantsCarPark.COLUMN_ALMOST_FULL_INCREASING + ","
+                                + NorthantsCarPark.COLUMN_ALMOST_FULL_DECREASING + ","
+                                + NorthantsCarPark.COLUMN_FULL_DECREASING + ","
+                                + NorthantsCarPark.COLUMN_FULL_INCREASING + ","
+                                + NorthantsCarPark.COLUMN_STATUS + ","
+                                + NorthantsCarPark.COLUMN_STATUS_TIME + ","
+                                + NorthantsCarPark.COLUMN_QUEUING_TIME + ","
+                                + NorthantsCarPark.COLUMN_PARKING_AREA_NAME + ","
+                                + NorthantsCarPark.COLUMN_ENTRANCE_FULL + ","
+                                + NorthantsCarPark.COLUMN_CIN_ID + ","
+                                + NorthantsCarPark.COLUMN_CREATION_TIME
+                                + ") VALUES " + "(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);");
+                for (ContentValues value : contentValues) {
+                    String identity = value.getAsString(NorthantsCarPark.COLUMN_CAR_PARK_IDENTITY);
+                    Double latitude = value.getAsDouble(NorthantsCarPark.COLUMN_LATITUDE);
+                    Double longitude = value.getAsDouble(NorthantsCarPark.COLUMN_LONGITUDE);
+                    Double occupancy = value.getAsDouble(NorthantsCarPark.COLUMN_OCCUPANCY);
+                    String occupancyTrend = value.getAsString(NorthantsCarPark.COLUMN_OCCUPANCY_TREND);
+                    Double totalParkingCapacity = value.getAsDouble(NorthantsCarPark.COLUMN_TOTAL_PARKING_CAPACITY);
+                    Double fillRate = value.getAsDouble(NorthantsCarPark.COLUMN_FILL_RATE);
+                    Double exitRate = value.getAsDouble(NorthantsCarPark.COLUMN_EXIT_RATE);
+                    Double almostFullIncreasing = value.getAsDouble(NorthantsCarPark.COLUMN_ALMOST_FULL_INCREASING);
+                    Double almostFullDecreasing = value.getAsDouble(NorthantsCarPark.COLUMN_ALMOST_FULL_DECREASING);
+                    Double fullDecreasing = value.getAsDouble(NorthantsCarPark.COLUMN_FULL_DECREASING);
+                    Double fullIncreasing = value.getAsDouble(NorthantsCarPark.COLUMN_FULL_INCREASING);
+                    String status = value.getAsString(NorthantsCarPark.COLUMN_STATUS);
+                    String statusTime = value.getAsString(NorthantsCarPark.COLUMN_STATUS_TIME);
+                    Double queuingTime = value.getAsDouble(NorthantsCarPark.COLUMN_QUEUING_TIME);
+                    String parkingAreaName = value.getAsString(NorthantsCarPark.COLUMN_PARKING_AREA_NAME);
+                    Double entranceFull = value.getAsDouble(NorthantsCarPark.COLUMN_ENTRANCE_FULL);
+                    String cinId = value.getAsString(NorthantsCarPark.COLUMN_CIN_ID);
+                    Long creationTime = value.getAsLong(NorthantsCarPark.COLUMN_CREATION_TIME);
+                    if (identity != null) {
+                        insert.bindString(1, identity);
+                    }
+                    if (latitude != null) {
+                        insert.bindDouble(2, latitude);
+                    }
+                    if (longitude != null) {
+                        insert.bindDouble(3, longitude);
+                    }
+                    if (occupancy != null) {
+                        insert.bindDouble(4, occupancy);
+                    }
+                    if (occupancyTrend != null) {
+                        insert.bindString(5, occupancyTrend);
+                    }
+                    if (totalParkingCapacity != null) {
+                        insert.bindDouble(6, totalParkingCapacity);
+                    }
+                    if (fillRate != null) {
+                        insert.bindDouble(7, fillRate);
+                    }
+                    if (exitRate != null) {
+                        insert.bindDouble(8, exitRate);
+                    }
+                    if (almostFullIncreasing != null) {
+                        insert.bindDouble(9, almostFullIncreasing);
+                    }
+                    if (almostFullDecreasing != null) {
+                        insert.bindDouble(10, almostFullDecreasing);
+                    }
+                    if (fullDecreasing != null) {
+                        insert.bindDouble(11, fullDecreasing);
+                    }
+                    if (fullIncreasing != null) {
+                        insert.bindDouble(12, fullIncreasing);
+                    }
+                    if (status != null) {
+                        insert.bindString(13, status);
+                    }
+                    if (statusTime != null) {
+                        insert.bindString(14, statusTime);
+                    }
+                    if (queuingTime != null) {
+                        insert.bindDouble(15, queuingTime);
+                    }
+                    if (parkingAreaName != null) {
+                        insert.bindString(16, parkingAreaName);
+                    }
+                    if (entranceFull != null) {
+                        insert.bindDouble(17, entranceFull);
+                    }
+                    if (cinId != null) {
+                        insert.bindString(18, cinId);
+                    }
+                    if (creationTime != null) {
+                        insert.bindLong(19, creationTime);
+                    }
+                    insert.executeInsert();
+                    insert.clearBindings();
+                }
+                sqLiteDatabase.setTransactionSuccessful();
+                numInserted = contentValues.length;
+                contentResolver.notifyChange(CAR_PARK_URI, null);
+            } finally {
+                sqLiteDatabase.endTransaction();
+            }
+            return numInserted;
+        }
+        if (match == LATEST_CAR_PARKS) {
+            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed));
+        }
+        if (match == ROADWORKS) {
+            sqLiteDatabase.beginTransaction();
+            try {
+                SQLiteStatement insert = sqLiteDatabase.compileStatement(
+                        "INSERT INTO " + NorthantsRoadworks.TABLE_NAME + "("
+                                + NorthantsRoadworks.COLUMN_ID + ","
+                                + NorthantsRoadworks.COLUMN_EFFECT_ON_ROAD_LAYOUT + ","
+                                + NorthantsRoadworks.COLUMN_ROAD_MAINTENANCE_TYPE + ","
+                                + NorthantsRoadworks.COLUMN_COMMENT + ","
+                                + NorthantsRoadworks.COLUMN_IMPACT_ON_TRAFFIC + ","
+                                + NorthantsRoadworks.COLUMN_LATITUDE + ","
+                                + NorthantsRoadworks.COLUMN_LONGITUDE + ","
+                                + NorthantsRoadworks.COLUMN_VALIDITY_STATUS + ","
+                                + NorthantsRoadworks.COLUMN_OVERALL_START_TIME + ","
+                                + NorthantsRoadworks.COLUMN_OVERALL_END_TIME + ","
+                                + NorthantsRoadworks.COLUMN_START_OF_PERIOD + ","
+                                + NorthantsRoadworks.COLUMN_END_OF_PERIOD + ","
+                                + NorthantsRoadworks.COLUMN_CIN_ID + ","
+                                + NorthantsRoadworks.COLUMN_CREATION_TIME
+                                + ") VALUES " + "(?,?,?,?,?,?,?,?,?,?,?,?,?,?);");
+                for (ContentValues value : contentValues) {
+                    String id = value.getAsString(NorthantsRoadworks.COLUMN_ID);
+                    String effectOnRoadLayout = value.getAsString(NorthantsRoadworks.COLUMN_EFFECT_ON_ROAD_LAYOUT);
+                    String roadMaintenanceType = value.getAsString(NorthantsRoadworks.COLUMN_ROAD_MAINTENANCE_TYPE);
+                    String comment = value.getAsString(NorthantsRoadworks.COLUMN_COMMENT);
+                    String impactOnTraffic = value.getAsString(NorthantsRoadworks.COLUMN_IMPACT_ON_TRAFFIC);
+                    Double latitude = value.getAsDouble(NorthantsRoadworks.COLUMN_LATITUDE);
+                    Double longitude = value.getAsDouble(NorthantsRoadworks.COLUMN_LONGITUDE);
+                    String validityStatus = value.getAsString(NorthantsRoadworks.COLUMN_VALIDITY_STATUS);
+                    String overallStartTime = value.getAsString(NorthantsRoadworks.COLUMN_OVERALL_START_TIME);
+                    String overallEndTime = value.getAsString(NorthantsRoadworks.COLUMN_OVERALL_END_TIME);
+                    String startOfPeriod = value.getAsString(NorthantsRoadworks.COLUMN_START_OF_PERIOD);
+                    String endOfPeriod = value.getAsString(NorthantsRoadworks.COLUMN_END_OF_PERIOD);
+                    String cinId = value.getAsString(NorthantsRoadworks.COLUMN_CIN_ID);
+                    Long creationTime = value.getAsLong(NorthantsRoadworks.COLUMN_CREATION_TIME);
+                    if (id != null) {
+                        insert.bindString(1, id);
+                    }
+                    if (effectOnRoadLayout != null) {
+                        insert.bindString(2, effectOnRoadLayout);
+                    }
+                    if (roadMaintenanceType != null) {
+                        insert.bindString(3, roadMaintenanceType);
+                    }
+                    if (comment != null) {
+                        insert.bindString(4, comment);
+                    }
+                    if (impactOnTraffic != null) {
+                        insert.bindString(5, impactOnTraffic);
+                    }
+                    if (latitude != null) {
+                        insert.bindDouble(6, latitude);
+                    }
+                    if (longitude != null) {
+                        insert.bindDouble(7, longitude);
+                    }
+                    if (validityStatus != null) {
+                        insert.bindString(8, validityStatus);
+                    }
+                    if (overallStartTime != null) {
+                        insert.bindString(9, overallStartTime);
+                    }
+                    if (overallEndTime != null) {
+                        insert.bindString(10, overallEndTime);
+                    }
+                    if (startOfPeriod != null) {
+                        insert.bindString(11, startOfPeriod);
+                    }
+                    if (endOfPeriod != null) {
+                        insert.bindString(12, endOfPeriod);
+                    }
+                    if (cinId != null) {
+                        insert.bindString(13, cinId);
+                    }
+                    if (creationTime != null) {
+                        insert.bindLong(14, creationTime);
+                    }
+                    insert.executeInsert();
+                    insert.clearBindings();
+                }
+                sqLiteDatabase.setTransactionSuccessful();
+                numInserted = contentValues.length;
+                contentResolver.notifyChange(ROADWORKS_URI, null);
+            } finally {
+                sqLiteDatabase.endTransaction();
+            }
+            return numInserted;
+        }
+        if (match == LATEST_ROADWORKS) {
+            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed));
+        }
+        if (match == TRAFFIC_FLOWS) {
+            sqLiteDatabase.beginTransaction();
+            try {
+                SQLiteStatement insert = sqLiteDatabase.compileStatement(
+                        "INSERT INTO " + NorthantsTrafficFlow.TABLE_NAME + "("
+                                + NorthantsTrafficFlow.COLUMN_ID + ","
+                                + NorthantsTrafficFlow.COLUMN_TPEG_DIRECTION + ","
+                                + NorthantsTrafficFlow.COLUMN_FROM_TYPE + ","
+                                + NorthantsTrafficFlow.COLUMN_FROM_DESCRIPTOR + ","
+                                + NorthantsTrafficFlow.COLUMN_FROM_LATITUDE + ","
+                                + NorthantsTrafficFlow.COLUMN_FROM_LONGITUDE + ","
+                                + NorthantsTrafficFlow.COLUMN_TO_TYPE + ","
+                                + NorthantsTrafficFlow.COLUMN_TO_DESCRIPTOR + ","
+                                + NorthantsTrafficFlow.COLUMN_TO_LATITUDE + ","
+                                + NorthantsTrafficFlow.COLUMN_TO_LONGITUDE + ","
+                                + NorthantsTrafficFlow.COLUMN_TIME + ","
+                                + NorthantsTrafficFlow.COLUMN_VEHICLE_FLOW + ","
+                                + NorthantsTrafficFlow.COLUMN_CIN_ID + ","
+                                + NorthantsTrafficFlow.COLUMN_CREATION_TIME
+                                + ") VALUES " + "(?,?,?,?,?,?,?,?,?,?,?,?,?,?);");
+                for (ContentValues value : contentValues) {
+                    String id = value.getAsString(NorthantsTrafficFlow.COLUMN_ID);
+                    String tpegDirection = value.getAsString(NorthantsTrafficFlow.COLUMN_TPEG_DIRECTION);
+                    String fromType = value.getAsString(NorthantsTrafficFlow.COLUMN_FROM_TYPE);
+                    String fromDescriptor = value.getAsString(NorthantsTrafficFlow.COLUMN_FROM_DESCRIPTOR);
+                    Double fromLatitude = value.getAsDouble(NorthantsTrafficFlow.COLUMN_FROM_LATITUDE);
+                    Double fromLongitude = value.getAsDouble(NorthantsTrafficFlow.COLUMN_FROM_LONGITUDE);
+                    String toType = value.getAsString(NorthantsTrafficFlow.COLUMN_TO_TYPE);
+                    String toDescriptor = value.getAsString(NorthantsTrafficFlow.COLUMN_TO_DESCRIPTOR);
+                    Double toLatitude = value.getAsDouble(NorthantsTrafficFlow.COLUMN_TO_LATITUDE);
+                    Double toLongitude = value.getAsDouble(NorthantsTrafficFlow.COLUMN_TO_LONGITUDE);
+                    String time = value.getAsString(NorthantsTrafficFlow.COLUMN_TIME);
+                    Double vehicleFlow = value.getAsDouble(NorthantsTrafficFlow.COLUMN_VEHICLE_FLOW);
+                    String cinId = value.getAsString(NorthantsTrafficFlow.COLUMN_CIN_ID);
+                    Long creationTime = value.getAsLong(NorthantsTrafficFlow.COLUMN_CREATION_TIME);
+                    if (id != null) {
+                        insert.bindString(1, id);
+                    }
+                    if (tpegDirection != null) {
+                        insert.bindString(2, tpegDirection);
+                    }
+                    if (fromType != null) {
+                        insert.bindString(3, fromType);
+                    }
+                    if (fromDescriptor != null) {
+                        insert.bindString(4, fromDescriptor);
+                    }
+                    if (fromLatitude != null) {
+                        insert.bindDouble(5, fromLatitude);
+                    }
+                    if (fromLongitude != null) {
+                        insert.bindDouble(6, fromLongitude);
+                    }
+                    if (toType != null) {
+                        insert.bindString(7, toType);
+                    }
+                    if (toDescriptor != null) {
+                        insert.bindString(8, toDescriptor);
+                    }
+                    if (toLatitude != null) {
+                        insert.bindDouble(9, toLatitude);
+                    }
+                    if (toLongitude != null) {
+                        insert.bindDouble(10, toLongitude);
+                    }
+                    if (time != null) {
+                        insert.bindString(11, time);
+                    }
+                    if (vehicleFlow != null) {
+                        insert.bindDouble(12, vehicleFlow);
+                    }
+                    if (cinId != null) {
+                        insert.bindString(13, cinId);
+                    }
+                    if (creationTime != null) {
+                        insert.bindLong(14, creationTime);
+                    }
+                    insert.executeInsert();
+                    insert.clearBindings();
+                }
+                sqLiteDatabase.setTransactionSuccessful();
+                numInserted = contentValues.length;
+                contentResolver.notifyChange(TRAFFIC_FLOW_URI, null);
+            } finally {
+                sqLiteDatabase.endTransaction();
+            }
+            return numInserted;
+        }
+        if (match == LATEST_TRAFFIC_FLOWS) {
+            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed));
+        }
+        if (match == TRAFFIC_TRAVEL_TIMES) {
+            sqLiteDatabase.beginTransaction();
+            try {
+                SQLiteStatement insert = sqLiteDatabase.compileStatement(
+                        "INSERT INTO " + NorthantsTrafficTravelTime.TABLE_NAME + "("
+                                + NorthantsTrafficTravelTime.COLUMN_ID + ","
+                                + NorthantsTrafficTravelTime.COLUMN_TPEG_DIRECTION + ","
+                                + NorthantsTrafficTravelTime.COLUMN_FROM_TYPE + ","
+                                + NorthantsTrafficTravelTime.COLUMN_FROM_DESCRIPTOR + ","
+                                + NorthantsTrafficTravelTime.COLUMN_FROM_LATITUDE + ","
+                                + NorthantsTrafficTravelTime.COLUMN_FROM_LONGITUDE + ","
+                                + NorthantsTrafficTravelTime.COLUMN_TO_TYPE + ","
+                                + NorthantsTrafficTravelTime.COLUMN_TO_DESCRIPTOR + ","
+                                + NorthantsTrafficTravelTime.COLUMN_TO_LATITUDE + ","
+                                + NorthantsTrafficTravelTime.COLUMN_TO_LONGITUDE + ","
+                                + NorthantsTrafficTravelTime.COLUMN_TIME + ","
+                                + NorthantsTrafficTravelTime.COLUMN_TRAVEL_TIME + ","
+                                + NorthantsTrafficTravelTime.COLUMN_FREE_FLOW_TRAVEL_TIME + ","
+                                + NorthantsTrafficTravelTime.COLUMN_FREE_FLOW_SPEED + ","
+                                + NorthantsTrafficTravelTime.COLUMN_CIN_ID + ","
+                                + NorthantsTrafficTravelTime.COLUMN_CREATION_TIME
+                                + ") VALUES " + "(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);");
+                for (ContentValues value : contentValues) {
+                    String id = value.getAsString(NorthantsTrafficTravelTime.COLUMN_ID);
+                    String tpegDirection = value.getAsString(NorthantsTrafficTravelTime.COLUMN_TPEG_DIRECTION);
+                    String fromType = value.getAsString(NorthantsTrafficTravelTime.COLUMN_FROM_TYPE);
+                    String fromDescriptor = value.getAsString(NorthantsTrafficTravelTime.COLUMN_FROM_DESCRIPTOR);
+                    Double fromLatitude = value.getAsDouble(NorthantsTrafficTravelTime.COLUMN_FROM_LATITUDE);
+                    Double fromLongitude = value.getAsDouble(NorthantsTrafficTravelTime.COLUMN_FROM_LONGITUDE);
+                    String toType = value.getAsString(NorthantsTrafficTravelTime.COLUMN_TO_TYPE);
+                    String toDescriptor = value.getAsString(NorthantsTrafficTravelTime.COLUMN_TO_DESCRIPTOR);
+                    Double toLatitude = value.getAsDouble(NorthantsTrafficTravelTime.COLUMN_TO_LATITUDE);
+                    Double toLongitude = value.getAsDouble(NorthantsTrafficTravelTime.COLUMN_TO_LONGITUDE);
+                    String time = value.getAsString(NorthantsTrafficTravelTime.COLUMN_TIME);
+                    Double travelTime = value.getAsDouble(NorthantsTrafficTravelTime.COLUMN_TRAVEL_TIME);
+                    Double freeFlowTravelTime = value.getAsDouble(NorthantsTrafficTravelTime.COLUMN_FREE_FLOW_TRAVEL_TIME);
+                    Double freeFlowSpeed = value.getAsDouble(NorthantsTrafficTravelTime.COLUMN_FREE_FLOW_SPEED);
+                    String cinId = value.getAsString(NorthantsTrafficTravelTime.COLUMN_CIN_ID);
+                    Long creationTime = value.getAsLong(NorthantsTrafficTravelTime.COLUMN_CREATION_TIME);
+                    if (id != null) {
+                        insert.bindString(1, id);
+                    }
+                    if (tpegDirection != null) {
+                        insert.bindString(2, tpegDirection);
+                    }
+                    if (fromType != null) {
+                        insert.bindString(3, fromType);
+                    }
+                    if (fromDescriptor != null) {
+                        insert.bindString(4, fromDescriptor);
+                    }
+                    if (fromLatitude != null) {
+                        insert.bindDouble(5, fromLatitude);
+                    }
+                    if (fromLongitude != null) {
+                        insert.bindDouble(6, fromLongitude);
+                    }
+                    if (toType != null) {
+                        insert.bindString(7, toType);
+                    }
+                    if (toDescriptor != null) {
+                        insert.bindString(8, toDescriptor);
+                    }
+                    if (toLatitude != null) {
+                        insert.bindDouble(9, toLatitude);
+                    }
+                    if (toLongitude != null) {
+                        insert.bindDouble(10, toLongitude);
+                    }
+                    if (time != null) {
+                        insert.bindString(11, time);
+                    }
+                    if (travelTime != null) {
+                        insert.bindDouble(12, travelTime);
+                    }
+                    if (freeFlowTravelTime != null) {
+                        insert.bindDouble(13, freeFlowTravelTime);
+                    }
+                    if (freeFlowSpeed != null) {
+                        insert.bindDouble(14, freeFlowSpeed);
+                    }
+                    if (cinId != null) {
+                        insert.bindString(15, cinId);
+                    }
+                    if (creationTime != null) {
+                        insert.bindLong(16, creationTime);
+                    }
+                    insert.executeInsert();
+                    insert.clearBindings();
+                }
+                sqLiteDatabase.setTransactionSuccessful();
+                numInserted = contentValues.length;
+                contentResolver.notifyChange(TRAFFIC_TRAVEL_TIME_URI, null);
+            } finally {
+                sqLiteDatabase.endTransaction();
+            }
+            return numInserted;
+        }
+        if (match == LATEST_TRAFFIC_TRAVEL_TIMES) {
+            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed));
+        }
+        if (match == VARIABLE_MESSAGE_SIGNS) {
+            sqLiteDatabase.beginTransaction();
+            try {
+                SQLiteStatement insert = sqLiteDatabase.compileStatement(
+                        "INSERT INTO " + NorthantsVariableMessageSign.TABLE_NAME + "("
+                                + NorthantsVariableMessageSign.COLUMN_LOCATION_ID + ","
+                                + NorthantsVariableMessageSign.COLUMN_DESCRIPTION + ","
+                                + NorthantsVariableMessageSign.COLUMN_VMS_TYPE + ","
+                                + NorthantsVariableMessageSign.COLUMN_LATITUDE + ","
+                                + NorthantsVariableMessageSign.COLUMN_LONGITUDE + ","
+                                + NorthantsVariableMessageSign.COLUMN_NUMBER_OF_CHARACTERS + ","
+                                + NorthantsVariableMessageSign.COLUMN_NUMBER_OF_ROWS + ","
+                                + NorthantsVariableMessageSign.COLUMN_VMS_LEGENDS + ","
+                                + NorthantsVariableMessageSign.COLUMN_CIN_ID + ","
+                                + NorthantsVariableMessageSign.COLUMN_CREATION_TIME
+                                + ") VALUES " + "(?,?,?,?,?,?,?,?,?,?);");
+                for (ContentValues value : contentValues) {
+                    String locationId = value.getAsString(NorthantsVariableMessageSign.COLUMN_LOCATION_ID);
+                    String description = value.getAsString(NorthantsVariableMessageSign.COLUMN_DESCRIPTION);
+                    String vmsType = value.getAsString(NorthantsVariableMessageSign.COLUMN_VMS_TYPE);
+                    Double latitude = value.getAsDouble(NorthantsVariableMessageSign.COLUMN_LATITUDE);
+                    Double longitude = value.getAsDouble(NorthantsVariableMessageSign.COLUMN_LONGITUDE);
+                    Long numberOfCharacters = value.getAsLong(NorthantsVariableMessageSign.COLUMN_NUMBER_OF_CHARACTERS);
+                    Long numberOfRows = value.getAsLong(NorthantsVariableMessageSign.COLUMN_NUMBER_OF_ROWS);
+                    String vmsLegends = value.getAsString(NorthantsVariableMessageSign.COLUMN_VMS_LEGENDS);
+                    String cinId = value.getAsString(NorthantsVariableMessageSign.COLUMN_CIN_ID);
+                    Long creationTime = value.getAsLong(NorthantsVariableMessageSign.COLUMN_CREATION_TIME);
+                    if (locationId != null) {
+                        insert.bindString(1, locationId);
+                    }
+                    if (description != null) {
+                        insert.bindString(2, description);
+                    }
+                    if (vmsType != null) {
+                        insert.bindString(3, vmsType);
+                    }
+                    if (latitude != null) {
+                        insert.bindDouble(4, latitude);
+                    }
+                    if (locationId != null) {
+                        insert.bindDouble(5, longitude);
+                    }
+                    if (numberOfCharacters != null) {
+                        insert.bindLong(6, numberOfCharacters);
+                    }
+                    if (numberOfRows != null) {
+                        insert.bindLong(7, numberOfRows);
+                    }
+                    if (vmsLegends != null) {
+                        insert.bindString(8, vmsLegends);
+                    }
+                    if (cinId != null) {
+                        insert.bindString(9, cinId);
+                    }
+                    if (creationTime != null) {
+                        insert.bindLong(10, creationTime);
+                    }
+                    insert.executeInsert();
+                    insert.clearBindings();
+                }
+                sqLiteDatabase.setTransactionSuccessful();
+                numInserted = contentValues.length;
+                contentResolver.notifyChange(VARIABLE_MESSAGE_SIGN_URI, null);
+            } finally {
+                sqLiteDatabase.endTransaction();
+            }
+            return numInserted;
+        }
+        if (match == LATEST_VARIABLE_MESSAGE_SIGNS) {
+            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed));
+        }
+        return numInserted;
+    }
+    
     @Override
     public Uri insert(int match, ContentValues contentValues, SQLiteDatabase sqLiteDatabase) {
         long id;
