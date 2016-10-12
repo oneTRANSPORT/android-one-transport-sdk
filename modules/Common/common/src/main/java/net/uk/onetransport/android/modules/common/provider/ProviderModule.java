@@ -12,7 +12,7 @@ import android.os.Bundle;
 
 import java.util.ArrayList;
 
-public interface ProviderModule {
+public interface ProviderModule { // TODO    Add @NonNull throughout?
 
     void createDatabase(SQLiteDatabase sqLiteDatabase);
 
@@ -20,6 +20,8 @@ public interface ProviderModule {
     void addUris(UriMatcher uriMatcher, ArrayList<ProviderModule> providerModules, String authority);
 
     String getType(int match, String mimeDirPrefix, String mimeItemPrefix);
+
+    int bulkInsert(int match, ContentValues[] values, SQLiteDatabase sqLiteDatabase);
 
     Uri insert(int match, ContentValues values, SQLiteDatabase sqLiteDatabase);
 

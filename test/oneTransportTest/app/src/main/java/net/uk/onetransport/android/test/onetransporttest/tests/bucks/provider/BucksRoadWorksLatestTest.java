@@ -5,12 +5,12 @@ import android.content.Context;
 import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
 import net.uk.onetransport.android.county.bucks.provider.BucksContentHelper;
-import net.uk.onetransport.android.county.bucks.roadworks.RoadWorks;
+import net.uk.onetransport.android.county.bucks.roadworks.Roadworks;
 import net.uk.onetransport.android.test.onetransporttest.RunnerFragment;
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
 import net.uk.onetransport.android.test.onetransporttest.tests.OneTransportTest;
 
-public class BucksRoadWorksLatestTest extends OneTransportTest {
+public class BucksRoadworksLatestTest extends OneTransportTest {
 
     @Override
     public void start(RunnerTask runnerTask) throws Exception {
@@ -25,7 +25,7 @@ public class BucksRoadWorksLatestTest extends OneTransportTest {
     private void roadWorksQuery(RunnerTask runnerTask) throws Exception {
         runnerTask.setCurrentTest("Bucks road works latest query");
         Context context = runnerTask.getContext();
-        RoadWorks[] roadWorkses = BucksContentHelper.getLatestRoadWorks(context);
+        Roadworks[] roadWorkses = BucksContentHelper.getLatestRoadworks(context);
         if (roadWorkses.length > 0) {
             runnerTask.report("Bucks road works latest query ... PASSED.", COLOUR_PASSED);
             return;

@@ -4,9 +4,9 @@ import android.content.Context;
 
 import net.uk.onetransport.android.county.oxon.generic.Retriever;
 
-public class RoadWorksRetriever extends Retriever<RoadWorks> implements RoadWorksParams {
+public class RoadworksRetriever extends Retriever<Roadworks> implements RoadworksParams {
 
-    public RoadWorksRetriever(Context context) {
+    public RoadworksRetriever(Context context) {
         super(context);
     }
 
@@ -16,12 +16,12 @@ public class RoadWorksRetriever extends Retriever<RoadWorks> implements RoadWork
     }
 
     @Override
-    protected RoadWorks[] fromJson(String content, String cinId, Long creationTime) {
-        RoadWorks[] roadWorkses = GSON.fromJson(content, RoadWorks[].class);
-        for (RoadWorks roadWorks : roadWorkses) {
-            roadWorks.setCinId(cinId);
-            roadWorks.setCreationTime(creationTime);
+    protected Roadworks[] fromJson(String content, String cinId, Long creationTime) {
+        Roadworks[] roadworkses = GSON.fromJson(content, Roadworks[].class);
+        for (Roadworks roadworks : roadworkses) {
+            roadworks.setCinId(cinId);
+            roadworks.setCreationTime(creationTime);
         }
-        return roadWorkses;
+        return roadworkses;
     }
 }

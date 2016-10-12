@@ -11,7 +11,7 @@ import android.support.annotation.NonNull;
 
 import net.uk.onetransport.android.county.oxon.carparks.CarPark;
 import net.uk.onetransport.android.county.oxon.events.Event;
-import net.uk.onetransport.android.county.oxon.roadworks.RoadWorks;
+import net.uk.onetransport.android.county.oxon.roadworks.Roadworks;
 import net.uk.onetransport.android.county.oxon.trafficflow.TrafficFlow;
 import net.uk.onetransport.android.county.oxon.trafficqueue.TrafficQueue;
 import net.uk.onetransport.android.county.oxon.trafficscoot.TrafficScoot;
@@ -27,7 +27,7 @@ import java.util.ArrayList;
 
 import static net.uk.onetransport.android.county.oxon.provider.OxonContract.OxonCarPark;
 import static net.uk.onetransport.android.county.oxon.provider.OxonContract.OxonEvent;
-import static net.uk.onetransport.android.county.oxon.provider.OxonContract.OxonRoadWorks;
+import static net.uk.onetransport.android.county.oxon.provider.OxonContract.OxonRoadworks;
 import static net.uk.onetransport.android.county.oxon.provider.OxonContract.OxonTrafficFlow;
 import static net.uk.onetransport.android.county.oxon.provider.OxonContract.OxonTrafficQueue;
 import static net.uk.onetransport.android.county.oxon.provider.OxonContract.OxonTrafficScoot;
@@ -40,7 +40,7 @@ public class OxonContentHelper extends CommonContentHelper {
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({DATA_TYPE_CAR_PARK,
             DATA_TYPE_EVENT,
-            DATA_TYPE_ROAD_WORKS,
+            DATA_TYPE_ROADWORKS,
             DATA_TYPE_TRAFFIC_FLOW,
             DATA_TYPE_TRAFFIC_QUEUE,
             DATA_TYPE_TRAFFIC_SCOOT,
@@ -52,7 +52,7 @@ public class OxonContentHelper extends CommonContentHelper {
 
     public static final int DATA_TYPE_CAR_PARK = 1;
     public static final int DATA_TYPE_EVENT = 2;
-    public static final int DATA_TYPE_ROAD_WORKS = 3;
+    public static final int DATA_TYPE_ROADWORKS = 3;
     public static final int DATA_TYPE_TRAFFIC_FLOW = 4;
     public static final int DATA_TYPE_TRAFFIC_QUEUE = 5;
     public static final int DATA_TYPE_TRAFFIC_SCOOT = 6;
@@ -128,37 +128,37 @@ public class OxonContentHelper extends CommonContentHelper {
     }
 
     public static void insertIntoProvider(@NonNull Context context,
-                                          @NonNull RoadWorks[] roadWorkses)
+                                          @NonNull Roadworks[] roadworkses)
             throws RemoteException, OperationApplicationException {
-        if (roadWorkses.length > 0) {
+        if (roadworkses.length > 0) {
             ArrayList<ContentProviderOperation> operationList = new ArrayList<>();
-            for (RoadWorks roadWorks : roadWorkses) {
+            for (Roadworks roadworks : roadworkses) {
                 ContentProviderOperation operation = ContentProviderOperation
-                        .newInsert(OxonProviderModule.ROAD_WORKS_URI)
-                        .withValue(OxonRoadWorks.COLUMN_ID, roadWorks.getId())
-                        .withValue(OxonRoadWorks.COLUMN_EFFECT_ON_ROAD_LAYOUT,
-                                roadWorks.getEffectOnRoadLayout())
-                        .withValue(OxonRoadWorks.COLUMN_ROAD_MAINTENANCE_TYPE,
-                                roadWorks.getRoadMaintenanceType())
-                        .withValue(OxonRoadWorks.COLUMN_COMMENT, roadWorks.getComment())
-                        .withValue(OxonRoadWorks.COLUMN_IMPACT_ON_TRAFFIC,
-                                roadWorks.getImpactOnTraffic())
-                        .withValue(OxonRoadWorks.COLUMN_LATITUDE,
-                                roadWorks.getLatitude())
-                        .withValue(OxonRoadWorks.COLUMN_LONGITUDE,
-                                roadWorks.getLongitude())
-                        .withValue(OxonRoadWorks.COLUMN_VALIDITY_STATUS,
-                                roadWorks.getValidityStatus())
-                        .withValue(OxonRoadWorks.COLUMN_OVERALL_START_TIME,
-                                roadWorks.getOverallStartTime())
-                        .withValue(OxonRoadWorks.COLUMN_OVERALL_END_TIME,
-                                roadWorks.getOverallEndTime())
-                        .withValue(OxonRoadWorks.COLUMN_START_OF_PERIOD,
-                                roadWorks.getStartOfPeriod())
-                        .withValue(OxonRoadWorks.COLUMN_END_OF_PERIOD,
-                                roadWorks.getEndOfPeriod())
-                        .withValue(OxonRoadWorks.COLUMN_CIN_ID, roadWorks.getCinId())
-                        .withValue(OxonRoadWorks.COLUMN_CREATION_TIME, roadWorks.getCreationTime())
+                        .newInsert(OxonProviderModule.ROADWORKS_URI)
+                        .withValue(OxonRoadworks.COLUMN_ID, roadworks.getId())
+                        .withValue(OxonRoadworks.COLUMN_EFFECT_ON_ROAD_LAYOUT,
+                                roadworks.getEffectOnRoadLayout())
+                        .withValue(OxonRoadworks.COLUMN_ROAD_MAINTENANCE_TYPE,
+                                roadworks.getRoadMaintenanceType())
+                        .withValue(OxonRoadworks.COLUMN_COMMENT, roadworks.getComment())
+                        .withValue(OxonRoadworks.COLUMN_IMPACT_ON_TRAFFIC,
+                                roadworks.getImpactOnTraffic())
+                        .withValue(OxonRoadworks.COLUMN_LATITUDE,
+                                roadworks.getLatitude())
+                        .withValue(OxonRoadworks.COLUMN_LONGITUDE,
+                                roadworks.getLongitude())
+                        .withValue(OxonRoadworks.COLUMN_VALIDITY_STATUS,
+                                roadworks.getValidityStatus())
+                        .withValue(OxonRoadworks.COLUMN_OVERALL_START_TIME,
+                                roadworks.getOverallStartTime())
+                        .withValue(OxonRoadworks.COLUMN_OVERALL_END_TIME,
+                                roadworks.getOverallEndTime())
+                        .withValue(OxonRoadworks.COLUMN_START_OF_PERIOD,
+                                roadworks.getStartOfPeriod())
+                        .withValue(OxonRoadworks.COLUMN_END_OF_PERIOD,
+                                roadworks.getEndOfPeriod())
+                        .withValue(OxonRoadworks.COLUMN_CIN_ID, roadworks.getCinId())
+                        .withValue(OxonRoadworks.COLUMN_CREATION_TIME, roadworks.getCreationTime())
                         .withYieldAllowed(true)
                         .build();
                 operationList.add(operation);
@@ -443,32 +443,32 @@ public class OxonContentHelper extends CommonContentHelper {
         return eventsFromCursor(getLatestEventCursor(context));
     }
 
-    public static Cursor getRoadWorksCursor(@NonNull Context context) {
-        return context.getContentResolver().query(OxonProviderModule.ROAD_WORKS_URI,
-                new String[]{"*"}, null, null, OxonRoadWorks.COLUMN_ID);
+    public static Cursor getRoadworksCursor(@NonNull Context context) {
+        return context.getContentResolver().query(OxonProviderModule.ROADWORKS_URI,
+                new String[]{"*"}, null, null, OxonRoadworks.COLUMN_ID);
     }
 
-    public static Cursor getRoadWorksCursor(@NonNull Context context, long oldest, long newest) {
-        return context.getContentResolver().query(OxonProviderModule.ROAD_WORKS_URI,
+    public static Cursor getRoadworksCursor(@NonNull Context context, long oldest, long newest) {
+        return context.getContentResolver().query(OxonProviderModule.ROADWORKS_URI,
                 new String[]{"*"}, CREATION_INTERVAL_SELECTION, interval(oldest, newest),
                 CommonBaseColumns.COLUMN_CREATION_TIME);
     }
 
-    public static Cursor getLatestRoadWorksCursor(@NonNull Context context) {
-        return context.getContentResolver().query(OxonProviderModule.LATEST_ROAD_WORKS_URI,
-                new String[]{"*"}, null, null, OxonRoadWorks.COLUMN_ID);
+    public static Cursor getLatestRoadworksCursor(@NonNull Context context) {
+        return context.getContentResolver().query(OxonProviderModule.LATEST_ROADWORKS_URI,
+                new String[]{"*"}, null, null, OxonRoadworks.COLUMN_ID);
     }
 
-    public static RoadWorks[] getRoadWorks(@NonNull Context context) {
-        return roadWorksesFromCursor(getRoadWorksCursor(context));
+    public static Roadworks[] getRoadworks(@NonNull Context context) {
+        return roadworksesFromCursor(getRoadworksCursor(context));
     }
 
-    public static RoadWorks[] getRoadWorks(@NonNull Context context, long oldest, long newest) {
-        return roadWorksesFromCursor(getRoadWorksCursor(context, oldest, newest));
+    public static Roadworks[] getRoadworks(@NonNull Context context, long oldest, long newest) {
+        return roadworksesFromCursor(getRoadworksCursor(context, oldest, newest));
     }
 
-    public static RoadWorks[] getLatestRoadWorks(@NonNull Context context) {
-        return roadWorksesFromCursor(getLatestRoadWorksCursor(context));
+    public static Roadworks[] getLatestRoadworks(@NonNull Context context) {
+        return roadworksesFromCursor(getLatestRoadworksCursor(context));
     }
 
     public static Cursor getTrafficFlowCursor(@NonNull Context context) {
@@ -653,8 +653,8 @@ public class OxonContentHelper extends CommonContentHelper {
             case DATA_TYPE_EVENT:
                 contentResolver.delete(OxonProviderModule.EVENT_URI, null, null);
                 break;
-            case DATA_TYPE_ROAD_WORKS:
-                contentResolver.delete(OxonProviderModule.ROAD_WORKS_URI, null, null);
+            case DATA_TYPE_ROADWORKS:
+                contentResolver.delete(OxonProviderModule.ROADWORKS_URI, null, null);
                 break;
             case DATA_TYPE_TRAFFIC_FLOW:
                 contentResolver.delete(OxonProviderModule.TRAFFIC_FLOW_URI, null, null);
@@ -689,8 +689,8 @@ public class OxonContentHelper extends CommonContentHelper {
                 contentResolver.delete(OxonProviderModule.EVENT_URI, CREATED_BEFORE,
                         new String[]{String.valueOf(creationTime)});
                 break;
-            case DATA_TYPE_ROAD_WORKS:
-                contentResolver.delete(OxonProviderModule.ROAD_WORKS_URI, CREATED_BEFORE,
+            case DATA_TYPE_ROADWORKS:
+                contentResolver.delete(OxonProviderModule.ROADWORKS_URI, CREATED_BEFORE,
                         new String[]{String.valueOf(creationTime)});
                 break;
             case DATA_TYPE_TRAFFIC_FLOW:
@@ -814,50 +814,50 @@ public class OxonContentHelper extends CommonContentHelper {
         return events;
     }
 
-    public static RoadWorks[] roadWorksesFromCursor(Cursor cursor) {
-        RoadWorks[] roadWorkses = null;
+    public static Roadworks[] roadworksesFromCursor(Cursor cursor) {
+        Roadworks[] roadworkses = null;
         if (cursor != null) {
             if (cursor.moveToFirst()) {
-                roadWorkses = new RoadWorks[cursor.getCount()];
-                for (int i = 0; i < roadWorkses.length; i++) {
-                    roadWorkses[i] = new RoadWorks();
-                    roadWorkses[i].setId(cursor.getString(cursor.getColumnIndex(
-                            OxonRoadWorks.COLUMN_ID)));
-                    roadWorkses[i].setEffectOnRoadLayout(cursor.getString(cursor.getColumnIndex(
-                            OxonRoadWorks.COLUMN_EFFECT_ON_ROAD_LAYOUT)));
-                    roadWorkses[i].setRoadMaintenanceType(cursor.getString(cursor.getColumnIndex(
-                            OxonRoadWorks.COLUMN_ROAD_MAINTENANCE_TYPE)));
-                    roadWorkses[i].setComment(cursor.getString(cursor.getColumnIndex(
-                            OxonRoadWorks.COLUMN_COMMENT)));
-                    roadWorkses[i].setImpactOnTraffic(cursor.getString(cursor.getColumnIndex(
-                            OxonRoadWorks.COLUMN_IMPACT_ON_TRAFFIC)));
-                    roadWorkses[i].setLatitude(cursor.getDouble(cursor.getColumnIndex(
-                            OxonRoadWorks.COLUMN_LATITUDE)));
-                    roadWorkses[i].setLongitude(cursor.getDouble(cursor.getColumnIndex(
-                            OxonRoadWorks.COLUMN_LONGITUDE)));
-                    roadWorkses[i].setValidityStatus(cursor.getString(cursor.getColumnIndex(
-                            OxonRoadWorks.COLUMN_VALIDITY_STATUS)));
-                    roadWorkses[i].setOverallStartTime(cursor.getString(cursor.getColumnIndex(
-                            OxonRoadWorks.COLUMN_OVERALL_START_TIME)));
-                    roadWorkses[i].setOverallEndTime(cursor.getString(cursor.getColumnIndex(
-                            OxonRoadWorks.COLUMN_OVERALL_END_TIME)));
-                    roadWorkses[i].setStartOfPeriod(cursor.getString(cursor.getColumnIndex(
-                            OxonRoadWorks.COLUMN_START_OF_PERIOD)));
-                    roadWorkses[i].setEndOfPeriod(cursor.getString(cursor.getColumnIndex(
-                            OxonRoadWorks.COLUMN_END_OF_PERIOD)));
-                    roadWorkses[i].setCinId(cursor.getString(cursor.getColumnIndex(
-                            OxonRoadWorks.COLUMN_CIN_ID)));
-                    roadWorkses[i].setCreationTime(cursor.getLong(cursor.getColumnIndex(
-                            OxonRoadWorks.COLUMN_CREATION_TIME)));
+                roadworkses = new Roadworks[cursor.getCount()];
+                for (int i = 0; i < roadworkses.length; i++) {
+                    roadworkses[i] = new Roadworks();
+                    roadworkses[i].setId(cursor.getString(cursor.getColumnIndex(
+                            OxonRoadworks.COLUMN_ID)));
+                    roadworkses[i].setEffectOnRoadLayout(cursor.getString(cursor.getColumnIndex(
+                            OxonRoadworks.COLUMN_EFFECT_ON_ROAD_LAYOUT)));
+                    roadworkses[i].setRoadMaintenanceType(cursor.getString(cursor.getColumnIndex(
+                            OxonRoadworks.COLUMN_ROAD_MAINTENANCE_TYPE)));
+                    roadworkses[i].setComment(cursor.getString(cursor.getColumnIndex(
+                            OxonRoadworks.COLUMN_COMMENT)));
+                    roadworkses[i].setImpactOnTraffic(cursor.getString(cursor.getColumnIndex(
+                            OxonRoadworks.COLUMN_IMPACT_ON_TRAFFIC)));
+                    roadworkses[i].setLatitude(cursor.getDouble(cursor.getColumnIndex(
+                            OxonRoadworks.COLUMN_LATITUDE)));
+                    roadworkses[i].setLongitude(cursor.getDouble(cursor.getColumnIndex(
+                            OxonRoadworks.COLUMN_LONGITUDE)));
+                    roadworkses[i].setValidityStatus(cursor.getString(cursor.getColumnIndex(
+                            OxonRoadworks.COLUMN_VALIDITY_STATUS)));
+                    roadworkses[i].setOverallStartTime(cursor.getString(cursor.getColumnIndex(
+                            OxonRoadworks.COLUMN_OVERALL_START_TIME)));
+                    roadworkses[i].setOverallEndTime(cursor.getString(cursor.getColumnIndex(
+                            OxonRoadworks.COLUMN_OVERALL_END_TIME)));
+                    roadworkses[i].setStartOfPeriod(cursor.getString(cursor.getColumnIndex(
+                            OxonRoadworks.COLUMN_START_OF_PERIOD)));
+                    roadworkses[i].setEndOfPeriod(cursor.getString(cursor.getColumnIndex(
+                            OxonRoadworks.COLUMN_END_OF_PERIOD)));
+                    roadworkses[i].setCinId(cursor.getString(cursor.getColumnIndex(
+                            OxonRoadworks.COLUMN_CIN_ID)));
+                    roadworkses[i].setCreationTime(cursor.getLong(cursor.getColumnIndex(
+                            OxonRoadworks.COLUMN_CREATION_TIME)));
                     cursor.moveToNext();
                 }
             }
             cursor.close();
         }
-        if (roadWorkses == null) {
-            return new RoadWorks[0];
+        if (roadworkses == null) {
+            return new Roadworks[0];
         }
-        return roadWorkses;
+        return roadworkses;
     }
 
     public static TrafficFlow[] trafficFlowsFromCursor(Cursor cursor) {

@@ -11,8 +11,8 @@ import net.uk.onetransport.android.county.oxon.events.Event;
 import net.uk.onetransport.android.county.oxon.events.EventRetriever;
 import net.uk.onetransport.android.county.oxon.provider.OxonContentHelper;
 import net.uk.onetransport.android.county.oxon.provider.OxonProviderModule;
-import net.uk.onetransport.android.county.oxon.roadworks.RoadWorks;
-import net.uk.onetransport.android.county.oxon.roadworks.RoadWorksRetriever;
+import net.uk.onetransport.android.county.oxon.roadworks.Roadworks;
+import net.uk.onetransport.android.county.oxon.roadworks.RoadworksRetriever;
 import net.uk.onetransport.android.county.oxon.trafficflow.TrafficFlow;
 import net.uk.onetransport.android.county.oxon.trafficflow.TrafficFlowRetriever;
 import net.uk.onetransport.android.county.oxon.trafficqueue.TrafficQueue;
@@ -47,7 +47,7 @@ public class OxonSyncAdapterTest extends OneTransportTest {
         Context context = runnerTask.getContext();
         OxonContentHelper.deleteFromProvider(context, OxonContentHelper.DATA_TYPE_CAR_PARK);
         OxonContentHelper.deleteFromProvider(context, OxonContentHelper.DATA_TYPE_EVENT);
-        OxonContentHelper.deleteFromProvider(context, OxonContentHelper.DATA_TYPE_ROAD_WORKS);
+        OxonContentHelper.deleteFromProvider(context, OxonContentHelper.DATA_TYPE_ROADWORKS);
         OxonContentHelper.deleteFromProvider(context, OxonContentHelper.DATA_TYPE_TRAFFIC_FLOW);
         OxonContentHelper.deleteFromProvider(context, OxonContentHelper.DATA_TYPE_TRAFFIC_QUEUE);
         OxonContentHelper.deleteFromProvider(context, OxonContentHelper.DATA_TYPE_TRAFFIC_SCOOT);
@@ -77,9 +77,9 @@ public class OxonSyncAdapterTest extends OneTransportTest {
             runnerTask.report("OXON sync adapter ... FAILED.", COLOUR_FAILED);
             return;
         }
-        RoadWorks[] roadWorkses = new RoadWorksRetriever(context).retrieve();
-        RoadWorks[] roadWorkses1 = OxonContentHelper.getRoadWorks(context);
-        if (roadWorkses.length != roadWorkses1.length) {
+        Roadworks[] roadworkses = new RoadworksRetriever(context).retrieve();
+        Roadworks[] roadworkses1 = OxonContentHelper.getRoadworks(context);
+        if (roadworkses.length != roadworkses1.length) {
             runnerTask.report("OXON sync adapter ... FAILED.", COLOUR_FAILED);
             return;
         }

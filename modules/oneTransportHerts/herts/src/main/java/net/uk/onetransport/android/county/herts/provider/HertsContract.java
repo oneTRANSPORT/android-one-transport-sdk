@@ -76,39 +76,39 @@ public class HertsContract {
                     + HertsEvent.COLUMN_ID + " AND a."
                     + HertsEvent.COLUMN_CREATION_TIME + "=b."
                     + HertsEvent.COLUMN_CREATION_TIME + ";";
-    public static final String CREATE_ROAD_WORKS_TABLE =
-            "CREATE TABLE IF NOT EXISTS " + HertsRoadWorks.TABLE_NAME + " ("
-                    + HertsRoadWorks.COLUMN_ID + " TEXT NOT NULL,"
-                    + HertsRoadWorks.COLUMN_EFFECT_ON_ROAD_LAYOUT + " TEXT,"
-                    + HertsRoadWorks.COLUMN_ROAD_MAINTENANCE_TYPE + " TEXT,"
-                    + HertsRoadWorks.COLUMN_COMMENT + " TEXT,"
-                    + HertsRoadWorks.COLUMN_IMPACT_ON_TRAFFIC + " TEXT,"
-                    + HertsRoadWorks.COLUMN_LATITUDE + " REAL,"
-                    + HertsRoadWorks.COLUMN_LONGITUDE + " REAL,"
-                    + HertsRoadWorks.COLUMN_VALIDITY_STATUS + " TEXT,"
-                    + HertsRoadWorks.COLUMN_OVERALL_START_TIME + " TEXT,"
-                    + HertsRoadWorks.COLUMN_OVERALL_END_TIME + " TEXT,"
-                    + HertsRoadWorks.COLUMN_START_OF_PERIOD + " TEXT,"
-                    + HertsRoadWorks.COLUMN_END_OF_PERIOD + " TEXT,"
-                    + HertsRoadWorks.COLUMN_CIN_ID + " TEXT NOT NULL,"
-                    + HertsRoadWorks.COLUMN_CREATION_TIME + " INTEGER,"
+    public static final String CREATE_ROADWORKS_TABLE =
+            "CREATE TABLE IF NOT EXISTS " + HertsRoadworks.TABLE_NAME + " ("
+                    + HertsRoadworks.COLUMN_ID + " TEXT NOT NULL,"
+                    + HertsRoadworks.COLUMN_EFFECT_ON_ROAD_LAYOUT + " TEXT,"
+                    + HertsRoadworks.COLUMN_ROAD_MAINTENANCE_TYPE + " TEXT,"
+                    + HertsRoadworks.COLUMN_COMMENT + " TEXT,"
+                    + HertsRoadworks.COLUMN_IMPACT_ON_TRAFFIC + " TEXT,"
+                    + HertsRoadworks.COLUMN_LATITUDE + " REAL,"
+                    + HertsRoadworks.COLUMN_LONGITUDE + " REAL,"
+                    + HertsRoadworks.COLUMN_VALIDITY_STATUS + " TEXT,"
+                    + HertsRoadworks.COLUMN_OVERALL_START_TIME + " TEXT,"
+                    + HertsRoadworks.COLUMN_OVERALL_END_TIME + " TEXT,"
+                    + HertsRoadworks.COLUMN_START_OF_PERIOD + " TEXT,"
+                    + HertsRoadworks.COLUMN_END_OF_PERIOD + " TEXT,"
+                    + HertsRoadworks.COLUMN_CIN_ID + " TEXT NOT NULL,"
+                    + HertsRoadworks.COLUMN_CREATION_TIME + " INTEGER,"
                     + "UNIQUE ("
-                    + HertsRoadWorks.COLUMN_ID + ","
-                    + HertsRoadWorks.COLUMN_CIN_ID
+                    + HertsRoadworks.COLUMN_ID + ","
+                    + HertsRoadworks.COLUMN_CIN_ID
                     + ") ON CONFLICT IGNORE);";
-    public static final String CREATE_LATEST_ROAD_WORKS_TABLE =
-            "CREATE VIEW IF NOT EXISTS " + HertsLatestRoadWorks.TABLE_NAME + " AS "
-                    + "SELECT a.* FROM " + HertsRoadWorks.TABLE_NAME + " AS a "
-                    + "INNER JOIN (SELECT " + HertsRoadWorks.COLUMN_ID
+    public static final String CREATE_LATEST_ROADWORKS_TABLE =
+            "CREATE VIEW IF NOT EXISTS " + HertsLatestRoadworks.TABLE_NAME + " AS "
+                    + "SELECT a.* FROM " + HertsRoadworks.TABLE_NAME + " AS a "
+                    + "INNER JOIN (SELECT " + HertsRoadworks.COLUMN_ID
                     + ", MAX("
-                    + HertsRoadWorks.COLUMN_CREATION_TIME + ") AS "
-                    + HertsRoadWorks.COLUMN_CREATION_TIME + " FROM "
-                    + HertsRoadWorks.TABLE_NAME + " GROUP BY "
-                    + HertsRoadWorks.COLUMN_ID + ") AS b ON a."
-                    + HertsRoadWorks.COLUMN_ID + "=b."
-                    + HertsRoadWorks.COLUMN_ID + " AND a."
-                    + HertsRoadWorks.COLUMN_CREATION_TIME + "=b."
-                    + HertsRoadWorks.COLUMN_CREATION_TIME + ";";
+                    + HertsRoadworks.COLUMN_CREATION_TIME + ") AS "
+                    + HertsRoadworks.COLUMN_CREATION_TIME + " FROM "
+                    + HertsRoadworks.TABLE_NAME + " GROUP BY "
+                    + HertsRoadworks.COLUMN_ID + ") AS b ON a."
+                    + HertsRoadworks.COLUMN_ID + "=b."
+                    + HertsRoadworks.COLUMN_ID + " AND a."
+                    + HertsRoadworks.COLUMN_CREATION_TIME + "=b."
+                    + HertsRoadworks.COLUMN_CREATION_TIME + ";";
     public static final String CREATE_TRAFFIC_FLOW_TABLE =
             "CREATE TABLE IF NOT EXISTS " + HertsTrafficFlow.TABLE_NAME + " ("
                     + HertsTrafficFlow._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -330,8 +330,8 @@ public class HertsContract {
         public static final String TABLE_NAME = "herts_latest_event";
     }
 
-    public static final class HertsRoadWorks implements CommonBaseColumns {
-        public static final String TABLE_NAME = "herts_road_works";
+    public static final class HertsRoadworks implements CommonBaseColumns {
+        public static final String TABLE_NAME = "herts_roadworks";
         public static final String COLUMN_ID = "id";
         public static final String COLUMN_EFFECT_ON_ROAD_LAYOUT = "effect_on_road_layout";
         public static final String COLUMN_ROAD_MAINTENANCE_TYPE = "road_maintenance_type";
@@ -346,8 +346,8 @@ public class HertsContract {
         public static final String COLUMN_END_OF_PERIOD = "end_of_period";
     }
 
-    public static final class HertsLatestRoadWorks {
-        public static final String TABLE_NAME = "herts_latest_road_works";
+    public static final class HertsLatestRoadworks {
+        public static final String TABLE_NAME = "herts_latest_roadworks";
     }
 
     public static final class HertsTrafficFlow implements CommonBaseColumns {

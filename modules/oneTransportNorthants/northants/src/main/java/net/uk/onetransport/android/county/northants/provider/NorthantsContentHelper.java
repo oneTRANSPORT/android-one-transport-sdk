@@ -10,7 +10,7 @@ import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 
 import net.uk.onetransport.android.county.northants.carparks.CarPark;
-import net.uk.onetransport.android.county.northants.roadworks.RoadWorks;
+import net.uk.onetransport.android.county.northants.roadworks.Roadworks;
 import net.uk.onetransport.android.county.northants.trafficflow.TrafficFlow;
 import net.uk.onetransport.android.county.northants.traffictraveltime.TrafficTravelTime;
 import net.uk.onetransport.android.county.northants.variablemessagesigns.VariableMessageSign;
@@ -22,7 +22,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 
 import static net.uk.onetransport.android.county.northants.provider.NorthantsContract.NorthantsCarPark;
-import static net.uk.onetransport.android.county.northants.provider.NorthantsContract.NorthantsRoadWorks;
+import static net.uk.onetransport.android.county.northants.provider.NorthantsContract.NorthantsRoadworks;
 import static net.uk.onetransport.android.county.northants.provider.NorthantsContract.NorthantsTrafficFlow;
 import static net.uk.onetransport.android.county.northants.provider.NorthantsContract.NorthantsTrafficTravelTime;
 import static net.uk.onetransport.android.county.northants.provider.NorthantsContract.NorthantsVariableMessageSign;
@@ -31,7 +31,7 @@ public class NorthantsContentHelper extends CommonContentHelper {
 
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({DATA_TYPE_CAR_PARK,
-            DATA_TYPE_ROAD_WORKS,
+            DATA_TYPE_ROADWORKS,
             DATA_TYPE_TRAFFIC_FLOW,
             DATA_TYPE_TRAFFIC_TRAVEL_TIME,
             DATA_TYPE_VMS})
@@ -39,7 +39,7 @@ public class NorthantsContentHelper extends CommonContentHelper {
     }
 
     public static final int DATA_TYPE_CAR_PARK = 1;
-    public static final int DATA_TYPE_ROAD_WORKS = 2;
+    public static final int DATA_TYPE_ROADWORKS = 2;
     public static final int DATA_TYPE_TRAFFIC_FLOW = 3;
     public static final int DATA_TYPE_TRAFFIC_TRAVEL_TIME = 4;
     public static final int DATA_TYPE_VMS = 5;
@@ -84,37 +84,37 @@ public class NorthantsContentHelper extends CommonContentHelper {
     }
 
     public static void insertIntoProvider(@NonNull Context context,
-                                          @NonNull RoadWorks[] roadWorkses)
+                                          @NonNull Roadworks[] roadworkses)
             throws RemoteException, OperationApplicationException {
-        if (roadWorkses.length > 0) {
+        if (roadworkses.length > 0) {
             ArrayList<ContentProviderOperation> operationList = new ArrayList<>();
-            for (RoadWorks roadWorks : roadWorkses) {
+            for (Roadworks roadworks : roadworkses) {
                 ContentProviderOperation operation = ContentProviderOperation
-                        .newInsert(NorthantsProviderModule.ROAD_WORKS_URI)
-                        .withValue(NorthantsRoadWorks.COLUMN_ID, roadWorks.getId())
-                        .withValue(NorthantsRoadWorks.COLUMN_EFFECT_ON_ROAD_LAYOUT,
-                                roadWorks.getEffectOnRoadLayout())
-                        .withValue(NorthantsRoadWorks.COLUMN_ROAD_MAINTENANCE_TYPE,
-                                roadWorks.getRoadMaintenanceType())
-                        .withValue(NorthantsRoadWorks.COLUMN_COMMENT, roadWorks.getComment())
-                        .withValue(NorthantsRoadWorks.COLUMN_IMPACT_ON_TRAFFIC,
-                                roadWorks.getImpactOnTraffic())
-                        .withValue(NorthantsRoadWorks.COLUMN_LATITUDE,
-                                roadWorks.getLatitude())
-                        .withValue(NorthantsRoadWorks.COLUMN_LONGITUDE,
-                                roadWorks.getLongitude())
-                        .withValue(NorthantsRoadWorks.COLUMN_VALIDITY_STATUS,
-                                roadWorks.getValidityStatus())
-                        .withValue(NorthantsRoadWorks.COLUMN_OVERALL_START_TIME,
-                                roadWorks.getOverallStartTime())
-                        .withValue(NorthantsRoadWorks.COLUMN_OVERALL_END_TIME,
-                                roadWorks.getOverallEndTime())
-                        .withValue(NorthantsRoadWorks.COLUMN_START_OF_PERIOD,
-                                roadWorks.getStartOfPeriod())
-                        .withValue(NorthantsRoadWorks.COLUMN_END_OF_PERIOD,
-                                roadWorks.getEndOfPeriod())
-                        .withValue(NorthantsRoadWorks.COLUMN_CIN_ID, roadWorks.getCinId())
-                        .withValue(NorthantsRoadWorks.COLUMN_CREATION_TIME, roadWorks.getCreationTime())
+                        .newInsert(NorthantsProviderModule.ROADWORKS_URI)
+                        .withValue(NorthantsRoadworks.COLUMN_ID, roadworks.getId())
+                        .withValue(NorthantsRoadworks.COLUMN_EFFECT_ON_ROAD_LAYOUT,
+                                roadworks.getEffectOnRoadLayout())
+                        .withValue(NorthantsRoadworks.COLUMN_ROAD_MAINTENANCE_TYPE,
+                                roadworks.getRoadMaintenanceType())
+                        .withValue(NorthantsRoadworks.COLUMN_COMMENT, roadworks.getComment())
+                        .withValue(NorthantsRoadworks.COLUMN_IMPACT_ON_TRAFFIC,
+                                roadworks.getImpactOnTraffic())
+                        .withValue(NorthantsRoadworks.COLUMN_LATITUDE,
+                                roadworks.getLatitude())
+                        .withValue(NorthantsRoadworks.COLUMN_LONGITUDE,
+                                roadworks.getLongitude())
+                        .withValue(NorthantsRoadworks.COLUMN_VALIDITY_STATUS,
+                                roadworks.getValidityStatus())
+                        .withValue(NorthantsRoadworks.COLUMN_OVERALL_START_TIME,
+                                roadworks.getOverallStartTime())
+                        .withValue(NorthantsRoadworks.COLUMN_OVERALL_END_TIME,
+                                roadworks.getOverallEndTime())
+                        .withValue(NorthantsRoadworks.COLUMN_START_OF_PERIOD,
+                                roadworks.getStartOfPeriod())
+                        .withValue(NorthantsRoadworks.COLUMN_END_OF_PERIOD,
+                                roadworks.getEndOfPeriod())
+                        .withValue(NorthantsRoadworks.COLUMN_CIN_ID, roadworks.getCinId())
+                        .withValue(NorthantsRoadworks.COLUMN_CREATION_TIME, roadworks.getCreationTime())
                         .withYieldAllowed(true)
                         .build();
                 operationList.add(operation);
@@ -265,32 +265,32 @@ public class NorthantsContentHelper extends CommonContentHelper {
         return carParksFromCursor(getLatestCarParkCursor(context));
     }
 
-    public static Cursor getRoadWorksCursor(@NonNull Context context) {
-        return context.getContentResolver().query(NorthantsProviderModule.ROAD_WORKS_URI,
-                new String[]{"*"}, null, null, NorthantsRoadWorks.COLUMN_ID);
+    public static Cursor getRoadworksCursor(@NonNull Context context) {
+        return context.getContentResolver().query(NorthantsProviderModule.ROADWORKS_URI,
+                new String[]{"*"}, null, null, NorthantsRoadworks.COLUMN_ID);
     }
 
-    public static Cursor getRoadWorksCursor(@NonNull Context context, long oldest, long newest) {
-        return context.getContentResolver().query(NorthantsProviderModule.ROAD_WORKS_URI,
+    public static Cursor getRoadworksCursor(@NonNull Context context, long oldest, long newest) {
+        return context.getContentResolver().query(NorthantsProviderModule.ROADWORKS_URI,
                 new String[]{"*"}, CREATION_INTERVAL_SELECTION, interval(oldest, newest),
                 CommonBaseColumns.COLUMN_CREATION_TIME);
     }
 
-    public static Cursor getLatestRoadWorksCursor(@NonNull Context context) {
-        return context.getContentResolver().query(NorthantsProviderModule.LATEST_ROAD_WORKS_URI,
-                new String[]{"*"}, null, null, NorthantsRoadWorks.COLUMN_ID);
+    public static Cursor getLatestRoadworksCursor(@NonNull Context context) {
+        return context.getContentResolver().query(NorthantsProviderModule.LATEST_ROADWORKS_URI,
+                new String[]{"*"}, null, null, NorthantsRoadworks.COLUMN_ID);
     }
 
-    public static RoadWorks[] getRoadWorks(@NonNull Context context) {
-        return roadWorksesFromCursor(getRoadWorksCursor(context));
+    public static Roadworks[] getRoadworks(@NonNull Context context) {
+        return roadworksesFromCursor(getRoadworksCursor(context));
     }
 
-    public static RoadWorks[] getRoadWorks(@NonNull Context context, long oldest, long newest) {
-        return roadWorksesFromCursor(getRoadWorksCursor(context, oldest, newest));
+    public static Roadworks[] getRoadworks(@NonNull Context context, long oldest, long newest) {
+        return roadworksesFromCursor(getRoadworksCursor(context, oldest, newest));
     }
 
-    public static RoadWorks[] getLatestRoadWorks(@NonNull Context context) {
-        return roadWorksesFromCursor(getLatestRoadWorksCursor(context));
+    public static Roadworks[] getLatestRoadworks(@NonNull Context context) {
+        return roadworksesFromCursor(getLatestRoadworksCursor(context));
     }
 
     public static Cursor getTrafficFlowCursor(@NonNull Context context) {
@@ -388,8 +388,8 @@ public class NorthantsContentHelper extends CommonContentHelper {
             case DATA_TYPE_CAR_PARK:
                 contentResolver.delete(NorthantsProviderModule.CAR_PARK_URI, null, null);
                 break;
-            case DATA_TYPE_ROAD_WORKS:
-                contentResolver.delete(NorthantsProviderModule.ROAD_WORKS_URI, null, null);
+            case DATA_TYPE_ROADWORKS:
+                contentResolver.delete(NorthantsProviderModule.ROADWORKS_URI, null, null);
                 break;
             case DATA_TYPE_TRAFFIC_FLOW:
                 contentResolver.delete(NorthantsProviderModule.TRAFFIC_FLOW_URI, null, null);
@@ -411,8 +411,8 @@ public class NorthantsContentHelper extends CommonContentHelper {
                 contentResolver.delete(NorthantsProviderModule.CAR_PARK_URI, CREATED_BEFORE,
                         new String[]{String.valueOf(creationTime)});
                 break;
-            case DATA_TYPE_ROAD_WORKS:
-                contentResolver.delete(NorthantsProviderModule.ROAD_WORKS_URI, CREATED_BEFORE,
+            case DATA_TYPE_ROADWORKS:
+                contentResolver.delete(NorthantsProviderModule.ROADWORKS_URI, CREATED_BEFORE,
                         new String[]{String.valueOf(creationTime)});
                 break;
             case DATA_TYPE_TRAFFIC_FLOW:
@@ -482,50 +482,50 @@ public class NorthantsContentHelper extends CommonContentHelper {
         return carParks;
     }
 
-    public static RoadWorks[] roadWorksesFromCursor(Cursor cursor) {
-        RoadWorks[] roadWorkses = null;
+    public static Roadworks[] roadworksesFromCursor(Cursor cursor) {
+        Roadworks[] roadworkses = null;
         if (cursor != null) {
             if (cursor.moveToFirst()) {
-                roadWorkses = new RoadWorks[cursor.getCount()];
-                for (int i = 0; i < roadWorkses.length; i++) {
-                    roadWorkses[i] = new RoadWorks();
-                    roadWorkses[i].setId(cursor.getString(cursor.getColumnIndex(
-                            NorthantsRoadWorks.COLUMN_ID)));
-                    roadWorkses[i].setEffectOnRoadLayout(cursor.getString(cursor.getColumnIndex(
-                            NorthantsRoadWorks.COLUMN_EFFECT_ON_ROAD_LAYOUT)));
-                    roadWorkses[i].setRoadMaintenanceType(cursor.getString(cursor.getColumnIndex(
-                            NorthantsRoadWorks.COLUMN_ROAD_MAINTENANCE_TYPE)));
-                    roadWorkses[i].setComment(cursor.getString(cursor.getColumnIndex(
-                            NorthantsRoadWorks.COLUMN_COMMENT)));
-                    roadWorkses[i].setImpactOnTraffic(cursor.getString(cursor.getColumnIndex(
-                            NorthantsRoadWorks.COLUMN_IMPACT_ON_TRAFFIC)));
-                    roadWorkses[i].setLatitude(cursor.getDouble(cursor.getColumnIndex(
-                            NorthantsRoadWorks.COLUMN_LATITUDE)));
-                    roadWorkses[i].setLongitude(cursor.getDouble(cursor.getColumnIndex(
-                            NorthantsRoadWorks.COLUMN_LONGITUDE)));
-                    roadWorkses[i].setValidityStatus(cursor.getString(cursor.getColumnIndex(
-                            NorthantsRoadWorks.COLUMN_VALIDITY_STATUS)));
-                    roadWorkses[i].setOverallStartTime(cursor.getString(cursor.getColumnIndex(
-                            NorthantsRoadWorks.COLUMN_OVERALL_START_TIME)));
-                    roadWorkses[i].setOverallEndTime(cursor.getString(cursor.getColumnIndex(
-                            NorthantsRoadWorks.COLUMN_OVERALL_END_TIME)));
-                    roadWorkses[i].setStartOfPeriod(cursor.getString(cursor.getColumnIndex(
-                            NorthantsRoadWorks.COLUMN_START_OF_PERIOD)));
-                    roadWorkses[i].setEndOfPeriod(cursor.getString(cursor.getColumnIndex(
-                            NorthantsRoadWorks.COLUMN_END_OF_PERIOD)));
-                    roadWorkses[i].setCinId(cursor.getString(cursor.getColumnIndex(
-                            NorthantsRoadWorks.COLUMN_CIN_ID)));
-                    roadWorkses[i].setCreationTime(cursor.getLong(cursor.getColumnIndex(
-                            NorthantsRoadWorks.COLUMN_CREATION_TIME)));
+                roadworkses = new Roadworks[cursor.getCount()];
+                for (int i = 0; i < roadworkses.length; i++) {
+                    roadworkses[i] = new Roadworks();
+                    roadworkses[i].setId(cursor.getString(cursor.getColumnIndex(
+                            NorthantsRoadworks.COLUMN_ID)));
+                    roadworkses[i].setEffectOnRoadLayout(cursor.getString(cursor.getColumnIndex(
+                            NorthantsRoadworks.COLUMN_EFFECT_ON_ROAD_LAYOUT)));
+                    roadworkses[i].setRoadMaintenanceType(cursor.getString(cursor.getColumnIndex(
+                            NorthantsRoadworks.COLUMN_ROAD_MAINTENANCE_TYPE)));
+                    roadworkses[i].setComment(cursor.getString(cursor.getColumnIndex(
+                            NorthantsRoadworks.COLUMN_COMMENT)));
+                    roadworkses[i].setImpactOnTraffic(cursor.getString(cursor.getColumnIndex(
+                            NorthantsRoadworks.COLUMN_IMPACT_ON_TRAFFIC)));
+                    roadworkses[i].setLatitude(cursor.getDouble(cursor.getColumnIndex(
+                            NorthantsRoadworks.COLUMN_LATITUDE)));
+                    roadworkses[i].setLongitude(cursor.getDouble(cursor.getColumnIndex(
+                            NorthantsRoadworks.COLUMN_LONGITUDE)));
+                    roadworkses[i].setValidityStatus(cursor.getString(cursor.getColumnIndex(
+                            NorthantsRoadworks.COLUMN_VALIDITY_STATUS)));
+                    roadworkses[i].setOverallStartTime(cursor.getString(cursor.getColumnIndex(
+                            NorthantsRoadworks.COLUMN_OVERALL_START_TIME)));
+                    roadworkses[i].setOverallEndTime(cursor.getString(cursor.getColumnIndex(
+                            NorthantsRoadworks.COLUMN_OVERALL_END_TIME)));
+                    roadworkses[i].setStartOfPeriod(cursor.getString(cursor.getColumnIndex(
+                            NorthantsRoadworks.COLUMN_START_OF_PERIOD)));
+                    roadworkses[i].setEndOfPeriod(cursor.getString(cursor.getColumnIndex(
+                            NorthantsRoadworks.COLUMN_END_OF_PERIOD)));
+                    roadworkses[i].setCinId(cursor.getString(cursor.getColumnIndex(
+                            NorthantsRoadworks.COLUMN_CIN_ID)));
+                    roadworkses[i].setCreationTime(cursor.getLong(cursor.getColumnIndex(
+                            NorthantsRoadworks.COLUMN_CREATION_TIME)));
                     cursor.moveToNext();
                 }
             }
             cursor.close();
         }
-        if (roadWorkses == null) {
-            return new RoadWorks[0];
+        if (roadworkses == null) {
+            return new Roadworks[0];
         }
-        return roadWorkses;
+        return roadworkses;
     }
 
     public static TrafficFlow[] trafficFlowsFromCursor(Cursor cursor) {

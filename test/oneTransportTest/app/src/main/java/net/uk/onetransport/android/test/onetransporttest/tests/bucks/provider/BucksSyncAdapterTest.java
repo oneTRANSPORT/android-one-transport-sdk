@@ -11,8 +11,8 @@ import net.uk.onetransport.android.county.bucks.events.Event;
 import net.uk.onetransport.android.county.bucks.events.EventRetriever;
 import net.uk.onetransport.android.county.bucks.provider.BucksContentHelper;
 import net.uk.onetransport.android.county.bucks.provider.BucksProviderModule;
-import net.uk.onetransport.android.county.bucks.roadworks.RoadWorks;
-import net.uk.onetransport.android.county.bucks.roadworks.RoadWorksRetriever;
+import net.uk.onetransport.android.county.bucks.roadworks.Roadworks;
+import net.uk.onetransport.android.county.bucks.roadworks.RoadworksRetriever;
 import net.uk.onetransport.android.county.bucks.trafficflow.TrafficFlow;
 import net.uk.onetransport.android.county.bucks.trafficflow.TrafficFlowRetriever;
 import net.uk.onetransport.android.county.bucks.trafficqueue.TrafficQueue;
@@ -47,7 +47,7 @@ public class BucksSyncAdapterTest extends OneTransportTest {
         Context context = runnerTask.getContext();
         BucksContentHelper.deleteFromProvider(context, BucksContentHelper.DATA_TYPE_CAR_PARK);
         BucksContentHelper.deleteFromProvider(context, BucksContentHelper.DATA_TYPE_EVENT);
-        BucksContentHelper.deleteFromProvider(context, BucksContentHelper.DATA_TYPE_ROAD_WORKS);
+        BucksContentHelper.deleteFromProvider(context, BucksContentHelper.DATA_TYPE_ROADWORKS);
         BucksContentHelper.deleteFromProvider(context, BucksContentHelper.DATA_TYPE_TRAFFIC_FLOW);
         BucksContentHelper.deleteFromProvider(context, BucksContentHelper.DATA_TYPE_TRAFFIC_QUEUE);
         BucksContentHelper.deleteFromProvider(context, BucksContentHelper.DATA_TYPE_TRAFFIC_SCOOT);
@@ -77,8 +77,8 @@ public class BucksSyncAdapterTest extends OneTransportTest {
             runnerTask.report("BUCKS sync adapter ... FAILED.", COLOUR_FAILED);
             return;
         }
-        RoadWorks[] roadWorkses = new RoadWorksRetriever(context).retrieve();
-        RoadWorks[] roadWorkses1 = BucksContentHelper.getRoadWorks(context);
+        Roadworks[] roadWorkses = new RoadworksRetriever(context).retrieve();
+        Roadworks[] roadWorkses1 = BucksContentHelper.getRoadworks(context);
         if (roadWorkses.length != roadWorkses1.length) {
             runnerTask.report("BUCKS sync adapter ... FAILED.", COLOUR_FAILED);
             return;

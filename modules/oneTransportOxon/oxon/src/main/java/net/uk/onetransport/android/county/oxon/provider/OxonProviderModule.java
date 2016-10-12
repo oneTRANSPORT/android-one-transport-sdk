@@ -18,8 +18,8 @@ import net.uk.onetransport.android.county.oxon.carparks.CarPark;
 import net.uk.onetransport.android.county.oxon.carparks.CarParkRetriever;
 import net.uk.onetransport.android.county.oxon.events.Event;
 import net.uk.onetransport.android.county.oxon.events.EventRetriever;
-import net.uk.onetransport.android.county.oxon.roadworks.RoadWorks;
-import net.uk.onetransport.android.county.oxon.roadworks.RoadWorksRetriever;
+import net.uk.onetransport.android.county.oxon.roadworks.Roadworks;
+import net.uk.onetransport.android.county.oxon.roadworks.RoadworksRetriever;
 import net.uk.onetransport.android.county.oxon.trafficflow.TrafficFlow;
 import net.uk.onetransport.android.county.oxon.trafficflow.TrafficFlowRetriever;
 import net.uk.onetransport.android.county.oxon.trafficqueue.TrafficQueue;
@@ -42,14 +42,14 @@ import static net.uk.onetransport.android.county.oxon.provider.OxonContract.Oxon
 import static net.uk.onetransport.android.county.oxon.provider.OxonContract.OxonEvent;
 import static net.uk.onetransport.android.county.oxon.provider.OxonContract.OxonLatestCarPark;
 import static net.uk.onetransport.android.county.oxon.provider.OxonContract.OxonLatestEvent;
-import static net.uk.onetransport.android.county.oxon.provider.OxonContract.OxonLatestRoadWorks;
+import static net.uk.onetransport.android.county.oxon.provider.OxonContract.OxonLatestRoadworks;
 import static net.uk.onetransport.android.county.oxon.provider.OxonContract.OxonLatestTrafficFlow;
 import static net.uk.onetransport.android.county.oxon.provider.OxonContract.OxonLatestTrafficQueue;
 import static net.uk.onetransport.android.county.oxon.provider.OxonContract.OxonLatestTrafficScoot;
 import static net.uk.onetransport.android.county.oxon.provider.OxonContract.OxonLatestTrafficSpeed;
 import static net.uk.onetransport.android.county.oxon.provider.OxonContract.OxonLatestTrafficTravelTime;
 import static net.uk.onetransport.android.county.oxon.provider.OxonContract.OxonLatestVariableMessageSign;
-import static net.uk.onetransport.android.county.oxon.provider.OxonContract.OxonRoadWorks;
+import static net.uk.onetransport.android.county.oxon.provider.OxonContract.OxonRoadworks;
 import static net.uk.onetransport.android.county.oxon.provider.OxonContract.OxonTrafficFlow;
 import static net.uk.onetransport.android.county.oxon.provider.OxonContract.OxonTrafficQueue;
 import static net.uk.onetransport.android.county.oxon.provider.OxonContract.OxonTrafficScoot;
@@ -65,8 +65,8 @@ public class OxonProviderModule implements ProviderModule {
     public static Uri LATEST_CAR_PARK_URI;
     public static Uri EVENT_URI;
     public static Uri LATEST_EVENT_URI;
-    public static Uri ROAD_WORKS_URI;
-    public static Uri LATEST_ROAD_WORKS_URI;
+    public static Uri ROADWORKS_URI;
+    public static Uri LATEST_ROADWORKS_URI;
     public static Uri TRAFFIC_FLOW_URI;
     public static Uri LATEST_TRAFFIC_FLOW_URI;
     public static Uri TRAFFIC_QUEUE_URI;
@@ -84,8 +84,8 @@ public class OxonProviderModule implements ProviderModule {
             "net.uk.onetransport.android.county.oxon.sync.CAR_PARKS";
     private static final String EXTRAS_EVENTS =
             "net.uk.onetransport.android.county.oxon.sync.EVENTS";
-    private static final String EXTRAS_ROAD_WORKS =
-            "net.uk.onetransport.android.county.oxon.sync.ROAD_WORKS";
+    private static final String EXTRAS_ROADWORKS =
+            "net.uk.onetransport.android.county.oxon.sync.ROADWORKS";
     private static final String EXTRAS_TRAFFIC_FLOW =
             "net.uk.onetransport.android.county.oxon.sync.TRAFFIC_FLOW";
     private static final String EXTRAS_TRAFFIC_QUEUE =
@@ -104,9 +104,9 @@ public class OxonProviderModule implements ProviderModule {
     private static int EVENTS;
     private static int LATEST_EVENTS;
     private static int EVENT_ID;
-    private static int ROAD_WORKS;
-    private static int LATEST_ROAD_WORKS;
-    private static int ROAD_WORKS_ID;
+    private static int ROADWORKS;
+    private static int LATEST_ROADWORKS;
+    private static int ROADWORKS_ID;
     private static int TRAFFIC_FLOWS;
     private static int LATEST_TRAFFIC_FLOWS;
     private static int TRAFFIC_FLOW_ID;
@@ -138,8 +138,8 @@ public class OxonProviderModule implements ProviderModule {
         sqLiteDatabase.execSQL(OxonContract.CREATE_LATEST_CAR_PARK_TABLE);
         sqLiteDatabase.execSQL(OxonContract.CREATE_EVENT_TABLE);
         sqLiteDatabase.execSQL(OxonContract.CREATE_LATEST_EVENT_TABLE);
-        sqLiteDatabase.execSQL(OxonContract.CREATE_ROAD_WORKS_TABLE);
-        sqLiteDatabase.execSQL(OxonContract.CREATE_LATEST_ROAD_WORKS_TABLE);
+        sqLiteDatabase.execSQL(OxonContract.CREATE_ROADWORKS_TABLE);
+        sqLiteDatabase.execSQL(OxonContract.CREATE_LATEST_ROADWORKS_TABLE);
         sqLiteDatabase.execSQL(OxonContract.CREATE_TRAFFIC_FLOW_TABLE);
         sqLiteDatabase.execSQL(OxonContract.CREATE_LATEST_TRAFFIC_FLOW_TABLE);
         sqLiteDatabase.execSQL(OxonContract.CREATE_TRAFFIC_QUEUE_TABLE);
@@ -165,9 +165,9 @@ public class OxonProviderModule implements ProviderModule {
         EVENT_URI = Uri.withAppendedPath(AUTHORITY_URI, OxonEvent.TABLE_NAME);
         LATEST_EVENT_URI = Uri.withAppendedPath(AUTHORITY_URI,
                 OxonLatestEvent.TABLE_NAME);
-        ROAD_WORKS_URI = Uri.withAppendedPath(AUTHORITY_URI, OxonRoadWorks.TABLE_NAME);
-        LATEST_ROAD_WORKS_URI = Uri.withAppendedPath(AUTHORITY_URI,
-                OxonLatestRoadWorks.TABLE_NAME);
+        ROADWORKS_URI = Uri.withAppendedPath(AUTHORITY_URI, OxonRoadworks.TABLE_NAME);
+        LATEST_ROADWORKS_URI = Uri.withAppendedPath(AUTHORITY_URI,
+                OxonLatestRoadworks.TABLE_NAME);
         TRAFFIC_FLOW_URI = Uri.withAppendedPath(AUTHORITY_URI, OxonTrafficFlow.TABLE_NAME);
         LATEST_TRAFFIC_FLOW_URI = Uri.withAppendedPath(AUTHORITY_URI,
                 OxonLatestTrafficFlow.TABLE_NAME);
@@ -210,14 +210,14 @@ public class OxonProviderModule implements ProviderModule {
         EVENT_ID = providerModules.size();
         uriMatcher.addURI(authority, OxonEvent.TABLE_NAME + "/#", EVENT_ID);
         providerModules.add(this);
-        ROAD_WORKS = providerModules.size();
-        uriMatcher.addURI(authority, OxonRoadWorks.TABLE_NAME, ROAD_WORKS);
+        ROADWORKS = providerModules.size();
+        uriMatcher.addURI(authority, OxonRoadworks.TABLE_NAME, ROADWORKS);
         providerModules.add(this);
-        LATEST_ROAD_WORKS = providerModules.size();
-        uriMatcher.addURI(authority, OxonLatestRoadWorks.TABLE_NAME, LATEST_ROAD_WORKS);
+        LATEST_ROADWORKS = providerModules.size();
+        uriMatcher.addURI(authority, OxonLatestRoadworks.TABLE_NAME, LATEST_ROADWORKS);
         providerModules.add(this);
-        ROAD_WORKS_ID = providerModules.size();
-        uriMatcher.addURI(authority, OxonRoadWorks.TABLE_NAME + "/#", ROAD_WORKS_ID);
+        ROADWORKS_ID = providerModules.size();
+        uriMatcher.addURI(authority, OxonRoadworks.TABLE_NAME + "/#", ROADWORKS_ID);
         providerModules.add(this);
         TRAFFIC_FLOWS = providerModules.size();
         uriMatcher.addURI(authority, OxonTrafficFlow.TABLE_NAME, TRAFFIC_FLOWS);
@@ -300,14 +300,14 @@ public class OxonProviderModule implements ProviderModule {
         if (match == EVENT_ID) {
             return mimeItemPrefix + OxonEvent.TABLE_NAME;
         }
-        if (match == ROAD_WORKS) {
-            return mimeDirPrefix + OxonRoadWorks.TABLE_NAME;
+        if (match == ROADWORKS) {
+            return mimeDirPrefix + OxonRoadworks.TABLE_NAME;
         }
-        if (match == LATEST_ROAD_WORKS) {
-            return mimeDirPrefix + OxonLatestRoadWorks.TABLE_NAME;
+        if (match == LATEST_ROADWORKS) {
+            return mimeDirPrefix + OxonLatestRoadworks.TABLE_NAME;
         }
-        if (match == ROAD_WORKS_ID) {
-            return mimeItemPrefix + OxonRoadWorks.TABLE_NAME;
+        if (match == ROADWORKS_ID) {
+            return mimeItemPrefix + OxonRoadworks.TABLE_NAME;
         }
         if (match == TRAFFIC_FLOWS) {
             return mimeDirPrefix + OxonTrafficFlow.TABLE_NAME;
@@ -386,12 +386,12 @@ public class OxonProviderModule implements ProviderModule {
         if (match == LATEST_EVENTS) {
             throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed));
         }
-        if (match == ROAD_WORKS) {
-            id = sqLiteDatabase.insert(OxonRoadWorks.TABLE_NAME, null, contentValues);
-            contentResolver.notifyChange(ROAD_WORKS_URI, null);
-            return ContentUris.withAppendedId(ROAD_WORKS_URI, id);
+        if (match == ROADWORKS) {
+            id = sqLiteDatabase.insert(OxonRoadworks.TABLE_NAME, null, contentValues);
+            contentResolver.notifyChange(ROADWORKS_URI, null);
+            return ContentUris.withAppendedId(ROADWORKS_URI, id);
         }
-        if (match == LATEST_ROAD_WORKS) {
+        if (match == LATEST_ROADWORKS) {
             throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed));
         }
         if (match == TRAFFIC_FLOWS) {
@@ -485,23 +485,23 @@ public class OxonProviderModule implements ProviderModule {
             cursor.setNotificationUri(contentResolver, EVENT_URI);
             return cursor;
         }
-        if (match == ROAD_WORKS) {
-            Cursor cursor = sqLiteDatabase.query(OxonRoadWorks.TABLE_NAME, projection,
+        if (match == ROADWORKS) {
+            Cursor cursor = sqLiteDatabase.query(OxonRoadworks.TABLE_NAME, projection,
                     selection, selectionArgs, null, null, sortOrder);
-            cursor.setNotificationUri(contentResolver, ROAD_WORKS_URI);
+            cursor.setNotificationUri(contentResolver, ROADWORKS_URI);
             return cursor;
         }
-        if (match == LATEST_ROAD_WORKS) {
-            Cursor cursor = sqLiteDatabase.query(OxonLatestRoadWorks.TABLE_NAME, projection,
+        if (match == LATEST_ROADWORKS) {
+            Cursor cursor = sqLiteDatabase.query(OxonLatestRoadworks.TABLE_NAME, projection,
                     selection, selectionArgs, null, null, sortOrder);
-            cursor.setNotificationUri(contentResolver, LATEST_ROAD_WORKS_URI);
+            cursor.setNotificationUri(contentResolver, LATEST_ROADWORKS_URI);
             return cursor;
         }
-        if (match == ROAD_WORKS_ID) {
-            Cursor cursor = sqLiteDatabase.query(OxonRoadWorks.TABLE_NAME, projection,
-                    OxonRoadWorks._ID + "=?", new String[]{uri.getLastPathSegment()}, null, null,
+        if (match == ROADWORKS_ID) {
+            Cursor cursor = sqLiteDatabase.query(OxonRoadworks.TABLE_NAME, projection,
+                    OxonRoadworks._ID + "=?", new String[]{uri.getLastPathSegment()}, null, null,
                     sortOrder);
-            cursor.setNotificationUri(contentResolver, ROAD_WORKS_URI);
+            cursor.setNotificationUri(contentResolver, ROADWORKS_URI);
             return cursor;
         }
         if (match == TRAFFIC_FLOWS) {
@@ -653,18 +653,18 @@ public class OxonProviderModule implements ProviderModule {
             contentResolver.notifyChange(EVENT_URI, null);
             return rows;
         }
-        if (match == ROAD_WORKS) {
-            int rows = sqLiteDatabase.update(OxonRoadWorks.TABLE_NAME, values, selection, selectionArgs);
-            contentResolver.notifyChange(ROAD_WORKS_URI, null);
+        if (match == ROADWORKS) {
+            int rows = sqLiteDatabase.update(OxonRoadworks.TABLE_NAME, values, selection, selectionArgs);
+            contentResolver.notifyChange(ROADWORKS_URI, null);
             return rows;
         }
-        if (match == LATEST_ROAD_WORKS) {
+        if (match == LATEST_ROADWORKS) {
             throw new IllegalArgumentException(context.getString(R.string.error_update_not_allowed));
         }
-        if (match == ROAD_WORKS_ID) {
-            int rows = sqLiteDatabase.update(OxonRoadWorks.TABLE_NAME, values,
-                    OxonRoadWorks._ID + "=?", new String[]{uri.getLastPathSegment()});
-            contentResolver.notifyChange(ROAD_WORKS_URI, null);
+        if (match == ROADWORKS_ID) {
+            int rows = sqLiteDatabase.update(OxonRoadworks.TABLE_NAME, values,
+                    OxonRoadworks._ID + "=?", new String[]{uri.getLastPathSegment()});
+            contentResolver.notifyChange(ROADWORKS_URI, null);
             return rows;
         }
         if (match == TRAFFIC_FLOWS) {
@@ -774,11 +774,11 @@ public class OxonProviderModule implements ProviderModule {
         if (match == LATEST_EVENTS) {
             throw new IllegalArgumentException(context.getString(R.string.error_delete_not_allowed));
         }
-        if (match == ROAD_WORKS) {
-            rows = sqLiteDatabase.delete(OxonRoadWorks.TABLE_NAME, selection, selectionArgs);
-            contentResolver.notifyChange(ROAD_WORKS_URI, null);
+        if (match == ROADWORKS) {
+            rows = sqLiteDatabase.delete(OxonRoadworks.TABLE_NAME, selection, selectionArgs);
+            contentResolver.notifyChange(ROADWORKS_URI, null);
         }
-        if (match == LATEST_ROAD_WORKS) {
+        if (match == LATEST_ROADWORKS) {
             throw new IllegalArgumentException(context.getString(R.string.error_delete_not_allowed));
         }
         if (match == TRAFFIC_FLOWS) {
@@ -849,10 +849,10 @@ public class OxonProviderModule implements ProviderModule {
                 }
             }
             // Road works.
-            if (extras.getBoolean(EXTRAS_ROAD_WORKS, false)) {
+            if (extras.getBoolean(EXTRAS_ROADWORKS, false)) {
                 try {
-                    RoadWorks[] roadWorkses = new RoadWorksRetriever(context).retrieve();
-                    OxonContentHelper.insertIntoProvider(context, roadWorkses);
+                    Roadworks[] roadworkses = new RoadworksRetriever(context).retrieve();
+                    OxonContentHelper.insertIntoProvider(context, roadworkses);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -915,13 +915,13 @@ public class OxonProviderModule implements ProviderModule {
         }
     }
 
-    public static void refresh(Context context, boolean carParks, boolean events, boolean roadWorks,
+    public static void refresh(Context context, boolean carParks, boolean events, boolean roadworks,
                                boolean trafficFlow, boolean trafficQueue, boolean trafficScoot, boolean trafficSpeed,
                                boolean trafficTravelTime, boolean variableMessageSigns) {
         Bundle settingsBundle = new Bundle();
         settingsBundle.putBoolean(EXTRAS_CAR_PARKS, carParks);
         settingsBundle.putBoolean(EXTRAS_EVENTS, events);
-        settingsBundle.putBoolean(EXTRAS_ROAD_WORKS, roadWorks);
+        settingsBundle.putBoolean(EXTRAS_ROADWORKS, roadworks);
         settingsBundle.putBoolean(EXTRAS_TRAFFIC_FLOW, trafficFlow);
         settingsBundle.putBoolean(EXTRAS_TRAFFIC_QUEUE, trafficQueue);
         settingsBundle.putBoolean(EXTRAS_TRAFFIC_SCOOT, trafficScoot);

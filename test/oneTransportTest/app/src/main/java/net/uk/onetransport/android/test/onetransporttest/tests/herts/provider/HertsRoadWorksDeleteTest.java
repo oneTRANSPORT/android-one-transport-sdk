@@ -5,12 +5,12 @@ import android.content.Context;
 import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
 import net.uk.onetransport.android.county.herts.provider.HertsContentHelper;
-import net.uk.onetransport.android.county.herts.roadworks.RoadWorks;
+import net.uk.onetransport.android.county.herts.roadworks.Roadworks;
 import net.uk.onetransport.android.test.onetransporttest.RunnerFragment;
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
 import net.uk.onetransport.android.test.onetransporttest.tests.OneTransportTest;
 
-public class HertsRoadWorksDeleteTest extends OneTransportTest {
+public class HertsRoadworksDeleteTest extends OneTransportTest {
 
     @Override
     public void start(RunnerTask runnerTask) throws Exception {
@@ -26,8 +26,8 @@ public class HertsRoadWorksDeleteTest extends OneTransportTest {
         runnerTask.setCurrentTest("HERTS road works delete");
         Context context = runnerTask.getContext();
         HertsContentHelper.deleteFromProvider(context,
-                HertsContentHelper.DATA_TYPE_ROAD_WORKS);
-        RoadWorks[] roadWorkses = HertsContentHelper.getRoadWorks(context);
+                HertsContentHelper.DATA_TYPE_ROADWORKS);
+        Roadworks[] roadWorkses = HertsContentHelper.getRoadworks(context);
         if (roadWorkses.length == 0) {
             runnerTask.report("HERTS road works delete ... PASSED.", COLOUR_PASSED);
             return;

@@ -9,8 +9,8 @@ import net.uk.onetransport.android.county.northants.carparks.CarPark;
 import net.uk.onetransport.android.county.northants.carparks.CarParkRetriever;
 import net.uk.onetransport.android.county.northants.provider.NorthantsContentHelper;
 import net.uk.onetransport.android.county.northants.provider.NorthantsProviderModule;
-import net.uk.onetransport.android.county.northants.roadworks.RoadWorks;
-import net.uk.onetransport.android.county.northants.roadworks.RoadWorksRetriever;
+import net.uk.onetransport.android.county.northants.roadworks.Roadworks;
+import net.uk.onetransport.android.county.northants.roadworks.RoadworksRetriever;
 import net.uk.onetransport.android.county.northants.trafficflow.TrafficFlow;
 import net.uk.onetransport.android.county.northants.trafficflow.TrafficFlowRetriever;
 import net.uk.onetransport.android.county.northants.traffictraveltime.TrafficTravelTime;
@@ -38,7 +38,7 @@ public class NorthantsSyncAdapterTest extends OneTransportTest {
         runnerTask.setCurrentTest("NORTHANTS sync adapter");
         Context context = runnerTask.getContext();
         NorthantsContentHelper.deleteFromProvider(context, NorthantsContentHelper.DATA_TYPE_CAR_PARK);
-        NorthantsContentHelper.deleteFromProvider(context, NorthantsContentHelper.DATA_TYPE_ROAD_WORKS);
+        NorthantsContentHelper.deleteFromProvider(context, NorthantsContentHelper.DATA_TYPE_ROADWORKS);
         NorthantsContentHelper.deleteFromProvider(context, NorthantsContentHelper.DATA_TYPE_TRAFFIC_FLOW);
         NorthantsContentHelper.deleteFromProvider(context, NorthantsContentHelper.DATA_TYPE_TRAFFIC_TRAVEL_TIME);
         NorthantsContentHelper.deleteFromProvider(context, NorthantsContentHelper.DATA_TYPE_VMS);
@@ -59,9 +59,9 @@ public class NorthantsSyncAdapterTest extends OneTransportTest {
             runnerTask.report("NORTHANTS sync adapter ... FAILED.", COLOUR_FAILED);
             return;
         }
-        RoadWorks[] roadWorkses = new RoadWorksRetriever(context).retrieve();
-        RoadWorks[] roadWorkses1 = NorthantsContentHelper.getRoadWorks(context);
-        if (roadWorkses.length != roadWorkses1.length) {
+        Roadworks[] roadworkses = new RoadworksRetriever(context).retrieve();
+        Roadworks[] roadworkses1 = NorthantsContentHelper.getRoadworks(context);
+        if (roadworkses.length != roadworkses1.length) {
             runnerTask.report("NORTHANTS sync adapter ... FAILED.", COLOUR_FAILED);
             return;
         }

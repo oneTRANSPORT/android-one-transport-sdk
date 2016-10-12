@@ -28,7 +28,9 @@ public class CommonDbHelper extends SQLiteOpenHelper {
                 File.separator + CommonDbHelper.DB_DIRECTORY
                         + File.separator + OneTransportProvider.AUTHORITY);
         dbDirectory.mkdirs();
-
+        if (!dbDirectory.isDirectory()) {
+            Log.i("CommonDbHelper", "Database directory could not be created: " + dbDirectory.getAbsolutePath());
+        }
         providerModuleSet.addAll(providerModules); // Remove duplicates.
     }
 

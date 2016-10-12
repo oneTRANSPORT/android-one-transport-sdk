@@ -10,21 +10,21 @@ import com.interdigital.android.dougal.resource.Resource;
 import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
 import net.uk.onetransport.android.county.oxon.generic.RetrieverResult;
-import net.uk.onetransport.android.county.oxon.roadworks.RoadWorks;
-import net.uk.onetransport.android.county.oxon.roadworks.RoadWorksRetriever;
-import net.uk.onetransport.android.county.oxon.roadworks.RoadWorksRetrieverLoader;
+import net.uk.onetransport.android.county.oxon.roadworks.Roadworks;
+import net.uk.onetransport.android.county.oxon.roadworks.RoadworksRetriever;
+import net.uk.onetransport.android.county.oxon.roadworks.RoadworksRetrieverLoader;
 import net.uk.onetransport.android.test.onetransporttest.RunnerFragment;
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
 import net.uk.onetransport.android.test.onetransporttest.tests.OneTransportTest;
 
-public class OxonRoadWorksRetrieveTest extends OneTransportTest
-        implements LoaderManager.LoaderCallbacks<RetrieverResult<RoadWorks>> {
+public class OxonRoadworksRetrieveTest extends OneTransportTest
+        implements LoaderManager.LoaderCallbacks<RetrieverResult<Roadworks>> {
 
     private DougalCallback dougalCallback;
 
     @Override
     public void start(RunnerTask runnerTask) throws Exception {
-        getRoadWorksArray(runnerTask);
+        getRoadworksArray(runnerTask);
     }
 
     @Override
@@ -36,13 +36,13 @@ public class OxonRoadWorksRetrieveTest extends OneTransportTest
     }
 
     @Override
-    public Loader<RetrieverResult<RoadWorks>> onCreateLoader(int id, Bundle args) {
-        return new RoadWorksRetrieverLoader(((RunnerFragment) dougalCallback).getContext());
+    public Loader<RetrieverResult<Roadworks>> onCreateLoader(int id, Bundle args) {
+        return new RoadworksRetrieverLoader(((RunnerFragment) dougalCallback).getContext());
     }
 
     @Override
-    public void onLoadFinished(Loader<RetrieverResult<RoadWorks>> loader,
-                               RetrieverResult<RoadWorks> data) {
+    public void onLoadFinished(Loader<RetrieverResult<Roadworks>> loader,
+                               RetrieverResult<Roadworks> data) {
         if (data.getExceptions().size() > 0 || data.getContent() == null) {
             dougalCallback.getResponse(null, new Throwable("OXON road works array error"));
         } else {
@@ -53,14 +53,14 @@ public class OxonRoadWorksRetrieveTest extends OneTransportTest
     }
 
     @Override
-    public void onLoaderReset(Loader<RetrieverResult<RoadWorks>> loader) {
+    public void onLoaderReset(Loader<RetrieverResult<Roadworks>> loader) {
         // Nothing needs to be done.
     }
 
-    private void getRoadWorksArray(RunnerTask runnerTask) throws Exception {
+    private void getRoadworksArray(RunnerTask runnerTask) throws Exception {
         runnerTask.setCurrentTest("OXON get road works array");
-        RoadWorks[] roadWorkses = new RoadWorksRetriever(getContext()).retrieve();
-        if (roadWorkses == null || roadWorkses.length == 0) {
+        Roadworks[] roadworkses = new RoadworksRetriever(getContext()).retrieve();
+        if (roadworkses == null || roadworkses.length == 0) {
             runnerTask.report("OXON get road works array ... FAILED.", COLOUR_FAILED);
         } else {
             runnerTask.report("OXON get road works array ... PASSED.", COLOUR_PASSED);

@@ -5,12 +5,12 @@ import android.content.Context;
 import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
 import net.uk.onetransport.android.county.herts.provider.HertsContentHelper;
-import net.uk.onetransport.android.county.herts.roadworks.RoadWorks;
+import net.uk.onetransport.android.county.herts.roadworks.Roadworks;
 import net.uk.onetransport.android.test.onetransporttest.RunnerFragment;
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
 import net.uk.onetransport.android.test.onetransporttest.tests.OneTransportTest;
 
-public class HertsRoadWorksIntervalQueryTest extends OneTransportTest {
+public class HertsRoadworksIntervalQueryTest extends OneTransportTest {
 
     @Override
     public void start(RunnerTask runnerTask) throws Exception {
@@ -27,16 +27,16 @@ public class HertsRoadWorksIntervalQueryTest extends OneTransportTest {
         long oldest = 0L;
         long newest = System.currentTimeMillis() / 1000L;
         Context context = runnerTask.getContext();
-        RoadWorks[] roadWorkses = HertsContentHelper.getRoadWorks(context, oldest, newest);
-        RoadWorks[] roadWorkses1 = HertsContentHelper.getRoadWorks(context);
-        if (roadWorkses.length != roadWorkses1.length) {
+        Roadworks[] roadworkses = HertsContentHelper.getRoadworks(context, oldest, newest);
+        Roadworks[] roadworkses1 = HertsContentHelper.getRoadworks(context);
+        if (roadworkses.length != roadworkses1.length) {
             runnerTask.report("HERTS road works interval query ... FAILED.", COLOUR_FAILED);
             return;
         }
         oldest = newest;
         newest++;
-        roadWorkses = HertsContentHelper.getRoadWorks(context, oldest, newest);
-        if (roadWorkses.length > 0) {
+        roadworkses = HertsContentHelper.getRoadworks(context, oldest, newest);
+        if (roadworkses.length > 0) {
             runnerTask.report("HERTS road works interval query ... FAILED.", COLOUR_FAILED);
             return;
         }

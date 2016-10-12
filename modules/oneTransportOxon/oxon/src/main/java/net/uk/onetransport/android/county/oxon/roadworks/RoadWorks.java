@@ -2,7 +2,7 @@ package net.uk.onetransport.android.county.oxon.roadworks;
 
 import com.google.gson.annotations.Expose;
 
-public class RoadWorks {
+public class Roadworks {
 
     @Expose
     private String id;

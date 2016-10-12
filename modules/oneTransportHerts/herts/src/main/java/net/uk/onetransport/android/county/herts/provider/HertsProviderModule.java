@@ -18,8 +18,8 @@ import net.uk.onetransport.android.county.herts.carparks.CarPark;
 import net.uk.onetransport.android.county.herts.carparks.CarParkRetriever;
 import net.uk.onetransport.android.county.herts.events.Event;
 import net.uk.onetransport.android.county.herts.events.EventRetriever;
-import net.uk.onetransport.android.county.herts.roadworks.RoadWorks;
-import net.uk.onetransport.android.county.herts.roadworks.RoadWorksRetriever;
+import net.uk.onetransport.android.county.herts.roadworks.Roadworks;
+import net.uk.onetransport.android.county.herts.roadworks.RoadworksRetriever;
 import net.uk.onetransport.android.county.herts.trafficflow.TrafficFlow;
 import net.uk.onetransport.android.county.herts.trafficflow.TrafficFlowRetriever;
 import net.uk.onetransport.android.county.herts.trafficscoot.TrafficScoot;
@@ -40,13 +40,13 @@ import static net.uk.onetransport.android.county.herts.provider.HertsContract.He
 import static net.uk.onetransport.android.county.herts.provider.HertsContract.HertsEvent;
 import static net.uk.onetransport.android.county.herts.provider.HertsContract.HertsLatestCarPark;
 import static net.uk.onetransport.android.county.herts.provider.HertsContract.HertsLatestEvent;
-import static net.uk.onetransport.android.county.herts.provider.HertsContract.HertsLatestRoadWorks;
+import static net.uk.onetransport.android.county.herts.provider.HertsContract.HertsLatestRoadworks;
 import static net.uk.onetransport.android.county.herts.provider.HertsContract.HertsLatestTrafficFlow;
 import static net.uk.onetransport.android.county.herts.provider.HertsContract.HertsLatestTrafficScoot;
 import static net.uk.onetransport.android.county.herts.provider.HertsContract.HertsLatestTrafficSpeed;
 import static net.uk.onetransport.android.county.herts.provider.HertsContract.HertsLatestTrafficTravelTime;
 import static net.uk.onetransport.android.county.herts.provider.HertsContract.HertsLatestVariableMessageSign;
-import static net.uk.onetransport.android.county.herts.provider.HertsContract.HertsRoadWorks;
+import static net.uk.onetransport.android.county.herts.provider.HertsContract.HertsRoadworks;
 import static net.uk.onetransport.android.county.herts.provider.HertsContract.HertsTrafficFlow;
 import static net.uk.onetransport.android.county.herts.provider.HertsContract.HertsTrafficScoot;
 import static net.uk.onetransport.android.county.herts.provider.HertsContract.HertsTrafficSpeed;
@@ -61,8 +61,8 @@ public class HertsProviderModule implements ProviderModule {
     public static Uri LATEST_CAR_PARK_URI;
     public static Uri EVENT_URI;
     public static Uri LATEST_EVENT_URI;
-    public static Uri ROAD_WORKS_URI;
-    public static Uri LATEST_ROAD_WORKS_URI;
+    public static Uri ROADWORKS_URI;
+    public static Uri LATEST_ROADWORKS_URI;
     public static Uri TRAFFIC_FLOW_URI;
     public static Uri LATEST_TRAFFIC_FLOW_URI;
     public static Uri TRAFFIC_SCOOT_URI;
@@ -78,8 +78,8 @@ public class HertsProviderModule implements ProviderModule {
             "net.uk.onetransport.android.county.herts.sync.CAR_PARKS";
     private static final String EXTRAS_EVENTS =
             "net.uk.onetransport.android.county.herts.sync.EVENTS";
-    private static final String EXTRAS_ROAD_WORKS =
-            "net.uk.onetransport.android.county.herts.sync.ROAD_WORKS";
+    private static final String EXTRAS_ROADWORKS =
+            "net.uk.onetransport.android.county.herts.sync.ROADWORKS";
     private static final String EXTRAS_TRAFFIC_FLOW =
             "net.uk.onetransport.android.county.herts.sync.TRAFFIC_FLOW";
     private static final String EXTRAS_TRAFFIC_SCOOT =
@@ -96,9 +96,9 @@ public class HertsProviderModule implements ProviderModule {
     private static int EVENTS;
     private static int LATEST_EVENTS;
     private static int EVENT_ID;
-    private static int ROAD_WORKS;
-    private static int LATEST_ROAD_WORKS;
-    private static int ROAD_WORKS_ID;
+    private static int ROADWORKS;
+    private static int LATEST_ROADWORKS;
+    private static int ROADWORKS_ID;
     private static int TRAFFIC_FLOWS;
     private static int LATEST_TRAFFIC_FLOWS;
     private static int TRAFFIC_FLOW_ID;
@@ -127,8 +127,8 @@ public class HertsProviderModule implements ProviderModule {
         sqLiteDatabase.execSQL(HertsContract.CREATE_LATEST_CAR_PARK_TABLE);
         sqLiteDatabase.execSQL(HertsContract.CREATE_EVENT_TABLE);
         sqLiteDatabase.execSQL(HertsContract.CREATE_LATEST_EVENT_TABLE);
-        sqLiteDatabase.execSQL(HertsContract.CREATE_ROAD_WORKS_TABLE);
-        sqLiteDatabase.execSQL(HertsContract.CREATE_LATEST_ROAD_WORKS_TABLE);
+        sqLiteDatabase.execSQL(HertsContract.CREATE_ROADWORKS_TABLE);
+        sqLiteDatabase.execSQL(HertsContract.CREATE_LATEST_ROADWORKS_TABLE);
         sqLiteDatabase.execSQL(HertsContract.CREATE_TRAFFIC_FLOW_TABLE);
         sqLiteDatabase.execSQL(HertsContract.CREATE_LATEST_TRAFFIC_FLOW_TABLE);
         sqLiteDatabase.execSQL(HertsContract.CREATE_TRAFFIC_SCOOT_TABLE);
@@ -152,9 +152,9 @@ public class HertsProviderModule implements ProviderModule {
         EVENT_URI = Uri.withAppendedPath(AUTHORITY_URI, HertsEvent.TABLE_NAME);
         LATEST_EVENT_URI = Uri.withAppendedPath(AUTHORITY_URI,
                 HertsLatestEvent.TABLE_NAME);
-        ROAD_WORKS_URI = Uri.withAppendedPath(AUTHORITY_URI, HertsRoadWorks.TABLE_NAME);
-        LATEST_ROAD_WORKS_URI = Uri.withAppendedPath(AUTHORITY_URI,
-                HertsLatestRoadWorks.TABLE_NAME);
+        ROADWORKS_URI = Uri.withAppendedPath(AUTHORITY_URI, HertsRoadworks.TABLE_NAME);
+        LATEST_ROADWORKS_URI = Uri.withAppendedPath(AUTHORITY_URI,
+                HertsLatestRoadworks.TABLE_NAME);
         TRAFFIC_FLOW_URI = Uri.withAppendedPath(AUTHORITY_URI, HertsTrafficFlow.TABLE_NAME);
         LATEST_TRAFFIC_FLOW_URI = Uri.withAppendedPath(AUTHORITY_URI,
                 HertsLatestTrafficFlow.TABLE_NAME);
@@ -193,14 +193,14 @@ public class HertsProviderModule implements ProviderModule {
         EVENT_ID = providerModules.size();
         uriMatcher.addURI(authority, HertsEvent.TABLE_NAME + "/#", EVENT_ID);
         providerModules.add(this);
-        ROAD_WORKS = providerModules.size();
-        uriMatcher.addURI(authority, HertsRoadWorks.TABLE_NAME, ROAD_WORKS);
+        ROADWORKS = providerModules.size();
+        uriMatcher.addURI(authority, HertsRoadworks.TABLE_NAME, ROADWORKS);
         providerModules.add(this);
-        LATEST_ROAD_WORKS = providerModules.size();
-        uriMatcher.addURI(authority, HertsLatestRoadWorks.TABLE_NAME, LATEST_ROAD_WORKS);
+        LATEST_ROADWORKS = providerModules.size();
+        uriMatcher.addURI(authority, HertsLatestRoadworks.TABLE_NAME, LATEST_ROADWORKS);
         providerModules.add(this);
-        ROAD_WORKS_ID = providerModules.size();
-        uriMatcher.addURI(authority, HertsRoadWorks.TABLE_NAME + "/#", ROAD_WORKS_ID);
+        ROADWORKS_ID = providerModules.size();
+        uriMatcher.addURI(authority, HertsRoadworks.TABLE_NAME + "/#", ROADWORKS_ID);
         providerModules.add(this);
         TRAFFIC_FLOWS = providerModules.size();
         uriMatcher.addURI(authority, HertsTrafficFlow.TABLE_NAME, TRAFFIC_FLOWS);
@@ -274,14 +274,14 @@ public class HertsProviderModule implements ProviderModule {
         if (match == EVENT_ID) {
             return mimeItemPrefix + HertsEvent.TABLE_NAME;
         }
-        if (match == ROAD_WORKS) {
-            return mimeDirPrefix + HertsRoadWorks.TABLE_NAME;
+        if (match == ROADWORKS) {
+            return mimeDirPrefix + HertsRoadworks.TABLE_NAME;
         }
-        if (match == LATEST_ROAD_WORKS) {
-            return mimeDirPrefix + HertsLatestRoadWorks.TABLE_NAME;
+        if (match == LATEST_ROADWORKS) {
+            return mimeDirPrefix + HertsLatestRoadworks.TABLE_NAME;
         }
-        if (match == ROAD_WORKS_ID) {
-            return mimeItemPrefix + HertsRoadWorks.TABLE_NAME;
+        if (match == ROADWORKS_ID) {
+            return mimeItemPrefix + HertsRoadworks.TABLE_NAME;
         }
         if (match == TRAFFIC_FLOWS) {
             return mimeDirPrefix + HertsTrafficFlow.TABLE_NAME;
@@ -351,12 +351,12 @@ public class HertsProviderModule implements ProviderModule {
         if (match == LATEST_EVENTS) {
             throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed));
         }
-        if (match == ROAD_WORKS) {
-            id = sqLiteDatabase.insert(HertsRoadWorks.TABLE_NAME, null, contentValues);
-            contentResolver.notifyChange(ROAD_WORKS_URI, null);
-            return ContentUris.withAppendedId(ROAD_WORKS_URI, id);
+        if (match == ROADWORKS) {
+            id = sqLiteDatabase.insert(HertsRoadworks.TABLE_NAME, null, contentValues);
+            contentResolver.notifyChange(ROADWORKS_URI, null);
+            return ContentUris.withAppendedId(ROADWORKS_URI, id);
         }
-        if (match == LATEST_ROAD_WORKS) {
+        if (match == LATEST_ROADWORKS) {
             throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed));
         }
         if (match == TRAFFIC_FLOWS) {
@@ -442,23 +442,23 @@ public class HertsProviderModule implements ProviderModule {
             cursor.setNotificationUri(contentResolver, EVENT_URI);
             return cursor;
         }
-        if (match == ROAD_WORKS) {
-            Cursor cursor = sqLiteDatabase.query(HertsRoadWorks.TABLE_NAME, projection,
+        if (match == ROADWORKS) {
+            Cursor cursor = sqLiteDatabase.query(HertsRoadworks.TABLE_NAME, projection,
                     selection, selectionArgs, null, null, sortOrder);
-            cursor.setNotificationUri(contentResolver, ROAD_WORKS_URI);
+            cursor.setNotificationUri(contentResolver, ROADWORKS_URI);
             return cursor;
         }
-        if (match == LATEST_ROAD_WORKS) {
-            Cursor cursor = sqLiteDatabase.query(HertsLatestRoadWorks.TABLE_NAME, projection,
+        if (match == LATEST_ROADWORKS) {
+            Cursor cursor = sqLiteDatabase.query(HertsLatestRoadworks.TABLE_NAME, projection,
                     selection, selectionArgs, null, null, sortOrder);
-            cursor.setNotificationUri(contentResolver, LATEST_ROAD_WORKS_URI);
+            cursor.setNotificationUri(contentResolver, LATEST_ROADWORKS_URI);
             return cursor;
         }
-        if (match == ROAD_WORKS_ID) {
-            Cursor cursor = sqLiteDatabase.query(HertsRoadWorks.TABLE_NAME, projection,
-                    HertsRoadWorks._ID + "=?", new String[]{uri.getLastPathSegment()}, null, null,
+        if (match == ROADWORKS_ID) {
+            Cursor cursor = sqLiteDatabase.query(HertsRoadworks.TABLE_NAME, projection,
+                    HertsRoadworks._ID + "=?", new String[]{uri.getLastPathSegment()}, null, null,
                     sortOrder);
-            cursor.setNotificationUri(contentResolver, ROAD_WORKS_URI);
+            cursor.setNotificationUri(contentResolver, ROADWORKS_URI);
             return cursor;
         }
         if (match == TRAFFIC_FLOWS) {
@@ -591,18 +591,18 @@ public class HertsProviderModule implements ProviderModule {
             contentResolver.notifyChange(EVENT_URI, null);
             return rows;
         }
-        if (match == ROAD_WORKS) {
-            int rows = sqLiteDatabase.update(HertsRoadWorks.TABLE_NAME, values, selection, selectionArgs);
-            contentResolver.notifyChange(ROAD_WORKS_URI, null);
+        if (match == ROADWORKS) {
+            int rows = sqLiteDatabase.update(HertsRoadworks.TABLE_NAME, values, selection, selectionArgs);
+            contentResolver.notifyChange(ROADWORKS_URI, null);
             return rows;
         }
-        if (match == LATEST_ROAD_WORKS) {
+        if (match == LATEST_ROADWORKS) {
             throw new IllegalArgumentException(context.getString(R.string.error_update_not_allowed));
         }
-        if (match == ROAD_WORKS_ID) {
-            int rows = sqLiteDatabase.update(HertsRoadWorks.TABLE_NAME, values,
-                    HertsRoadWorks._ID + "=?", new String[]{uri.getLastPathSegment()});
-            contentResolver.notifyChange(ROAD_WORKS_URI, null);
+        if (match == ROADWORKS_ID) {
+            int rows = sqLiteDatabase.update(HertsRoadworks.TABLE_NAME, values,
+                    HertsRoadworks._ID + "=?", new String[]{uri.getLastPathSegment()});
+            contentResolver.notifyChange(ROADWORKS_URI, null);
             return rows;
         }
         if (match == TRAFFIC_FLOWS) {
@@ -698,11 +698,11 @@ public class HertsProviderModule implements ProviderModule {
         if (match == LATEST_EVENTS) {
             throw new IllegalArgumentException(context.getString(R.string.error_delete_not_allowed));
         }
-        if (match == ROAD_WORKS) {
-            rows = sqLiteDatabase.delete(HertsRoadWorks.TABLE_NAME, selection, selectionArgs);
-            contentResolver.notifyChange(ROAD_WORKS_URI, null);
+        if (match == ROADWORKS) {
+            rows = sqLiteDatabase.delete(HertsRoadworks.TABLE_NAME, selection, selectionArgs);
+            contentResolver.notifyChange(ROADWORKS_URI, null);
         }
-        if (match == LATEST_ROAD_WORKS) {
+        if (match == LATEST_ROADWORKS) {
             throw new IllegalArgumentException(context.getString(R.string.error_delete_not_allowed));
         }
         if (match == TRAFFIC_FLOWS) {
@@ -766,10 +766,10 @@ public class HertsProviderModule implements ProviderModule {
                 }
             }
             // Road works.
-            if (extras.getBoolean(EXTRAS_ROAD_WORKS, false)) {
+            if (extras.getBoolean(EXTRAS_ROADWORKS, false)) {
                 try {
-                    RoadWorks[] roadWorkses = new RoadWorksRetriever(context).retrieve();
-                    HertsContentHelper.insertIntoProvider(context, roadWorkses);
+                    Roadworks[] roadworkses = new RoadworksRetriever(context).retrieve();
+                    HertsContentHelper.insertIntoProvider(context, roadworkses);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -823,13 +823,13 @@ public class HertsProviderModule implements ProviderModule {
         }
     }
 
-    public static void refresh(Context context, boolean carParks, boolean events, boolean roadWorks,
+    public static void refresh(Context context, boolean carParks, boolean events, boolean roadworks,
                                boolean trafficFlow, boolean trafficScoot, boolean trafficSpeed,
                                boolean trafficTravelTime, boolean variableMessageSigns) {
         Bundle settingsBundle = new Bundle();
         settingsBundle.putBoolean(EXTRAS_CAR_PARKS, carParks);
         settingsBundle.putBoolean(EXTRAS_EVENTS, events);
-        settingsBundle.putBoolean(EXTRAS_ROAD_WORKS, roadWorks);
+        settingsBundle.putBoolean(EXTRAS_ROADWORKS, roadworks);
         settingsBundle.putBoolean(EXTRAS_TRAFFIC_FLOW, trafficFlow);
         settingsBundle.putBoolean(EXTRAS_TRAFFIC_SCOOT, trafficScoot);
         settingsBundle.putBoolean(EXTRAS_TRAFFIC_SPEED, trafficSpeed);
