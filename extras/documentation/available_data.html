@@ -1,0 +1,367 @@
+<html>
+<head>
+<title>Available data from oneTransport</title>
+</head>
+<body>
+
+<h1>What data is available?</h1>
+
+<h2>Near-real-time local authority feeds</h2>
+
+<p>Data sources are provided by county and by data type, but note that there
+is a fair amount of overlap between the regions and councils may control
+items outside their boundaries.  For example, Northamptonshire has variable
+message signs near Luton and Leicester.  We suggest consuming all the feeds
+for the items in which you are interested and then filtering geographically
+if needed.</p>
+
+<p>Also, not every county provides every type of data.  These feeds are
+available:</p>
+
+<blockquote>
+  <h3>Buckinghamshire</h3>
+
+<blockquote>
+  <p>Car parks, events, traffic flow, traffic queue, traffic scoot, traffic
+speed, traffic travel time, roadworks, variable message signs</p>
+</blockquote>
+
+<h3>Hertfordshire</h3>
+
+<blockquote>
+  <p>Car parks, events, traffic flow, traffic scoot, traffic
+speed, traffic travel time, roadworks, variable message signs</p>
+</blockquote>
+
+<h3>Northamptonshire</h3>
+
+<blockquote>
+  <p>Car parks, traffic flow, traffic travel time, roadworks,
+variable message signs</p>
+</blockquote>
+
+<h3>Oxfordshire</h3>
+
+<blockquote>
+  <p>Car parks, events, traffic flow, traffic queue, traffic scoot, traffic
+speed, traffic travel time, roadworks, variable message signs</p>
+</blockquote>
+</blockquote>
+
+<p>The data types in each feed are common across counties, so a car park object
+from Bucks will be the same class as one from Northants.  Objects retrieved
+from a feed are generally indicative of the current situation, so if an
+average speed reading across a link is 40kph, then that was true when the last
+reading was observed a few minutes ago.  If an event occurs in a feed, then
+that event is happening now.</p>
+
+<p>The data classes are:</p>
+
+<blockquote>
+  <h3>Car parks</h3>
+
+<blockquote>
+  <p><strong>Car park identity</strong> unique identifier</p>
+
+<p><strong>Latitude</strong> latitude of the car park</p>
+
+<p><strong>Longitude</strong> longitude of the car park</p>
+
+<p><strong>Occupancy</strong></p>
+
+<p><strong>Occupancy trend</strong></p>
+
+<p><strong>Total parking capacity</strong> number of parking spaces</p>
+
+<p><strong>Fill rate</strong> cars entering per hour</p>
+
+<p><strong>Exit rate</strong> cars leaving per hour</p>
+
+<p><strong>Almost full increasing</strong> number of spaces above which 'spaces available'
+becomes 'almost full' as cars enter</p>
+
+<p><strong>Almost full decreasing</strong> number of spaces below which 'almost full'
+becomes 'spaces available' as cars leave</p>
+
+<p><strong>Full increasing</strong> number of spaces above which 'almost full' becomes
+'full' as cars enter</p>
+
+<p><strong>Full decreasing</strong> number of spaces below which 'full' becomes 'almost
+full' as cars leave</p>
+
+<p><strong>Status</strong></p>
+
+<p><strong>Status time</strong></p>
+
+<p><strong>Queuing time</strong> current queuing time for car park entry</p>
+
+<p><strong>Parking area name</strong> name of this car park</p>
+
+<p><strong>Entrance full</strong> number of spaces above which the car park is considered
+full (so the entrance sign lights up 'FULL')</p>
+</blockquote>
+
+<h3>Events</h3>
+
+<blockquote>
+  <p><strong>Id</strong> a unique identifier</p>
+
+<p><strong>Start of period</strong> time the event begins</p>
+
+<p><strong>End of period</strong> time the event ends</p>
+
+<p><strong>Overall start time</strong> seems to be the same as <strong>start of period</strong></p>
+
+<p><strong>Overall end time</strong> seems to be the same as <strong>end of period</strong></p>
+
+<p><strong>Latitude</strong> latitude of the event</p>
+
+<p><strong>Longitude</strong> longitude of the event</p>
+
+<p><strong>Description</strong> what the event actually is</p>
+
+<p><strong>Impact on traffic</strong> how traffic flow in the region of the event is
+affected</p>
+
+<p><strong>Validity status</strong></p>
+</blockquote>
+
+<h3>Traffic flow</h3>
+
+<blockquote>
+  <p><strong>id</strong> unique identifier</p>
+
+<p><strong>Tpeg direction</strong></p>
+
+<p><strong>From type</strong></p>
+
+<p><strong>From descriptor</strong> name of the start of the link</p>
+
+<p><strong>From latitude</strong> latitude of the start of the link</p>
+
+<p><strong>From longitude</strong> longitude of the start of the link</p>
+
+<p><strong>To type</strong></p>
+
+<p><strong>To descriptor</strong> name of the end of the link</p>
+
+<p><strong>To latitude</strong> latitude of the end of the link</p>
+
+<p><strong>To longitude</strong> longitude of the end of the link</p>
+
+<p><strong>Time</strong> timestamp of this item</p>
+
+<p><strong>Vehicle flow</strong> number of vehicles along the link per hour</p>
+</blockquote>
+
+<h3>Traffic queue</h3>
+
+<blockquote>
+  <p><strong>id</strong> unique identifier</p>
+
+<p><strong>Tpeg direction</strong></p>
+
+<p><strong>From type</strong></p>
+
+<p><strong>From descriptor</strong> name of the start of the link</p>
+
+<p><strong>From latitude</strong> latitude of the start of the link</p>
+
+<p><strong>From longitude</strong> longitude of the start of the link</p>
+
+<p><strong>To type</strong></p>
+
+<p><strong>To descriptor</strong> name of the end of the link</p>
+
+<p><strong>To latitude</strong> latitude of the end of the link</p>
+
+<p><strong>To longitude</strong> longitude of the end of the link</p>
+
+<p><strong>Time</strong> timestamp of this item</p>
+
+<p><strong>Severity</strong></p>
+
+<p><strong>Present</strong> 'Y' if a queue exists, 'N' otherwise</p>
+</blockquote>
+
+<h3>Traffic scoot</h3>
+
+<blockquote>
+  <p><strong>id</strong> unique identifier</p>
+
+<p><strong>Tpeg direction</strong></p>
+
+<p><strong>From type</strong></p>
+
+<p><strong>From descriptor</strong> name of the start of the link</p>
+
+<p><strong>From latitude</strong> latitude of the start of the link</p>
+
+<p><strong>From longitude</strong> longitude of the start of the link</p>
+
+<p><strong>To type</strong></p>
+
+<p><strong>To descriptor</strong> name of the end of the link</p>
+
+<p><strong>To latitude</strong> latitude of the end of the link</p>
+
+<p><strong>To longitude</strong> longitude of the end of the link</p>
+
+<p><strong>Time</strong> timestamp of this item</p>
+
+<p><strong>Current flow</strong> vehicles per hour travelling along this link</p>
+
+<p><strong>Average speed</strong> average speed of vehicles</p>
+
+<p><strong>Link status type</strong></p>
+
+<p><strong>Link status</strong></p>
+
+<p><strong>Link travel time</strong></p>
+
+<p><strong>Congestion percent</strong> level of congestion on this link</p>
+</blockquote>
+
+<h3>Traffic speed</h3>
+
+<blockquote>
+  <p><strong>id</strong> unique identifier</p>
+
+<p><strong>Tpeg direction</strong></p>
+
+<p><strong>From type</strong></p>
+
+<p><strong>From descriptor</strong> name of the start of the link</p>
+
+<p><strong>From latitude</strong> latitude of the start of the link</p>
+
+<p><strong>From longitude</strong> longitude of the start of the link</p>
+
+<p><strong>To type</strong></p>
+
+<p><strong>To descriptor</strong> name of the end of the link</p>
+
+<p><strong>To latitude</strong> latitude of the end of the link</p>
+
+<p><strong>To longitude</strong> longitude of the end of the link</p>
+
+<p><strong>Time</strong> timestamp of this item</p>
+
+<p><strong>Average vehicle speed</strong> average speed along this link in km/h</p>
+</blockquote>
+
+<h3>Traffic travel time</h3>
+
+<blockquote>
+  <p><strong>id</strong> unique identifier</p>
+
+<p><strong>Tpeg direction</strong></p>
+
+<p><strong>From type</strong></p>
+
+<p><strong>From descriptor</strong> name of the start of the link</p>
+
+<p><strong>From latitude</strong> latitude of the start of the link</p>
+
+<p><strong>From longitude</strong> longitude of the start of the link</p>
+
+<p><strong>To type</strong></p>
+
+<p><strong>To descriptor</strong> name of the end of the link</p>
+
+<p><strong>To latitude</strong> latitude of the end of the link</p>
+
+<p><strong>To longitude</strong> longitude of the end of the link</p>
+
+<p><strong>Time</strong> timestamp of this item</p>
+
+<p><strong>Travel time</strong> actual time taken to traverse this link</p>
+
+<p><strong>Free flow travel time</strong> best possible time given minimal congestion</p>
+
+<p><strong>Free flow speed</strong> best possible speed given minimal congestion and
+presumably adhering to speed limits</p>
+</blockquote>
+
+<h3>Roadworks</h3>
+
+<blockquote>
+  <p><strong>Id</strong> unique identifier</p>
+
+<p><strong>Effect on road layout</strong> how the traffic flow changes, if at all</p>
+
+<p><strong>Road maintenance type</strong></p>
+
+<p><strong>Comment</strong> description of the works to be carried out</p>
+
+<p><strong>Impact on traffic</strong></p>
+
+<p><strong>Latitude</strong> latitude of the roadworks</p>
+
+<p><strong>Longitude</strong> longitude of the roadworks</p>
+
+<p><strong>Validity status</strong></p>
+
+<p><strong>Overall start time</strong> when the roadworks were started</p>
+
+<p><strong>Overall end time</strong> scheduled end time</p>
+
+<p><strong>Start of period</strong> seems to be the same as <strong>overall start time</strong></p>
+
+<p><strong>End of period</strong> seems to be the same as <strong>overall end time</strong></p>
+</blockquote>
+
+<h3>Variable message signs</h3>
+
+<blockquote>
+  <p><strong>Location id</strong> unique identifier</p>
+
+<p><strong>Description</strong> name of this sign</p>
+
+<p><strong>VMS type</strong></p>
+
+<p><strong>Latitude</strong> latitude of this sign</p>
+
+<p><strong>Longitude</strong> longitude of this sign</p>
+
+<p><strong>Number of characters</strong> width of the matrix</p>
+
+<p><strong>Number of rows</strong> height of the matrix</p>
+
+<p><strong>VMS legends</strong> lines of text currently displayed by this sign</p>
+</blockquote>
+</blockquote>
+
+<h2>Silverstone near-real-time and historical data</h2>
+
+<p>We have two groups of feeds supplied by Clearview and BitCarrier, for the
+car parks and roads at Silverstone circuit.</p>
+
+<p>Clearview has parking sensors located at the entrances to car parks at the
+venue and BitCarrier has Bluetooth sensors on road junctions that can match
+Bluetooth ids from in-car entertainment systems or passengers' mobile phones.</p>
+
+<p>Both providers supply relatively static feeds describing the configuration
+of devices, that only need to be consumed once, and dynamic feeds about the
+current state of car parks and road networks that can be read repeatedly to
+build up a continuous picture of traffic information.</p>
+
+<p>In addition, we can supply a SQLite database that contains historical data
+for the weekends of the Formula One Grand Prix and Moto GP races in 2016.
+You can add this database to your app and continue to add to it with current
+feed data if you like.</p>
+
+<p>Whether your data comes direct from a feed or from the database, the format
+is the same.  These classes are available:</p>
+
+<blockquote>
+  <h2>Clearview</h2>
+
+<blockquote>
+  <h3>Clearview Silverstone device</h3>
+
+<h3>Clearview Silverstone traffic</h3>
+</blockquote>
+</blockquote>
+
+</html>

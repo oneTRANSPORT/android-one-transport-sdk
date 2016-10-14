@@ -1,8 +1,10 @@
 What data is available?
 =======================
 
+## Near-real-time local authority feeds
+
 Data sources are provided by county and by data type, but note that there
-is a fair amount of overlap between the regions and counties may control
+is a fair amount of overlap between the regions and councils may control
 items outside their boundaries.  For example, Northamptonshire has variable
 message signs near Luton and Leicester.  We suggest consuming all the feeds
 for the items in which you are interested and then filtering geographically
@@ -27,4 +29,284 @@ available:
 > > Car parks, events, traffic flow, traffic queue, traffic scoot, traffic
 > > speed, traffic travel time, roadworks, variable message signs
 
+The data types in each feed are common across counties, so a car park object
+from Bucks will be the same class as one from Northants.  Objects retrieved
+from a feed are generally indicative of the current situation, so if an
+average speed reading across a link is 40kph, then that was true when the last
+reading was observed a few minutes ago.  If an event occurs in a feed, then
+that event is happening now.
 
+The data classes are:
+
+> ### Car parks
+> > **Car park identity** unique identifier
+> >
+> > **Latitude** latitude of the car park
+> >
+> > **Longitude** longitude of the car park
+> >
+> > **Occupancy**
+> >
+> > **Occupancy trend**
+> >
+> > **Total parking capacity** number of parking spaces
+> >
+> > **Fill rate** cars entering per hour
+> >
+> > **Exit rate** cars leaving per hour
+> >
+> > **Almost full increasing** number of spaces above which 'spaces available'
+> > becomes 'almost full' as cars enter
+> >
+> > **Almost full decreasing** number of spaces below which 'almost full'
+> > becomes 'spaces available' as cars leave
+> >
+> > **Full increasing** number of spaces above which 'almost full' becomes
+> > 'full' as cars enter
+> >
+> > **Full decreasing** number of spaces below which 'full' becomes 'almost
+> > full' as cars leave
+> >
+> > **Status**
+> >
+> > **Status time**
+> >
+> > **Queuing time** current queuing time for car park entry
+> >
+> > **Parking area name** name of this car park
+> >
+> > **Entrance full** number of spaces above which the car park is considered
+> > full (so the entrance sign lights up 'FULL')
+
+> ### Events
+> > **Id** a unique identifier
+> > 
+> > **Start of period** time the event begins
+> > 
+> > **End of period** time the event ends
+> > 
+> > **Overall start time** seems to be the same as **start of period**
+> > 
+> > **Overall end time** seems to be the same as **end of period**
+> > 
+> > **Latitude** latitude of the event
+> > 
+> > **Longitude** longitude of the event
+> > 
+> > **Description** what the event actually is
+> > 
+> > **Impact on traffic** how traffic flow in the region of the event is
+> > affected
+> > 
+> > **Validity status**
+
+> ### Traffic flow
+> > **id** unique identifier
+> > 
+> > **Tpeg direction**
+> > 
+> > **From type**
+> > 
+> > **From descriptor** name of the start of the link
+> > 
+> > **From latitude** latitude of the start of the link
+> > 
+> > **From longitude** longitude of the start of the link
+> > 
+> > **To type**
+> > 
+> > **To descriptor** name of the end of the link
+> > 
+> > **To latitude** latitude of the end of the link
+> > 
+> > **To longitude** longitude of the end of the link
+> > 
+> > **Time** timestamp of this item
+> > 
+> > **Vehicle flow** number of vehicles along the link per hour
+
+> ### Traffic queue
+> > **id** unique identifier
+> >
+> > **Tpeg direction**
+> >
+> > **From type**
+> >
+> > **From descriptor** name of the start of the link
+> >
+> > **From latitude** latitude of the start of the link
+> >
+> > **From longitude** longitude of the start of the link
+> >
+> > **To type**
+> >
+> > **To descriptor** name of the end of the link
+> >
+> > **To latitude** latitude of the end of the link
+> >
+> > **To longitude** longitude of the end of the link
+> >
+> > **Time** timestamp of this item
+> >
+> > **Severity**
+> >
+> > **Present** 'Y' if a queue exists, 'N' otherwise
+
+> ### Traffic scoot
+> > **id** unique identifier
+> >
+> > **Tpeg direction**
+> >
+> > **From type**
+> >
+> > **From descriptor** name of the start of the link
+> >
+> > **From latitude** latitude of the start of the link
+> >
+> > **From longitude** longitude of the start of the link
+> >
+> > **To type**
+> >
+> > **To descriptor** name of the end of the link
+> >
+> > **To latitude** latitude of the end of the link
+> >
+> > **To longitude** longitude of the end of the link
+> >
+> > **Time** timestamp of this item
+> >
+> > **Current flow** vehicles per hour travelling along this link
+> >
+> > **Average speed** average speed of vehicles
+> >
+> > **Link status type**
+> >
+> > **Link status**
+> >
+> > **Link travel time**
+> >
+> > **Congestion percent** level of congestion on this link
+
+> ### Traffic speed
+> > **id** unique identifier
+> >
+> > **Tpeg direction**
+> >
+> > **From type**
+> >
+> > **From descriptor** name of the start of the link
+> >
+> > **From latitude** latitude of the start of the link
+> >
+> > **From longitude** longitude of the start of the link
+> >
+> > **To type**
+> >
+> > **To descriptor** name of the end of the link
+> >
+> > **To latitude** latitude of the end of the link
+> >
+> > **To longitude** longitude of the end of the link
+> >
+> > **Time** timestamp of this item
+> >
+> > **Average vehicle speed** average speed along this link in km/h
+
+> ### Traffic travel time
+> > **id** unique identifier
+> >
+> > **Tpeg direction**
+> >
+> > **From type**
+> >
+> > **From descriptor** name of the start of the link
+> >
+> > **From latitude** latitude of the start of the link
+> >
+> > **From longitude** longitude of the start of the link
+> >
+> > **To type**
+> >
+> > **To descriptor** name of the end of the link
+> >
+> > **To latitude** latitude of the end of the link
+> >
+> > **To longitude** longitude of the end of the link
+> >
+> > **Time** timestamp of this item
+> >
+> > **Travel time** actual time taken to traverse this link
+> >
+> > **Free flow travel time** best possible time given minimal congestion
+> >
+> > **Free flow speed** best possible speed given minimal congestion and
+> > presumably adhering to speed limits
+
+> ### Roadworks
+> > **Id** unique identifier
+> >
+> > **Effect on road layout** how the traffic flow changes, if at all
+> >
+> > **Road maintenance type**
+> >
+> > **Comment** description of the works to be carried out
+> >
+> > **Impact on traffic**
+> >
+> > **Latitude** latitude of the roadworks
+> >
+> > **Longitude** longitude of the roadworks
+> >
+> > **Validity status**
+> >
+> > **Overall start time** when the roadworks were started
+> >
+> > **Overall end time** scheduled end time
+> >
+> > **Start of period** seems to be the same as **overall start time**
+> >
+> > **End of period** seems to be the same as **overall end time**
+
+> ### Variable message signs
+> > **Location id** unique identifier
+> >
+> > **Description** name of this sign
+> >
+> > **VMS type**
+> >
+> > **Latitude** latitude of this sign
+> >
+> > **Longitude** longitude of this sign
+> >
+> > **Number of characters** width of the matrix
+> >
+> > **Number of rows** height of the matrix
+> >
+> > **VMS legends** lines of text currently displayed by this sign
+
+## Silverstone near-real-time and historical data
+
+We have two groups of feeds supplied by Clearview and BitCarrier, for the
+car parks and roads at Silverstone circuit.
+
+Clearview has parking sensors located at the entrances to car parks at the
+venue and BitCarrier has Bluetooth sensors on road junctions that can match
+Bluetooth ids from in-car entertainment systems or passengers' mobile phones.
+
+Both providers supply relatively static feeds describing the configuration
+of devices, that only need to be consumed once, and dynamic feeds about the
+current state of car parks and road networks that can be read repeatedly to
+build up a continuous picture of traffic information.
+
+In addition, we can supply a SQLite database that contains historical data
+for the weekends of the Formula One Grand Prix and Moto GP races in 2016.
+You can add this database to your app and continue to add to it with current
+feed data if you like.
+
+Whether your data comes direct from a feed or from the database, the format
+is the same.  These classes are available:
+
+> ## Clearview
+> > ### Clearview Silverstone device
+
+> > ### Clearview Silverstone traffic
