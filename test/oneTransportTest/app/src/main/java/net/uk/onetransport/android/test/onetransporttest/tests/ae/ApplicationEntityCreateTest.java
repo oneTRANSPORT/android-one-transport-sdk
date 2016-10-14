@@ -20,7 +20,7 @@ public class ApplicationEntityCreateTest extends ApplicationEntityTest {
         ApplicationEntity applicationEntity = new ApplicationEntity(getAeId(), APP_NAME,
                 APPLICATION_ID, BASE_URL, PATH_CREATE, false);
         applicationEntity.setExpiryTime("20240101T000000");
-        applicationEntity.createAsync(USER_NAME, PASSWORD, dougalCallback);
+        applicationEntity.createAsync(TOKEN, dougalCallback);
     }
 
     private void createApplicationEntity() throws Exception {
@@ -28,7 +28,7 @@ public class ApplicationEntityCreateTest extends ApplicationEntityTest {
         ApplicationEntity applicationEntity = new ApplicationEntity(getAeId(), APP_NAME,
                 APPLICATION_ID, BASE_URL, PATH_CREATE, false);
         applicationEntity.setExpiryTime("20240101T000000");
-        applicationEntity.create(USER_NAME, PASSWORD);
+        applicationEntity.create(TOKEN);
         if (applicationEntity.getCreationTime() == null) {
             runnerTask.report("Create application entity ... FAILED.", COLOUR_FAILED);
         } else {

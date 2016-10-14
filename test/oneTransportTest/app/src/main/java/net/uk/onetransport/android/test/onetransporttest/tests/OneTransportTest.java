@@ -4,17 +4,13 @@ import android.content.Context;
 
 import com.interdigital.android.dougal.resource.callback.DougalCallback;
 
-import net.uk.onetransport.android.test.onetransporttest.R;
 import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
 
 public abstract class OneTransportTest {
 
-    public static final String USER_NAME = "pthomas";
-    public static final String PASSWORD = "EKFYGUCC";
-    //    String USER_NAME = "android";
-//    String PASSWORD = "DompAdtem9";
+    public static final String CLIENT_AE_ID = "C-Y249T25lVHJhbnNwb3J0VGVzdCxvdT1yb290";
+    public static final String TOKEN = "010FYzsgPMbnxKRn";
     public static final String CSE_BASE = "cse-01.onetransport.uk.net";
-    //    String CSE_ID = "ONET-CSE-05";
     public static final String CSE_NAME = "ONETCSE01";
 
     public static final String BASE_URL = "https://" + CSE_BASE + "/";
@@ -39,7 +35,7 @@ public abstract class OneTransportTest {
     public abstract void startAsync(DougalCallback dougalCallback);
 
     public String getAeId() {
-        return context.getString(R.string.bucks_ae_id);
+        return CLIENT_AE_ID;
     }
 
     public Context getContext() {

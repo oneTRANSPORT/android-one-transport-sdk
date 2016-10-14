@@ -27,10 +27,9 @@ public class DeviceRetriever extends Retriever<Device> implements DeviceParams {
     }
 
     @Override
-    protected ResourceChild[] retrieveChildren(String aeId, String cseBaseUrl, String userName,
-                                               String password) throws Exception {
-        return Container.retrieveChildren(aeId, cseBaseUrl, getRetrievePrefix(),
-                userName, password).getResourceChildren();
+    protected ResourceChild[] retrieveChildren(String aeId, String cseBaseUrl, String token)
+            throws Exception {
+        return Container.retrieveChildren(aeId, cseBaseUrl, getRetrievePrefix(), token).getResourceChildren();
 
     }
 

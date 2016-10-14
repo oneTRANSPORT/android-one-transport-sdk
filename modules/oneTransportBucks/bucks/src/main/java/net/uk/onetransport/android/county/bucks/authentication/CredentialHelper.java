@@ -21,12 +21,16 @@ public class CredentialHelper {
         Prefs.putAeId(context, aeId);
         Prefs.putSessionToken(context, sessionToken);
         Prefs.putInstallationId(context, installationId);
-        Resource.addInterceptors(context.getString(R.string.bucks_cse_base_url),
-                new Interceptor[]{new AuthenticationInterceptor()});
+//        Resource.addInterceptors(context.getString(R.string.bucks_cse_base_url),
+//                new Interceptor[]{new AuthenticationInterceptor()});
     }
 
-    public static String getBasicAuth(Context context) {
-        return Credentials.basic(getAeId(context), getSessionToken(context));
+//    public static String getBasicAuth(Context context) {
+//        return Credentials.basic(getAeId(context), getSessionToken(context));
+//    }
+
+    public static String getBearerAuth(Context context) {
+        return "Bearer " + getSessionToken(context);
     }
 
     public static void refreshSessionToken(Context context, String sessionToken) {

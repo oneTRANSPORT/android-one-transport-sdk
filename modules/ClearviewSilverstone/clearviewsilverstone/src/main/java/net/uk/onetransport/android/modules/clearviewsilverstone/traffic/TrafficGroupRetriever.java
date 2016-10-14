@@ -27,10 +27,10 @@ public class TrafficGroupRetriever extends Retriever<TrafficGroup> implements Tr
     }
 
     @Override
-    protected ResourceChild[] retrieveChildren(String aeId, String cseBaseUrl, String userName,
-                                               String password) throws Exception {
+    protected ResourceChild[] retrieveChildren(String aeId, String cseBaseUrl, String token)
+            throws Exception {
         return ApplicationEntity.retrieveChildren(aeId, cseBaseUrl, getRetrievePrefix(),
-                userName, password).getResourceChildren();
+                token).getResourceChildren();
     }
 
     @Override
