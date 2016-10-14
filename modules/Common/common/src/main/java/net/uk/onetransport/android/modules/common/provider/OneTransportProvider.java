@@ -64,6 +64,14 @@ public class OneTransportProvider extends ContentProvider {
     }
 
     @Override
+    public int bulkInsert(@NonNull Uri uri, @NonNull ContentValues[] values) {
+        int match = uriMatcher.match(uri);
+        SQLiteDatabase db = commonDbHelper.getWritableDatabase();
+        return providerModules.get(match).bulkInsert(match, values, db);
+//        return super.bulkInsert(uri, values);
+    }
+
+    @Override
     public Uri insert(@NonNull Uri uri, ContentValues values) {
         int match = uriMatcher.match(uri);
         SQLiteDatabase db = commonDbHelper.getWritableDatabase();

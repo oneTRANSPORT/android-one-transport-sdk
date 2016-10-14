@@ -26,18 +26,17 @@ public abstract class Retriever<T> {
     }
 
     public void retrieve(ArrayList<T> list, String container) throws Exception {
-        String aeId = "C-" + CredentialHelper.getAeId(context);
-        String userName = CredentialHelper.getAeId(context);
-        String password = CredentialHelper.getSessionToken(context);
+        String aeId = CredentialHelper.getAeId(context);
+        String token = CredentialHelper.getSessionToken(context);
         String cseBaseUrl = context.getString(R.string.clearview_cse_base_url);
         // Get the names of child resources.
         // This is very ugly, but we have to follow the spec.
-        ResourceChild[] children = retrieveChildren(aeId, cseBaseUrl, userName, password);
+        ResourceChild[] children = retrieveChildren(aeId, cseBaseUrl, token);
         for (int i = 0; i < children.length; i++) {
             String name = children[i].getName();
             if (TextUtils.isEmpty(container) || name.contains(container)) {
                 ContentInstance contentInstance = Container.retrieveLatest(aeId, cseBaseUrl,
-                        getRetrievePrefix() + "/" + name, userName, password);
+                        getRetrievePrefix() + "/" + name, token);
                 String cinId = contentInstance.getResourceId();
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd'T'HHmmss");
                 Long creationTime = null;
@@ -53,8 +52,8 @@ public abstract class Retriever<T> {
 
     protected abstract String getRetrievePrefix();
 
-    protected abstract ResourceChild[] retrieveChildren(String aeId, String cseBaseUrl,
-                                                        String userName, String password) throws Exception;
+    protected abstract ResourceChild[] retrieveChildren(String aeId, String cseBaseUrl, String token)
+            throws Exception;
 
     protected abstract T fromJson(String content, String container, String cinId, Long creationTime);
 

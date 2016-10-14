@@ -23,12 +23,11 @@ public abstract class Retriever<T> {
     }
 
     public T[] retrieve() throws Exception {
-        String aeId = "C-" + CredentialHelper.getAeId(context);
-        String userName = CredentialHelper.getAeId(context);
-        String password = CredentialHelper.getSessionToken(context);
+        String aeId = CredentialHelper.getAeId(context);
+        String token = CredentialHelper.getSessionToken(context);
         String cseBaseUrl = context.getString(R.string.herts_cse_base_url);
         ContentInstance contentInstance = Container.retrieveLatest(aeId, cseBaseUrl,
-                getRetrievePrefix(), userName, password);
+                getRetrievePrefix(), token);
         String cinId = contentInstance.getResourceId();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd'T'HHmmss");
         Long creationTime = null;

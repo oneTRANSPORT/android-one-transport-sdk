@@ -11,8 +11,8 @@ import net.uk.onetransport.android.county.herts.events.Event;
 import net.uk.onetransport.android.county.herts.events.EventRetriever;
 import net.uk.onetransport.android.county.herts.provider.HertsContentHelper;
 import net.uk.onetransport.android.county.herts.provider.HertsProviderModule;
-import net.uk.onetransport.android.county.herts.roadworks.RoadWorks;
-import net.uk.onetransport.android.county.herts.roadworks.RoadWorksRetriever;
+import net.uk.onetransport.android.county.herts.roadworks.Roadworks;
+import net.uk.onetransport.android.county.herts.roadworks.RoadworksRetriever;
 import net.uk.onetransport.android.county.herts.trafficflow.TrafficFlow;
 import net.uk.onetransport.android.county.herts.trafficflow.TrafficFlowRetriever;
 import net.uk.onetransport.android.county.herts.trafficscoot.TrafficScoot;
@@ -45,7 +45,7 @@ public class HertsSyncAdapterTest extends OneTransportTest {
         Context context = runnerTask.getContext();
         HertsContentHelper.deleteFromProvider(context, HertsContentHelper.DATA_TYPE_CAR_PARK);
         HertsContentHelper.deleteFromProvider(context, HertsContentHelper.DATA_TYPE_EVENT);
-        HertsContentHelper.deleteFromProvider(context, HertsContentHelper.DATA_TYPE_ROAD_WORKS);
+        HertsContentHelper.deleteFromProvider(context, HertsContentHelper.DATA_TYPE_ROADWORKS);
         HertsContentHelper.deleteFromProvider(context, HertsContentHelper.DATA_TYPE_TRAFFIC_FLOW);
         HertsContentHelper.deleteFromProvider(context, HertsContentHelper.DATA_TYPE_TRAFFIC_QUEUE);
         HertsContentHelper.deleteFromProvider(context, HertsContentHelper.DATA_TYPE_TRAFFIC_SCOOT);
@@ -75,9 +75,9 @@ public class HertsSyncAdapterTest extends OneTransportTest {
             runnerTask.report("HERTS sync adapter ... FAILED.", COLOUR_FAILED);
             return;
         }
-        RoadWorks[] roadWorkses = new RoadWorksRetriever(context).retrieve();
-        RoadWorks[] roadWorkses1 = HertsContentHelper.getRoadWorks(context);
-        if (roadWorkses.length != roadWorkses1.length) {
+        Roadworks[] roadworkses = new RoadworksRetriever(context).retrieve();
+        Roadworks[] roadworkses1 = HertsContentHelper.getRoadworks(context);
+        if (roadworkses.length != roadworkses1.length) {
             runnerTask.report("HERTS sync adapter ... FAILED.", COLOUR_FAILED);
             return;
         }

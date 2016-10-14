@@ -25,17 +25,16 @@ public abstract class Retriever<T> {
     }
 
     public void retrieve(ArrayList<T> list) throws Exception {
-        String aeId = "C-" + CredentialHelper.getAeId(context);
-        String userName = CredentialHelper.getAeId(context);
-        String password = CredentialHelper.getSessionToken(context);
+        String aeId = CredentialHelper.getAeId(context);
+        String token = CredentialHelper.getSessionToken(context);
         String cseBaseUrl = context.getString(R.string.bitcarrier_cse_base_url);
         // Get the names of child resources.
         ResourceChild[] containerChildren = Container.retrieveChildren(aeId, cseBaseUrl, getRetrievePrefix(),
-                userName, password).getResourceChildren();
+                token).getResourceChildren();
         for (int i = 0; i < containerChildren.length; i++) {
             String name = containerChildren[i].getName();
             ContentInstance contentInstance = Container.retrieveLatest(aeId, cseBaseUrl,
-                    getRetrievePrefix() + "/" + name, userName, password);
+                    getRetrievePrefix() + "/" + name, token);
             String cinId = contentInstance.getResourceId();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd'T'HHmmss");
             Long creationTime = null;

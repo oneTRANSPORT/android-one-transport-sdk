@@ -76,39 +76,39 @@ public class BucksContract {
                     + BucksEvent.COLUMN_ID + " AND a."
                     + BucksEvent.COLUMN_CREATION_TIME + "=b."
                     + BucksEvent.COLUMN_CREATION_TIME + ";";
-    public static final String CREATE_ROAD_WORKS_TABLE =
-            "CREATE TABLE IF NOT EXISTS " + BucksRoadWorks.TABLE_NAME + " ("
-                    + BucksRoadWorks.COLUMN_ID + " TEXT NOT NULL,"
-                    + BucksRoadWorks.COLUMN_EFFECT_ON_ROAD_LAYOUT + " TEXT,"
-                    + BucksRoadWorks.COLUMN_ROAD_MAINTENANCE_TYPE + " TEXT,"
-                    + BucksRoadWorks.COLUMN_COMMENT + " TEXT,"
-                    + BucksRoadWorks.COLUMN_IMPACT_ON_TRAFFIC + " TEXT,"
-                    + BucksRoadWorks.COLUMN_LATITUDE + " REAL,"
-                    + BucksRoadWorks.COLUMN_LONGITUDE + " REAL,"
-                    + BucksRoadWorks.COLUMN_VALIDITY_STATUS + " TEXT,"
-                    + BucksRoadWorks.COLUMN_OVERALL_START_TIME + " TEXT,"
-                    + BucksRoadWorks.COLUMN_OVERALL_END_TIME + " TEXT,"
-                    + BucksRoadWorks.COLUMN_START_OF_PERIOD + " TEXT,"
-                    + BucksRoadWorks.COLUMN_END_OF_PERIOD + " TEXT,"
-                    + BucksRoadWorks.COLUMN_CIN_ID + " TEXT NOT NULL,"
-                    + BucksRoadWorks.COLUMN_CREATION_TIME + " INTEGER,"
+    public static final String CREATE_ROADWORKS_TABLE =
+            "CREATE TABLE IF NOT EXISTS " + BucksRoadworks.TABLE_NAME + " ("
+                    + BucksRoadworks.COLUMN_ID + " TEXT NOT NULL,"
+                    + BucksRoadworks.COLUMN_EFFECT_ON_ROAD_LAYOUT + " TEXT,"
+                    + BucksRoadworks.COLUMN_ROAD_MAINTENANCE_TYPE + " TEXT,"
+                    + BucksRoadworks.COLUMN_COMMENT + " TEXT,"
+                    + BucksRoadworks.COLUMN_IMPACT_ON_TRAFFIC + " TEXT,"
+                    + BucksRoadworks.COLUMN_LATITUDE + " REAL,"
+                    + BucksRoadworks.COLUMN_LONGITUDE + " REAL,"
+                    + BucksRoadworks.COLUMN_VALIDITY_STATUS + " TEXT,"
+                    + BucksRoadworks.COLUMN_OVERALL_START_TIME + " TEXT,"
+                    + BucksRoadworks.COLUMN_OVERALL_END_TIME + " TEXT,"
+                    + BucksRoadworks.COLUMN_START_OF_PERIOD + " TEXT,"
+                    + BucksRoadworks.COLUMN_END_OF_PERIOD + " TEXT,"
+                    + BucksRoadworks.COLUMN_CIN_ID + " TEXT NOT NULL,"
+                    + BucksRoadworks.COLUMN_CREATION_TIME + " INTEGER,"
                     + "UNIQUE ("
-                    + BucksRoadWorks.COLUMN_ID + ","
-                    + BucksRoadWorks.COLUMN_CIN_ID
+                    + BucksRoadworks.COLUMN_ID + ","
+                    + BucksRoadworks.COLUMN_CIN_ID
                     + ") ON CONFLICT IGNORE);";
-    public static final String CREATE_LATEST_ROAD_WORKS_TABLE =
-            "CREATE VIEW IF NOT EXISTS " + BucksLatestRoadWorks.TABLE_NAME + " AS "
-                    + "SELECT a.* FROM " + BucksRoadWorks.TABLE_NAME + " AS a "
-                    + "INNER JOIN (SELECT " + BucksRoadWorks.COLUMN_ID
+    public static final String CREATE_LATEST_ROADWORKS_TABLE =
+            "CREATE VIEW IF NOT EXISTS " + BucksLatestRoadworks.TABLE_NAME + " AS "
+                    + "SELECT a.* FROM " + BucksRoadworks.TABLE_NAME + " AS a "
+                    + "INNER JOIN (SELECT " + BucksRoadworks.COLUMN_ID
                     + ", MAX("
-                    + BucksRoadWorks.COLUMN_CREATION_TIME + ") AS "
-                    + BucksRoadWorks.COLUMN_CREATION_TIME + " FROM "
-                    + BucksRoadWorks.TABLE_NAME + " GROUP BY "
-                    + BucksRoadWorks.COLUMN_ID + ") AS b ON a."
-                    + BucksRoadWorks.COLUMN_ID + "=b."
-                    + BucksRoadWorks.COLUMN_ID + " AND a."
-                    + BucksRoadWorks.COLUMN_CREATION_TIME + "=b."
-                    + BucksRoadWorks.COLUMN_CREATION_TIME + ";";
+                    + BucksRoadworks.COLUMN_CREATION_TIME + ") AS "
+                    + BucksRoadworks.COLUMN_CREATION_TIME + " FROM "
+                    + BucksRoadworks.TABLE_NAME + " GROUP BY "
+                    + BucksRoadworks.COLUMN_ID + ") AS b ON a."
+                    + BucksRoadworks.COLUMN_ID + "=b."
+                    + BucksRoadworks.COLUMN_ID + " AND a."
+                    + BucksRoadworks.COLUMN_CREATION_TIME + "=b."
+                    + BucksRoadworks.COLUMN_CREATION_TIME + ";";
     public static final String CREATE_TRAFFIC_FLOW_TABLE =
             "CREATE TABLE IF NOT EXISTS " + BucksTrafficFlow.TABLE_NAME + " ("
                     + BucksTrafficFlow._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -365,8 +365,8 @@ public class BucksContract {
         public static final String TABLE_NAME = "bucks_latest_event";
     }
 
-    public static final class BucksRoadWorks implements CommonBaseColumns {
-        public static final String TABLE_NAME = "bucks_road_works";
+    public static final class BucksRoadworks implements CommonBaseColumns {
+        public static final String TABLE_NAME = "bucks_roadworks";
         public static final String COLUMN_ID = "id";
         public static final String COLUMN_EFFECT_ON_ROAD_LAYOUT = "effect_on_road_layout";
         public static final String COLUMN_ROAD_MAINTENANCE_TYPE = "road_maintenance_type";
@@ -381,8 +381,8 @@ public class BucksContract {
         public static final String COLUMN_END_OF_PERIOD = "end_of_period";
     }
 
-    public static final class BucksLatestRoadWorks {
-        public static final String TABLE_NAME = "bucks_latest_road_works";
+    public static final class BucksLatestRoadworks {
+        public static final String TABLE_NAME = "bucks_latest_roadworks";
     }
 
     public static final class BucksTrafficFlow implements CommonBaseColumns {

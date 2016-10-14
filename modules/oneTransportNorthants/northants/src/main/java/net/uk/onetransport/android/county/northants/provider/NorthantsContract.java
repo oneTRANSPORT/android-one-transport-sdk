@@ -44,39 +44,39 @@ public class NorthantsContract {
                     + NorthantsCarPark.COLUMN_CAR_PARK_IDENTITY + " AND a."
                     + NorthantsCarPark.COLUMN_CREATION_TIME + "=b."
                     + NorthantsCarPark.COLUMN_CREATION_TIME + ";";
-    public static final String CREATE_ROAD_WORKS_TABLE =
-            "CREATE TABLE IF NOT EXISTS " + NorthantsRoadWorks.TABLE_NAME + " ("
-                    + NorthantsRoadWorks.COLUMN_ID + " TEXT NOT NULL,"
-                    + NorthantsRoadWorks.COLUMN_EFFECT_ON_ROAD_LAYOUT + " TEXT,"
-                    + NorthantsRoadWorks.COLUMN_ROAD_MAINTENANCE_TYPE + " TEXT,"
-                    + NorthantsRoadWorks.COLUMN_COMMENT + " TEXT,"
-                    + NorthantsRoadWorks.COLUMN_IMPACT_ON_TRAFFIC + " TEXT,"
-                    + NorthantsRoadWorks.COLUMN_LATITUDE + " REAL,"
-                    + NorthantsRoadWorks.COLUMN_LONGITUDE + " REAL,"
-                    + NorthantsRoadWorks.COLUMN_VALIDITY_STATUS + " TEXT,"
-                    + NorthantsRoadWorks.COLUMN_OVERALL_START_TIME + " TEXT,"
-                    + NorthantsRoadWorks.COLUMN_OVERALL_END_TIME + " TEXT,"
-                    + NorthantsRoadWorks.COLUMN_START_OF_PERIOD + " TEXT,"
-                    + NorthantsRoadWorks.COLUMN_END_OF_PERIOD + " TEXT,"
-                    + NorthantsRoadWorks.COLUMN_CIN_ID + " TEXT NOT NULL,"
-                    + NorthantsRoadWorks.COLUMN_CREATION_TIME + " INTEGER,"
+    public static final String CREATE_ROADWORKS_TABLE =
+            "CREATE TABLE IF NOT EXISTS " + NorthantsRoadworks.TABLE_NAME + " ("
+                    + NorthantsRoadworks.COLUMN_ID + " TEXT NOT NULL,"
+                    + NorthantsRoadworks.COLUMN_EFFECT_ON_ROAD_LAYOUT + " TEXT,"
+                    + NorthantsRoadworks.COLUMN_ROAD_MAINTENANCE_TYPE + " TEXT,"
+                    + NorthantsRoadworks.COLUMN_COMMENT + " TEXT,"
+                    + NorthantsRoadworks.COLUMN_IMPACT_ON_TRAFFIC + " TEXT,"
+                    + NorthantsRoadworks.COLUMN_LATITUDE + " REAL,"
+                    + NorthantsRoadworks.COLUMN_LONGITUDE + " REAL,"
+                    + NorthantsRoadworks.COLUMN_VALIDITY_STATUS + " TEXT,"
+                    + NorthantsRoadworks.COLUMN_OVERALL_START_TIME + " TEXT,"
+                    + NorthantsRoadworks.COLUMN_OVERALL_END_TIME + " TEXT,"
+                    + NorthantsRoadworks.COLUMN_START_OF_PERIOD + " TEXT,"
+                    + NorthantsRoadworks.COLUMN_END_OF_PERIOD + " TEXT,"
+                    + NorthantsRoadworks.COLUMN_CIN_ID + " TEXT NOT NULL,"
+                    + NorthantsRoadworks.COLUMN_CREATION_TIME + " INTEGER,"
                     + "UNIQUE ("
-                    + NorthantsRoadWorks.COLUMN_ID + ","
-                    + NorthantsRoadWorks.COLUMN_CIN_ID
+                    + NorthantsRoadworks.COLUMN_ID + ","
+                    + NorthantsRoadworks.COLUMN_CIN_ID
                     + ") ON CONFLICT IGNORE);";
-    public static final String CREATE_LATEST_ROAD_WORKS_TABLE =
-            "CREATE VIEW IF NOT EXISTS " + NorthantsLatestRoadWorks.TABLE_NAME + " AS "
-                    + "SELECT a.* FROM " + NorthantsRoadWorks.TABLE_NAME + " AS a "
-                    + "INNER JOIN (SELECT " + NorthantsRoadWorks.COLUMN_ID
+    public static final String CREATE_LATEST_ROADWORKS_TABLE =
+            "CREATE VIEW IF NOT EXISTS " + NorthantsLatestRoadworks.TABLE_NAME + " AS "
+                    + "SELECT a.* FROM " + NorthantsRoadworks.TABLE_NAME + " AS a "
+                    + "INNER JOIN (SELECT " + NorthantsRoadworks.COLUMN_ID
                     + ", MAX("
-                    + NorthantsRoadWorks.COLUMN_CREATION_TIME + ") AS "
-                    + NorthantsRoadWorks.COLUMN_CREATION_TIME + " FROM "
-                    + NorthantsRoadWorks.TABLE_NAME + " GROUP BY "
-                    + NorthantsRoadWorks.COLUMN_ID + ") AS b ON a."
-                    + NorthantsRoadWorks.COLUMN_ID + "=b."
-                    + NorthantsRoadWorks.COLUMN_ID + " AND a."
-                    + NorthantsRoadWorks.COLUMN_CREATION_TIME + "=b."
-                    + NorthantsRoadWorks.COLUMN_CREATION_TIME + ";";
+                    + NorthantsRoadworks.COLUMN_CREATION_TIME + ") AS "
+                    + NorthantsRoadworks.COLUMN_CREATION_TIME + " FROM "
+                    + NorthantsRoadworks.TABLE_NAME + " GROUP BY "
+                    + NorthantsRoadworks.COLUMN_ID + ") AS b ON a."
+                    + NorthantsRoadworks.COLUMN_ID + "=b."
+                    + NorthantsRoadworks.COLUMN_ID + " AND a."
+                    + NorthantsRoadworks.COLUMN_CREATION_TIME + "=b."
+                    + NorthantsRoadworks.COLUMN_CREATION_TIME + ";";
     public static final String CREATE_TRAFFIC_FLOW_TABLE =
             "CREATE TABLE IF NOT EXISTS " + NorthantsTrafficFlow.TABLE_NAME + " ("
                     + NorthantsTrafficFlow._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -207,8 +207,8 @@ public class NorthantsContract {
         public static final String TABLE_NAME = "northants_latest_car_park";
     }
 
-    public static final class NorthantsRoadWorks implements CommonBaseColumns {
-        public static final String TABLE_NAME = "northants_road_works";
+    public static final class NorthantsRoadworks implements CommonBaseColumns {
+        public static final String TABLE_NAME = "northants_roadworks";
         public static final String COLUMN_ID = "id";
         public static final String COLUMN_EFFECT_ON_ROAD_LAYOUT = "effect_on_road_layout";
         public static final String COLUMN_ROAD_MAINTENANCE_TYPE = "road_maintenance_type";
@@ -223,8 +223,8 @@ public class NorthantsContract {
         public static final String COLUMN_END_OF_PERIOD = "end_of_period";
     }
 
-    public static final class NorthantsLatestRoadWorks {
-        public static final String TABLE_NAME = "northants_latest_road_works";
+    public static final class NorthantsLatestRoadworks {
+        public static final String TABLE_NAME = "northants_latest_roadworks";
     }
 
     public static final class NorthantsTrafficFlow implements CommonBaseColumns {

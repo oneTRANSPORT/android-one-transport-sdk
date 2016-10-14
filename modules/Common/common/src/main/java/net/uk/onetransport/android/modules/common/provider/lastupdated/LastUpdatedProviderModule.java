@@ -67,6 +67,11 @@ public class LastUpdatedProviderModule implements ProviderModule {
     }
 
     @Override
+    public int bulkInsert(int match, ContentValues[] values, SQLiteDatabase sqLiteDatabase) {
+        return 0; // Bulk insert not available.
+    }
+
+    @Override
     public Uri insert(int match, ContentValues values, SQLiteDatabase sqLiteDatabase) {
         if (match == LAST_UPDATED) {
             throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed)

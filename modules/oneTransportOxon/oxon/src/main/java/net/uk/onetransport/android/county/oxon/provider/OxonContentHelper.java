@@ -1,7 +1,7 @@
 package net.uk.onetransport.android.county.oxon.provider;
 
-import android.content.ContentProviderOperation;
 import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.OperationApplicationException;
 import android.database.Cursor;
@@ -11,7 +11,7 @@ import android.support.annotation.NonNull;
 
 import net.uk.onetransport.android.county.oxon.carparks.CarPark;
 import net.uk.onetransport.android.county.oxon.events.Event;
-import net.uk.onetransport.android.county.oxon.roadworks.RoadWorks;
+import net.uk.onetransport.android.county.oxon.roadworks.Roadworks;
 import net.uk.onetransport.android.county.oxon.trafficflow.TrafficFlow;
 import net.uk.onetransport.android.county.oxon.trafficqueue.TrafficQueue;
 import net.uk.onetransport.android.county.oxon.trafficscoot.TrafficScoot;
@@ -23,11 +23,10 @@ import net.uk.onetransport.android.modules.common.provider.CommonContentHelper;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
-import java.util.ArrayList;
 
 import static net.uk.onetransport.android.county.oxon.provider.OxonContract.OxonCarPark;
 import static net.uk.onetransport.android.county.oxon.provider.OxonContract.OxonEvent;
-import static net.uk.onetransport.android.county.oxon.provider.OxonContract.OxonRoadWorks;
+import static net.uk.onetransport.android.county.oxon.provider.OxonContract.OxonRoadworks;
 import static net.uk.onetransport.android.county.oxon.provider.OxonContract.OxonTrafficFlow;
 import static net.uk.onetransport.android.county.oxon.provider.OxonContract.OxonTrafficQueue;
 import static net.uk.onetransport.android.county.oxon.provider.OxonContract.OxonTrafficScoot;
@@ -40,7 +39,7 @@ public class OxonContentHelper extends CommonContentHelper {
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({DATA_TYPE_CAR_PARK,
             DATA_TYPE_EVENT,
-            DATA_TYPE_ROAD_WORKS,
+            DATA_TYPE_ROADWORKS,
             DATA_TYPE_TRAFFIC_FLOW,
             DATA_TYPE_TRAFFIC_QUEUE,
             DATA_TYPE_TRAFFIC_SCOOT,
@@ -52,7 +51,7 @@ public class OxonContentHelper extends CommonContentHelper {
 
     public static final int DATA_TYPE_CAR_PARK = 1;
     public static final int DATA_TYPE_EVENT = 2;
-    public static final int DATA_TYPE_ROAD_WORKS = 3;
+    public static final int DATA_TYPE_ROADWORKS = 3;
     public static final int DATA_TYPE_TRAFFIC_FLOW = 4;
     public static final int DATA_TYPE_TRAFFIC_QUEUE = 5;
     public static final int DATA_TYPE_TRAFFIC_SCOOT = 6;
@@ -63,246 +62,194 @@ public class OxonContentHelper extends CommonContentHelper {
     public static void insertIntoProvider(@NonNull Context context, @NonNull CarPark[] carParks)
             throws RemoteException, OperationApplicationException {
         if (carParks.length > 0) {
-            ArrayList<ContentProviderOperation> operationList = new ArrayList<>();
-            for (CarPark carPark : carParks) {
-                ContentProviderOperation operation = ContentProviderOperation
-                        .newInsert(OxonProviderModule.CAR_PARK_URI)
-                        .withValue(OxonCarPark.COLUMN_CAR_PARK_IDENTITY, carPark.getCarParkIdentity())
-                        .withValue(OxonCarPark.COLUMN_LATITUDE, carPark.getLatitude())
-                        .withValue(OxonCarPark.COLUMN_LONGITUDE, carPark.getLongitude())
-                        .withValue(OxonCarPark.COLUMN_OCCUPANCY, carPark.getOccupancy())
-                        .withValue(OxonCarPark.COLUMN_OCCUPANCY_TREND, carPark.getOccupancyTrend())
-                        .withValue(OxonCarPark.COLUMN_TOTAL_PARKING_CAPACITY,
-                                carPark.getTotalParkingCapacity())
-                        .withValue(OxonCarPark.COLUMN_FILL_RATE, carPark.getFillRate())
-                        .withValue(OxonCarPark.COLUMN_EXIT_RATE, carPark.getExitRate())
-                        .withValue(OxonCarPark.COLUMN_ALMOST_FULL_INCREASING,
-                                carPark.getAlmostFullIncreasing())
-                        .withValue(OxonCarPark.COLUMN_ALMOST_FULL_DECREASING,
-                                carPark.getAlmostFullDecreasing())
-                        .withValue(OxonCarPark.COLUMN_FULL_INCREASING, carPark.getFullIncreasing())
-                        .withValue(OxonCarPark.COLUMN_FULL_DECREASING, carPark.getFullDecreasing())
-                        .withValue(OxonCarPark.COLUMN_STATUS, carPark.getStatus())
-                        .withValue(OxonCarPark.COLUMN_STATUS_TIME, carPark.getStatusTime())
-                        .withValue(OxonCarPark.COLUMN_QUEUING_TIME, carPark.getQueuingTime())
-                        .withValue(OxonCarPark.COLUMN_PARKING_AREA_NAME,
-                                carPark.getParkingAreaName())
-                        .withValue(OxonCarPark.COLUMN_ENTRANCE_FULL, carPark.getEntranceFull())
-                        .withValue(OxonCarPark.COLUMN_CIN_ID, carPark.getCinId())
-                        .withValue(OxonCarPark.COLUMN_CREATION_TIME, carPark.getCreationTime())
-                        .withYieldAllowed(true)
-                        .build();
-                operationList.add(operation);
+            ContentValues[] cvs = new ContentValues[carParks.length];
+            for (int i = 0; i < carParks.length; i++) {
+                cvs[i] = new ContentValues();
+                cvs[i].put(OxonCarPark.COLUMN_CAR_PARK_IDENTITY, carParks[i].getCarParkIdentity());
+                cvs[i].put(OxonCarPark.COLUMN_LATITUDE, carParks[i].getLatitude());
+                cvs[i].put(OxonCarPark.COLUMN_LONGITUDE, carParks[i].getLongitude());
+                cvs[i].put(OxonCarPark.COLUMN_OCCUPANCY, carParks[i].getOccupancy());
+                cvs[i].put(OxonCarPark.COLUMN_OCCUPANCY_TREND, carParks[i].getOccupancyTrend());
+                cvs[i].put(OxonCarPark.COLUMN_TOTAL_PARKING_CAPACITY, carParks[i].getTotalParkingCapacity());
+                cvs[i].put(OxonCarPark.COLUMN_FILL_RATE, carParks[i].getFillRate());
+                cvs[i].put(OxonCarPark.COLUMN_EXIT_RATE, carParks[i].getExitRate());
+                cvs[i].put(OxonCarPark.COLUMN_ALMOST_FULL_INCREASING, carParks[i].getAlmostFullIncreasing());
+                cvs[i].put(OxonCarPark.COLUMN_ALMOST_FULL_DECREASING, carParks[i].getAlmostFullDecreasing());
+                cvs[i].put(OxonCarPark.COLUMN_FULL_INCREASING, carParks[i].getFullIncreasing());
+                cvs[i].put(OxonCarPark.COLUMN_FULL_DECREASING, carParks[i].getFullDecreasing());
+                cvs[i].put(OxonCarPark.COLUMN_STATUS, carParks[i].getStatus());
+                cvs[i].put(OxonCarPark.COLUMN_STATUS_TIME, carParks[i].getStatusTime());
+                cvs[i].put(OxonCarPark.COLUMN_QUEUING_TIME, carParks[i].getQueuingTime());
+                cvs[i].put(OxonCarPark.COLUMN_PARKING_AREA_NAME, carParks[i].getParkingAreaName());
+                cvs[i].put(OxonCarPark.COLUMN_ENTRANCE_FULL, carParks[i].getEntranceFull());
+                cvs[i].put(OxonCarPark.COLUMN_CIN_ID, carParks[i].getCinId());
+                cvs[i].put(OxonCarPark.COLUMN_CREATION_TIME, carParks[i].getCreationTime());
             }
             ContentResolver contentResolver = context.getContentResolver();
-            contentResolver.applyBatch(OxonProviderModule.AUTHORITY, operationList);
+            contentResolver.bulkInsert(OxonProviderModule.CAR_PARK_URI, cvs);
         }
     }
 
     public static void insertIntoProvider(@NonNull Context context, @NonNull Event[] events)
             throws RemoteException, OperationApplicationException {
         if (events.length > 0) {
-            ArrayList<ContentProviderOperation> operationList = new ArrayList<>();
-            for (Event event : events) {
-                ContentProviderOperation operation = ContentProviderOperation
-                        .newInsert(OxonProviderModule.EVENT_URI)
-                        .withValue(OxonEvent.COLUMN_ID, event.getId())
-                        .withValue(OxonEvent.COLUMN_START_OF_PERIOD, event.getStartOfPeriod())
-                        .withValue(OxonEvent.COLUMN_END_OF_PERIOD, event.getEndOfPeriod())
-                        .withValue(OxonEvent.COLUMN_OVERALL_START_TIME, event.getOverallStartTime())
-                        .withValue(OxonEvent.COLUMN_OVERALL_END_TIME, event.getOverallEndTime())
-                        .withValue(OxonEvent.COLUMN_LATITUDE, event.getLatitude())
-                        .withValue(OxonEvent.COLUMN_LONGITUDE, event.getLongitude())
-                        .withValue(OxonEvent.COLUMN_DESCRIPTION, event.getDescription())
-                        .withValue(OxonEvent.COLUMN_IMPACT_ON_TRAFFIC, event.getImpactOnTraffic())
-                        .withValue(OxonEvent.COLUMN_VALIDITY_STATUS, event.getValidityStatus())
-                        .withValue(OxonEvent.COLUMN_CIN_ID, event.getCinId())
-                        .withValue(OxonEvent.COLUMN_CREATION_TIME, event.getCreationTime())
-                        .withYieldAllowed(true)
-                        .build();
-                operationList.add(operation);
+            ContentValues[] cvs = new ContentValues[events.length];
+            for (int i = 0; i < events.length; i++) {
+                cvs[i] = new ContentValues();
+                cvs[i].put(OxonEvent.COLUMN_ID, events[i].getId());
+                cvs[i].put(OxonEvent.COLUMN_START_OF_PERIOD, events[i].getStartOfPeriod());
+                cvs[i].put(OxonEvent.COLUMN_END_OF_PERIOD, events[i].getEndOfPeriod());
+                cvs[i].put(OxonEvent.COLUMN_OVERALL_START_TIME, events[i].getOverallStartTime());
+                cvs[i].put(OxonEvent.COLUMN_OVERALL_END_TIME, events[i].getOverallEndTime());
+                cvs[i].put(OxonEvent.COLUMN_LATITUDE, events[i].getLatitude());
+                cvs[i].put(OxonEvent.COLUMN_LONGITUDE, events[i].getLongitude());
+                cvs[i].put(OxonEvent.COLUMN_DESCRIPTION, events[i].getDescription());
+                cvs[i].put(OxonEvent.COLUMN_IMPACT_ON_TRAFFIC, events[i].getImpactOnTraffic());
+                cvs[i].put(OxonEvent.COLUMN_VALIDITY_STATUS, events[i].getValidityStatus());
+                cvs[i].put(OxonEvent.COLUMN_CIN_ID, events[i].getCinId());
+                cvs[i].put(OxonEvent.COLUMN_CREATION_TIME, events[i].getCreationTime());
             }
             ContentResolver contentResolver = context.getContentResolver();
-            contentResolver.applyBatch(OxonProviderModule.AUTHORITY, operationList);
+            contentResolver.bulkInsert(OxonProviderModule.EVENT_URI, cvs);
         }
     }
 
-    public static void insertIntoProvider(@NonNull Context context,
-                                          @NonNull RoadWorks[] roadWorkses)
+    public static void insertIntoProvider(@NonNull Context context, @NonNull Roadworks[] roadworkses)
             throws RemoteException, OperationApplicationException {
-        if (roadWorkses.length > 0) {
-            ArrayList<ContentProviderOperation> operationList = new ArrayList<>();
-            for (RoadWorks roadWorks : roadWorkses) {
-                ContentProviderOperation operation = ContentProviderOperation
-                        .newInsert(OxonProviderModule.ROAD_WORKS_URI)
-                        .withValue(OxonRoadWorks.COLUMN_ID, roadWorks.getId())
-                        .withValue(OxonRoadWorks.COLUMN_EFFECT_ON_ROAD_LAYOUT,
-                                roadWorks.getEffectOnRoadLayout())
-                        .withValue(OxonRoadWorks.COLUMN_ROAD_MAINTENANCE_TYPE,
-                                roadWorks.getRoadMaintenanceType())
-                        .withValue(OxonRoadWorks.COLUMN_COMMENT, roadWorks.getComment())
-                        .withValue(OxonRoadWorks.COLUMN_IMPACT_ON_TRAFFIC,
-                                roadWorks.getImpactOnTraffic())
-                        .withValue(OxonRoadWorks.COLUMN_LATITUDE,
-                                roadWorks.getLatitude())
-                        .withValue(OxonRoadWorks.COLUMN_LONGITUDE,
-                                roadWorks.getLongitude())
-                        .withValue(OxonRoadWorks.COLUMN_VALIDITY_STATUS,
-                                roadWorks.getValidityStatus())
-                        .withValue(OxonRoadWorks.COLUMN_OVERALL_START_TIME,
-                                roadWorks.getOverallStartTime())
-                        .withValue(OxonRoadWorks.COLUMN_OVERALL_END_TIME,
-                                roadWorks.getOverallEndTime())
-                        .withValue(OxonRoadWorks.COLUMN_START_OF_PERIOD,
-                                roadWorks.getStartOfPeriod())
-                        .withValue(OxonRoadWorks.COLUMN_END_OF_PERIOD,
-                                roadWorks.getEndOfPeriod())
-                        .withValue(OxonRoadWorks.COLUMN_CIN_ID, roadWorks.getCinId())
-                        .withValue(OxonRoadWorks.COLUMN_CREATION_TIME, roadWorks.getCreationTime())
-                        .withYieldAllowed(true)
-                        .build();
-                operationList.add(operation);
+        if (roadworkses.length > 0) {
+            ContentValues[] cvs = new ContentValues[roadworkses.length];
+            for (int i = 0; i < roadworkses.length; i++) {
+                cvs[i] = new ContentValues();
+                cvs[i].put(OxonRoadworks.COLUMN_ID, roadworkses[i].getId());
+                cvs[i].put(OxonRoadworks.COLUMN_EFFECT_ON_ROAD_LAYOUT, roadworkses[i].getEffectOnRoadLayout());
+                cvs[i].put(OxonRoadworks.COLUMN_ROAD_MAINTENANCE_TYPE, roadworkses[i].getRoadMaintenanceType());
+                cvs[i].put(OxonRoadworks.COLUMN_COMMENT, roadworkses[i].getComment());
+                cvs[i].put(OxonRoadworks.COLUMN_IMPACT_ON_TRAFFIC, roadworkses[i].getImpactOnTraffic());
+                cvs[i].put(OxonRoadworks.COLUMN_LATITUDE, roadworkses[i].getLatitude());
+                cvs[i].put(OxonRoadworks.COLUMN_LONGITUDE, roadworkses[i].getLongitude());
+                cvs[i].put(OxonRoadworks.COLUMN_VALIDITY_STATUS, roadworkses[i].getValidityStatus());
+                cvs[i].put(OxonRoadworks.COLUMN_OVERALL_START_TIME, roadworkses[i].getOverallStartTime());
+                cvs[i].put(OxonRoadworks.COLUMN_OVERALL_END_TIME, roadworkses[i].getOverallEndTime());
+                cvs[i].put(OxonRoadworks.COLUMN_START_OF_PERIOD, roadworkses[i].getStartOfPeriod());
+                cvs[i].put(OxonRoadworks.COLUMN_END_OF_PERIOD, roadworkses[i].getEndOfPeriod());
+                cvs[i].put(OxonRoadworks.COLUMN_CIN_ID, roadworkses[i].getCinId());
+                cvs[i].put(OxonRoadworks.COLUMN_CREATION_TIME, roadworkses[i].getCreationTime());
             }
             ContentResolver contentResolver = context.getContentResolver();
-            contentResolver.applyBatch(OxonProviderModule.AUTHORITY, operationList);
+            contentResolver.bulkInsert(OxonProviderModule.ROADWORKS_URI, cvs);
         }
     }
 
     public static void insertIntoProvider(@NonNull Context context, @NonNull TrafficFlow[] trafficFlows)
             throws RemoteException, OperationApplicationException {
         if (trafficFlows.length > 0) {
-            ArrayList<ContentProviderOperation> operationList = new ArrayList<>();
-            for (TrafficFlow trafficFlow : trafficFlows) {
-                ContentProviderOperation operation = ContentProviderOperation
-                        .newInsert(OxonProviderModule.TRAFFIC_FLOW_URI)
-                        .withValue(OxonTrafficFlow.COLUMN_ID, trafficFlow.getId())
-                        .withValue(OxonTrafficFlow.COLUMN_TPEG_DIRECTION, trafficFlow.getTpegDirection())
-                        .withValue(OxonTrafficFlow.COLUMN_FROM_TYPE, trafficFlow.getFromType())
-                        .withValue(OxonTrafficFlow.COLUMN_FROM_DESCRIPTOR,
-                                trafficFlow.getFromDescriptor())
-                        .withValue(OxonTrafficFlow.COLUMN_FROM_LATITUDE, trafficFlow.getFromLatitude())
-                        .withValue(OxonTrafficFlow.COLUMN_FROM_LONGITUDE,
-                                trafficFlow.getFromLongitude())
-                        .withValue(OxonTrafficFlow.COLUMN_TO_TYPE, trafficFlow.getToType())
-                        .withValue(OxonTrafficFlow.COLUMN_TO_DESCRIPTOR, trafficFlow.getToDescriptor())
-                        .withValue(OxonTrafficFlow.COLUMN_TO_LATITUDE, trafficFlow.getToLatitude())
-                        .withValue(OxonTrafficFlow.COLUMN_TO_LONGITUDE, trafficFlow.getToLongitude())
-                        .withValue(OxonTrafficFlow.COLUMN_TIME, trafficFlow.getTime())
-                        .withValue(OxonTrafficFlow.COLUMN_VEHICLE_FLOW, trafficFlow.getVehicleFlow())
-                        .withValue(OxonTrafficFlow.COLUMN_CIN_ID, trafficFlow.getCinId())
-                        .withValue(OxonTrafficFlow.COLUMN_CREATION_TIME, trafficFlow.getCreationTime())
-                        .withYieldAllowed(true)
-                        .build();
-                operationList.add(operation);
+            ContentValues[] cvs = new ContentValues[trafficFlows.length];
+            for (int i = 0; i < trafficFlows.length; i++) {
+                cvs[i] = new ContentValues();
+                cvs[i].put(OxonTrafficFlow.COLUMN_ID, trafficFlows[i].getId());
+                cvs[i].put(OxonTrafficFlow.COLUMN_TPEG_DIRECTION, trafficFlows[i].getTpegDirection());
+                cvs[i].put(OxonTrafficFlow.COLUMN_FROM_TYPE, trafficFlows[i].getFromType());
+                cvs[i].put(OxonTrafficFlow.COLUMN_FROM_DESCRIPTOR, trafficFlows[i].getFromDescriptor());
+                cvs[i].put(OxonTrafficFlow.COLUMN_FROM_LATITUDE, trafficFlows[i].getFromLatitude());
+                cvs[i].put(OxonTrafficFlow.COLUMN_FROM_LONGITUDE, trafficFlows[i].getFromLongitude());
+                cvs[i].put(OxonTrafficFlow.COLUMN_TO_TYPE, trafficFlows[i].getToType());
+                cvs[i].put(OxonTrafficFlow.COLUMN_TO_DESCRIPTOR, trafficFlows[i].getToDescriptor());
+                cvs[i].put(OxonTrafficFlow.COLUMN_TO_LATITUDE, trafficFlows[i].getToLatitude());
+                cvs[i].put(OxonTrafficFlow.COLUMN_TO_LONGITUDE, trafficFlows[i].getToLongitude());
+                cvs[i].put(OxonTrafficFlow.COLUMN_TIME, trafficFlows[i].getTime());
+                cvs[i].put(OxonTrafficFlow.COLUMN_VEHICLE_FLOW, trafficFlows[i].getVehicleFlow());
+                cvs[i].put(OxonTrafficFlow.COLUMN_CIN_ID, trafficFlows[i].getCinId());
+                cvs[i].put(OxonTrafficFlow.COLUMN_CREATION_TIME, trafficFlows[i].getCreationTime());
             }
             ContentResolver contentResolver = context.getContentResolver();
-            contentResolver.applyBatch(OxonProviderModule.AUTHORITY, operationList);
+            contentResolver.bulkInsert(OxonProviderModule.TRAFFIC_FLOW_URI, cvs);
         }
     }
 
     public static void insertIntoProvider(@NonNull Context context, @NonNull TrafficQueue[] trafficQueues)
             throws RemoteException, OperationApplicationException {
         if (trafficQueues.length > 0) {
-            ArrayList<ContentProviderOperation> operationList = new ArrayList<>();
-            for (TrafficQueue trafficQueue : trafficQueues) {
-                ContentProviderOperation operation = ContentProviderOperation
-                        .newInsert(OxonProviderModule.TRAFFIC_QUEUE_URI)
-                        .withValue(OxonTrafficQueue.COLUMN_ID, trafficQueue.getId())
-                        .withValue(OxonTrafficQueue.COLUMN_TPEG_DIRECTION, trafficQueue.getTpegDirection())
-                        .withValue(OxonTrafficQueue.COLUMN_FROM_TYPE, trafficQueue.getFromType())
-                        .withValue(OxonTrafficQueue.COLUMN_FROM_DESCRIPTOR,
-                                trafficQueue.getFromDescriptor())
-                        .withValue(OxonTrafficQueue.COLUMN_FROM_LATITUDE, trafficQueue.getFromLatitude())
-                        .withValue(OxonTrafficQueue.COLUMN_FROM_LONGITUDE,
-                                trafficQueue.getFromLongitude())
-                        .withValue(OxonTrafficQueue.COLUMN_TO_TYPE, trafficQueue.getToType())
-                        .withValue(OxonTrafficQueue.COLUMN_TO_DESCRIPTOR, trafficQueue.getToDescriptor())
-                        .withValue(OxonTrafficQueue.COLUMN_TO_LATITUDE, trafficQueue.getToLatitude())
-                        .withValue(OxonTrafficQueue.COLUMN_TO_LONGITUDE, trafficQueue.getToLongitude())
-                        .withValue(OxonTrafficQueue.COLUMN_TIME, trafficQueue.getTime())
-                        .withValue(OxonTrafficQueue.COLUMN_SEVERITY, trafficQueue.getSeverity())
-                        .withValue(OxonTrafficQueue.COLUMN_PRESENT, trafficQueue.getPresent())
-                        .withValue(OxonTrafficQueue.COLUMN_CIN_ID, trafficQueue.getCinId())
-                        .withValue(OxonTrafficQueue.COLUMN_CREATION_TIME, trafficQueue.getCreationTime())
-                        .withYieldAllowed(true)
-                        .build();
-                operationList.add(operation);
+            ContentValues[] cvs = new ContentValues[trafficQueues.length];
+            for (int i = 0; i < trafficQueues.length; i++) {
+                cvs[i] = new ContentValues();
+                cvs[i].put(OxonTrafficQueue.COLUMN_ID, trafficQueues[i].getId());
+                cvs[i].put(OxonTrafficQueue.COLUMN_ID, trafficQueues[i].getId());
+                cvs[i].put(OxonTrafficQueue.COLUMN_TPEG_DIRECTION, trafficQueues[i].getTpegDirection());
+                cvs[i].put(OxonTrafficQueue.COLUMN_FROM_TYPE, trafficQueues[i].getFromType());
+                cvs[i].put(OxonTrafficQueue.COLUMN_FROM_DESCRIPTOR, trafficQueues[i].getFromDescriptor());
+                cvs[i].put(OxonTrafficQueue.COLUMN_FROM_LATITUDE, trafficQueues[i].getFromLatitude());
+                cvs[i].put(OxonTrafficQueue.COLUMN_FROM_LONGITUDE, trafficQueues[i].getFromLongitude());
+                cvs[i].put(OxonTrafficQueue.COLUMN_TO_TYPE, trafficQueues[i].getToType());
+                cvs[i].put(OxonTrafficQueue.COLUMN_TO_DESCRIPTOR, trafficQueues[i].getToDescriptor());
+                cvs[i].put(OxonTrafficQueue.COLUMN_TO_LATITUDE, trafficQueues[i].getToLatitude());
+                cvs[i].put(OxonTrafficQueue.COLUMN_TO_LONGITUDE, trafficQueues[i].getToLongitude());
+                cvs[i].put(OxonTrafficQueue.COLUMN_TIME, trafficQueues[i].getTime());
+                cvs[i].put(OxonTrafficQueue.COLUMN_SEVERITY, trafficQueues[i].getSeverity());
+                cvs[i].put(OxonTrafficQueue.COLUMN_PRESENT, trafficQueues[i].getPresent());
+                cvs[i].put(OxonTrafficQueue.COLUMN_CIN_ID, trafficQueues[i].getCinId());
+                cvs[i].put(OxonTrafficQueue.COLUMN_CREATION_TIME, trafficQueues[i].getCreationTime());
             }
             ContentResolver contentResolver = context.getContentResolver();
-            contentResolver.applyBatch(OxonProviderModule.AUTHORITY, operationList);
+            contentResolver.bulkInsert(OxonProviderModule.TRAFFIC_QUEUE_URI, cvs);
         }
     }
 
     public static void insertIntoProvider(@NonNull Context context, @NonNull TrafficScoot[] trafficScoots)
             throws RemoteException, OperationApplicationException {
         if (trafficScoots.length > 0) {
-            ArrayList<ContentProviderOperation> operationList = new ArrayList<>();
-            for (TrafficScoot trafficScoot : trafficScoots) {
-                ContentProviderOperation operation = ContentProviderOperation
-                        .newInsert(OxonProviderModule.TRAFFIC_SCOOT_URI)
-                        .withValue(OxonTrafficScoot.COLUMN_ID, trafficScoot.getId())
-                        .withValue(OxonTrafficScoot.COLUMN_TPEG_DIRECTION, trafficScoot.getTpegDirection())
-                        .withValue(OxonTrafficScoot.COLUMN_FROM_TYPE, trafficScoot.getFromType())
-                        .withValue(OxonTrafficScoot.COLUMN_FROM_DESCRIPTOR,
-                                trafficScoot.getFromDescriptor())
-                        .withValue(OxonTrafficScoot.COLUMN_FROM_LATITUDE, trafficScoot.getFromLatitude())
-                        .withValue(OxonTrafficScoot.COLUMN_FROM_LONGITUDE,
-                                trafficScoot.getFromLongitude())
-                        .withValue(OxonTrafficScoot.COLUMN_TO_TYPE, trafficScoot.getToType())
-                        .withValue(OxonTrafficScoot.COLUMN_TO_DESCRIPTOR, trafficScoot.getToDescriptor())
-                        .withValue(OxonTrafficScoot.COLUMN_TO_LATITUDE, trafficScoot.getToLatitude())
-                        .withValue(OxonTrafficScoot.COLUMN_TO_LONGITUDE, trafficScoot.getToLongitude())
-                        .withValue(OxonTrafficScoot.COLUMN_TIME, trafficScoot.getTime())
-                        .withValue(OxonTrafficScoot.COLUMN_CURRENT_FLOW, trafficScoot.getCurrentFlow())
-                        .withValue(OxonTrafficScoot.COLUMN_AVERAGE_SPEED, trafficScoot.getAverageSpeed())
-                        .withValue(OxonTrafficScoot.COLUMN_LINK_STATUS_TYPE,
-                                trafficScoot.getLinkStatusType())
-                        .withValue(OxonTrafficScoot.COLUMN_LINK_STATUS, trafficScoot.getLinkStatus())
-                        .withValue(OxonTrafficScoot.COLUMN_LINK_TRAVEL_TIME,
-                                trafficScoot.getLinkTravelTime())
-                        .withValue(OxonTrafficScoot.COLUMN_CONGESTION_PERCENT,
-                                trafficScoot.getCongestionPercent())
-                        .withValue(OxonTrafficScoot.COLUMN_CIN_ID, trafficScoot.getCinId())
-                        .withValue(OxonTrafficScoot.COLUMN_CREATION_TIME, trafficScoot.getCreationTime())
-                        .withYieldAllowed(true)
-                        .build();
-                operationList.add(operation);
+            ContentValues[] cvs = new ContentValues[trafficScoots.length];
+            for (int i = 0; i < trafficScoots.length; i++) {
+                cvs[i] = new ContentValues();
+                cvs[i].put(OxonTrafficScoot.COLUMN_ID, trafficScoots[i].getId());
+                cvs[i].put(OxonTrafficScoot.COLUMN_ID, trafficScoots[i].getId());
+                cvs[i].put(OxonTrafficScoot.COLUMN_TPEG_DIRECTION, trafficScoots[i].getTpegDirection());
+                cvs[i].put(OxonTrafficScoot.COLUMN_FROM_TYPE, trafficScoots[i].getFromType());
+                cvs[i].put(OxonTrafficScoot.COLUMN_FROM_DESCRIPTOR, trafficScoots[i].getFromDescriptor());
+                cvs[i].put(OxonTrafficScoot.COLUMN_FROM_LATITUDE, trafficScoots[i].getFromLatitude());
+                cvs[i].put(OxonTrafficScoot.COLUMN_FROM_LONGITUDE, trafficScoots[i].getFromLongitude());
+                cvs[i].put(OxonTrafficScoot.COLUMN_TO_TYPE, trafficScoots[i].getToType());
+                cvs[i].put(OxonTrafficScoot.COLUMN_TO_DESCRIPTOR, trafficScoots[i].getToDescriptor());
+                cvs[i].put(OxonTrafficScoot.COLUMN_TO_LATITUDE, trafficScoots[i].getToLatitude());
+                cvs[i].put(OxonTrafficScoot.COLUMN_TO_LONGITUDE, trafficScoots[i].getToLongitude());
+                cvs[i].put(OxonTrafficScoot.COLUMN_TIME, trafficScoots[i].getTime());
+                cvs[i].put(OxonTrafficScoot.COLUMN_CURRENT_FLOW, trafficScoots[i].getCurrentFlow());
+                cvs[i].put(OxonTrafficScoot.COLUMN_AVERAGE_SPEED, trafficScoots[i].getAverageSpeed());
+                cvs[i].put(OxonTrafficScoot.COLUMN_LINK_STATUS_TYPE, trafficScoots[i].getLinkStatusType());
+                cvs[i].put(OxonTrafficScoot.COLUMN_LINK_STATUS, trafficScoots[i].getLinkStatus());
+                cvs[i].put(OxonTrafficScoot.COLUMN_LINK_TRAVEL_TIME, trafficScoots[i].getLinkTravelTime());
+                cvs[i].put(OxonTrafficScoot.COLUMN_CONGESTION_PERCENT, trafficScoots[i].getCongestionPercent());
+                cvs[i].put(OxonTrafficScoot.COLUMN_CIN_ID, trafficScoots[i].getCinId());
+                cvs[i].put(OxonTrafficScoot.COLUMN_CREATION_TIME, trafficScoots[i].getCreationTime());
             }
             ContentResolver contentResolver = context.getContentResolver();
-            contentResolver.applyBatch(OxonProviderModule.AUTHORITY, operationList);
+            contentResolver.bulkInsert(OxonProviderModule.TRAFFIC_SCOOT_URI, cvs);
         }
     }
 
     public static void insertIntoProvider(@NonNull Context context, @NonNull TrafficSpeed[] trafficSpeeds)
             throws RemoteException, OperationApplicationException {
         if (trafficSpeeds.length > 0) {
-            ArrayList<ContentProviderOperation> operationList = new ArrayList<>();
-            for (TrafficSpeed trafficSpeed : trafficSpeeds) {
-                ContentProviderOperation operation = ContentProviderOperation
-                        .newInsert(OxonProviderModule.TRAFFIC_SPEED_URI)
-                        .withValue(OxonTrafficSpeed.COLUMN_ID, trafficSpeed.getId())
-                        .withValue(OxonTrafficSpeed.COLUMN_TPEG_DIRECTION, trafficSpeed.getTpegDirection())
-                        .withValue(OxonTrafficSpeed.COLUMN_FROM_TYPE, trafficSpeed.getFromType())
-                        .withValue(OxonTrafficSpeed.COLUMN_FROM_DESCRIPTOR,
-                                trafficSpeed.getFromDescriptor())
-                        .withValue(OxonTrafficSpeed.COLUMN_FROM_LATITUDE, trafficSpeed.getFromLatitude())
-                        .withValue(OxonTrafficSpeed.COLUMN_FROM_LONGITUDE,
-                                trafficSpeed.getFromLongitude())
-                        .withValue(OxonTrafficSpeed.COLUMN_TO_TYPE, trafficSpeed.getToType())
-                        .withValue(OxonTrafficSpeed.COLUMN_TO_DESCRIPTOR, trafficSpeed.getToDescriptor())
-                        .withValue(OxonTrafficSpeed.COLUMN_TO_LATITUDE, trafficSpeed.getToLatitude())
-                        .withValue(OxonTrafficSpeed.COLUMN_TO_LONGITUDE, trafficSpeed.getToLongitude())
-                        .withValue(OxonTrafficSpeed.COLUMN_TIME, trafficSpeed.getTime())
-                        .withValue(OxonTrafficSpeed.COLUMN_AVERAGE_VEHICLE_SPEED,
-                                trafficSpeed.getAverageVehicleSpeed())
-                        .withValue(OxonTrafficSpeed.COLUMN_CIN_ID, trafficSpeed.getCinId())
-                        .withValue(OxonTrafficSpeed.COLUMN_CREATION_TIME, trafficSpeed.getCreationTime())
-                        .withYieldAllowed(true)
-                        .build();
-                operationList.add(operation);
+            ContentValues[] cvs = new ContentValues[trafficSpeeds.length];
+            for (int i = 0; i < trafficSpeeds.length; i++) {
+                cvs[i] = new ContentValues();
+                cvs[i].put(OxonTrafficSpeed.COLUMN_ID, trafficSpeeds[i].getId());
+                cvs[i].put(OxonTrafficSpeed.COLUMN_ID, trafficSpeeds[i].getId());
+                cvs[i].put(OxonTrafficSpeed.COLUMN_TPEG_DIRECTION, trafficSpeeds[i].getTpegDirection());
+                cvs[i].put(OxonTrafficSpeed.COLUMN_FROM_TYPE, trafficSpeeds[i].getFromType());
+                cvs[i].put(OxonTrafficSpeed.COLUMN_FROM_DESCRIPTOR, trafficSpeeds[i].getFromDescriptor());
+                cvs[i].put(OxonTrafficSpeed.COLUMN_FROM_LATITUDE, trafficSpeeds[i].getFromLatitude());
+                cvs[i].put(OxonTrafficSpeed.COLUMN_FROM_LONGITUDE, trafficSpeeds[i].getFromLongitude());
+                cvs[i].put(OxonTrafficSpeed.COLUMN_TO_TYPE, trafficSpeeds[i].getToType());
+                cvs[i].put(OxonTrafficSpeed.COLUMN_TO_DESCRIPTOR, trafficSpeeds[i].getToDescriptor());
+                cvs[i].put(OxonTrafficSpeed.COLUMN_TO_LATITUDE, trafficSpeeds[i].getToLatitude());
+                cvs[i].put(OxonTrafficSpeed.COLUMN_TO_LONGITUDE, trafficSpeeds[i].getToLongitude());
+                cvs[i].put(OxonTrafficSpeed.COLUMN_TIME, trafficSpeeds[i].getTime());
+                cvs[i].put(OxonTrafficSpeed.COLUMN_AVERAGE_VEHICLE_SPEED, trafficSpeeds[i].getAverageVehicleSpeed());
+                cvs[i].put(OxonTrafficSpeed.COLUMN_CIN_ID, trafficSpeeds[i].getCinId());
+                cvs[i].put(OxonTrafficSpeed.COLUMN_CREATION_TIME, trafficSpeeds[i].getCreationTime());
             }
             ContentResolver contentResolver = context.getContentResolver();
-            contentResolver.applyBatch(OxonProviderModule.AUTHORITY, operationList);
+            contentResolver.bulkInsert(OxonProviderModule.TRAFFIC_SPEED_URI, cvs);
         }
     }
 
@@ -310,44 +257,29 @@ public class OxonContentHelper extends CommonContentHelper {
                                           @NonNull TrafficTravelTime[] trafficTravelTimes)
             throws RemoteException, OperationApplicationException {
         if (trafficTravelTimes.length > 0) {
-            ArrayList<ContentProviderOperation> operationList = new ArrayList<>();
-            for (TrafficTravelTime trafficTravelTime : trafficTravelTimes) {
-                ContentProviderOperation operation = ContentProviderOperation
-                        .newInsert(OxonProviderModule.TRAFFIC_TRAVEL_TIME_URI)
-                        .withValue(OxonTrafficTravelTime.COLUMN_ID, trafficTravelTime.getId())
-                        .withValue(OxonTrafficTravelTime.COLUMN_TPEG_DIRECTION,
-                                trafficTravelTime.getTpegDirection())
-                        .withValue(OxonTrafficTravelTime.COLUMN_FROM_TYPE,
-                                trafficTravelTime.getFromType())
-                        .withValue(OxonTrafficTravelTime.COLUMN_FROM_DESCRIPTOR,
-                                trafficTravelTime.getFromDescriptor())
-                        .withValue(OxonTrafficTravelTime.COLUMN_FROM_LATITUDE,
-                                trafficTravelTime.getFromLatitude())
-                        .withValue(OxonTrafficTravelTime.COLUMN_FROM_LONGITUDE,
-                                trafficTravelTime.getFromLongitude())
-                        .withValue(OxonTrafficTravelTime.COLUMN_TO_TYPE, trafficTravelTime.getToType())
-                        .withValue(OxonTrafficTravelTime.COLUMN_TO_DESCRIPTOR,
-                                trafficTravelTime.getToDescriptor())
-                        .withValue(OxonTrafficTravelTime.COLUMN_TO_LATITUDE,
-                                trafficTravelTime.getToLatitude())
-                        .withValue(OxonTrafficTravelTime.COLUMN_TO_LONGITUDE,
-                                trafficTravelTime.getToLongitude())
-                        .withValue(OxonTrafficTravelTime.COLUMN_TIME, trafficTravelTime.getTime())
-                        .withValue(OxonTrafficTravelTime.COLUMN_TRAVEL_TIME,
-                                trafficTravelTime.getTravelTime())
-                        .withValue(OxonTrafficTravelTime.COLUMN_FREE_FLOW_TRAVEL_TIME,
-                                trafficTravelTime.getFreeFlowTravelTime())
-                        .withValue(OxonTrafficTravelTime.COLUMN_FREE_FLOW_SPEED,
-                                trafficTravelTime.getFreeFlowSpeed())
-                        .withValue(OxonTrafficTravelTime.COLUMN_CIN_ID, trafficTravelTime.getCinId())
-                        .withValue(OxonTrafficTravelTime.COLUMN_CREATION_TIME,
-                                trafficTravelTime.getCreationTime())
-                        .withYieldAllowed(true)
-                        .build();
-                operationList.add(operation);
+            ContentValues[] cvs = new ContentValues[trafficTravelTimes.length];
+            for (int i = 0; i < trafficTravelTimes.length; i++) {
+                cvs[i] = new ContentValues();
+                cvs[i].put(OxonTrafficTravelTime.COLUMN_ID, trafficTravelTimes[i].getId());
+                cvs[i].put(OxonTrafficTravelTime.COLUMN_ID, trafficTravelTimes[i].getId());
+                cvs[i].put(OxonTrafficTravelTime.COLUMN_TPEG_DIRECTION, trafficTravelTimes[i].getTpegDirection());
+                cvs[i].put(OxonTrafficTravelTime.COLUMN_FROM_TYPE, trafficTravelTimes[i].getFromType());
+                cvs[i].put(OxonTrafficTravelTime.COLUMN_FROM_DESCRIPTOR, trafficTravelTimes[i].getFromDescriptor());
+                cvs[i].put(OxonTrafficTravelTime.COLUMN_FROM_LATITUDE, trafficTravelTimes[i].getFromLatitude());
+                cvs[i].put(OxonTrafficTravelTime.COLUMN_FROM_LONGITUDE, trafficTravelTimes[i].getFromLongitude());
+                cvs[i].put(OxonTrafficTravelTime.COLUMN_TO_TYPE, trafficTravelTimes[i].getToType());
+                cvs[i].put(OxonTrafficTravelTime.COLUMN_TO_DESCRIPTOR, trafficTravelTimes[i].getToDescriptor());
+                cvs[i].put(OxonTrafficTravelTime.COLUMN_TO_LATITUDE, trafficTravelTimes[i].getToLatitude());
+                cvs[i].put(OxonTrafficTravelTime.COLUMN_TO_LONGITUDE, trafficTravelTimes[i].getToLongitude());
+                cvs[i].put(OxonTrafficTravelTime.COLUMN_TIME, trafficTravelTimes[i].getTime());
+                cvs[i].put(OxonTrafficTravelTime.COLUMN_TRAVEL_TIME, trafficTravelTimes[i].getTravelTime());
+                cvs[i].put(OxonTrafficTravelTime.COLUMN_FREE_FLOW_TRAVEL_TIME, trafficTravelTimes[i].getFreeFlowTravelTime());
+                cvs[i].put(OxonTrafficTravelTime.COLUMN_FREE_FLOW_SPEED, trafficTravelTimes[i].getFreeFlowSpeed());
+                cvs[i].put(OxonTrafficTravelTime.COLUMN_CIN_ID, trafficTravelTimes[i].getCinId());
+                cvs[i].put(OxonTrafficTravelTime.COLUMN_CREATION_TIME, trafficTravelTimes[i].getCreationTime());
             }
             ContentResolver contentResolver = context.getContentResolver();
-            contentResolver.applyBatch(OxonProviderModule.AUTHORITY, operationList);
+            contentResolver.bulkInsert(OxonProviderModule.TRAFFIC_TRAVEL_TIME_URI, cvs);
         }
     }
 
@@ -355,35 +287,23 @@ public class OxonContentHelper extends CommonContentHelper {
                                           @NonNull VariableMessageSign[] variableMessageSigns)
             throws RemoteException, OperationApplicationException {
         if (variableMessageSigns.length > 0) {
-            ArrayList<ContentProviderOperation> operationList = new ArrayList<>();
-            for (VariableMessageSign variableMessageSign : variableMessageSigns) {
-                ContentProviderOperation operation = ContentProviderOperation
-                        .newInsert(OxonProviderModule.VARIABLE_MESSAGE_SIGN_URI)
-                        .withValue(OxonVariableMessageSign.COLUMN_LOCATION_ID,
-                                variableMessageSign.getLocationId())
-                        .withValue(OxonVariableMessageSign.COLUMN_DESCRIPTION,
-                                variableMessageSign.getDescription())
-                        .withValue(OxonVariableMessageSign.COLUMN_VMS_TYPE,
-                                variableMessageSign.getVmsType())
-                        .withValue(OxonVariableMessageSign.COLUMN_LATITUDE,
-                                variableMessageSign.getLatitude())
-                        .withValue(OxonVariableMessageSign.COLUMN_LONGITUDE,
-                                variableMessageSign.getLongitude())
-                        .withValue(OxonVariableMessageSign.COLUMN_NUMBER_OF_CHARACTERS,
-                                variableMessageSign.getNumberOfCharacters())
-                        .withValue(OxonVariableMessageSign.COLUMN_NUMBER_OF_ROWS,
-                                variableMessageSign.getNumberOfRows())
-                        .withValue(OxonVariableMessageSign.COLUMN_VMS_LEGENDS,
-                                variableMessageSign.getLegendAsString())
-                        .withValue(OxonVariableMessageSign.COLUMN_CIN_ID, variableMessageSign.getCinId())
-                        .withValue(OxonVariableMessageSign.COLUMN_CREATION_TIME,
-                                variableMessageSign.getCreationTime())
-                        .withYieldAllowed(true)
-                        .build();
-                operationList.add(operation);
+            ContentValues[] cvs = new ContentValues[variableMessageSigns.length];
+            for (int i = 0; i < variableMessageSigns.length; i++) {
+                cvs[i] = new ContentValues();
+                cvs[i].put(OxonVariableMessageSign.COLUMN_LOCATION_ID, variableMessageSigns[i].getLocationId());
+                cvs[i].put(OxonVariableMessageSign.COLUMN_LOCATION_ID, variableMessageSigns[i].getLocationId());
+                cvs[i].put(OxonVariableMessageSign.COLUMN_DESCRIPTION, variableMessageSigns[i].getDescription());
+                cvs[i].put(OxonVariableMessageSign.COLUMN_VMS_TYPE, variableMessageSigns[i].getVmsType());
+                cvs[i].put(OxonVariableMessageSign.COLUMN_LATITUDE, variableMessageSigns[i].getLatitude());
+                cvs[i].put(OxonVariableMessageSign.COLUMN_LONGITUDE, variableMessageSigns[i].getLongitude());
+                cvs[i].put(OxonVariableMessageSign.COLUMN_NUMBER_OF_CHARACTERS, variableMessageSigns[i].getNumberOfCharacters());
+                cvs[i].put(OxonVariableMessageSign.COLUMN_NUMBER_OF_ROWS, variableMessageSigns[i].getNumberOfRows());
+                cvs[i].put(OxonVariableMessageSign.COLUMN_VMS_LEGENDS, variableMessageSigns[i].getLegendAsString());
+                cvs[i].put(OxonVariableMessageSign.COLUMN_CIN_ID, variableMessageSigns[i].getCinId());
+                cvs[i].put(OxonVariableMessageSign.COLUMN_CREATION_TIME, variableMessageSigns[i].getCreationTime());
             }
             ContentResolver contentResolver = context.getContentResolver();
-            contentResolver.applyBatch(OxonProviderModule.AUTHORITY, operationList);
+            contentResolver.bulkInsert(OxonProviderModule.VARIABLE_MESSAGE_SIGN_URI, cvs);
         }
     }
 
@@ -443,32 +363,32 @@ public class OxonContentHelper extends CommonContentHelper {
         return eventsFromCursor(getLatestEventCursor(context));
     }
 
-    public static Cursor getRoadWorksCursor(@NonNull Context context) {
-        return context.getContentResolver().query(OxonProviderModule.ROAD_WORKS_URI,
-                new String[]{"*"}, null, null, OxonRoadWorks.COLUMN_ID);
+    public static Cursor getRoadworksCursor(@NonNull Context context) {
+        return context.getContentResolver().query(OxonProviderModule.ROADWORKS_URI,
+                new String[]{"*"}, null, null, OxonRoadworks.COLUMN_ID);
     }
 
-    public static Cursor getRoadWorksCursor(@NonNull Context context, long oldest, long newest) {
-        return context.getContentResolver().query(OxonProviderModule.ROAD_WORKS_URI,
+    public static Cursor getRoadworksCursor(@NonNull Context context, long oldest, long newest) {
+        return context.getContentResolver().query(OxonProviderModule.ROADWORKS_URI,
                 new String[]{"*"}, CREATION_INTERVAL_SELECTION, interval(oldest, newest),
                 CommonBaseColumns.COLUMN_CREATION_TIME);
     }
 
-    public static Cursor getLatestRoadWorksCursor(@NonNull Context context) {
-        return context.getContentResolver().query(OxonProviderModule.LATEST_ROAD_WORKS_URI,
-                new String[]{"*"}, null, null, OxonRoadWorks.COLUMN_ID);
+    public static Cursor getLatestRoadworksCursor(@NonNull Context context) {
+        return context.getContentResolver().query(OxonProviderModule.LATEST_ROADWORKS_URI,
+                new String[]{"*"}, null, null, OxonRoadworks.COLUMN_ID);
     }
 
-    public static RoadWorks[] getRoadWorks(@NonNull Context context) {
-        return roadWorksesFromCursor(getRoadWorksCursor(context));
+    public static Roadworks[] getRoadworks(@NonNull Context context) {
+        return roadworksesFromCursor(getRoadworksCursor(context));
     }
 
-    public static RoadWorks[] getRoadWorks(@NonNull Context context, long oldest, long newest) {
-        return roadWorksesFromCursor(getRoadWorksCursor(context, oldest, newest));
+    public static Roadworks[] getRoadworks(@NonNull Context context, long oldest, long newest) {
+        return roadworksesFromCursor(getRoadworksCursor(context, oldest, newest));
     }
 
-    public static RoadWorks[] getLatestRoadWorks(@NonNull Context context) {
-        return roadWorksesFromCursor(getLatestRoadWorksCursor(context));
+    public static Roadworks[] getLatestRoadworks(@NonNull Context context) {
+        return roadworksesFromCursor(getLatestRoadworksCursor(context));
     }
 
     public static Cursor getTrafficFlowCursor(@NonNull Context context) {
@@ -653,8 +573,8 @@ public class OxonContentHelper extends CommonContentHelper {
             case DATA_TYPE_EVENT:
                 contentResolver.delete(OxonProviderModule.EVENT_URI, null, null);
                 break;
-            case DATA_TYPE_ROAD_WORKS:
-                contentResolver.delete(OxonProviderModule.ROAD_WORKS_URI, null, null);
+            case DATA_TYPE_ROADWORKS:
+                contentResolver.delete(OxonProviderModule.ROADWORKS_URI, null, null);
                 break;
             case DATA_TYPE_TRAFFIC_FLOW:
                 contentResolver.delete(OxonProviderModule.TRAFFIC_FLOW_URI, null, null);
@@ -689,8 +609,8 @@ public class OxonContentHelper extends CommonContentHelper {
                 contentResolver.delete(OxonProviderModule.EVENT_URI, CREATED_BEFORE,
                         new String[]{String.valueOf(creationTime)});
                 break;
-            case DATA_TYPE_ROAD_WORKS:
-                contentResolver.delete(OxonProviderModule.ROAD_WORKS_URI, CREATED_BEFORE,
+            case DATA_TYPE_ROADWORKS:
+                contentResolver.delete(OxonProviderModule.ROADWORKS_URI, CREATED_BEFORE,
                         new String[]{String.valueOf(creationTime)});
                 break;
             case DATA_TYPE_TRAFFIC_FLOW:
@@ -814,50 +734,50 @@ public class OxonContentHelper extends CommonContentHelper {
         return events;
     }
 
-    public static RoadWorks[] roadWorksesFromCursor(Cursor cursor) {
-        RoadWorks[] roadWorkses = null;
+    public static Roadworks[] roadworksesFromCursor(Cursor cursor) {
+        Roadworks[] roadworkses = null;
         if (cursor != null) {
             if (cursor.moveToFirst()) {
-                roadWorkses = new RoadWorks[cursor.getCount()];
-                for (int i = 0; i < roadWorkses.length; i++) {
-                    roadWorkses[i] = new RoadWorks();
-                    roadWorkses[i].setId(cursor.getString(cursor.getColumnIndex(
-                            OxonRoadWorks.COLUMN_ID)));
-                    roadWorkses[i].setEffectOnRoadLayout(cursor.getString(cursor.getColumnIndex(
-                            OxonRoadWorks.COLUMN_EFFECT_ON_ROAD_LAYOUT)));
-                    roadWorkses[i].setRoadMaintenanceType(cursor.getString(cursor.getColumnIndex(
-                            OxonRoadWorks.COLUMN_ROAD_MAINTENANCE_TYPE)));
-                    roadWorkses[i].setComment(cursor.getString(cursor.getColumnIndex(
-                            OxonRoadWorks.COLUMN_COMMENT)));
-                    roadWorkses[i].setImpactOnTraffic(cursor.getString(cursor.getColumnIndex(
-                            OxonRoadWorks.COLUMN_IMPACT_ON_TRAFFIC)));
-                    roadWorkses[i].setLatitude(cursor.getDouble(cursor.getColumnIndex(
-                            OxonRoadWorks.COLUMN_LATITUDE)));
-                    roadWorkses[i].setLongitude(cursor.getDouble(cursor.getColumnIndex(
-                            OxonRoadWorks.COLUMN_LONGITUDE)));
-                    roadWorkses[i].setValidityStatus(cursor.getString(cursor.getColumnIndex(
-                            OxonRoadWorks.COLUMN_VALIDITY_STATUS)));
-                    roadWorkses[i].setOverallStartTime(cursor.getString(cursor.getColumnIndex(
-                            OxonRoadWorks.COLUMN_OVERALL_START_TIME)));
-                    roadWorkses[i].setOverallEndTime(cursor.getString(cursor.getColumnIndex(
-                            OxonRoadWorks.COLUMN_OVERALL_END_TIME)));
-                    roadWorkses[i].setStartOfPeriod(cursor.getString(cursor.getColumnIndex(
-                            OxonRoadWorks.COLUMN_START_OF_PERIOD)));
-                    roadWorkses[i].setEndOfPeriod(cursor.getString(cursor.getColumnIndex(
-                            OxonRoadWorks.COLUMN_END_OF_PERIOD)));
-                    roadWorkses[i].setCinId(cursor.getString(cursor.getColumnIndex(
-                            OxonRoadWorks.COLUMN_CIN_ID)));
-                    roadWorkses[i].setCreationTime(cursor.getLong(cursor.getColumnIndex(
-                            OxonRoadWorks.COLUMN_CREATION_TIME)));
+                roadworkses = new Roadworks[cursor.getCount()];
+                for (int i = 0; i < roadworkses.length; i++) {
+                    roadworkses[i] = new Roadworks();
+                    roadworkses[i].setId(cursor.getString(cursor.getColumnIndex(
+                            OxonRoadworks.COLUMN_ID)));
+                    roadworkses[i].setEffectOnRoadLayout(cursor.getString(cursor.getColumnIndex(
+                            OxonRoadworks.COLUMN_EFFECT_ON_ROAD_LAYOUT)));
+                    roadworkses[i].setRoadMaintenanceType(cursor.getString(cursor.getColumnIndex(
+                            OxonRoadworks.COLUMN_ROAD_MAINTENANCE_TYPE)));
+                    roadworkses[i].setComment(cursor.getString(cursor.getColumnIndex(
+                            OxonRoadworks.COLUMN_COMMENT)));
+                    roadworkses[i].setImpactOnTraffic(cursor.getString(cursor.getColumnIndex(
+                            OxonRoadworks.COLUMN_IMPACT_ON_TRAFFIC)));
+                    roadworkses[i].setLatitude(cursor.getDouble(cursor.getColumnIndex(
+                            OxonRoadworks.COLUMN_LATITUDE)));
+                    roadworkses[i].setLongitude(cursor.getDouble(cursor.getColumnIndex(
+                            OxonRoadworks.COLUMN_LONGITUDE)));
+                    roadworkses[i].setValidityStatus(cursor.getString(cursor.getColumnIndex(
+                            OxonRoadworks.COLUMN_VALIDITY_STATUS)));
+                    roadworkses[i].setOverallStartTime(cursor.getString(cursor.getColumnIndex(
+                            OxonRoadworks.COLUMN_OVERALL_START_TIME)));
+                    roadworkses[i].setOverallEndTime(cursor.getString(cursor.getColumnIndex(
+                            OxonRoadworks.COLUMN_OVERALL_END_TIME)));
+                    roadworkses[i].setStartOfPeriod(cursor.getString(cursor.getColumnIndex(
+                            OxonRoadworks.COLUMN_START_OF_PERIOD)));
+                    roadworkses[i].setEndOfPeriod(cursor.getString(cursor.getColumnIndex(
+                            OxonRoadworks.COLUMN_END_OF_PERIOD)));
+                    roadworkses[i].setCinId(cursor.getString(cursor.getColumnIndex(
+                            OxonRoadworks.COLUMN_CIN_ID)));
+                    roadworkses[i].setCreationTime(cursor.getLong(cursor.getColumnIndex(
+                            OxonRoadworks.COLUMN_CREATION_TIME)));
                     cursor.moveToNext();
                 }
             }
             cursor.close();
         }
-        if (roadWorkses == null) {
-            return new RoadWorks[0];
+        if (roadworkses == null) {
+            return new Roadworks[0];
         }
-        return roadWorkses;
+        return roadworkses;
     }
 
     public static TrafficFlow[] trafficFlowsFromCursor(Cursor cursor) {

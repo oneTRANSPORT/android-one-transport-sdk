@@ -18,13 +18,13 @@ public class ApplicationEntityDeleteTest extends ApplicationEntityTest {
     public void startAsync(DougalCallback dougalCallback) {
         runnerTask.setCurrentTest("Delete AE");
         ApplicationEntity applicationEntity = getApplicationEntity();
-        applicationEntity.deleteAsync(USER_NAME, PASSWORD, dougalCallback);
+        applicationEntity.deleteAsync(TOKEN, dougalCallback);
     }
 
     private void deleteApplicationEntity() throws Exception {
         runnerTask.setCurrentTest("Delete AE");
         ApplicationEntity applicationEntity = getApplicationEntity();
-        applicationEntity.delete(USER_NAME, PASSWORD);
+        applicationEntity.delete(TOKEN);
         runnerTask.report("Delete application entity ... PASSED", COLOUR_PASSED);
     }
 

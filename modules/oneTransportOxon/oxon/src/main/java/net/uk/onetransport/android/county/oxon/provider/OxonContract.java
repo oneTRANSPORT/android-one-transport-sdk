@@ -76,39 +76,39 @@ public class OxonContract {
                     + OxonEvent.COLUMN_ID + " AND a."
                     + OxonEvent.COLUMN_CREATION_TIME + "=b."
                     + OxonEvent.COLUMN_CREATION_TIME + ";";
-    public static final String CREATE_ROAD_WORKS_TABLE =
-            "CREATE TABLE IF NOT EXISTS " + OxonRoadWorks.TABLE_NAME + " ("
-                    + OxonRoadWorks.COLUMN_ID + " TEXT NOT NULL,"
-                    + OxonRoadWorks.COLUMN_EFFECT_ON_ROAD_LAYOUT + " TEXT,"
-                    + OxonRoadWorks.COLUMN_ROAD_MAINTENANCE_TYPE + " TEXT,"
-                    + OxonRoadWorks.COLUMN_COMMENT + " TEXT,"
-                    + OxonRoadWorks.COLUMN_IMPACT_ON_TRAFFIC + " TEXT,"
-                    + OxonRoadWorks.COLUMN_LATITUDE + " REAL,"
-                    + OxonRoadWorks.COLUMN_LONGITUDE + " REAL,"
-                    + OxonRoadWorks.COLUMN_VALIDITY_STATUS + " TEXT,"
-                    + OxonRoadWorks.COLUMN_OVERALL_START_TIME + " TEXT,"
-                    + OxonRoadWorks.COLUMN_OVERALL_END_TIME + " TEXT,"
-                    + OxonRoadWorks.COLUMN_START_OF_PERIOD + " TEXT,"
-                    + OxonRoadWorks.COLUMN_END_OF_PERIOD + " TEXT,"
-                    + OxonRoadWorks.COLUMN_CIN_ID + " TEXT NOT NULL,"
-                    + OxonRoadWorks.COLUMN_CREATION_TIME + " INTEGER,"
+    public static final String CREATE_ROADWORKS_TABLE =
+            "CREATE TABLE IF NOT EXISTS " + OxonRoadworks.TABLE_NAME + " ("
+                    + OxonRoadworks.COLUMN_ID + " TEXT NOT NULL,"
+                    + OxonRoadworks.COLUMN_EFFECT_ON_ROAD_LAYOUT + " TEXT,"
+                    + OxonRoadworks.COLUMN_ROAD_MAINTENANCE_TYPE + " TEXT,"
+                    + OxonRoadworks.COLUMN_COMMENT + " TEXT,"
+                    + OxonRoadworks.COLUMN_IMPACT_ON_TRAFFIC + " TEXT,"
+                    + OxonRoadworks.COLUMN_LATITUDE + " REAL,"
+                    + OxonRoadworks.COLUMN_LONGITUDE + " REAL,"
+                    + OxonRoadworks.COLUMN_VALIDITY_STATUS + " TEXT,"
+                    + OxonRoadworks.COLUMN_OVERALL_START_TIME + " TEXT,"
+                    + OxonRoadworks.COLUMN_OVERALL_END_TIME + " TEXT,"
+                    + OxonRoadworks.COLUMN_START_OF_PERIOD + " TEXT,"
+                    + OxonRoadworks.COLUMN_END_OF_PERIOD + " TEXT,"
+                    + OxonRoadworks.COLUMN_CIN_ID + " TEXT NOT NULL,"
+                    + OxonRoadworks.COLUMN_CREATION_TIME + " INTEGER,"
                     + "UNIQUE ("
-                    + OxonRoadWorks.COLUMN_ID + ","
-                    + OxonRoadWorks.COLUMN_CIN_ID
+                    + OxonRoadworks.COLUMN_ID + ","
+                    + OxonRoadworks.COLUMN_CIN_ID
                     + ") ON CONFLICT IGNORE);";
-    public static final String CREATE_LATEST_ROAD_WORKS_TABLE =
-            "CREATE VIEW IF NOT EXISTS " + OxonLatestRoadWorks.TABLE_NAME + " AS "
-                    + "SELECT a.* FROM " + OxonRoadWorks.TABLE_NAME + " AS a "
-                    + "INNER JOIN (SELECT " + OxonRoadWorks.COLUMN_ID
+    public static final String CREATE_LATEST_ROADWORKS_TABLE =
+            "CREATE VIEW IF NOT EXISTS " + OxonLatestRoadworks.TABLE_NAME + " AS "
+                    + "SELECT a.* FROM " + OxonRoadworks.TABLE_NAME + " AS a "
+                    + "INNER JOIN (SELECT " + OxonRoadworks.COLUMN_ID
                     + ", MAX("
-                    + OxonRoadWorks.COLUMN_CREATION_TIME + ") AS "
-                    + OxonRoadWorks.COLUMN_CREATION_TIME + " FROM "
-                    + OxonRoadWorks.TABLE_NAME + " GROUP BY "
-                    + OxonRoadWorks.COLUMN_ID + ") AS b ON a."
-                    + OxonRoadWorks.COLUMN_ID + "=b."
-                    + OxonRoadWorks.COLUMN_ID + " AND a."
-                    + OxonRoadWorks.COLUMN_CREATION_TIME + "=b."
-                    + OxonRoadWorks.COLUMN_CREATION_TIME + ";";
+                    + OxonRoadworks.COLUMN_CREATION_TIME + ") AS "
+                    + OxonRoadworks.COLUMN_CREATION_TIME + " FROM "
+                    + OxonRoadworks.TABLE_NAME + " GROUP BY "
+                    + OxonRoadworks.COLUMN_ID + ") AS b ON a."
+                    + OxonRoadworks.COLUMN_ID + "=b."
+                    + OxonRoadworks.COLUMN_ID + " AND a."
+                    + OxonRoadworks.COLUMN_CREATION_TIME + "=b."
+                    + OxonRoadworks.COLUMN_CREATION_TIME + ";";
     public static final String CREATE_TRAFFIC_FLOW_TABLE =
             "CREATE TABLE IF NOT EXISTS " + OxonTrafficFlow.TABLE_NAME + " ("
                     + OxonTrafficFlow._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -365,8 +365,8 @@ public class OxonContract {
         public static final String TABLE_NAME = "oxon_latest_event";
     }
 
-    public static final class OxonRoadWorks implements CommonBaseColumns {
-        public static final String TABLE_NAME = "oxon_road_works";
+    public static final class OxonRoadworks implements CommonBaseColumns {
+        public static final String TABLE_NAME = "oxon_roadworks";
         public static final String COLUMN_ID = "id";
         public static final String COLUMN_EFFECT_ON_ROAD_LAYOUT = "effect_on_road_layout";
         public static final String COLUMN_ROAD_MAINTENANCE_TYPE = "road_maintenance_type";
@@ -381,8 +381,8 @@ public class OxonContract {
         public static final String COLUMN_END_OF_PERIOD = "end_of_period";
     }
 
-    public static final class OxonLatestRoadWorks {
-        public static final String TABLE_NAME = "oxon_latest_road_works";
+    public static final class OxonLatestRoadworks {
+        public static final String TABLE_NAME = "oxon_latest_roadworks";
     }
 
     public static final class OxonTrafficFlow implements CommonBaseColumns {

@@ -1,7 +1,7 @@
 package net.uk.onetransport.android.county.herts.provider;
 
-import android.content.ContentProviderOperation;
 import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.OperationApplicationException;
 import android.database.Cursor;
@@ -11,7 +11,7 @@ import android.support.annotation.NonNull;
 
 import net.uk.onetransport.android.county.herts.carparks.CarPark;
 import net.uk.onetransport.android.county.herts.events.Event;
-import net.uk.onetransport.android.county.herts.roadworks.RoadWorks;
+import net.uk.onetransport.android.county.herts.roadworks.Roadworks;
 import net.uk.onetransport.android.county.herts.trafficflow.TrafficFlow;
 import net.uk.onetransport.android.county.herts.trafficscoot.TrafficScoot;
 import net.uk.onetransport.android.county.herts.trafficspeed.TrafficSpeed;
@@ -22,11 +22,10 @@ import net.uk.onetransport.android.modules.common.provider.CommonContentHelper;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
-import java.util.ArrayList;
 
 import static net.uk.onetransport.android.county.herts.provider.HertsContract.HertsCarPark;
 import static net.uk.onetransport.android.county.herts.provider.HertsContract.HertsEvent;
-import static net.uk.onetransport.android.county.herts.provider.HertsContract.HertsRoadWorks;
+import static net.uk.onetransport.android.county.herts.provider.HertsContract.HertsRoadworks;
 import static net.uk.onetransport.android.county.herts.provider.HertsContract.HertsTrafficFlow;
 import static net.uk.onetransport.android.county.herts.provider.HertsContract.HertsTrafficScoot;
 import static net.uk.onetransport.android.county.herts.provider.HertsContract.HertsTrafficSpeed;
@@ -38,7 +37,7 @@ public class HertsContentHelper extends CommonContentHelper {
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({DATA_TYPE_CAR_PARK,
             DATA_TYPE_EVENT,
-            DATA_TYPE_ROAD_WORKS,
+            DATA_TYPE_ROADWORKS,
             DATA_TYPE_TRAFFIC_FLOW,
             DATA_TYPE_TRAFFIC_QUEUE,
             DATA_TYPE_TRAFFIC_SCOOT,
@@ -50,7 +49,7 @@ public class HertsContentHelper extends CommonContentHelper {
 
     public static final int DATA_TYPE_CAR_PARK = 1;
     public static final int DATA_TYPE_EVENT = 2;
-    public static final int DATA_TYPE_ROAD_WORKS = 3;
+    public static final int DATA_TYPE_ROADWORKS = 3;
     public static final int DATA_TYPE_TRAFFIC_FLOW = 4;
     public static final int DATA_TYPE_TRAFFIC_QUEUE = 5;
     public static final int DATA_TYPE_TRAFFIC_SCOOT = 6;
@@ -61,213 +60,166 @@ public class HertsContentHelper extends CommonContentHelper {
     public static void insertIntoProvider(@NonNull Context context, @NonNull CarPark[] carParks)
             throws RemoteException, OperationApplicationException {
         if (carParks.length > 0) {
-            ArrayList<ContentProviderOperation> operationList = new ArrayList<>();
-            for (CarPark carPark : carParks) {
-                ContentProviderOperation operation = ContentProviderOperation
-                        .newInsert(HertsProviderModule.CAR_PARK_URI)
-                        .withValue(HertsCarPark.COLUMN_CAR_PARK_IDENTITY, carPark.getCarParkIdentity())
-                        .withValue(HertsCarPark.COLUMN_LATITUDE, carPark.getLatitude())
-                        .withValue(HertsCarPark.COLUMN_LONGITUDE, carPark.getLongitude())
-                        .withValue(HertsCarPark.COLUMN_OCCUPANCY, carPark.getOccupancy())
-                        .withValue(HertsCarPark.COLUMN_OCCUPANCY_TREND, carPark.getOccupancyTrend())
-                        .withValue(HertsCarPark.COLUMN_TOTAL_PARKING_CAPACITY,
-                                carPark.getTotalParkingCapacity())
-                        .withValue(HertsCarPark.COLUMN_FILL_RATE, carPark.getFillRate())
-                        .withValue(HertsCarPark.COLUMN_EXIT_RATE, carPark.getExitRate())
-                        .withValue(HertsCarPark.COLUMN_ALMOST_FULL_INCREASING,
-                                carPark.getAlmostFullIncreasing())
-                        .withValue(HertsCarPark.COLUMN_ALMOST_FULL_DECREASING,
-                                carPark.getAlmostFullDecreasing())
-                        .withValue(HertsCarPark.COLUMN_FULL_INCREASING, carPark.getFullIncreasing())
-                        .withValue(HertsCarPark.COLUMN_FULL_DECREASING, carPark.getFullDecreasing())
-                        .withValue(HertsCarPark.COLUMN_STATUS, carPark.getStatus())
-                        .withValue(HertsCarPark.COLUMN_STATUS_TIME, carPark.getStatusTime())
-                        .withValue(HertsCarPark.COLUMN_QUEUING_TIME, carPark.getQueuingTime())
-                        .withValue(HertsCarPark.COLUMN_PARKING_AREA_NAME,
-                                carPark.getParkingAreaName())
-                        .withValue(HertsCarPark.COLUMN_ENTRANCE_FULL, carPark.getEntranceFull())
-                        .withValue(HertsCarPark.COLUMN_CIN_ID, carPark.getCinId())
-                        .withValue(HertsCarPark.COLUMN_CREATION_TIME, carPark.getCreationTime())
-                        .withYieldAllowed(true)
-                        .build();
-                operationList.add(operation);
+            ContentValues[] cvs = new ContentValues[carParks.length];
+            for (int i = 0; i < carParks.length; i++) {
+                cvs[i] = new ContentValues();
+                cvs[i].put(HertsCarPark.COLUMN_CAR_PARK_IDENTITY, carParks[i].getCarParkIdentity());
+                cvs[i].put(HertsCarPark.COLUMN_LATITUDE, carParks[i].getLatitude());
+                cvs[i].put(HertsCarPark.COLUMN_LONGITUDE, carParks[i].getLongitude());
+                cvs[i].put(HertsCarPark.COLUMN_OCCUPANCY, carParks[i].getOccupancy());
+                cvs[i].put(HertsCarPark.COLUMN_OCCUPANCY_TREND, carParks[i].getOccupancyTrend());
+                cvs[i].put(HertsCarPark.COLUMN_TOTAL_PARKING_CAPACITY, carParks[i].getTotalParkingCapacity());
+                cvs[i].put(HertsCarPark.COLUMN_FILL_RATE, carParks[i].getFillRate());
+                cvs[i].put(HertsCarPark.COLUMN_EXIT_RATE, carParks[i].getExitRate());
+                cvs[i].put(HertsCarPark.COLUMN_ALMOST_FULL_INCREASING, carParks[i].getAlmostFullIncreasing());
+                cvs[i].put(HertsCarPark.COLUMN_ALMOST_FULL_DECREASING, carParks[i].getAlmostFullDecreasing());
+                cvs[i].put(HertsCarPark.COLUMN_FULL_INCREASING, carParks[i].getFullIncreasing());
+                cvs[i].put(HertsCarPark.COLUMN_FULL_DECREASING, carParks[i].getFullDecreasing());
+                cvs[i].put(HertsCarPark.COLUMN_STATUS, carParks[i].getStatus());
+                cvs[i].put(HertsCarPark.COLUMN_STATUS_TIME, carParks[i].getStatusTime());
+                cvs[i].put(HertsCarPark.COLUMN_QUEUING_TIME, carParks[i].getQueuingTime());
+                cvs[i].put(HertsCarPark.COLUMN_PARKING_AREA_NAME, carParks[i].getParkingAreaName());
+                cvs[i].put(HertsCarPark.COLUMN_ENTRANCE_FULL, carParks[i].getEntranceFull());
+                cvs[i].put(HertsCarPark.COLUMN_CIN_ID, carParks[i].getCinId());
+                cvs[i].put(HertsCarPark.COLUMN_CREATION_TIME, carParks[i].getCreationTime());
             }
             ContentResolver contentResolver = context.getContentResolver();
-            contentResolver.applyBatch(HertsProviderModule.AUTHORITY, operationList);
+            contentResolver.bulkInsert(HertsProviderModule.CAR_PARK_URI, cvs);
         }
     }
 
     public static void insertIntoProvider(@NonNull Context context, @NonNull Event[] events)
             throws RemoteException, OperationApplicationException {
         if (events.length > 0) {
-            ArrayList<ContentProviderOperation> operationList = new ArrayList<>();
-            for (Event event : events) {
-                ContentProviderOperation operation = ContentProviderOperation
-                        .newInsert(HertsProviderModule.EVENT_URI)
-                        .withValue(HertsEvent.COLUMN_ID, event.getId())
-                        .withValue(HertsEvent.COLUMN_START_OF_PERIOD, event.getStartOfPeriod())
-                        .withValue(HertsEvent.COLUMN_END_OF_PERIOD, event.getEndOfPeriod())
-                        .withValue(HertsEvent.COLUMN_OVERALL_START_TIME, event.getOverallStartTime())
-                        .withValue(HertsEvent.COLUMN_OVERALL_END_TIME, event.getOverallEndTime())
-                        .withValue(HertsEvent.COLUMN_LATITUDE, event.getLatitude())
-                        .withValue(HertsEvent.COLUMN_LONGITUDE, event.getLongitude())
-                        .withValue(HertsEvent.COLUMN_DESCRIPTION, event.getDescription())
-                        .withValue(HertsEvent.COLUMN_IMPACT_ON_TRAFFIC, event.getImpactOnTraffic())
-                        .withValue(HertsEvent.COLUMN_VALIDITY_STATUS, event.getValidityStatus())
-                        .withValue(HertsEvent.COLUMN_CIN_ID, event.getCinId())
-                        .withValue(HertsEvent.COLUMN_CREATION_TIME, event.getCreationTime())
-                        .withYieldAllowed(true)
-                        .build();
-                operationList.add(operation);
+            ContentValues[] cvs = new ContentValues[events.length];
+            for (int i = 0; i < events.length; i++) {
+                cvs[i] = new ContentValues();
+                cvs[i].put(HertsEvent.COLUMN_ID, events[i].getId());
+                cvs[i].put(HertsEvent.COLUMN_START_OF_PERIOD, events[i].getStartOfPeriod());
+                cvs[i].put(HertsEvent.COLUMN_END_OF_PERIOD, events[i].getEndOfPeriod());
+                cvs[i].put(HertsEvent.COLUMN_OVERALL_START_TIME, events[i].getOverallStartTime());
+                cvs[i].put(HertsEvent.COLUMN_OVERALL_END_TIME, events[i].getOverallEndTime());
+                cvs[i].put(HertsEvent.COLUMN_LATITUDE, events[i].getLatitude());
+                cvs[i].put(HertsEvent.COLUMN_LONGITUDE, events[i].getLongitude());
+                cvs[i].put(HertsEvent.COLUMN_DESCRIPTION, events[i].getDescription());
+                cvs[i].put(HertsEvent.COLUMN_IMPACT_ON_TRAFFIC, events[i].getImpactOnTraffic());
+                cvs[i].put(HertsEvent.COLUMN_VALIDITY_STATUS, events[i].getValidityStatus());
+                cvs[i].put(HertsEvent.COLUMN_CIN_ID, events[i].getCinId());
+                cvs[i].put(HertsEvent.COLUMN_CREATION_TIME, events[i].getCreationTime());
             }
             ContentResolver contentResolver = context.getContentResolver();
-            contentResolver.applyBatch(HertsProviderModule.AUTHORITY, operationList);
+            contentResolver.bulkInsert(HertsProviderModule.EVENT_URI, cvs);
         }
     }
 
-    public static void insertIntoProvider(@NonNull Context context,
-                                          @NonNull RoadWorks[] roadWorkses)
+    public static void insertIntoProvider(@NonNull Context context, @NonNull Roadworks[] roadworkses)
             throws RemoteException, OperationApplicationException {
-        if (roadWorkses.length > 0) {
-            ArrayList<ContentProviderOperation> operationList = new ArrayList<>();
-            for (RoadWorks roadWorks : roadWorkses) {
-                ContentProviderOperation operation = ContentProviderOperation
-                        .newInsert(HertsProviderModule.ROAD_WORKS_URI)
-                        .withValue(HertsRoadWorks.COLUMN_ID, roadWorks.getId())
-                        .withValue(HertsRoadWorks.COLUMN_EFFECT_ON_ROAD_LAYOUT,
-                                roadWorks.getEffectOnRoadLayout())
-                        .withValue(HertsRoadWorks.COLUMN_ROAD_MAINTENANCE_TYPE,
-                                roadWorks.getRoadMaintenanceType())
-                        .withValue(HertsRoadWorks.COLUMN_COMMENT, roadWorks.getComment())
-                        .withValue(HertsRoadWorks.COLUMN_IMPACT_ON_TRAFFIC,
-                                roadWorks.getImpactOnTraffic())
-                        .withValue(HertsRoadWorks.COLUMN_LATITUDE,
-                                roadWorks.getLatitude())
-                        .withValue(HertsRoadWorks.COLUMN_LONGITUDE,
-                                roadWorks.getLongitude())
-                        .withValue(HertsRoadWorks.COLUMN_VALIDITY_STATUS,
-                                roadWorks.getValidityStatus())
-                        .withValue(HertsRoadWorks.COLUMN_OVERALL_START_TIME,
-                                roadWorks.getOverallStartTime())
-                        .withValue(HertsRoadWorks.COLUMN_OVERALL_END_TIME,
-                                roadWorks.getOverallEndTime())
-                        .withValue(HertsRoadWorks.COLUMN_START_OF_PERIOD,
-                                roadWorks.getStartOfPeriod())
-                        .withValue(HertsRoadWorks.COLUMN_END_OF_PERIOD,
-                                roadWorks.getEndOfPeriod())
-                        .withValue(HertsRoadWorks.COLUMN_CIN_ID, roadWorks.getCinId())
-                        .withValue(HertsRoadWorks.COLUMN_CREATION_TIME, roadWorks.getCreationTime())
-                        .withYieldAllowed(true)
-                        .build();
-                operationList.add(operation);
+        if (roadworkses.length > 0) {
+            ContentValues[] cvs = new ContentValues[roadworkses.length];
+            for (int i = 0; i < roadworkses.length; i++) {
+                cvs[i] = new ContentValues();
+                cvs[i].put(HertsRoadworks.COLUMN_ID, roadworkses[i].getId());
+                cvs[i].put(HertsRoadworks.COLUMN_EFFECT_ON_ROAD_LAYOUT, roadworkses[i].getEffectOnRoadLayout());
+                cvs[i].put(HertsRoadworks.COLUMN_ROAD_MAINTENANCE_TYPE, roadworkses[i].getRoadMaintenanceType());
+                cvs[i].put(HertsRoadworks.COLUMN_COMMENT, roadworkses[i].getComment());
+                cvs[i].put(HertsRoadworks.COLUMN_IMPACT_ON_TRAFFIC, roadworkses[i].getImpactOnTraffic());
+                cvs[i].put(HertsRoadworks.COLUMN_LATITUDE, roadworkses[i].getLatitude());
+                cvs[i].put(HertsRoadworks.COLUMN_LONGITUDE, roadworkses[i].getLongitude());
+                cvs[i].put(HertsRoadworks.COLUMN_VALIDITY_STATUS, roadworkses[i].getValidityStatus());
+                cvs[i].put(HertsRoadworks.COLUMN_OVERALL_START_TIME, roadworkses[i].getOverallStartTime());
+                cvs[i].put(HertsRoadworks.COLUMN_OVERALL_END_TIME, roadworkses[i].getOverallEndTime());
+                cvs[i].put(HertsRoadworks.COLUMN_START_OF_PERIOD, roadworkses[i].getStartOfPeriod());
+                cvs[i].put(HertsRoadworks.COLUMN_END_OF_PERIOD, roadworkses[i].getEndOfPeriod());
+                cvs[i].put(HertsRoadworks.COLUMN_CIN_ID, roadworkses[i].getCinId());
+                cvs[i].put(HertsRoadworks.COLUMN_CREATION_TIME, roadworkses[i].getCreationTime());
             }
             ContentResolver contentResolver = context.getContentResolver();
-            contentResolver.applyBatch(HertsProviderModule.AUTHORITY, operationList);
+            contentResolver.bulkInsert(HertsProviderModule.ROADWORKS_URI, cvs);
         }
     }
 
     public static void insertIntoProvider(@NonNull Context context, @NonNull TrafficFlow[] trafficFlows)
             throws RemoteException, OperationApplicationException {
         if (trafficFlows.length > 0) {
-            ArrayList<ContentProviderOperation> operationList = new ArrayList<>();
-            for (TrafficFlow trafficFlow : trafficFlows) {
-                ContentProviderOperation operation = ContentProviderOperation
-                        .newInsert(HertsProviderModule.TRAFFIC_FLOW_URI)
-                        .withValue(HertsTrafficFlow.COLUMN_ID, trafficFlow.getId())
-                        .withValue(HertsTrafficFlow.COLUMN_TPEG_DIRECTION, trafficFlow.getTpegDirection())
-                        .withValue(HertsTrafficFlow.COLUMN_FROM_TYPE, trafficFlow.getFromType())
-                        .withValue(HertsTrafficFlow.COLUMN_FROM_DESCRIPTOR,
-                                trafficFlow.getFromDescriptor())
-                        .withValue(HertsTrafficFlow.COLUMN_FROM_LATITUDE, trafficFlow.getFromLatitude())
-                        .withValue(HertsTrafficFlow.COLUMN_FROM_LONGITUDE,
-                                trafficFlow.getFromLongitude())
-                        .withValue(HertsTrafficFlow.COLUMN_TO_TYPE, trafficFlow.getToType())
-                        .withValue(HertsTrafficFlow.COLUMN_TO_DESCRIPTOR, trafficFlow.getToDescriptor())
-                        .withValue(HertsTrafficFlow.COLUMN_TO_LATITUDE, trafficFlow.getToLatitude())
-                        .withValue(HertsTrafficFlow.COLUMN_TO_LONGITUDE, trafficFlow.getToLongitude())
-                        .withValue(HertsTrafficFlow.COLUMN_TIME, trafficFlow.getTime())
-                        .withValue(HertsTrafficFlow.COLUMN_VEHICLE_FLOW, trafficFlow.getVehicleFlow())
-                        .withValue(HertsTrafficFlow.COLUMN_CIN_ID, trafficFlow.getCinId())
-                        .withValue(HertsTrafficFlow.COLUMN_CREATION_TIME, trafficFlow.getCreationTime())
-                        .withYieldAllowed(true)
-                        .build();
-                operationList.add(operation);
+            ContentValues[] cvs = new ContentValues[trafficFlows.length];
+            for (int i = 0; i < trafficFlows.length; i++) {
+                cvs[i] = new ContentValues();
+                cvs[i].put(HertsTrafficFlow.COLUMN_ID, trafficFlows[i].getId());
+                cvs[i].put(HertsTrafficFlow.COLUMN_TPEG_DIRECTION, trafficFlows[i].getTpegDirection());
+                cvs[i].put(HertsTrafficFlow.COLUMN_FROM_TYPE, trafficFlows[i].getFromType());
+                cvs[i].put(HertsTrafficFlow.COLUMN_FROM_DESCRIPTOR, trafficFlows[i].getFromDescriptor());
+                cvs[i].put(HertsTrafficFlow.COLUMN_FROM_LATITUDE, trafficFlows[i].getFromLatitude());
+                cvs[i].put(HertsTrafficFlow.COLUMN_FROM_LONGITUDE, trafficFlows[i].getFromLongitude());
+                cvs[i].put(HertsTrafficFlow.COLUMN_TO_TYPE, trafficFlows[i].getToType());
+                cvs[i].put(HertsTrafficFlow.COLUMN_TO_DESCRIPTOR, trafficFlows[i].getToDescriptor());
+                cvs[i].put(HertsTrafficFlow.COLUMN_TO_LATITUDE, trafficFlows[i].getToLatitude());
+                cvs[i].put(HertsTrafficFlow.COLUMN_TO_LONGITUDE, trafficFlows[i].getToLongitude());
+                cvs[i].put(HertsTrafficFlow.COLUMN_TIME, trafficFlows[i].getTime());
+                cvs[i].put(HertsTrafficFlow.COLUMN_VEHICLE_FLOW, trafficFlows[i].getVehicleFlow());
+                cvs[i].put(HertsTrafficFlow.COLUMN_CIN_ID, trafficFlows[i].getCinId());
+                cvs[i].put(HertsTrafficFlow.COLUMN_CREATION_TIME, trafficFlows[i].getCreationTime());
             }
             ContentResolver contentResolver = context.getContentResolver();
-            contentResolver.applyBatch(HertsProviderModule.AUTHORITY, operationList);
+            contentResolver.bulkInsert(HertsProviderModule.TRAFFIC_FLOW_URI, cvs);
         }
     }
 
     public static void insertIntoProvider(@NonNull Context context, @NonNull TrafficScoot[] trafficScoots)
             throws RemoteException, OperationApplicationException {
         if (trafficScoots.length > 0) {
-            ArrayList<ContentProviderOperation> operationList = new ArrayList<>();
-            for (TrafficScoot trafficScoot : trafficScoots) {
-                ContentProviderOperation operation = ContentProviderOperation
-                        .newInsert(HertsProviderModule.TRAFFIC_SCOOT_URI)
-                        .withValue(HertsTrafficScoot.COLUMN_ID, trafficScoot.getId())
-                        .withValue(HertsTrafficScoot.COLUMN_TPEG_DIRECTION, trafficScoot.getTpegDirection())
-                        .withValue(HertsTrafficScoot.COLUMN_FROM_TYPE, trafficScoot.getFromType())
-                        .withValue(HertsTrafficScoot.COLUMN_FROM_DESCRIPTOR,
-                                trafficScoot.getFromDescriptor())
-                        .withValue(HertsTrafficScoot.COLUMN_FROM_LATITUDE, trafficScoot.getFromLatitude())
-                        .withValue(HertsTrafficScoot.COLUMN_FROM_LONGITUDE,
-                                trafficScoot.getFromLongitude())
-                        .withValue(HertsTrafficScoot.COLUMN_TO_TYPE, trafficScoot.getToType())
-                        .withValue(HertsTrafficScoot.COLUMN_TO_DESCRIPTOR, trafficScoot.getToDescriptor())
-                        .withValue(HertsTrafficScoot.COLUMN_TO_LATITUDE, trafficScoot.getToLatitude())
-                        .withValue(HertsTrafficScoot.COLUMN_TO_LONGITUDE, trafficScoot.getToLongitude())
-                        .withValue(HertsTrafficScoot.COLUMN_TIME, trafficScoot.getTime())
-                        .withValue(HertsTrafficScoot.COLUMN_CURRENT_FLOW, trafficScoot.getCurrentFlow())
-                        .withValue(HertsTrafficScoot.COLUMN_AVERAGE_SPEED, trafficScoot.getAverageSpeed())
-                        .withValue(HertsTrafficScoot.COLUMN_LINK_STATUS_TYPE,
-                                trafficScoot.getLinkStatusType())
-                        .withValue(HertsTrafficScoot.COLUMN_LINK_STATUS, trafficScoot.getLinkStatus())
-                        .withValue(HertsTrafficScoot.COLUMN_LINK_TRAVEL_TIME,
-                                trafficScoot.getLinkTravelTime())
-                        .withValue(HertsTrafficScoot.COLUMN_CONGESTION_PERCENT,
-                                trafficScoot.getCongestionPercent())
-                        .withValue(HertsTrafficScoot.COLUMN_CIN_ID, trafficScoot.getCinId())
-                        .withValue(HertsTrafficScoot.COLUMN_CREATION_TIME, trafficScoot.getCreationTime())
-                        .withYieldAllowed(true)
-                        .build();
-                operationList.add(operation);
+            ContentValues[] cvs = new ContentValues[trafficScoots.length];
+            for (int i = 0; i < trafficScoots.length; i++) {
+                cvs[i] = new ContentValues();
+                cvs[i].put(HertsTrafficScoot.COLUMN_ID, trafficScoots[i].getId());
+                cvs[i].put(HertsTrafficScoot.COLUMN_ID, trafficScoots[i].getId());
+                cvs[i].put(HertsTrafficScoot.COLUMN_TPEG_DIRECTION, trafficScoots[i].getTpegDirection());
+                cvs[i].put(HertsTrafficScoot.COLUMN_FROM_TYPE, trafficScoots[i].getFromType());
+                cvs[i].put(HertsTrafficScoot.COLUMN_FROM_DESCRIPTOR, trafficScoots[i].getFromDescriptor());
+                cvs[i].put(HertsTrafficScoot.COLUMN_FROM_LATITUDE, trafficScoots[i].getFromLatitude());
+                cvs[i].put(HertsTrafficScoot.COLUMN_FROM_LONGITUDE, trafficScoots[i].getFromLongitude());
+                cvs[i].put(HertsTrafficScoot.COLUMN_TO_TYPE, trafficScoots[i].getToType());
+                cvs[i].put(HertsTrafficScoot.COLUMN_TO_DESCRIPTOR, trafficScoots[i].getToDescriptor());
+                cvs[i].put(HertsTrafficScoot.COLUMN_TO_LATITUDE, trafficScoots[i].getToLatitude());
+                cvs[i].put(HertsTrafficScoot.COLUMN_TO_LONGITUDE, trafficScoots[i].getToLongitude());
+                cvs[i].put(HertsTrafficScoot.COLUMN_TIME, trafficScoots[i].getTime());
+                cvs[i].put(HertsTrafficScoot.COLUMN_CURRENT_FLOW, trafficScoots[i].getCurrentFlow());
+                cvs[i].put(HertsTrafficScoot.COLUMN_AVERAGE_SPEED, trafficScoots[i].getAverageSpeed());
+                cvs[i].put(HertsTrafficScoot.COLUMN_LINK_STATUS_TYPE, trafficScoots[i].getLinkStatusType());
+                cvs[i].put(HertsTrafficScoot.COLUMN_LINK_STATUS, trafficScoots[i].getLinkStatus());
+                cvs[i].put(HertsTrafficScoot.COLUMN_LINK_TRAVEL_TIME, trafficScoots[i].getLinkTravelTime());
+                cvs[i].put(HertsTrafficScoot.COLUMN_CONGESTION_PERCENT, trafficScoots[i].getCongestionPercent());
+                cvs[i].put(HertsTrafficScoot.COLUMN_CIN_ID, trafficScoots[i].getCinId());
+                cvs[i].put(HertsTrafficScoot.COLUMN_CREATION_TIME, trafficScoots[i].getCreationTime());
             }
             ContentResolver contentResolver = context.getContentResolver();
-            contentResolver.applyBatch(HertsProviderModule.AUTHORITY, operationList);
+            contentResolver.bulkInsert(HertsProviderModule.TRAFFIC_SCOOT_URI, cvs);
         }
     }
 
     public static void insertIntoProvider(@NonNull Context context, @NonNull TrafficSpeed[] trafficSpeeds)
             throws RemoteException, OperationApplicationException {
         if (trafficSpeeds.length > 0) {
-            ArrayList<ContentProviderOperation> operationList = new ArrayList<>();
-            for (TrafficSpeed trafficSpeed : trafficSpeeds) {
-                ContentProviderOperation operation = ContentProviderOperation
-                        .newInsert(HertsProviderModule.TRAFFIC_SPEED_URI)
-                        .withValue(HertsTrafficSpeed.COLUMN_ID, trafficSpeed.getId())
-                        .withValue(HertsTrafficSpeed.COLUMN_TPEG_DIRECTION, trafficSpeed.getTpegDirection())
-                        .withValue(HertsTrafficSpeed.COLUMN_FROM_TYPE, trafficSpeed.getFromType())
-                        .withValue(HertsTrafficSpeed.COLUMN_FROM_DESCRIPTOR,
-                                trafficSpeed.getFromDescriptor())
-                        .withValue(HertsTrafficSpeed.COLUMN_FROM_LATITUDE, trafficSpeed.getFromLatitude())
-                        .withValue(HertsTrafficSpeed.COLUMN_FROM_LONGITUDE,
-                                trafficSpeed.getFromLongitude())
-                        .withValue(HertsTrafficSpeed.COLUMN_TO_TYPE, trafficSpeed.getToType())
-                        .withValue(HertsTrafficSpeed.COLUMN_TO_DESCRIPTOR, trafficSpeed.getToDescriptor())
-                        .withValue(HertsTrafficSpeed.COLUMN_TO_LATITUDE, trafficSpeed.getToLatitude())
-                        .withValue(HertsTrafficSpeed.COLUMN_TO_LONGITUDE, trafficSpeed.getToLongitude())
-                        .withValue(HertsTrafficSpeed.COLUMN_TIME, trafficSpeed.getTime())
-                        .withValue(HertsTrafficSpeed.COLUMN_AVERAGE_VEHICLE_SPEED,
-                                trafficSpeed.getAverageVehicleSpeed())
-                        .withValue(HertsTrafficSpeed.COLUMN_CIN_ID, trafficSpeed.getCinId())
-                        .withValue(HertsTrafficSpeed.COLUMN_CREATION_TIME, trafficSpeed.getCreationTime())
-                        .withYieldAllowed(true)
-                        .build();
-                operationList.add(operation);
+            ContentValues[] cvs = new ContentValues[trafficSpeeds.length];
+            for (int i = 0; i < trafficSpeeds.length; i++) {
+                cvs[i] = new ContentValues();
+                cvs[i].put(HertsTrafficSpeed.COLUMN_ID, trafficSpeeds[i].getId());
+                cvs[i].put(HertsTrafficSpeed.COLUMN_ID, trafficSpeeds[i].getId());
+                cvs[i].put(HertsTrafficSpeed.COLUMN_TPEG_DIRECTION, trafficSpeeds[i].getTpegDirection());
+                cvs[i].put(HertsTrafficSpeed.COLUMN_FROM_TYPE, trafficSpeeds[i].getFromType());
+                cvs[i].put(HertsTrafficSpeed.COLUMN_FROM_DESCRIPTOR, trafficSpeeds[i].getFromDescriptor());
+                cvs[i].put(HertsTrafficSpeed.COLUMN_FROM_LATITUDE, trafficSpeeds[i].getFromLatitude());
+                cvs[i].put(HertsTrafficSpeed.COLUMN_FROM_LONGITUDE, trafficSpeeds[i].getFromLongitude());
+                cvs[i].put(HertsTrafficSpeed.COLUMN_TO_TYPE, trafficSpeeds[i].getToType());
+                cvs[i].put(HertsTrafficSpeed.COLUMN_TO_DESCRIPTOR, trafficSpeeds[i].getToDescriptor());
+                cvs[i].put(HertsTrafficSpeed.COLUMN_TO_LATITUDE, trafficSpeeds[i].getToLatitude());
+                cvs[i].put(HertsTrafficSpeed.COLUMN_TO_LONGITUDE, trafficSpeeds[i].getToLongitude());
+                cvs[i].put(HertsTrafficSpeed.COLUMN_TIME, trafficSpeeds[i].getTime());
+                cvs[i].put(HertsTrafficSpeed.COLUMN_AVERAGE_VEHICLE_SPEED, trafficSpeeds[i].getAverageVehicleSpeed());
+                cvs[i].put(HertsTrafficSpeed.COLUMN_CIN_ID, trafficSpeeds[i].getCinId());
+                cvs[i].put(HertsTrafficSpeed.COLUMN_CREATION_TIME, trafficSpeeds[i].getCreationTime());
             }
             ContentResolver contentResolver = context.getContentResolver();
-            contentResolver.applyBatch(HertsProviderModule.AUTHORITY, operationList);
+            contentResolver.bulkInsert(HertsProviderModule.TRAFFIC_SPEED_URI, cvs);
         }
     }
 
@@ -275,44 +227,29 @@ public class HertsContentHelper extends CommonContentHelper {
                                           @NonNull TrafficTravelTime[] trafficTravelTimes)
             throws RemoteException, OperationApplicationException {
         if (trafficTravelTimes.length > 0) {
-            ArrayList<ContentProviderOperation> operationList = new ArrayList<>();
-            for (TrafficTravelTime trafficTravelTime : trafficTravelTimes) {
-                ContentProviderOperation operation = ContentProviderOperation
-                        .newInsert(HertsProviderModule.TRAFFIC_TRAVEL_TIME_URI)
-                        .withValue(HertsTrafficTravelTime.COLUMN_ID, trafficTravelTime.getId())
-                        .withValue(HertsTrafficTravelTime.COLUMN_TPEG_DIRECTION,
-                                trafficTravelTime.getTpegDirection())
-                        .withValue(HertsTrafficTravelTime.COLUMN_FROM_TYPE,
-                                trafficTravelTime.getFromType())
-                        .withValue(HertsTrafficTravelTime.COLUMN_FROM_DESCRIPTOR,
-                                trafficTravelTime.getFromDescriptor())
-                        .withValue(HertsTrafficTravelTime.COLUMN_FROM_LATITUDE,
-                                trafficTravelTime.getFromLatitude())
-                        .withValue(HertsTrafficTravelTime.COLUMN_FROM_LONGITUDE,
-                                trafficTravelTime.getFromLongitude())
-                        .withValue(HertsTrafficTravelTime.COLUMN_TO_TYPE, trafficTravelTime.getToType())
-                        .withValue(HertsTrafficTravelTime.COLUMN_TO_DESCRIPTOR,
-                                trafficTravelTime.getToDescriptor())
-                        .withValue(HertsTrafficTravelTime.COLUMN_TO_LATITUDE,
-                                trafficTravelTime.getToLatitude())
-                        .withValue(HertsTrafficTravelTime.COLUMN_TO_LONGITUDE,
-                                trafficTravelTime.getToLongitude())
-                        .withValue(HertsTrafficTravelTime.COLUMN_TIME, trafficTravelTime.getTime())
-                        .withValue(HertsTrafficTravelTime.COLUMN_TRAVEL_TIME,
-                                trafficTravelTime.getTravelTime())
-                        .withValue(HertsTrafficTravelTime.COLUMN_FREE_FLOW_TRAVEL_TIME,
-                                trafficTravelTime.getFreeFlowTravelTime())
-                        .withValue(HertsTrafficTravelTime.COLUMN_FREE_FLOW_SPEED,
-                                trafficTravelTime.getFreeFlowSpeed())
-                        .withValue(HertsTrafficTravelTime.COLUMN_CIN_ID, trafficTravelTime.getCinId())
-                        .withValue(HertsTrafficTravelTime.COLUMN_CREATION_TIME,
-                                trafficTravelTime.getCreationTime())
-                        .withYieldAllowed(true)
-                        .build();
-                operationList.add(operation);
+            ContentValues[] cvs = new ContentValues[trafficTravelTimes.length];
+            for (int i = 0; i < trafficTravelTimes.length; i++) {
+                cvs[i] = new ContentValues();
+                cvs[i].put(HertsTrafficTravelTime.COLUMN_ID, trafficTravelTimes[i].getId());
+                cvs[i].put(HertsTrafficTravelTime.COLUMN_ID, trafficTravelTimes[i].getId());
+                cvs[i].put(HertsTrafficTravelTime.COLUMN_TPEG_DIRECTION, trafficTravelTimes[i].getTpegDirection());
+                cvs[i].put(HertsTrafficTravelTime.COLUMN_FROM_TYPE, trafficTravelTimes[i].getFromType());
+                cvs[i].put(HertsTrafficTravelTime.COLUMN_FROM_DESCRIPTOR, trafficTravelTimes[i].getFromDescriptor());
+                cvs[i].put(HertsTrafficTravelTime.COLUMN_FROM_LATITUDE, trafficTravelTimes[i].getFromLatitude());
+                cvs[i].put(HertsTrafficTravelTime.COLUMN_FROM_LONGITUDE, trafficTravelTimes[i].getFromLongitude());
+                cvs[i].put(HertsTrafficTravelTime.COLUMN_TO_TYPE, trafficTravelTimes[i].getToType());
+                cvs[i].put(HertsTrafficTravelTime.COLUMN_TO_DESCRIPTOR, trafficTravelTimes[i].getToDescriptor());
+                cvs[i].put(HertsTrafficTravelTime.COLUMN_TO_LATITUDE, trafficTravelTimes[i].getToLatitude());
+                cvs[i].put(HertsTrafficTravelTime.COLUMN_TO_LONGITUDE, trafficTravelTimes[i].getToLongitude());
+                cvs[i].put(HertsTrafficTravelTime.COLUMN_TIME, trafficTravelTimes[i].getTime());
+                cvs[i].put(HertsTrafficTravelTime.COLUMN_TRAVEL_TIME, trafficTravelTimes[i].getTravelTime());
+                cvs[i].put(HertsTrafficTravelTime.COLUMN_FREE_FLOW_TRAVEL_TIME, trafficTravelTimes[i].getFreeFlowTravelTime());
+                cvs[i].put(HertsTrafficTravelTime.COLUMN_FREE_FLOW_SPEED, trafficTravelTimes[i].getFreeFlowSpeed());
+                cvs[i].put(HertsTrafficTravelTime.COLUMN_CIN_ID, trafficTravelTimes[i].getCinId());
+                cvs[i].put(HertsTrafficTravelTime.COLUMN_CREATION_TIME, trafficTravelTimes[i].getCreationTime());
             }
             ContentResolver contentResolver = context.getContentResolver();
-            contentResolver.applyBatch(HertsProviderModule.AUTHORITY, operationList);
+            contentResolver.bulkInsert(HertsProviderModule.TRAFFIC_TRAVEL_TIME_URI, cvs);
         }
     }
 
@@ -320,35 +257,23 @@ public class HertsContentHelper extends CommonContentHelper {
                                           @NonNull VariableMessageSign[] variableMessageSigns)
             throws RemoteException, OperationApplicationException {
         if (variableMessageSigns.length > 0) {
-            ArrayList<ContentProviderOperation> operationList = new ArrayList<>();
-            for (VariableMessageSign variableMessageSign : variableMessageSigns) {
-                ContentProviderOperation operation = ContentProviderOperation
-                        .newInsert(HertsProviderModule.VARIABLE_MESSAGE_SIGN_URI)
-                        .withValue(HertsVariableMessageSign.COLUMN_LOCATION_ID,
-                                variableMessageSign.getLocationId())
-                        .withValue(HertsVariableMessageSign.COLUMN_DESCRIPTION,
-                                variableMessageSign.getDescription())
-                        .withValue(HertsVariableMessageSign.COLUMN_VMS_TYPE,
-                                variableMessageSign.getVmsType())
-                        .withValue(HertsVariableMessageSign.COLUMN_LATITUDE,
-                                variableMessageSign.getLatitude())
-                        .withValue(HertsVariableMessageSign.COLUMN_LONGITUDE,
-                                variableMessageSign.getLongitude())
-                        .withValue(HertsVariableMessageSign.COLUMN_NUMBER_OF_CHARACTERS,
-                                variableMessageSign.getNumberOfCharacters())
-                        .withValue(HertsVariableMessageSign.COLUMN_NUMBER_OF_ROWS,
-                                variableMessageSign.getNumberOfRows())
-                        .withValue(HertsVariableMessageSign.COLUMN_VMS_LEGENDS,
-                                variableMessageSign.getLegendAsString())
-                        .withValue(HertsVariableMessageSign.COLUMN_CIN_ID, variableMessageSign.getCinId())
-                        .withValue(HertsVariableMessageSign.COLUMN_CREATION_TIME,
-                                variableMessageSign.getCreationTime())
-                        .withYieldAllowed(true)
-                        .build();
-                operationList.add(operation);
+            ContentValues[] cvs = new ContentValues[variableMessageSigns.length];
+            for (int i = 0; i < variableMessageSigns.length; i++) {
+                cvs[i] = new ContentValues();
+                cvs[i].put(HertsVariableMessageSign.COLUMN_LOCATION_ID, variableMessageSigns[i].getLocationId());
+                cvs[i].put(HertsVariableMessageSign.COLUMN_LOCATION_ID, variableMessageSigns[i].getLocationId());
+                cvs[i].put(HertsVariableMessageSign.COLUMN_DESCRIPTION, variableMessageSigns[i].getDescription());
+                cvs[i].put(HertsVariableMessageSign.COLUMN_VMS_TYPE, variableMessageSigns[i].getVmsType());
+                cvs[i].put(HertsVariableMessageSign.COLUMN_LATITUDE, variableMessageSigns[i].getLatitude());
+                cvs[i].put(HertsVariableMessageSign.COLUMN_LONGITUDE, variableMessageSigns[i].getLongitude());
+                cvs[i].put(HertsVariableMessageSign.COLUMN_NUMBER_OF_CHARACTERS, variableMessageSigns[i].getNumberOfCharacters());
+                cvs[i].put(HertsVariableMessageSign.COLUMN_NUMBER_OF_ROWS, variableMessageSigns[i].getNumberOfRows());
+                cvs[i].put(HertsVariableMessageSign.COLUMN_VMS_LEGENDS, variableMessageSigns[i].getLegendAsString());
+                cvs[i].put(HertsVariableMessageSign.COLUMN_CIN_ID, variableMessageSigns[i].getCinId());
+                cvs[i].put(HertsVariableMessageSign.COLUMN_CREATION_TIME, variableMessageSigns[i].getCreationTime());
             }
             ContentResolver contentResolver = context.getContentResolver();
-            contentResolver.applyBatch(HertsProviderModule.AUTHORITY, operationList);
+            contentResolver.bulkInsert(HertsProviderModule.VARIABLE_MESSAGE_SIGN_URI, cvs);
         }
     }
 
@@ -408,32 +333,32 @@ public class HertsContentHelper extends CommonContentHelper {
         return eventsFromCursor(getLatestEventCursor(context));
     }
 
-    public static Cursor getRoadWorksCursor(@NonNull Context context) {
-        return context.getContentResolver().query(HertsProviderModule.ROAD_WORKS_URI,
-                new String[]{"*"}, null, null, HertsRoadWorks.COLUMN_ID);
+    public static Cursor getRoadworksCursor(@NonNull Context context) {
+        return context.getContentResolver().query(HertsProviderModule.ROADWORKS_URI,
+                new String[]{"*"}, null, null, HertsRoadworks.COLUMN_ID);
     }
 
-    public static Cursor getRoadWorksCursor(@NonNull Context context, long oldest, long newest) {
-        return context.getContentResolver().query(HertsProviderModule.ROAD_WORKS_URI,
+    public static Cursor getRoadworksCursor(@NonNull Context context, long oldest, long newest) {
+        return context.getContentResolver().query(HertsProviderModule.ROADWORKS_URI,
                 new String[]{"*"}, CREATION_INTERVAL_SELECTION, interval(oldest, newest),
                 CommonBaseColumns.COLUMN_CREATION_TIME);
     }
 
-    public static Cursor getLatestRoadWorksCursor(@NonNull Context context) {
-        return context.getContentResolver().query(HertsProviderModule.LATEST_ROAD_WORKS_URI,
-                new String[]{"*"}, null, null, HertsRoadWorks.COLUMN_ID);
+    public static Cursor getLatestRoadworksCursor(@NonNull Context context) {
+        return context.getContentResolver().query(HertsProviderModule.LATEST_ROADWORKS_URI,
+                new String[]{"*"}, null, null, HertsRoadworks.COLUMN_ID);
     }
 
-    public static RoadWorks[] getRoadWorks(@NonNull Context context) {
-        return roadWorksesFromCursor(getRoadWorksCursor(context));
+    public static Roadworks[] getRoadworks(@NonNull Context context) {
+        return roadworksesFromCursor(getRoadworksCursor(context));
     }
 
-    public static RoadWorks[] getRoadWorks(@NonNull Context context, long oldest, long newest) {
-        return roadWorksesFromCursor(getRoadWorksCursor(context, oldest, newest));
+    public static Roadworks[] getRoadworks(@NonNull Context context, long oldest, long newest) {
+        return roadworksesFromCursor(getRoadworksCursor(context, oldest, newest));
     }
 
-    public static RoadWorks[] getLatestRoadWorks(@NonNull Context context) {
-        return roadWorksesFromCursor(getLatestRoadWorksCursor(context));
+    public static Roadworks[] getLatestRoadworks(@NonNull Context context) {
+        return roadworksesFromCursor(getLatestRoadworksCursor(context));
     }
 
     public static Cursor getTrafficFlowCursor(@NonNull Context context) {
@@ -590,8 +515,8 @@ public class HertsContentHelper extends CommonContentHelper {
             case DATA_TYPE_EVENT:
                 contentResolver.delete(HertsProviderModule.EVENT_URI, null, null);
                 break;
-            case DATA_TYPE_ROAD_WORKS:
-                contentResolver.delete(HertsProviderModule.ROAD_WORKS_URI, null, null);
+            case DATA_TYPE_ROADWORKS:
+                contentResolver.delete(HertsProviderModule.ROADWORKS_URI, null, null);
                 break;
             case DATA_TYPE_TRAFFIC_FLOW:
                 contentResolver.delete(HertsProviderModule.TRAFFIC_FLOW_URI, null, null);
@@ -623,8 +548,8 @@ public class HertsContentHelper extends CommonContentHelper {
                 contentResolver.delete(HertsProviderModule.EVENT_URI, CREATED_BEFORE,
                         new String[]{String.valueOf(creationTime)});
                 break;
-            case DATA_TYPE_ROAD_WORKS:
-                contentResolver.delete(HertsProviderModule.ROAD_WORKS_URI, CREATED_BEFORE,
+            case DATA_TYPE_ROADWORKS:
+                contentResolver.delete(HertsProviderModule.ROADWORKS_URI, CREATED_BEFORE,
                         new String[]{String.valueOf(creationTime)});
                 break;
             case DATA_TYPE_TRAFFIC_FLOW:
@@ -744,50 +669,50 @@ public class HertsContentHelper extends CommonContentHelper {
         return events;
     }
 
-    public static RoadWorks[] roadWorksesFromCursor(Cursor cursor) {
-        RoadWorks[] roadWorkses = null;
+    public static Roadworks[] roadworksesFromCursor(Cursor cursor) {
+        Roadworks[] roadworkses = null;
         if (cursor != null) {
             if (cursor.moveToFirst()) {
-                roadWorkses = new RoadWorks[cursor.getCount()];
-                for (int i = 0; i < roadWorkses.length; i++) {
-                    roadWorkses[i] = new RoadWorks();
-                    roadWorkses[i].setId(cursor.getString(cursor.getColumnIndex(
-                            HertsRoadWorks.COLUMN_ID)));
-                    roadWorkses[i].setEffectOnRoadLayout(cursor.getString(cursor.getColumnIndex(
-                            HertsRoadWorks.COLUMN_EFFECT_ON_ROAD_LAYOUT)));
-                    roadWorkses[i].setRoadMaintenanceType(cursor.getString(cursor.getColumnIndex(
-                            HertsRoadWorks.COLUMN_ROAD_MAINTENANCE_TYPE)));
-                    roadWorkses[i].setComment(cursor.getString(cursor.getColumnIndex(
-                            HertsRoadWorks.COLUMN_COMMENT)));
-                    roadWorkses[i].setImpactOnTraffic(cursor.getString(cursor.getColumnIndex(
-                            HertsRoadWorks.COLUMN_IMPACT_ON_TRAFFIC)));
-                    roadWorkses[i].setLatitude(cursor.getDouble(cursor.getColumnIndex(
-                            HertsRoadWorks.COLUMN_LATITUDE)));
-                    roadWorkses[i].setLongitude(cursor.getDouble(cursor.getColumnIndex(
-                            HertsRoadWorks.COLUMN_LONGITUDE)));
-                    roadWorkses[i].setValidityStatus(cursor.getString(cursor.getColumnIndex(
-                            HertsRoadWorks.COLUMN_VALIDITY_STATUS)));
-                    roadWorkses[i].setOverallStartTime(cursor.getString(cursor.getColumnIndex(
-                            HertsRoadWorks.COLUMN_OVERALL_START_TIME)));
-                    roadWorkses[i].setOverallEndTime(cursor.getString(cursor.getColumnIndex(
-                            HertsRoadWorks.COLUMN_OVERALL_END_TIME)));
-                    roadWorkses[i].setStartOfPeriod(cursor.getString(cursor.getColumnIndex(
-                            HertsRoadWorks.COLUMN_START_OF_PERIOD)));
-                    roadWorkses[i].setEndOfPeriod(cursor.getString(cursor.getColumnIndex(
-                            HertsRoadWorks.COLUMN_END_OF_PERIOD)));
-                    roadWorkses[i].setCinId(cursor.getString(cursor.getColumnIndex(
-                            HertsRoadWorks.COLUMN_CIN_ID)));
-                    roadWorkses[i].setCreationTime(cursor.getLong(cursor.getColumnIndex(
-                            HertsRoadWorks.COLUMN_CREATION_TIME)));
+                roadworkses = new Roadworks[cursor.getCount()];
+                for (int i = 0; i < roadworkses.length; i++) {
+                    roadworkses[i] = new Roadworks();
+                    roadworkses[i].setId(cursor.getString(cursor.getColumnIndex(
+                            HertsRoadworks.COLUMN_ID)));
+                    roadworkses[i].setEffectOnRoadLayout(cursor.getString(cursor.getColumnIndex(
+                            HertsRoadworks.COLUMN_EFFECT_ON_ROAD_LAYOUT)));
+                    roadworkses[i].setRoadMaintenanceType(cursor.getString(cursor.getColumnIndex(
+                            HertsRoadworks.COLUMN_ROAD_MAINTENANCE_TYPE)));
+                    roadworkses[i].setComment(cursor.getString(cursor.getColumnIndex(
+                            HertsRoadworks.COLUMN_COMMENT)));
+                    roadworkses[i].setImpactOnTraffic(cursor.getString(cursor.getColumnIndex(
+                            HertsRoadworks.COLUMN_IMPACT_ON_TRAFFIC)));
+                    roadworkses[i].setLatitude(cursor.getDouble(cursor.getColumnIndex(
+                            HertsRoadworks.COLUMN_LATITUDE)));
+                    roadworkses[i].setLongitude(cursor.getDouble(cursor.getColumnIndex(
+                            HertsRoadworks.COLUMN_LONGITUDE)));
+                    roadworkses[i].setValidityStatus(cursor.getString(cursor.getColumnIndex(
+                            HertsRoadworks.COLUMN_VALIDITY_STATUS)));
+                    roadworkses[i].setOverallStartTime(cursor.getString(cursor.getColumnIndex(
+                            HertsRoadworks.COLUMN_OVERALL_START_TIME)));
+                    roadworkses[i].setOverallEndTime(cursor.getString(cursor.getColumnIndex(
+                            HertsRoadworks.COLUMN_OVERALL_END_TIME)));
+                    roadworkses[i].setStartOfPeriod(cursor.getString(cursor.getColumnIndex(
+                            HertsRoadworks.COLUMN_START_OF_PERIOD)));
+                    roadworkses[i].setEndOfPeriod(cursor.getString(cursor.getColumnIndex(
+                            HertsRoadworks.COLUMN_END_OF_PERIOD)));
+                    roadworkses[i].setCinId(cursor.getString(cursor.getColumnIndex(
+                            HertsRoadworks.COLUMN_CIN_ID)));
+                    roadworkses[i].setCreationTime(cursor.getLong(cursor.getColumnIndex(
+                            HertsRoadworks.COLUMN_CREATION_TIME)));
                     cursor.moveToNext();
                 }
             }
             cursor.close();
         }
-        if (roadWorkses == null) {
-            return new RoadWorks[0];
+        if (roadworkses == null) {
+            return new Roadworks[0];
         }
-        return roadWorkses;
+        return roadworkses;
     }
 
     public static TrafficFlow[] trafficFlowsFromCursor(Cursor cursor) {
