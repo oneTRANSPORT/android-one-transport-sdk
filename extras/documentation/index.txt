@@ -30,18 +30,15 @@ latest road traffic resources.
 A content helper class means you don't have to deal with cursors if you
 would prefer to work with pojos instead.
 
-## [Direct queries and cursors](queries_and_cursors.html)
+## [SQL queries and cursors](queries_and_cursors.html)
 If you run the content provider, then direct SQL queries through a content
 resolver are possible of course.  Our content helper also returns cursors
 if you would prefer to inject those into adapter views.
 
-## [SQLite table structure](sqlite_tables.html)
-Look here if you are thinking of writing bespoke SQL queries.
-
-## [Dougal---a oneM2M SDK](dougal.html)
+<!-- ## [Dougal---a oneM2M SDK](dougal.html)
 oneTransport is based on an implementation of the oneM2M standard called
 Dougal.  Lower level routines to access individual containers and content
-instances are available here.
+instances are available here. -->
 
 ## [Troubleshooting](troubleshooting.html)
 Is your app not working?  We have error logging for you.
