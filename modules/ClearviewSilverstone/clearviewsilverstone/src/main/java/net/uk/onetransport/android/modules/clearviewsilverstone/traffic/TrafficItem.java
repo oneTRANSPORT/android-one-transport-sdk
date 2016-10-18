@@ -1,8 +1,5 @@
 package net.uk.onetransport.android.modules.clearviewsilverstone.traffic;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-
 public class TrafficItem {
 
     private Integer sensorId;

@@ -1,9 +1,3 @@
-<html>
-<head>
-<title>Available data from oneTransport</title>
-</head>
-<body>
-
 <h1>What data is available?</h1>
 
 <h2>Near-real-time local authority feeds</h2>
@@ -46,7 +40,8 @@ variable message signs</p>
   <p>Car parks, events, traffic flow, traffic queue, traffic scoot, traffic
 speed, traffic travel time, roadworks, variable message signs</p>
 </blockquote>
-</blockquote>
+
+<p></blockquote></p>
 
 <p>The data types in each feed are common across counties, so a car park object
 from Bucks will be the same class as one from Northants.  Objects retrieved
@@ -55,282 +50,291 @@ average speed reading across a link is 40kph, then that was true when the last
 reading was observed a few minutes ago.  If an event occurs in a feed, then
 that event is happening now.</p>
 
-<p>The data classes are:</p>
+<p>Here are some examples to show the package structure for data classes:</p>
 
 <blockquote>
-  <h3>Car parks</h3>
+  <p><code>net.uk.onetransport.android.county.bucks.carparks.CarPark.java</code><br/>
+<code>net.uk.onetransport.android.county.herts.roadworks.Roadworks.java</code><br/>
+<code>net.uk.onetransport.android.county.northants.trafficflow.TrafficFlow.java</code><br/>
+<code>net.uk.onetransport.android.county.oxon.variablemessagesigns.VariableMessageSign.java</code></p>
+</blockquote>
+
+<p>The classes are:</p>
 
 <blockquote>
-  <p><strong>Car park identity</strong> unique identifier</p>
+  <h3><code>CarPark</code></h3>
 
-<p><strong>Latitude</strong> latitude of the car park</p>
+<blockquote>
+  <p><strong><code>String carParkIdentity</code></strong> unique identifier</p>
 
-<p><strong>Longitude</strong> longitude of the car park</p>
+<p><strong><code>Double latitude</code></strong> latitude of this car park</p>
 
-<p><strong>Occupancy</strong></p>
+<p><strong><code>Double longitude</code></strong> longitude of this car park</p>
 
-<p><strong>Occupancy trend</strong></p>
+<p><strong><code>Double occupancy</code></strong></p>
 
-<p><strong>Total parking capacity</strong> number of parking spaces</p>
+<p><strong><code>String occupancyTrend</code></strong></p>
 
-<p><strong>Fill rate</strong> cars entering per hour</p>
+<p><strong><code>Double totalParkingCapacity</code></strong> number of parking spaces</p>
 
-<p><strong>Exit rate</strong> cars leaving per hour</p>
+<p><strong><code>Double fillRate</code></strong> cars entering per hour</p>
 
-<p><strong>Almost full increasing</strong> number of spaces above which 'spaces available'
-becomes 'almost full' as cars enter</p>
+<p><strong><code>Double exitRate</code></strong> cars leaving per hour</p>
 
-<p><strong>Almost full decreasing</strong> number of spaces below which 'almost full'
+<p><strong><code>Double almostFullIncreasing</code></strong> number of spaces above which 'spaces
+available' becomes 'almost full' as cars enter</p>
+
+<p><strong><code>Double almostFullDecreasing</code></strong> number of spaces below which 'almost full'
 becomes 'spaces available' as cars leave</p>
 
-<p><strong>Full increasing</strong> number of spaces above which 'almost full' becomes
+<p><strong><code>Double fullIncreasing</code></strong> number of spaces above which 'almost full' becomes
 'full' as cars enter</p>
 
-<p><strong>Full decreasing</strong> number of spaces below which 'full' becomes 'almost
-full' as cars leave</p>
+<p><strong><code>Double fullDecreasing</code></strong> number of spaces below which 'full' becomes
+'almost full' as cars leave</p>
 
-<p><strong>Status</strong></p>
+<p><strong><code>String status</code></strong></p>
 
-<p><strong>Status time</strong></p>
+<p><strong><code>String statusTime</code></strong></p>
 
-<p><strong>Queuing time</strong> current queuing time for car park entry</p>
+<p><strong><code>Double queuingTime</code></strong> current queuing time for car park entry</p>
 
-<p><strong>Parking area name</strong> name of this car park</p>
+<p><strong><code>String parkingAreaName</code></strong> name of this car park</p>
 
-<p><strong>Entrance full</strong> number of spaces above which the car park is considered
-full (so the entrance sign lights up 'FULL')</p>
+<p><strong><code>Double entranceFull</code></strong> number of spaces above which the car park is
+considered full (so the entrance sign lights up 'FULL')</p>
 </blockquote>
 
-<h3>Events</h3>
+<h3><code>Event</code></h3>
 
 <blockquote>
-  <p><strong>Id</strong> a unique identifier</p>
+  <p><strong><code>String id</code></strong> a unique identifier</p>
 
-<p><strong>Start of period</strong> time the event begins</p>
+<p><strong><code>String startOfPeriod</code></strong> time the event begins</p>
 
-<p><strong>End of period</strong> time the event ends</p>
+<p><strong><code>String endOfPeriod</code></strong> time the event ends</p>
 
-<p><strong>Overall start time</strong> seems to be the same as <strong>start of period</strong></p>
+<p><strong><code>String overallStartTime</code></strong> seems to be the same as <strong><code>startOfPeriod</code></strong></p>
 
-<p><strong>Overall end time</strong> seems to be the same as <strong>end of period</strong></p>
+<p><strong><code>String overallEndTime</code></strong> seems to be the same as <strong><code>endOfPeriod</code></strong></p>
 
-<p><strong>Latitude</strong> latitude of the event</p>
+<p><strong><code>Double latitude</code></strong> latitude of the event</p>
 
-<p><strong>Longitude</strong> longitude of the event</p>
+<p><strong><code>Double longitude</code></strong> longitude of the event</p>
 
-<p><strong>Description</strong> what the event actually is</p>
+<p><strong><code>String description</code></strong> what the event actually is</p>
 
-<p><strong>Impact on traffic</strong> how traffic flow in the region of the event is
-affected</p>
+<p><strong><code>String impactOnTraffic</code></strong> how traffic flow in the region of the event
+is affected</p>
 
-<p><strong>Validity status</strong></p>
+<p><strong><code>String validityStatus</code></strong></p>
 </blockquote>
 
-<h3>Traffic flow</h3>
+<h3><code>Roadworks</code></h3>
 
 <blockquote>
-  <p><strong>id</strong> unique identifier</p>
+  <p><strong><code>String id</code></strong> unique identifier</p>
 
-<p><strong>Tpeg direction</strong></p>
+<p><strong><code>String effectOnRoadLayout</code></strong> how the traffic flow changes, if at all</p>
 
-<p><strong>From type</strong></p>
+<p><strong><code>String roadMaintenanceType</code></strong></p>
 
-<p><strong>From descriptor</strong> name of the start of the link</p>
+<p><strong><code>String comment</code></strong> description of the works to be carried out</p>
 
-<p><strong>From latitude</strong> latitude of the start of the link</p>
+<p><strong><code>String impactOnTraffic</code></strong></p>
 
-<p><strong>From longitude</strong> longitude of the start of the link</p>
+<p><strong><code>Double latitude</code></strong> latitude of the roadworks</p>
 
-<p><strong>To type</strong></p>
+<p><strong><code>Double longitude</code></strong> longitude of the roadworks</p>
 
-<p><strong>To descriptor</strong> name of the end of the link</p>
+<p><strong><code>String validityStatus</code></strong></p>
 
-<p><strong>To latitude</strong> latitude of the end of the link</p>
+<p><strong><code>String overallStartTime</code></strong> when the roadworks were started</p>
 
-<p><strong>To longitude</strong> longitude of the end of the link</p>
+<p><strong><code>String overallEndTime</code></strong> scheduled end time</p>
 
-<p><strong>Time</strong> timestamp of this item</p>
+<p><strong><code>String startOfPeriod</code></strong> seems to be the same as <strong><code>overallStartTime</code></strong></p>
 
-<p><strong>Vehicle flow</strong> number of vehicles along the link per hour</p>
+<p><strong><code>String endOfPeriod</code></strong> seems to be the same as <strong><code>overallEndTime</code></strong></p>
 </blockquote>
 
-<h3>Traffic queue</h3>
+<h3><code>TrafficFlow</code></h3>
 
 <blockquote>
-  <p><strong>id</strong> unique identifier</p>
+  <p><strong><code>String id</code></strong> unique identifier</p>
 
-<p><strong>Tpeg direction</strong></p>
+<p><strong><code>String tpegDirection</code></strong></p>
 
-<p><strong>From type</strong></p>
+<p><strong><code>String fromType</code></strong></p>
 
-<p><strong>From descriptor</strong> name of the start of the link</p>
+<p><strong><code>String fromDescriptor</code></strong> name of the start of the link</p>
 
-<p><strong>From latitude</strong> latitude of the start of the link</p>
+<p><strong><code>Double fromLatitude</code></strong> latitude of the start of the link</p>
 
-<p><strong>From longitude</strong> longitude of the start of the link</p>
+<p><strong><code>Double fromLongitude</code></strong> longitude of the start of the link</p>
 
-<p><strong>To type</strong></p>
+<p><strong><code>String toType</code></strong></p>
 
-<p><strong>To descriptor</strong> name of the end of the link</p>
+<p><strong><code>String toDescriptor</code></strong> name of the end of the link</p>
 
-<p><strong>To latitude</strong> latitude of the end of the link</p>
+<p><strong><code>Double toLatitude</code></strong> latitude of the end of the link</p>
 
-<p><strong>To longitude</strong> longitude of the end of the link</p>
+<p><strong><code>Double toLongitude</code></strong> longitude of the end of the link</p>
 
-<p><strong>Time</strong> timestamp of this item</p>
+<p><strong><code>String time</code></strong> timestamp of this item</p>
 
-<p><strong>Severity</strong></p>
-
-<p><strong>Present</strong> 'Y' if a queue exists, 'N' otherwise</p>
+<p><strong><code>Double vehicleFlow</code></strong> number of vehicles along the link per hour</p>
 </blockquote>
 
-<h3>Traffic scoot</h3>
+<h3><code>TrafficQueue</code></h3>
 
 <blockquote>
-  <p><strong>id</strong> unique identifier</p>
+  <p><strong><code>String id</code></strong> unique identifier</p>
 
-<p><strong>Tpeg direction</strong></p>
+<p><strong><code>String tpegDirection</code></strong></p>
 
-<p><strong>From type</strong></p>
+<p><strong><code>String fromType</code></strong></p>
 
-<p><strong>From descriptor</strong> name of the start of the link</p>
+<p><strong><code>String fromDescriptor</code></strong> name of the start of the link</p>
 
-<p><strong>From latitude</strong> latitude of the start of the link</p>
+<p><strong><code>Double fromLatitude</code></strong> latitude of the start of the link</p>
 
-<p><strong>From longitude</strong> longitude of the start of the link</p>
+<p><strong><code>Double fromLongitude</code></strong> longitude of the start of the link</p>
 
-<p><strong>To type</strong></p>
+<p><strong><code>String toType</code></strong></p>
 
-<p><strong>To descriptor</strong> name of the end of the link</p>
+<p><strong><code>String toDescriptor</code></strong> name of the end of the link</p>
 
-<p><strong>To latitude</strong> latitude of the end of the link</p>
+<p><strong><code>Double toLatitude</code></strong> latitude of the end of the link</p>
 
-<p><strong>To longitude</strong> longitude of the end of the link</p>
+<p><strong><code>Double toLongitude</code></strong> longitude of the end of the link</p>
 
-<p><strong>Time</strong> timestamp of this item</p>
+<p><strong><code>String time</code></strong> timestamp of this item</p>
 
-<p><strong>Current flow</strong> vehicles per hour travelling along this link</p>
+<p><strong><code>Severity</code></strong></p>
 
-<p><strong>Average speed</strong> average speed of vehicles</p>
-
-<p><strong>Link status type</strong></p>
-
-<p><strong>Link status</strong></p>
-
-<p><strong>Link travel time</strong></p>
-
-<p><strong>Congestion percent</strong> level of congestion on this link</p>
+<p><strong><code>Present</code></strong> 'Y' if a queue exists, 'N' otherwise</p>
 </blockquote>
 
-<h3>Traffic speed</h3>
+<h3><code>TrafficScoot</code></h3>
 
 <blockquote>
-  <p><strong>id</strong> unique identifier</p>
+  <p><strong><code>String id</code></strong> unique identifier</p>
 
-<p><strong>Tpeg direction</strong></p>
+<p><strong><code>String tpegDirection</code></strong></p>
 
-<p><strong>From type</strong></p>
+<p><strong><code>String fromType</code></strong></p>
 
-<p><strong>From descriptor</strong> name of the start of the link</p>
+<p><strong><code>String fromDescriptor</code></strong> name of the start of the link</p>
 
-<p><strong>From latitude</strong> latitude of the start of the link</p>
+<p><strong><code>Double fromLatitude</code></strong> latitude of the start of the link</p>
 
-<p><strong>From longitude</strong> longitude of the start of the link</p>
+<p><strong><code>Double fromLongitude</code></strong> longitude of the start of the link</p>
 
-<p><strong>To type</strong></p>
+<p><strong><code>String toType</code></strong></p>
 
-<p><strong>To descriptor</strong> name of the end of the link</p>
+<p><strong><code>String toDescriptor</code></strong> name of the end of the link</p>
 
-<p><strong>To latitude</strong> latitude of the end of the link</p>
+<p><strong><code>Double toLatitude</code></strong> latitude of the end of the link</p>
 
-<p><strong>To longitude</strong> longitude of the end of the link</p>
+<p><strong><code>Double toLongitude</code></strong> longitude of the end of the link</p>
 
-<p><strong>Time</strong> timestamp of this item</p>
+<p><strong><code>String time</code></strong> timestamp of this item</p>
 
-<p><strong>Average vehicle speed</strong> average speed along this link in km/h</p>
+<p><strong><code>Double currentFlow</code></strong> vehicles per hour travelling along this link</p>
+
+<p><strong><code>Double averageSpeed</code></strong> average speed of vehicles</p>
+
+<p><strong><code>Double linkStatusType</code></strong></p>
+
+<p><strong><code>Double linkStatus</code></strong></p>
+
+<p><strong><code>Double linkTravelTime</code></strong></p>
+
+<p><strong><code>Double congestionPercent</code></strong> level of congestion on this link</p>
 </blockquote>
 
-<h3>Traffic travel time</h3>
+<h3><code>TrafficSpeed</code></h3>
 
 <blockquote>
-  <p><strong>id</strong> unique identifier</p>
+  <p><strong><code>String id</code></strong> unique identifier</p>
 
-<p><strong>Tpeg direction</strong></p>
+<p><strong><code>String tpegDirection</code></strong></p>
 
-<p><strong>From type</strong></p>
+<p><strong><code>String fromType</code></strong></p>
 
-<p><strong>From descriptor</strong> name of the start of the link</p>
+<p><strong><code>String fromDescriptor</code></strong> name of the start of the link</p>
 
-<p><strong>From latitude</strong> latitude of the start of the link</p>
+<p><strong><code>Double fromLatitude</code></strong> latitude of the start of the link</p>
 
-<p><strong>From longitude</strong> longitude of the start of the link</p>
+<p><strong><code>Double fromLongitude</code></strong> longitude of the start of the link</p>
 
-<p><strong>To type</strong></p>
+<p><strong><code>String toType</code></strong></p>
 
-<p><strong>To descriptor</strong> name of the end of the link</p>
+<p><strong><code>String toDescriptor</code></strong> name of the end of the link</p>
 
-<p><strong>To latitude</strong> latitude of the end of the link</p>
+<p><strong><code>Double toLatitude</code></strong> latitude of the end of the link</p>
 
-<p><strong>To longitude</strong> longitude of the end of the link</p>
+<p><strong><code>Double toLongitude</code></strong> longitude of the end of the link</p>
 
-<p><strong>Time</strong> timestamp of this item</p>
+<p><strong><code>String time</code></strong> timestamp of this item</p>
 
-<p><strong>Travel time</strong> actual time taken to traverse this link</p>
-
-<p><strong>Free flow travel time</strong> best possible time given minimal congestion</p>
-
-<p><strong>Free flow speed</strong> best possible speed given minimal congestion and
-presumably adhering to speed limits</p>
+<p><strong><code>Double averageVehicleSpeed</code></strong> average speed along this link in km/h</p>
 </blockquote>
 
-<h3>Roadworks</h3>
+<h3><code>TrafficTravelTime</code></h3>
 
 <blockquote>
-  <p><strong>Id</strong> unique identifier</p>
+  <p><strong><code>String id</code></strong> unique identifier</p>
 
-<p><strong>Effect on road layout</strong> how the traffic flow changes, if at all</p>
+<p><strong><code>String tpegDirection</code></strong></p>
 
-<p><strong>Road maintenance type</strong></p>
+<p><strong><code>String fromType</code></strong></p>
 
-<p><strong>Comment</strong> description of the works to be carried out</p>
+<p><strong><code>String fromDescriptor</code></strong> name of the start of the link</p>
 
-<p><strong>Impact on traffic</strong></p>
+<p><strong><code>Double fromLatitude</code></strong> latitude of the start of the link</p>
 
-<p><strong>Latitude</strong> latitude of the roadworks</p>
+<p><strong><code>Double fromLongitude</code></strong> longitude of the start of the link</p>
 
-<p><strong>Longitude</strong> longitude of the roadworks</p>
+<p><strong><code>String toType</code></strong></p>
 
-<p><strong>Validity status</strong></p>
+<p><strong><code>String toDescriptor</code></strong> name of the end of the link</p>
 
-<p><strong>Overall start time</strong> when the roadworks were started</p>
+<p><strong><code>Double toLatitude</code></strong> latitude of the end of the link</p>
 
-<p><strong>Overall end time</strong> scheduled end time</p>
+<p><strong><code>Double toLongitude</code></strong> longitude of the end of the link</p>
 
-<p><strong>Start of period</strong> seems to be the same as <strong>overall start time</strong></p>
+<p><strong><code>String time</code></strong> timestamp of this item</p>
 
-<p><strong>End of period</strong> seems to be the same as <strong>overall end time</strong></p>
+<p><strong><code>Double travelTime</code></strong> actual time taken to traverse this link</p>
+
+<p><strong><code>Double freeFlowTravelTime</code></strong> best possible time given minimal congestion</p>
+
+<p><strong><code>Double freeFlowSpeed</code></strong> best possible speed given minimal congestion</p>
 </blockquote>
 
-<h3>Variable message signs</h3>
+<h3><code>VariableMessageSign</code></h3>
 
 <blockquote>
-  <p><strong>Location id</strong> unique identifier</p>
+  <p><strong><code>String locationId</code></strong> unique identifier</p>
 
-<p><strong>Description</strong> name of this sign</p>
+<p><strong><code>String description</code></strong> name of this sign</p>
 
-<p><strong>VMS type</strong></p>
+<p><strong><code>String vmsType</code></strong></p>
 
-<p><strong>Latitude</strong> latitude of this sign</p>
+<p><strong><code>Double latitude</code></strong> latitude of this sign</p>
 
-<p><strong>Longitude</strong> longitude of this sign</p>
+<p><strong><code>Double longitude</code></strong> longitude of this sign</p>
 
-<p><strong>Number of characters</strong> width of the matrix</p>
+<p><strong><code>Double numberOfCharacters</code></strong> width of the matrix</p>
 
-<p><strong>Number of rows</strong> height of the matrix</p>
+<p><strong><code>Double numberOfRows</code></strong> height of the matrix</p>
 
-<p><strong>VMS legends</strong> lines of text currently displayed by this sign</p>
+<p><strong><code>String[] legend</code></strong> lines of text currently displayed by this sign</p>
 </blockquote>
-</blockquote>
+
+<p></blockquote></p>
 
 <h2>Silverstone near-real-time and historical data</h2>
 
@@ -352,16 +356,173 @@ You can add this database to your app and continue to add to it with current
 feed data if you like.</p>
 
 <p>Whether your data comes direct from a feed or from the database, the format
-is the same.  These classes are available:</p>
+is the same except in the case of Clearview data where the database output
+is slightly different to the direct feed class:</p>
 
 <blockquote>
-  <h2>Clearview</h2>
+  <p><code>net.uk.onetransport.android.modules.clearviewsilverstone.device.Device.java</code>
+<code>net.uk.onetransport.android.modules.clearviewsilverstone.traffic.Traffic.java</code>
+<code>net.uk.onetransport.android.modules.clearviewsilverstone.traffic.TrafficItem.java</code>
+<code>net.uk.onetransport.android.modules.clearviewsilverstone.traffic.TrafficGroup.java</code>
+<code>net.uk.onetransport.android.modules.bitcarriersilverstone.config.node.Node.java</code>
+<code>net.uk.onetransport.android.modules.bitcarriersilverstone.config.sketch.Position.java</code>
+<code>net.uk.onetransport.android.modules.bitcarriersilverstone.config.sketch.Sketch.java</code>
+<code>net.uk.onetransport.android.modules.bitcarriersilverstone.config.vector.Vector.java</code>
+<code>net.uk.onetransport.android.modules.bitcarriersilverstone.travelsummary.Stat.java</code>
+<code>net.uk.onetransport.android.modules.bitcarriersilverstone.travelsummary.Details.java</code>
+<code>net.uk.onetransport.android.modules.bitcarriersilverstone.travelsummary.TravelTime.java</code>
+<code>net.uk.onetransport.android.modules.bitcarriersilverstone.travelsummary.TravelSummary.java</code></p>
+
+<h3><code>Device</code></h3>
 
 <blockquote>
-  <h3>Clearview Silverstone device</h3>
+  <p><strong><code>int sensorId</code></strong> unique integer identifier for this car park sensor</p>
 
-<h3>Clearview Silverstone traffic</h3>
-</blockquote>
+<p><strong><code>String title</code></strong> sensor name</p>
+
+<p><strong><code>String description</code></strong> describes the sensor location</p>
+
+<p><strong><code>String type</code></strong> sensor part code</p>
+
+<p><strong><code>Double latitude</code></strong> latitude of this sensor</p>
+
+<p><strong><code>Double longitude</code></strong> longitude of this sensor</p>
+
+<p><strong><code>String changed</code></strong> time the sensor was last changed</p>
 </blockquote>
 
-</html>
+<h3><code>Traffic</code></h3>
+
+<blockquote>
+  <p><strong><code>String time</code></strong> time of this observation</p>
+
+<p><strong><code>Integer lane</code></strong> lane in which the vehicle was detected</p>
+
+<p><strong><code>Boolean direction</code></strong> false for entering, true for leaving</p>
+</blockquote>
+
+<h3><code>TrafficItem</code></h3>
+
+<blockquote>
+  <p><strong><code>Integer sensorId</code></strong> unique identifier</p>
+
+<p><strong><code>String time</code></strong> time of this observation</p>
+
+<p><strong><code>Integer lane</code></strong> lane in which the vehicle was detected</p>
+
+<p><strong><code>Boolean direction</code></strong> false for entering, true for leaving</p>
+</blockquote>
+
+<h3><code>TrafficGroup</code></h3>
+
+<blockquote>
+  <p><strong><code>Integer sensorId</code></strong> unique identifier</p>
+
+<p><strong><code>Traffic[] traffic</code></strong> list of observations</p>
+</blockquote>
+
+<h3><code>Node</code></h3>
+
+<blockquote>
+  <p><strong><code>Integer id</code></strong> unique identifier</p>
+
+<p><strong><code>String customerName</code></strong>  unique identifier assigned by the implementer,
+hopefully containing a description of the location</p>
+
+<p><strong><code>Double latitude</code></strong> latitude of this sensor</p>
+
+<p><strong><code>Double longitude</code></strong> longitude of this sensor</p>
+</blockquote>
+
+<h3><code>Position</code></h3>
+
+<blockquote>
+  <p><strong><code>Double latitude</code></strong></p>
+
+<p><strong><code>Double longitude</code></strong></p>
+</blockquote>
+
+<h3><code>Sketch</code></h3>
+
+<blockquote>
+  <p><strong><code>Integer sketchId</code></strong> unique identifier for this sketch
+<strong><code>Integer vectorId</code></strong> corresponding vector identifier
+<strong><code>Boolean visible</code></strong> always true
+<strong><code>String copyrights</code></strong> attribution for this data
+<strong><code>String coordinates</code></strong> JSON string of point data, can be ignored
+<strong><code>Position[] positions</code></strong> use this array of positions instead of
+<code>coordinates</code></p>
+</blockquote>
+
+<h3><code>Vector</code></h3>
+
+<blockquote>
+  <p><strong><code>Integer id</code></strong> unique identifier</p>
+
+<p><strong><code>String name</code></strong> appears to be not working at present</p>
+
+<p><strong><code>String customerName</code></strong> location of this vector prefixed by a unique
+identifier</p>
+
+<p><strong><code>Integer from</code></strong> start node of this vector</p>
+
+<p><strong><code>Integer to</code></strong> end node of this vector</p>
+
+<p><strong><code>Integer distance</code></strong> length of this link in kilometres</p>
+
+<p><strong><code>Integer sId</code></strong> identifier of the sketch pertaining to this vector</p>
+</blockquote>
+
+<h3><code>Stat</code></h3>
+
+<blockquote>
+  <p>**<code>Double speed**</code> average speed in km/h along a link</p>
+
+<p>**<code>Double elapsed**</code> time taken to traverse this link</p>
+
+<p>**<code>Double trend**</code> </p>
+
+<p>**<code>Integer readings**</code> how many readings contributed to this observation</p>
+</blockquote>
+
+<h3><code>Details</code></h3>
+
+<blockquote>
+  <p><strong><code>Integer score</code></strong> </p>
+
+<p><strong><code>Stat publish</code></strong> values suitable for publication (eg. no speeding
+drivers)</p>
+
+<p><strong><code>Stat calculated</code></strong> actual values for this link</p>
+</blockquote>
+
+<h3><code>TravelTime</code></h3>
+
+<blockquote>
+  <p><strong><code>Integer tId</code></strong> unique identifier</p>
+
+<p><strong><code>Integer offset</code></strong> </p>
+
+<p><strong><code>String from</code></strong> start node</p>
+
+<p><strong><code>String to</code></strong> end node</p>
+</blockquote>
+
+<h3><code>TravelSummary</code></h3>
+
+<blockquote>
+  <p><strong><code>Integer rId</code></strong> unique identifier for this route</p>
+
+<p><strong><code>String time</code></strong> timestamp for these observations</p>
+
+<p><strong><code>TravelTime[] travelTimes</code></strong> only ever contains one element</p>
+
+<p><strong><code>Details details</code></strong> average statistics for this route</p>
+
+<p><strong><code>Details last</code></strong> last observed statistics</p>
+
+<p><strong><code>String levelOfService</code></strong> red, yellow or green, with red being the most
+congested and green being the least</p>
+</blockquote>
+
+<p></blockquote></p>

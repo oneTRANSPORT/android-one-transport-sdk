@@ -1,0 +1,54 @@
+<h1>Adding the SDK to your app</h1>
+
+<h2>Configure your Gradle build file</h2>
+
+<p>The oneTransport SDK for Android is currently distributed as a set of AAR
+libraries that you can add to your <code>app/libs</code> directory.</p>
+
+<p>In the <code>build.gradle</code> in your app module, add these lines to allow including
+libraries from the <code>libs</code> directory:</p>
+
+<pre><code>    repositories {
+        flatDir {
+            dirs 'libs'
+        }
+    }
+</code></pre>
+
+<p>As well as including the oneTransport libraries, you will also need a few
+third-party packages.  Add these to your list of dependencies:</p>
+
+<pre><code>    compile 'com.interdigital.android:bucks-debug:1.0.0@aar'
+    compile 'com.interdigital.android:herts-debug:1.0.0@aar'
+    compile 'com.interdigital.android:northants-debug:1.0.0@aar'
+    compile 'com.interdigital.android:oxon-debug:1.0.0@aar'
+    compile 'com.interdigital.android:clearviewsilverstone-debug:1.0.0@aar'
+    compile 'com.interdigital.android:bitcarriersilverstone-debug:1.0.0@aar'
+    compile 'com.interdigital.android:common-debug:1.0.0@aar'
+    compile 'com.interdigital.android:dougal-debug:1.0.0@aar'
+    compile 'com.google.code.gson:gson:2.5'
+    compile 'com.squareup.retrofit2:retrofit:2.0.1'
+    compile 'com.squareup.retrofit2:converter-gson:2.0.1'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.2.0'
+</code></pre>
+
+<p><strong>Note:</strong> the order of dependencies is important as resources from the local
+authority libraries need to override those in Common and Dougal.</p>
+
+<h2>Set up string resources</h2>
+
+<p>To allow the SDK to create a content provider, the app must supply an
+authority string for the provider to use.  A common way to create this
+string is to add '<code>.provider</code>' to the app package name.  So for example,
+the Sample Map App defines this authority:</p>
+
+<pre><code>    &lt;string name="provider_authority"&gt;com.interdigital.android.samplemapdataapp.provider&lt;/string&gt;
+</code></pre>
+
+<p>The SDK also provides a sync adapter implementation and if you want to use
+this, you must supply a unique account identifier.  The sync adapter never
+asks for account credentials, but this string must exist anyway.  Your
+package name in reverse will be fine, for example:</p>
+
+<pre><code>    &lt;string name="sync_account_type"&gt;samplemapdataapp.android.interdigital.com&lt;/string&gt;
+</code></pre>
