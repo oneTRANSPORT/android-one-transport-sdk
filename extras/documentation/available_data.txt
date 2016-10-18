@@ -36,253 +36,259 @@ average speed reading across a link is 40kph, then that was true when the last
 reading was observed a few minutes ago.  If an event occurs in a feed, then
 that event is happening now.
 
-The data classes are:
+Here are some examples to show the package structure for data classes:
 
-> ### Car parks
-> > **Car park identity** unique identifier
+> `net.uk.onetransport.android.county.bucks.carparks.CarPark.java`
+> `net.uk.onetransport.android.county.herts.roadworks.Roadworks.java`
+> `net.uk.onetransport.android.county.northants.trafficflow.TrafficFlow.java`
+> `net.uk.onetransport.android.county.oxon.variablemessagesigns.VariableMessageSign.java`
+
+The classes are:
+
+> ### `CarPark`
+> > **`String carParkIdentity`** unique identifier
 > >
-> > **Latitude** latitude of the car park
+> > **`Double latitude`** latitude of this car park
 > >
-> > **Longitude** longitude of the car park
+> > **`Double longitude`** longitude of this car park
 > >
-> > **Occupancy**
+> > **`Double occupancy`**
 > >
-> > **Occupancy trend**
+> > **`String occupancyTrend`**
 > >
-> > **Total parking capacity** number of parking spaces
+> > **`Double totalParkingCapacity`** number of parking spaces
 > >
-> > **Fill rate** cars entering per hour
+> > **`Double fillRate`** cars entering per hour
 > >
-> > **Exit rate** cars leaving per hour
+> > **`Double exitRate`** cars leaving per hour
 > >
-> > **Almost full increasing** number of spaces above which 'spaces available'
-> > becomes 'almost full' as cars enter
+> > **`Double almostFullIncreasing`** number of spaces above which 'spaces
+> > available' becomes 'almost full' as cars enter
 > >
-> > **Almost full decreasing** number of spaces below which 'almost full'
+> > **`Double almostFullDecreasing`** number of spaces below which 'almost full'
 > > becomes 'spaces available' as cars leave
 > >
-> > **Full increasing** number of spaces above which 'almost full' becomes
+> > **`Double fullIncreasing`** number of spaces above which 'almost full' becomes
 > > 'full' as cars enter
 > >
-> > **Full decreasing** number of spaces below which 'full' becomes 'almost
-> > full' as cars leave
+> > **`Double fullDecreasing`** number of spaces below which 'full' becomes
+> > 'almost full' as cars leave
 > >
-> > **Status**
+> > **`String status`**
 > >
-> > **Status time**
+> > **`String statusTime`**
 > >
-> > **Queuing time** current queuing time for car park entry
+> > **`Double queuingTime`** current queuing time for car park entry
 > >
-> > **Parking area name** name of this car park
+> > **`String parkingAreaName`** name of this car park
 > >
-> > **Entrance full** number of spaces above which the car park is considered
-> > full (so the entrance sign lights up 'FULL')
+> > **`Double entranceFull`** number of spaces above which the car park is
+> > considered full (so the entrance sign lights up 'FULL')
 
-> ### Events
-> > **Id** a unique identifier
+> ### `Event`
+> > **`String id`** a unique identifier
 > > 
-> > **Start of period** time the event begins
+> > **`String startOfPeriod`** time the event begins
 > > 
-> > **End of period** time the event ends
+> > **`String endOfPeriod`** time the event ends
 > > 
-> > **Overall start time** seems to be the same as **start of period**
+> > **`String overallStartTime`** seems to be the same as **`startOfPeriod`**
 > > 
-> > **Overall end time** seems to be the same as **end of period**
+> > **`String overallEndTime`** seems to be the same as **`endOfPeriod`**
 > > 
-> > **Latitude** latitude of the event
+> > **`Double latitude`** latitude of the event
+> >
+> > **`Double longitude`** longitude of the event
 > > 
-> > **Longitude** longitude of the event
+> > **`String description`** what the event actually is
 > > 
-> > **Description** what the event actually is
+> > **`String impactOnTraffic`** how traffic flow in the region of the event
+> > is affected
 > > 
-> > **Impact on traffic** how traffic flow in the region of the event is
-> > affected
-> > 
-> > **Validity status**
+> > **`String validityStatus`**
 
-> ### Traffic flow
-> > **id** unique identifier
-> > 
-> > **Tpeg direction**
-> > 
-> > **From type**
-> > 
-> > **From descriptor** name of the start of the link
-> > 
-> > **From latitude** latitude of the start of the link
-> > 
-> > **From longitude** longitude of the start of the link
-> > 
-> > **To type**
-> > 
-> > **To descriptor** name of the end of the link
-> > 
-> > **To latitude** latitude of the end of the link
-> > 
-> > **To longitude** longitude of the end of the link
-> > 
-> > **Time** timestamp of this item
-> > 
-> > **Vehicle flow** number of vehicles along the link per hour
+> ### `Roadworks`
+> > **`String id`** unique identifier
+> >
+> > **`String effectOnRoadLayout`** how the traffic flow changes, if at all
+> >
+> > **`String roadMaintenanceType`**
+> >
+> > **`String comment`** description of the works to be carried out
+> >
+> > **`String impactOnTraffic`**
+> >
+> > **`Double latitude`** latitude of the roadworks
+> >
+> > **`Double longitude`** longitude of the roadworks
+> >
+> > **`String validityStatus`**
+> >
+> > **`String overallStartTime`** when the roadworks were started
+> >
+> > **`String overallEndTime`** scheduled end time
+> >
+> > **`String startOfPeriod`** seems to be the same as **`overallStartTime`**
+> >
+> > **`String endOfPeriod`** seems to be the same as **`overallEndTime`**
 
-> ### Traffic queue
-> > **id** unique identifier
-> >
-> > **Tpeg direction**
-> >
-> > **From type**
-> >
-> > **From descriptor** name of the start of the link
-> >
-> > **From latitude** latitude of the start of the link
-> >
-> > **From longitude** longitude of the start of the link
-> >
-> > **To type**
-> >
-> > **To descriptor** name of the end of the link
-> >
-> > **To latitude** latitude of the end of the link
-> >
-> > **To longitude** longitude of the end of the link
-> >
-> > **Time** timestamp of this item
-> >
-> > **Severity**
-> >
-> > **Present** 'Y' if a queue exists, 'N' otherwise
+> ### `TrafficFlow`
+> > **`String id`** unique identifier
+> > 
+> > **`String tpegDirection`**
+> > 
+> > **`String fromType`**
+> > 
+> > **`String fromDescriptor`** name of the start of the link
+> > 
+> > **`Double fromLatitude`** latitude of the start of the link
+> > 
+> > **`Double fromLongitude`** longitude of the start of the link
+> > 
+> > **`String toType`**
+> > 
+> > **`String toDescriptor`** name of the end of the link
+> > 
+> > **`Double toLatitude`** latitude of the end of the link
+> > 
+> > **`Double toLongitude`** longitude of the end of the link
+> > 
+> > **`String time`** timestamp of this item
+> > 
+> > **`Double vehicleFlow`** number of vehicles along the link per hour
 
-> ### Traffic scoot
-> > **id** unique identifier
+> ### `TrafficQueue`
+> > **`String id`** unique identifier
+> > 
+> > **`String tpegDirection`**
+> > 
+> > **`String fromType`**
+> > 
+> > **`String fromDescriptor`** name of the start of the link
+> > 
+> > **`Double fromLatitude`** latitude of the start of the link
+> > 
+> > **`Double fromLongitude`** longitude of the start of the link
+> > 
+> > **`String toType`**
+> > 
+> > **`String toDescriptor`** name of the end of the link
+> > 
+> > **`Double toLatitude`** latitude of the end of the link
+> > 
+> > **`Double toLongitude`** longitude of the end of the link
+> > 
+> > **`String time`** timestamp of this item
+> > 
+> > **`Severity`**
 > >
-> > **Tpeg direction**
-> >
-> > **From type**
-> >
-> > **From descriptor** name of the start of the link
-> >
-> > **From latitude** latitude of the start of the link
-> >
-> > **From longitude** longitude of the start of the link
-> >
-> > **To type**
-> >
-> > **To descriptor** name of the end of the link
-> >
-> > **To latitude** latitude of the end of the link
-> >
-> > **To longitude** longitude of the end of the link
-> >
-> > **Time** timestamp of this item
-> >
-> > **Current flow** vehicles per hour travelling along this link
-> >
-> > **Average speed** average speed of vehicles
-> >
-> > **Link status type**
-> >
-> > **Link status**
-> >
-> > **Link travel time**
-> >
-> > **Congestion percent** level of congestion on this link
+> > **`Present`** 'Y' if a queue exists, 'N' otherwise
 
-> ### Traffic speed
-> > **id** unique identifier
+> ### `TrafficScoot`
+> > **`String id`** unique identifier
+> > 
+> > **`String tpegDirection`**
+> > 
+> > **`String fromType`**
+> > 
+> > **`String fromDescriptor`** name of the start of the link
+> > 
+> > **`Double fromLatitude`** latitude of the start of the link
+> > 
+> > **`Double fromLongitude`** longitude of the start of the link
+> > 
+> > **`String toType`**
+> > 
+> > **`String toDescriptor`** name of the end of the link
+> > 
+> > **`Double toLatitude`** latitude of the end of the link
+> > 
+> > **`Double toLongitude`** longitude of the end of the link
+> > 
+> > **`String time`** timestamp of this item
 > >
-> > **Tpeg direction**
+> > **'Double currentFlow`** vehicles per hour travelling along this link
 > >
-> > **From type**
+> > **`Double averageSpeed`** average speed of vehicles
 > >
-> > **From descriptor** name of the start of the link
+> > **`Double linkStatusType`**
 > >
-> > **From latitude** latitude of the start of the link
+> > **`Double linkStatus`**
 > >
-> > **From longitude** longitude of the start of the link
+> > **`Double linkTravelTime`**
 > >
-> > **To type**
-> >
-> > **To descriptor** name of the end of the link
-> >
-> > **To latitude** latitude of the end of the link
-> >
-> > **To longitude** longitude of the end of the link
-> >
-> > **Time** timestamp of this item
-> >
-> > **Average vehicle speed** average speed along this link in km/h
+> > **`Double congestionPercent`** level of congestion on this link
 
-> ### Traffic travel time
-> > **id** unique identifier
-> >
-> > **Tpeg direction**
-> >
-> > **From type**
-> >
-> > **From descriptor** name of the start of the link
-> >
-> > **From latitude** latitude of the start of the link
-> >
-> > **From longitude** longitude of the start of the link
-> >
-> > **To type**
-> >
-> > **To descriptor** name of the end of the link
-> >
-> > **To latitude** latitude of the end of the link
-> >
-> > **To longitude** longitude of the end of the link
-> >
-> > **Time** timestamp of this item
-> >
-> > **Travel time** actual time taken to traverse this link
-> >
-> > **Free flow travel time** best possible time given minimal congestion
-> >
-> > **Free flow speed** best possible speed given minimal congestion and
-> > presumably adhering to speed limits
+> ### `TrafficSpeed`
+> > **`String id`** unique identifier
+> > 
+> > **`String tpegDirection`**
+> > 
+> > **`String fromType`**
+> > 
+> > **`String fromDescriptor`** name of the start of the link
+> > 
+> > **`Double fromLatitude`** latitude of the start of the link
+> > 
+> > **`Double fromLongitude`** longitude of the start of the link
+> > 
+> > **`String toType`**
+> > 
+> > **`String toDescriptor`** name of the end of the link
+> > 
+> > **`Double toLatitude`** latitude of the end of the link
+> > 
+> > **`Double toLongitude`** longitude of the end of the link
+> > 
+> > **`String time`** timestamp of this item
+> > 
+> > **`Double averageVehicleSpeed`** average speed along this link in km/h
 
-> ### Roadworks
-> > **Id** unique identifier
+> ### `TrafficTravelTime`
+> > **`String id`** unique identifier
+> > 
+> > **`String tpegDirection`**
+> > 
+> > **`String fromType`**
+> > 
+> > **`String fromDescriptor`** name of the start of the link
+> > 
+> > **`Double fromLatitude`** latitude of the start of the link
+> > 
+> > **`Double fromLongitude`** longitude of the start of the link
+> > 
+> > **`String toType`**
+> > 
+> > **`String toDescriptor`** name of the end of the link
+> > 
+> > **`Double toLatitude`** latitude of the end of the link
+> > 
+> > **`Double toLongitude`** longitude of the end of the link
+> > 
+> > **`String time`** timestamp of this item
+> > 
+> > **`Double travelTime`** actual time taken to traverse this link
 > >
-> > **Effect on road layout** how the traffic flow changes, if at all
+> > **`Double freeFlowTravelTime`** best possible time given minimal congestion
 > >
-> > **Road maintenance type**
-> >
-> > **Comment** description of the works to be carried out
-> >
-> > **Impact on traffic**
-> >
-> > **Latitude** latitude of the roadworks
-> >
-> > **Longitude** longitude of the roadworks
-> >
-> > **Validity status**
-> >
-> > **Overall start time** when the roadworks were started
-> >
-> > **Overall end time** scheduled end time
-> >
-> > **Start of period** seems to be the same as **overall start time**
-> >
-> > **End of period** seems to be the same as **overall end time**
+> > **`Double freeFlowSpeed`** best possible speed given minimal congestion
 
-> ### Variable message signs
-> > **Location id** unique identifier
+> ### `VariableMessageSign`
+> > **`String locationId`** unique identifier
 > >
-> > **Description** name of this sign
+> > **`String description`** name of this sign
 > >
-> > **VMS type**
+> > **`String vmsType`**
 > >
-> > **Latitude** latitude of this sign
+> > **`Double latitude`** latitude of this sign
 > >
-> > **Longitude** longitude of this sign
+> > **`Double longitude`** longitude of this sign
 > >
-> > **Number of characters** width of the matrix
+> > **`Double numberOfCharacters`** width of the matrix
 > >
-> > **Number of rows** height of the matrix
+> > **`Double numberOfRows`** height of the matrix
 > >
-> > **VMS legends** lines of text currently displayed by this sign
+> > **`String[] legend`** lines of text currently displayed by this sign
 
 ## Silverstone near-real-time and historical data
 
@@ -304,9 +310,135 @@ You can add this database to your app and continue to add to it with current
 feed data if you like.
 
 Whether your data comes direct from a feed or from the database, the format
-is the same.  These classes are available:
+is the same except in the case of Clearview data where the database output
+is slightly different to the direct feed class:
 
-> ## Clearview
-> > ### Clearview Silverstone device
+> `net.uk.onetransport.android.modules.clearviewsilverstone.device.Device.java`
+> `net.uk.onetransport.android.modules.clearviewsilverstone.traffic.Traffic.java`
+> `net.uk.onetransport.android.modules.clearviewsilverstone.traffic.TrafficItem.java`
+> `net.uk.onetransport.android.modules.clearviewsilverstone.traffic.TrafficGroup.java`
+> `net.uk.onetransport.android.modules.bitcarriersilverstone.config.node.Node.java`
+> `net.uk.onetransport.android.modules.bitcarriersilverstone.config.sketch.Position.java`
+> `net.uk.onetransport.android.modules.bitcarriersilverstone.config.sketch.Sketch.java`
+> `net.uk.onetransport.android.modules.bitcarriersilverstone.config.vector.Vector.java`
+> `net.uk.onetransport.android.modules.bitcarriersilverstone.travelsummary.Stat.java`
+> `net.uk.onetransport.android.modules.bitcarriersilverstone.travelsummary.Details.java`
+> `net.uk.onetransport.android.modules.bitcarriersilverstone.travelsummary.TravelTime.java`
+> `net.uk.onetransport.android.modules.bitcarriersilverstone.travelsummary.TravelSummary.java`
 
-> > ### Clearview Silverstone traffic
+> ### `Device`
+> > **`int sensorId`** unique integer identifier for this car park sensor
+> >
+> > **`String title`** sensor name
+> >
+> > **`String description`** describes the sensor location
+> >
+> > **`String type`** sensor part code
+> >
+> > **`Double latitude`** latitude of this sensor
+> >
+> > **`Double longitude`** longitude of this sensor
+> >
+> > **`String changed`** time the sensor was last changed
+
+> ### `Traffic`
+> > **`String time`** time of this observation
+> >
+> > **`Integer lane`** lane in which the vehicle was detected
+> >
+> > **`Boolean direction`** false for entering, true for leaving
+
+> ### `TrafficItem`
+> > **`Integer sensorId`** unique identifier
+> >
+> > **`String time`** time of this observation
+> >
+> > **`Integer lane`** lane in which the vehicle was detected
+> >
+> > **`Boolean direction`** false for entering, true for leaving
+
+> ### `TrafficGroup`
+> > **`Integer sensorId`** unique identifier
+> >
+> > **`Traffic[] traffic`** list of observations
+
+> ### `Node`
+> > **`Integer id`** unique identifier
+> >
+> > **`String customerName`**  unique identifier assigned by the implementer,
+> > hopefully containing a description of the location
+> >
+> > **`Double latitude`** latitude of this sensor
+> >
+> > **`Double longitude`** longitude of this sensor
+
+> ### `Position`
+> > **`Double latitude`**
+> >
+> > **`Double longitude`**
+
+> ### `Sketch`
+> > **`Integer sketchId`** unique identifier for this sketch
+> > **`Integer vectorId`** corresponding vector identifier
+> > **`Boolean visible`** always true
+> > **`String copyrights`** attribution for this data
+> > **`String coordinates`** JSON string of point data, can be ignored
+> > **`Position[] positions`** use this array of positions instead of
+> > `coordinates`
+
+> ### `Vector`
+> > **`Integer id`** unique identifier
+> >
+> > **`String name`** appears to be not working at present
+> >
+> > **`String customerName`** location of this vector prefixed by a unique
+> > identifier
+> >
+> > **`Integer from`** start node of this vector
+> >
+> > **`Integer to`** end node of this vector
+> >
+> > **`Integer distance`** length of this link in kilometres
+> >
+> > **`Integer sId`** identifier of the sketch pertaining to this vector
+
+> ### `Stat`
+> > **`Double speed**` average speed in km/h along a link
+> >
+> > **`Double elapsed**` time taken to traverse this link
+> >
+> > **`Double trend**` 
+> >
+> > **`Integer readings**` how many readings contributed to this observation
+
+> ### `Details`
+> > **`Integer score`** 
+> >
+> > **`Stat publish`** values suitable for publication (eg. no speeding
+> > drivers)
+> >
+> > **`Stat calculated`** actual values for this link
+
+> ### `TravelTime`
+> > **`Integer tId`** unique identifier
+> >
+> > **`Integer offset`** 
+> >
+> > **`String from`** start node
+> >
+> > **`String to`** end node
+
+> ### `TravelSummary`
+> > **`Integer rId`** unique identifier for this route
+> >
+> > **`String time`** timestamp for these observations
+> >
+> > **`TravelTime[] travelTimes`** only ever contains one element
+> >
+> > **`Details details`** average statistics for this route
+> >
+> > **`Details last`** last observed statistics
+> >
+> > **`String levelOfService`** red, yellow or green, with red being the most
+> > congested and green being the least
+
