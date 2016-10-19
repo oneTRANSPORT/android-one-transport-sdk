@@ -26,6 +26,7 @@ import android.content.SyncResult;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteStatement;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -226,7 +227,252 @@ public class BcsProviderModule implements ProviderModule {
     }
 
     @Override
-    public int bulkInsert(int i, ContentValues[] contentValues, SQLiteDatabase sqLiteDatabase) {
+    public int bulkInsert(int match, ContentValues[] contentValues, SQLiteDatabase sqLiteDatabase) {
+        ContentResolver contentResolver = context.getContentResolver();
+        int numInserted = 0;
+        if (match == NODES) {
+            sqLiteDatabase.beginTransaction();
+            try {
+                SQLiteStatement insert = sqLiteDatabase.compileStatement(
+                        "INSERT INTO " + BitCarrierSilverstoneNode.TABLE_NAME + "("
+                                + BitCarrierSilverstoneNode.COLUMN_NODE_ID + ","
+                                + BitCarrierSilverstoneNode.COLUMN_CUSTOMER_ID + ","
+                                + BitCarrierSilverstoneNode.COLUMN_CUSTOMER_NAME + ","
+                                + BitCarrierSilverstoneNode.COLUMN_LATITUDE + ","
+                                + BitCarrierSilverstoneNode.COLUMN_LONGITUDE + ","
+                                + BitCarrierSilverstoneNode.COLUMN_CIN_ID + ","
+                                + BitCarrierSilverstoneNode.COLUMN_CREATION_TIME
+                                + ") VALUES " + "(?,?,?,?,?,?,?);");
+                for (ContentValues value : contentValues) {
+                    Integer nodeId = value.getAsInteger(BitCarrierSilverstoneNode.COLUMN_NODE_ID);
+                    Integer customerId = value.getAsInteger(BitCarrierSilverstoneNode.COLUMN_CUSTOMER_ID);
+                    String customerName = value.getAsString(BitCarrierSilverstoneNode.COLUMN_CUSTOMER_NAME);
+                    Double latitude = value.getAsDouble(BitCarrierSilverstoneNode.COLUMN_LATITUDE);
+                    Double longitude = value.getAsDouble(BitCarrierSilverstoneNode.COLUMN_LONGITUDE);
+                    String cinId = value.getAsString(BitCarrierSilverstoneNode.COLUMN_CIN_ID);
+                    Long creationTime = value.getAsLong(BitCarrierSilverstoneNode.COLUMN_CREATION_TIME);
+                    if (nodeId != null) {
+                        insert.bindLong(1, nodeId);
+                    }
+                    if (customerId != null) {
+                        insert.bindLong(2, customerId);
+                    }
+                    if (customerName != null) {
+                        insert.bindString(3, customerName);
+                    }
+                    if (latitude != null) {
+                        insert.bindDouble(4, latitude);
+                    }
+                    if (longitude != null) {
+                        insert.bindDouble(5, longitude);
+                    }
+                    if (cinId != null) {
+                        insert.bindString(6, cinId);
+                    }
+                    if (creationTime != null) {
+                        insert.bindLong(7, creationTime);
+                    }
+                    insert.executeInsert();
+                    insert.clearBindings();
+                }
+                sqLiteDatabase.setTransactionSuccessful();
+                numInserted = contentValues.length;
+                contentResolver.notifyChange(NODE_URI, null);
+            } finally {
+                sqLiteDatabase.endTransaction();
+            }
+            return numInserted;
+        }
+        if (match == TRAVEL_SUMMARIES) {
+            sqLiteDatabase.beginTransaction();
+            try {
+                SQLiteStatement insert = sqLiteDatabase.compileStatement(
+                        "INSERT INTO " + BitCarrierSilverstoneTravelSummary.TABLE_NAME + "("
+                                + BitCarrierSilverstoneTravelSummary.COLUMN_TRAVEL_SUMMARY_ID + ","
+                                + BitCarrierSilverstoneTravelSummary.COLUMN_CLOCK_TIME + ","
+                                + BitCarrierSilverstoneTravelSummary.COLUMN_FROM_LOCATION + ","
+                                + BitCarrierSilverstoneTravelSummary.COLUMN_TO_LOCATION + ","
+                                + BitCarrierSilverstoneTravelSummary.COLUMN_SCORE + ","
+                                + BitCarrierSilverstoneTravelSummary.COLUMN_SPEED + ","
+                                + BitCarrierSilverstoneTravelSummary.COLUMN_ELAPSED + ","
+                                + BitCarrierSilverstoneTravelSummary.COLUMN_TREND + ","
+                                + BitCarrierSilverstoneTravelSummary.COLUMN_CIN_ID + ","
+                                + BitCarrierSilverstoneTravelSummary.COLUMN_CREATION_TIME
+                                + ") VALUES " + "(?,?,?,?,?,?,?,?,?,?);");
+                for (ContentValues value : contentValues) {
+                    Integer travelSummaryId = value.getAsInteger(BitCarrierSilverstoneTravelSummary.COLUMN_TRAVEL_SUMMARY_ID);
+                    String clockTime = value.getAsString(BitCarrierSilverstoneTravelSummary.COLUMN_CLOCK_TIME);
+                    String fromLocation = value.getAsString(BitCarrierSilverstoneTravelSummary.COLUMN_FROM_LOCATION);
+                    String toLocation = value.getAsString(BitCarrierSilverstoneTravelSummary.COLUMN_TO_LOCATION);
+                    Double score = value.getAsDouble(BitCarrierSilverstoneTravelSummary.COLUMN_SCORE);
+                    Double speed = value.getAsDouble(BitCarrierSilverstoneTravelSummary.COLUMN_SPEED);
+                    Double elapsed = value.getAsDouble(BitCarrierSilverstoneTravelSummary.COLUMN_ELAPSED);
+                    Double trend = value.getAsDouble(BitCarrierSilverstoneTravelSummary.COLUMN_TREND);
+                    String cinId = value.getAsString(BitCarrierSilverstoneTravelSummary.COLUMN_CIN_ID);
+                    Long creationTime = value.getAsLong(BitCarrierSilverstoneTravelSummary.COLUMN_CREATION_TIME);
+                    if (travelSummaryId != null) {
+                        insert.bindLong(1, travelSummaryId);
+                    }
+                    if (clockTime != null) {
+                        insert.bindString(2, clockTime);
+                    }
+                    if (fromLocation != null) {
+                        insert.bindString(4, fromLocation);
+                    }
+                    if (toLocation != null) {
+                        insert.bindString(5, toLocation);
+                    }
+                    if (score != null) {
+                        insert.bindDouble(6, score);
+                    }
+                    if (speed != null) {
+                        insert.bindDouble(7, speed);
+                    }
+                    if (elapsed != null) {
+                        insert.bindDouble(8, elapsed);
+                    }
+                    if (trend != null) {
+                        insert.bindDouble(9, trend);
+                    }
+                    if (cinId != null) {
+                        insert.bindString(10, cinId);
+                    }
+                    if (creationTime != null) {
+                        insert.bindLong(11, creationTime);
+                    }
+                    insert.executeInsert();
+                    insert.clearBindings();
+                }
+                sqLiteDatabase.setTransactionSuccessful();
+                numInserted = contentValues.length;
+                contentResolver.notifyChange(TRAVEL_SUMMARY_URI, null);
+            } finally {
+                sqLiteDatabase.endTransaction();
+            }
+            return numInserted;
+        }
+        if (match == LATEST_TRAVEL_SUMMARIES) {
+            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed));
+        }
+        if (match == DATA_VECTORS) {
+            sqLiteDatabase.beginTransaction();
+            try {
+                SQLiteStatement insert = sqLiteDatabase.compileStatement(
+                        "INSERT INTO " + BitCarrierSilverstoneDataVector.TABLE_NAME + "("
+                                + BitCarrierSilverstoneDataVector.COLUMN_VECTOR_ID + ","
+                                + BitCarrierSilverstoneDataVector.COLUMN_TIMESTAMP + ","
+                                + BitCarrierSilverstoneDataVector.COLUMN_SPEED + ","
+                                + BitCarrierSilverstoneDataVector.COLUMN_ELAPSED + ","
+                                + BitCarrierSilverstoneDataVector.COLUMN_LEVEL_OF_SERVICE + ","
+                                + BitCarrierSilverstoneDataVector.COLUMN_CIN_ID + ","
+                                + BitCarrierSilverstoneDataVector.COLUMN_CREATION_TIME
+                                + ") VALUES " + "(?,?,?,?,?,?,?);");
+                for (ContentValues value : contentValues) {
+                    Integer vectorId = value.getAsInteger(BitCarrierSilverstoneDataVector.COLUMN_VECTOR_ID);
+                    String timestamp = value.getAsString(BitCarrierSilverstoneDataVector.COLUMN_TIMESTAMP);
+                    Double speed = value.getAsDouble(BitCarrierSilverstoneDataVector.COLUMN_SPEED);
+                    Double elapsed = value.getAsDouble(BitCarrierSilverstoneDataVector.COLUMN_ELAPSED);
+                    String levelOfService = value.getAsString(BitCarrierSilverstoneDataVector.COLUMN_LEVEL_OF_SERVICE);
+                    String cinId = value.getAsString(BitCarrierSilverstoneDataVector.COLUMN_CIN_ID);
+                    Long creationTime = value.getAsLong(BitCarrierSilverstoneDataVector.COLUMN_CREATION_TIME);
+                    if (vectorId != null) {
+                        insert.bindLong(1, vectorId);
+                    }
+                    if (timestamp != null) {
+                        insert.bindString(2, timestamp);
+                    }
+                    if (speed != null) {
+                        insert.bindDouble(3, speed);
+                    }
+                    if (elapsed != null) {
+                        insert.bindDouble(4, elapsed);
+                    }
+                    if (levelOfService != null) {
+                        insert.bindString(5, levelOfService);
+                    }
+                    if (cinId != null) {
+                        insert.bindString(6, cinId);
+                    }
+                    if (creationTime != null) {
+                        insert.bindLong(7, creationTime);
+                    }
+                    insert.executeInsert();
+                    insert.clearBindings();
+                }
+                sqLiteDatabase.setTransactionSuccessful();
+                numInserted = contentValues.length;
+                contentResolver.notifyChange(DATA_VECTOR_URI, null);
+            } finally {
+                sqLiteDatabase.endTransaction();
+            }
+            return numInserted;
+        }
+        if (match == LATEST_DATA_VECTORS) {
+            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed));
+        }
+        if (match == CONFIG_VECTORS) {
+            sqLiteDatabase.beginTransaction();
+            try {
+                SQLiteStatement insert = sqLiteDatabase.compileStatement(
+                        "INSERT INTO " + BitCarrierSilverstoneConfigVector.TABLE_NAME + "("
+                                + BitCarrierSilverstoneConfigVector.COLUMN_VECTOR_ID + ","
+                                + BitCarrierSilverstoneConfigVector.COLUMN_NAME + ","
+                                + BitCarrierSilverstoneConfigVector.COLUMN_CUSTOMER_NAME + ","
+                                + BitCarrierSilverstoneConfigVector.COLUMN_FROM + ","
+                                + BitCarrierSilverstoneConfigVector.COLUMN_TO + ","
+                                + BitCarrierSilverstoneConfigVector.COLUMN_DISTANCE + ","
+                                + BitCarrierSilverstoneConfigVector.COLUMN_SKETCH_ID + ","
+                                + BitCarrierSilverstoneConfigVector.COLUMN_CIN_ID + ","
+                                + BitCarrierSilverstoneConfigVector.COLUMN_CREATION_TIME
+                                + ") VALUES " + "(?,?,?,?,?,?,?,?,?);");
+                for (ContentValues value : contentValues) {
+                    Integer vectorId = value.getAsInteger(BitCarrierSilverstoneConfigVector.COLUMN_VECTOR_ID);
+                    String name = value.getAsString(BitCarrierSilverstoneConfigVector.COLUMN_NAME);
+                    String customerName = value.getAsString(BitCarrierSilverstoneConfigVector.COLUMN_CUSTOMER_NAME);
+                    Integer from = value.getAsInteger(BitCarrierSilverstoneConfigVector.COLUMN_FROM);
+                    Integer to = value.getAsInteger(BitCarrierSilverstoneConfigVector.COLUMN_TO);
+                    Integer distance = value.getAsInteger(BitCarrierSilverstoneConfigVector.COLUMN_DISTANCE);
+                    Integer sketchId = value.getAsInteger(BitCarrierSilverstoneConfigVector.COLUMN_SKETCH_ID);
+                    String cinId = value.getAsString(BitCarrierSilverstoneConfigVector.COLUMN_CIN_ID);
+                    Long creationTime = value.getAsLong(BitCarrierSilverstoneConfigVector.COLUMN_CREATION_TIME);
+                    if (vectorId != null) {
+                        insert.bindLong(1, vectorId);
+                    }
+                    if (name != null) {
+                        insert.bindString(2, name);
+                    }
+                    if (customerName != null) {
+                        insert.bindString(3, customerName);
+                    }
+                    if (from != null) {
+                        insert.bindLong(4, from);
+                    }
+                    if (to != null) {
+                        insert.bindLong(5, to);
+                    }
+                    if (distance != null) {
+                        insert.bindLong(6, distance);
+                    }
+                    if (sketchId != null) {
+                        insert.bindLong(7, sketchId);
+                    }
+                    if (cinId != null) {
+                        insert.bindString(8, cinId);
+                    }
+                    if (creationTime != null) {
+                        insert.bindLong(9, creationTime);
+                    }
+                    insert.executeInsert();
+                    insert.clearBindings();
+                }
+                sqLiteDatabase.setTransactionSuccessful();
+                numInserted = contentValues.length;
+                contentResolver.notifyChange(CONFIG_VECTOR_URI, null);
+            } finally {
+                sqLiteDatabase.endTransaction();
+            }
+            return numInserted;
+        }
         return 0;
     }
 

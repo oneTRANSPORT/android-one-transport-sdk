@@ -28,10 +28,12 @@ public class BcsContract {
                     + BitCarrierSilverstoneSketch.COLUMN_VISIBLE + " INTEGER,"
                     + BitCarrierSilverstoneSketch.COLUMN_COPYRIGHTS + " TEXT,"
                     + BitCarrierSilverstoneSketch.COLUMN_COORDINATES + " TEXT,"
+                    + BitCarrierSilverstoneSketch.COLUMN_CIN_ID + " TEXT,"
+                    + BitCarrierSilverstoneSketch.COLUMN_CREATION_TIME + " INTEGER,"
+                    + "UNIQUE ("
+                    + BitCarrierSilverstoneSketch.COLUMN_SKETCH_ID + ","
                     + BitCarrierSilverstoneSketch.COLUMN_CIN_ID
-                    + " TEXT UNIQUE ON CONFLICT REPLACE,"
-                    + BitCarrierSilverstoneSketch.COLUMN_CREATION_TIME + " INTEGER"
-                    + ");";
+                    + ") ON CONFLICT IGNORE);";
     public static final String CREATE_BIT_CARRIER_NODE_TABLE =
             "CREATE TABLE IF NOT EXISTS " + BitCarrierSilverstoneNode.TABLE_NAME + " ("
                     + BitCarrierSilverstoneNode._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -40,10 +42,12 @@ public class BcsContract {
                     + BitCarrierSilverstoneNode.COLUMN_CUSTOMER_NAME + " TEXT,"
                     + BitCarrierSilverstoneNode.COLUMN_LATITUDE + " REAL,"
                     + BitCarrierSilverstoneNode.COLUMN_LONGITUDE + " REAL,"
+                    + BitCarrierSilverstoneNode.COLUMN_CIN_ID + " TEXT,"
+                    + BitCarrierSilverstoneNode.COLUMN_CREATION_TIME + " INTEGER,"
+                    + "UNIQUE ("
+                    + BitCarrierSilverstoneNode.COLUMN_NODE_ID + ","
                     + BitCarrierSilverstoneNode.COLUMN_CIN_ID
-                    + " TEXT UNIQUE ON CONFLICT REPLACE,"
-                    + BitCarrierSilverstoneNode.COLUMN_CREATION_TIME + " INTEGER"
-                    + ");";
+                    + ") ON CONFLICT IGNORE);";
     public static final String CREATE_BIT_CARRIER_TRAVEL_SUMMARY_TABLE =
             "CREATE TABLE IF NOT EXISTS " + BitCarrierSilverstoneTravelSummary.TABLE_NAME + " ("
                     + BitCarrierSilverstoneTravelSummary._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -55,10 +59,12 @@ public class BcsContract {
                     + BitCarrierSilverstoneTravelSummary.COLUMN_SPEED + " REAL,"
                     + BitCarrierSilverstoneTravelSummary.COLUMN_ELAPSED + " REAL,"
                     + BitCarrierSilverstoneTravelSummary.COLUMN_TREND + " REAL,"
+                    + BitCarrierSilverstoneTravelSummary.COLUMN_CIN_ID + " TEXT,"
+                    + BitCarrierSilverstoneTravelSummary.COLUMN_CREATION_TIME + " INTEGER,"
+                    + "UNIQUE ("
+                    + BitCarrierSilverstoneTravelSummary.COLUMN_TRAVEL_SUMMARY_ID + ","
                     + BitCarrierSilverstoneTravelSummary.COLUMN_CIN_ID
-                    + " TEXT UNIQUE ON CONFLICT REPLACE,"
-                    + BitCarrierSilverstoneTravelSummary.COLUMN_CREATION_TIME + " INTEGER"
-                    + ");";
+                    + ") ON CONFLICT IGNORE);";
     public static final String CREATE_BIT_CARRIER_LATEST_TRAVEL_SUMMARY_TABLE =
             "CREATE VIEW IF NOT EXISTS " + BitCarrierSilverstoneLatestTravelSummary.TABLE_NAME
                     + " AS SELECT a.* FROM " + BitCarrierSilverstoneTravelSummary.TABLE_NAME
@@ -83,10 +89,12 @@ public class BcsContract {
                     + BitCarrierSilverstoneConfigVector.COLUMN_TO + " INTEGER,"
                     + BitCarrierSilverstoneConfigVector.COLUMN_DISTANCE + " INTEGER,"
                     + BitCarrierSilverstoneConfigVector.COLUMN_SKETCH_ID + " INTEGER,"
+                    + BitCarrierSilverstoneConfigVector.COLUMN_CIN_ID + " TEXT,"
+                    + BitCarrierSilverstoneConfigVector.COLUMN_CREATION_TIME + " INTEGER,"
+                    + "UNIQUE ("
+                    + BitCarrierSilverstoneConfigVector.COLUMN_VECTOR_ID + ","
                     + BitCarrierSilverstoneConfigVector.COLUMN_CIN_ID
-                    + " TEXT UNIQUE ON CONFLICT REPLACE,"
-                    + BitCarrierSilverstoneConfigVector.COLUMN_CREATION_TIME + " INTEGER"
-                    + ");";
+                    + ") ON CONFLICT IGNORE);";
     public static final String CREATE_BIT_CARRIER_DATA_VECTOR_TABLE =
             "CREATE TABLE IF NOT EXISTS " + BitCarrierSilverstoneDataVector.TABLE_NAME + " ("
                     + BitCarrierSilverstoneDataVector._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -95,10 +103,12 @@ public class BcsContract {
                     + BitCarrierSilverstoneDataVector.COLUMN_SPEED + " REAL,"
                     + BitCarrierSilverstoneDataVector.COLUMN_ELAPSED + " REAL,"
                     + BitCarrierSilverstoneDataVector.COLUMN_LEVEL_OF_SERVICE + " TEXT,"
+                    + BitCarrierSilverstoneDataVector.COLUMN_CIN_ID + " TEXT,"
+                    + BitCarrierSilverstoneDataVector.COLUMN_CREATION_TIME + " INTEGER,"
+                    + "UNIQUE ("
+                    + BitCarrierSilverstoneDataVector.COLUMN_VECTOR_ID + ","
                     + BitCarrierSilverstoneDataVector.COLUMN_CIN_ID
-                    + " TEXT UNIQUE ON CONFLICT REPLACE,"
-                    + BitCarrierSilverstoneDataVector.COLUMN_CREATION_TIME + " INTEGER"
-                    + ");";
+                    + ") ON CONFLICT IGNORE);";
     public static final String CREATE_BIT_CARRIER_LATEST_DATA_VECTOR_TABLE =
             "CREATE VIEW IF NOT EXISTS " + BitCarrierSilverstoneLatestDataVector.TABLE_NAME + " AS "
                     + "SELECT a.* FROM " + BitCarrierSilverstoneDataVector.TABLE_NAME + " AS a "
@@ -133,8 +143,8 @@ public class BcsContract {
         // The id is the bit before the hyphen.
         public static final String COLUMN_CUSTOMER_ID = "customer_id";
         public static final String COLUMN_CUSTOMER_NAME = "customer_name";
-        public static final String COLUMN_LATITUDE = "lat";
-        public static final String COLUMN_LONGITUDE = "lon";
+        public static final String COLUMN_LATITUDE = "latitude";
+        public static final String COLUMN_LONGITUDE = "longitude";
     }
 
     public static final class BitCarrierSilverstoneTravelSummary implements CommonBaseColumns {
