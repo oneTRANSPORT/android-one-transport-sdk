@@ -156,6 +156,11 @@ public class CvsProviderModule implements ProviderModule {
     }
 
     @Override
+    public int bulkInsert(int i, ContentValues[] contentValues, SQLiteDatabase sqLiteDatabase) {
+        return 0;
+    }
+
+    @Override
     public Uri insert(int match, ContentValues contentValues, SQLiteDatabase sqLiteDatabase) {
         long id;
         ContentResolver contentResolver = context.getContentResolver();
