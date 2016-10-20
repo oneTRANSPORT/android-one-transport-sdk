@@ -16,8 +16,8 @@
  */
 package net.uk.onetransport.android.modules.clearviewsilverstone.provider;
 
-import android.content.ContentProviderOperation;
 import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.OperationApplicationException;
 import android.database.Cursor;
@@ -53,26 +53,21 @@ public class CvsContentHelper extends CommonContentHelper {
                                                  @NonNull ArrayList<Device> devices)
             throws RemoteException, OperationApplicationException {
         if (devices.size() > 0) {
-            ArrayList<ContentProviderOperation> operationList = new ArrayList<>();
-            for (Device device : devices) {
-                ContentProviderOperation operation = ContentProviderOperation
-                        .newInsert(CvsProviderModule.DEVICE_URI)
-                        .withValue(ClearviewSilverstoneDevice.COLUMN_SENSOR_ID, device.getSensorId())
-                        .withValue(ClearviewSilverstoneDevice.COLUMN_TITLE, device.getTitle())
-                        .withValue(ClearviewSilverstoneDevice.COLUMN_DESCRIPTION, device.getDescription())
-                        .withValue(ClearviewSilverstoneDevice.COLUMN_TYPE, device.getType())
-                        .withValue(ClearviewSilverstoneDevice.COLUMN_LATITUDE, device.getLatitude())
-                        .withValue(ClearviewSilverstoneDevice.COLUMN_LONGITUDE, device.getLongitude())
-                        .withValue(ClearviewSilverstoneDevice.COLUMN_CHANGED, device.getChanged())
-                        .withValue(ClearviewSilverstoneDevice.COLUMN_CIN_ID, device.getCinId())
-                        .withValue(ClearviewSilverstoneDevice.COLUMN_CREATION_TIME,
-                                device.getCreationTime())
-                        .withYieldAllowed(true)
-                        .build();
-                operationList.add(operation);
+            ContentValues[] cvs = new ContentValues[devices.size()];
+            for (int i = 0; i < devices.size(); i++) {
+                cvs[i] = new ContentValues();
+                cvs[i].put(ClearviewSilverstoneDevice.COLUMN_SENSOR_ID, devices.get(i).getSensorId());
+                cvs[i].put(ClearviewSilverstoneDevice.COLUMN_TITLE, devices.get(i).getTitle());
+                cvs[i].put(ClearviewSilverstoneDevice.COLUMN_DESCRIPTION, devices.get(i).getDescription());
+                cvs[i].put(ClearviewSilverstoneDevice.COLUMN_TYPE, devices.get(i).getType());
+                cvs[i].put(ClearviewSilverstoneDevice.COLUMN_LATITUDE, devices.get(i).getLatitude());
+                cvs[i].put(ClearviewSilverstoneDevice.COLUMN_LONGITUDE, devices.get(i).getLongitude());
+                cvs[i].put(ClearviewSilverstoneDevice.COLUMN_CHANGED, devices.get(i).getChanged());
+                cvs[i].put(ClearviewSilverstoneDevice.COLUMN_CIN_ID, devices.get(i).getCinId());
+                cvs[i].put(ClearviewSilverstoneDevice.COLUMN_CREATION_TIME, devices.get(i).getCreationTime());
             }
             ContentResolver contentResolver = context.getContentResolver();
-            contentResolver.applyBatch(CvsProviderModule.AUTHORITY, operationList);
+            contentResolver.bulkInsert(CvsProviderModule.DEVICE_URI, cvs);
         }
     }
 
@@ -80,27 +75,24 @@ public class CvsContentHelper extends CommonContentHelper {
                                                        @NonNull ArrayList<TrafficGroup> trafficGroups)
             throws RemoteException, OperationApplicationException {
         if (trafficGroups.size() > 0) {
-            ArrayList<ContentProviderOperation> operationList = new ArrayList<>();
-            for (TrafficGroup trafficGroup : trafficGroups) {
-                int sensorId = trafficGroup.getSensorId();
-                Traffic[] traffic = trafficGroup.getTraffic();
-                for (Traffic trafficItem : traffic) {
-                    ContentProviderOperation operation = ContentProviderOperation
-                            .newInsert(CvsProviderModule.TRAFFIC_URI)
-                            .withValue(ClearviewSilverstoneTraffic.COLUMN_SENSOR_ID, sensorId)
-                            .withValue(ClearviewSilverstoneTraffic.COLUMN_DIRECTION, trafficItem.getDirection())
-                            .withValue(ClearviewSilverstoneTraffic.COLUMN_LANE, trafficItem.getTime())
-                            .withValue(ClearviewSilverstoneTraffic.COLUMN_TIMESTAMP, trafficItem.getTime())
-                            .withValue(ClearviewSilverstoneTraffic.COLUMN_CIN_ID, trafficGroup.getCinId())
-                            .withValue(ClearviewSilverstoneTraffic.COLUMN_CREATION_TIME,
-                                    trafficGroup.getCreationTime())
-                            .withYieldAllowed(true)
-                            .build();
-                    operationList.add(operation);
+            ArrayList<ContentValues> cvs = new ArrayList<>();
+            for (int i = 0; i < trafficGroups.size(); i++) {
+                int sensorId = trafficGroups.get(i).getSensorId();
+                Traffic[] traffic = trafficGroups.get(i).getTraffic();
+                for (int j = 0; j < traffic.length; j++) {
+                    ContentValues cv = new ContentValues();
+                    cvs.add(cv);
+                    cv.put(ClearviewSilverstoneTraffic.COLUMN_SENSOR_ID, sensorId);
+                    cv.put(ClearviewSilverstoneTraffic.COLUMN_DIRECTION, traffic[j].getDirection());
+                    cv.put(ClearviewSilverstoneTraffic.COLUMN_LANE, traffic[j].getTime());
+                    cv.put(ClearviewSilverstoneTraffic.COLUMN_TIMESTAMP, traffic[j].getTime());
+                    cv.put(ClearviewSilverstoneTraffic.COLUMN_CIN_ID, trafficGroups.get(i).getCinId());
+                    cv.put(ClearviewSilverstoneTraffic.COLUMN_CREATION_TIME, trafficGroups.get(i).getCreationTime());
                 }
             }
             ContentResolver contentResolver = context.getContentResolver();
-            contentResolver.applyBatch(CvsProviderModule.AUTHORITY, operationList);
+            contentResolver.bulkInsert(CvsProviderModule.TRAFFIC_URI,
+                    cvs.toArray(new ContentValues[cvs.size()]));
         }
     }
 

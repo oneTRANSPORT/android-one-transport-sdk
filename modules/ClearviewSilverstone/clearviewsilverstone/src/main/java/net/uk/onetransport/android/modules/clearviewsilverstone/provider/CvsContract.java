@@ -19,7 +19,6 @@ package net.uk.onetransport.android.modules.clearviewsilverstone.provider;
 import net.uk.onetransport.android.modules.common.provider.CommonBaseColumns;
 
 public class CvsContract {
-// TODO    Check all indexes and accumulation of data.
     public static final String CREATE_CLEARVIEW_SILVERSTONE_DEVICE_TABLE =
             "CREATE TABLE IF NOT EXISTS " + ClearviewSilverstoneDevice.TABLE_NAME + " ("
                     + ClearviewSilverstoneDevice._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -30,10 +29,12 @@ public class CvsContract {
                     + ClearviewSilverstoneDevice.COLUMN_LATITUDE + " REAL,"
                     + ClearviewSilverstoneDevice.COLUMN_LONGITUDE + " REAL,"
                     + ClearviewSilverstoneDevice.COLUMN_CHANGED + " TEXT,"
+                    + ClearviewSilverstoneDevice.COLUMN_CIN_ID + " TEXT NOT NULL,"
+                    + ClearviewSilverstoneDevice.COLUMN_CREATION_TIME + " INTEGER,"
+                    + "UNIQUE ("
+                    + ClearviewSilverstoneDevice.COLUMN_SENSOR_ID + ","
                     + ClearviewSilverstoneDevice.COLUMN_CIN_ID
-                    + " TEXT NOT NULL UNIQUE ON CONFLICT REPLACE,"
-                    + ClearviewSilverstoneDevice.COLUMN_CREATION_TIME + " INTEGER"
-                    + ");";
+                    + ") ON CONFLICT IGNORE);";
     public static final String CREATE_CLEARVIEW_SILVERSTONE_LATEST_DEVICE_TABLE =
             "CREATE VIEW IF NOT EXISTS " + ClearviewSilverstoneLatestDevice.TABLE_NAME
                     + " AS SELECT a.* FROM " + ClearviewSilverstoneDevice.TABLE_NAME
@@ -55,9 +56,12 @@ public class CvsContract {
                     + ClearviewSilverstoneTraffic.COLUMN_TIMESTAMP + " TEXT,"
                     + ClearviewSilverstoneTraffic.COLUMN_LANE + " INTEGER,"
                     + ClearviewSilverstoneTraffic.COLUMN_DIRECTION + " BOOLEAN,"
-                    + ClearviewSilverstoneDevice.COLUMN_CIN_ID + " TEXT,"
-                    + ClearviewSilverstoneDevice.COLUMN_CREATION_TIME + " INTEGER"
-                    + ");";
+                    + ClearviewSilverstoneTraffic.COLUMN_CIN_ID + " TEXT,"
+                    + ClearviewSilverstoneTraffic.COLUMN_CREATION_TIME + " INTEGER,"
+                    + "UNIQUE ("
+                    + ClearviewSilverstoneTraffic.COLUMN_SENSOR_ID + ","
+                    + ClearviewSilverstoneTraffic.COLUMN_CIN_ID
+                    + ") ON CONFLICT IGNORE);";
     public static final String CREATE_CLEARVIEW_SILVERSTONE_LATEST_TRAFFIC_TABLE =
             "CREATE VIEW IF NOT EXISTS " + ClearviewSilverstoneLatestTraffic.TABLE_NAME
                     + " AS SELECT a.* FROM " + ClearviewSilverstoneTraffic.TABLE_NAME

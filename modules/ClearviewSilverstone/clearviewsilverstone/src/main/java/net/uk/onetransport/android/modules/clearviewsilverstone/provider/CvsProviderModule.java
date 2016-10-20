@@ -26,6 +26,7 @@ import android.content.SyncResult;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteStatement;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -42,8 +43,8 @@ import java.util.ArrayList;
 
 import static net.uk.onetransport.android.modules.clearviewsilverstone.provider.CvsContract.ClearviewSilverstoneDevice;
 import static net.uk.onetransport.android.modules.clearviewsilverstone.provider.CvsContract.ClearviewSilverstoneLatestDevice;
-import static net.uk.onetransport.android.modules.clearviewsilverstone.provider.CvsContract.ClearviewSilverstoneTraffic;
 import static net.uk.onetransport.android.modules.clearviewsilverstone.provider.CvsContract.ClearviewSilverstoneLatestTraffic;
+import static net.uk.onetransport.android.modules.clearviewsilverstone.provider.CvsContract.ClearviewSilverstoneTraffic;
 
 public class CvsProviderModule implements ProviderModule {
 
@@ -156,8 +157,125 @@ public class CvsProviderModule implements ProviderModule {
     }
 
     @Override
-    public int bulkInsert(int i, ContentValues[] contentValues, SQLiteDatabase sqLiteDatabase) {
-        return 0;
+    public int bulkInsert(int match, ContentValues[] contentValues, SQLiteDatabase sqLiteDatabase) {
+        ContentResolver contentResolver = context.getContentResolver();
+        int numInserted = 0;
+        if (match == DEVICES) {
+            sqLiteDatabase.beginTransaction();
+            try {
+                SQLiteStatement insert = sqLiteDatabase.compileStatement(
+                        "INSERT INTO " + ClearviewSilverstoneDevice.TABLE_NAME + "("
+                                + ClearviewSilverstoneDevice.COLUMN_SENSOR_ID + ","
+                                + ClearviewSilverstoneDevice.COLUMN_TITLE + ","
+                                + ClearviewSilverstoneDevice.COLUMN_DESCRIPTION + ","
+                                + ClearviewSilverstoneDevice.COLUMN_TYPE + ","
+                                + ClearviewSilverstoneDevice.COLUMN_LATITUDE + ","
+                                + ClearviewSilverstoneDevice.COLUMN_LONGITUDE + ","
+                                + ClearviewSilverstoneDevice.COLUMN_CHANGED + ","
+                                + ClearviewSilverstoneDevice.COLUMN_CIN_ID + ","
+                                + ClearviewSilverstoneDevice.COLUMN_CREATION_TIME
+                                + ") VALUES " + "(?,?,?,?,?,?,?,?,?);");
+                for (ContentValues value : contentValues) {
+                    Long sensorId = value.getAsLong(ClearviewSilverstoneDevice.COLUMN_SENSOR_ID);
+                    String title = value.getAsString(ClearviewSilverstoneDevice.COLUMN_TITLE);
+                    String description = value.getAsString(ClearviewSilverstoneDevice.COLUMN_DESCRIPTION);
+                    String type = value.getAsString(ClearviewSilverstoneDevice.COLUMN_TYPE);
+                    Double latitude = value.getAsDouble(ClearviewSilverstoneDevice.COLUMN_LATITUDE);
+                    Double longitude = value.getAsDouble(ClearviewSilverstoneDevice.COLUMN_LONGITUDE);
+                    String changed = value.getAsString(ClearviewSilverstoneDevice.COLUMN_CHANGED);
+                    String cinId = value.getAsString(ClearviewSilverstoneDevice.COLUMN_CIN_ID);
+                    Long creationTime = value.getAsLong(ClearviewSilverstoneDevice.COLUMN_CREATION_TIME);
+                    if (sensorId != null) {
+                        insert.bindLong(1, sensorId);
+                    }
+                    if (title != null) {
+                        insert.bindString(2, title);
+                    }
+                    if (description != null) {
+                        insert.bindString(3, description);
+                    }
+                    if (type != null) {
+                        insert.bindString(4, type);
+                    }
+                    if (latitude != null) {
+                        insert.bindDouble(5, latitude);
+                    }
+                    if (longitude != null) {
+                        insert.bindDouble(6, longitude);
+                    }
+                    if (changed != null) {
+                        insert.bindString(7, changed);
+                    }
+                    if (cinId != null) {
+                        insert.bindString(8, cinId);
+                    }
+                    if (creationTime != null) {
+                        insert.bindLong(9, creationTime);
+                    }
+                    insert.executeInsert();
+                    insert.clearBindings();
+                }
+                sqLiteDatabase.setTransactionSuccessful();
+                numInserted = contentValues.length;
+                contentResolver.notifyChange(DEVICE_URI, null);
+            } finally {
+                sqLiteDatabase.endTransaction();
+            }
+            return numInserted;
+        }
+        if (match == LATEST_DEVICES) {
+            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed));
+        }
+        if (match == TRAFFIC) {
+            sqLiteDatabase.beginTransaction();
+            try {
+                SQLiteStatement insert = sqLiteDatabase.compileStatement(
+                        "INSERT INTO " + ClearviewSilverstoneDevice.TABLE_NAME + "("
+                                + ClearviewSilverstoneTraffic.COLUMN_SENSOR_ID + ","
+                                + ClearviewSilverstoneTraffic.COLUMN_TIMESTAMP + ","
+                                + ClearviewSilverstoneTraffic.COLUMN_LANE + ","
+                                + ClearviewSilverstoneTraffic.COLUMN_DIRECTION + ","
+                                + ClearviewSilverstoneTraffic.COLUMN_CIN_ID + ","
+                                + ClearviewSilverstoneTraffic.COLUMN_CREATION_TIME
+                                + ") VALUES " + "(?,?,?,?,?,?);");
+                for (ContentValues value : contentValues) {
+                    Long sensorId = value.getAsLong(ClearviewSilverstoneTraffic.COLUMN_SENSOR_ID);
+                    String timestamp = value.getAsString(ClearviewSilverstoneTraffic.COLUMN_TIMESTAMP);
+                    Long lane = value.getAsLong(ClearviewSilverstoneTraffic.COLUMN_LANE);
+                    Long direction = value.getAsLong(ClearviewSilverstoneTraffic.COLUMN_DIRECTION);
+                    String cinId = value.getAsString(ClearviewSilverstoneTraffic.COLUMN_CIN_ID);
+                    Long creationTime = value.getAsLong(ClearviewSilverstoneTraffic.COLUMN_CREATION_TIME);
+                    if (sensorId != null) {
+                        insert.bindLong(1, sensorId);
+                    }
+                    if (timestamp != null) {
+                        insert.bindString(2, timestamp);
+                    }
+                    if (lane != null) {
+                        insert.bindLong(3, lane);
+                    }
+                    if (direction != null) {
+                        insert.bindLong(4, direction);
+                    }
+                    if (cinId != null) {
+                        insert.bindString(5, cinId);
+                    }
+                    if (creationTime != null) {
+                        insert.bindLong(6, creationTime);
+                    }
+                    sqLiteDatabase.setTransactionSuccessful();
+                    numInserted = contentValues.length;
+                    contentResolver.notifyChange(TRAFFIC_URI, null);
+                }
+            } finally {
+                sqLiteDatabase.endTransaction();
+            }
+            return numInserted;
+        }
+        if (match == LATEST_TRAFFIC) {
+            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed));
+        }
+        return numInserted;
     }
 
     @Override
@@ -186,7 +304,8 @@ public class CvsProviderModule implements ProviderModule {
     }
 
     @Override
-    public Cursor query(Uri uri, int match, String[] projection, String selection, String[] selectionArgs,
+    public Cursor query(Uri uri, int match, String[] projection, String selection, String[]
+            selectionArgs,
                         String sortOrder, SQLiteDatabase sqLiteDatabase) {
         ContentResolver contentResolver = context.getContentResolver();
         if (match == DEVICES) {
@@ -245,7 +364,8 @@ public class CvsProviderModule implements ProviderModule {
     }
 
     @Override
-    public int update(Uri uri, int match, ContentValues values, String selection, String[] selectionArgs,
+    public int update(Uri uri, int match, ContentValues values, String selection, String[]
+            selectionArgs,
                       SQLiteDatabase sqLiteDatabase) {
         ContentResolver contentResolver = context.getContentResolver();
         if (match == DEVICES) {
@@ -292,7 +412,8 @@ public class CvsProviderModule implements ProviderModule {
     }
 
     @Override
-    public int delete(int match, String selection, String[] selectionArgs, SQLiteDatabase sqLiteDatabase) {
+    public int delete(int match, String selection, String[] selectionArgs, SQLiteDatabase
+            sqLiteDatabase) {
         ContentResolver contentResolver = context.getContentResolver();
         int rows = 0;
         if (match == DEVICES) {
