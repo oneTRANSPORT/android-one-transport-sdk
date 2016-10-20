@@ -24,9 +24,13 @@ import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
 
 public abstract class OneTransportTest {
 
-    public static final String CLIENT_AE_ID = "C-Y249T25lVHJhbnNwb3J0VGVzdCxvdT1yb290";
-    public static final String TOKEN = "010FYzsgPMbnxKRn";
-    public static final String CSE_BASE = "cse-01.onetransport.uk.net";
+    // Dev.
+//    public static final String CLIENT_AE_ID = "C-Y249T25lVHJhbnNwb3J0VGVzdCxvdT1yb290";
+//    public static final String TOKEN = "010FYzsgPMbnxKRn";
+    // Staging.
+    public static final String CLIENT_AE_ID = "C-Y249YW5kcm9pZC1vbmUtdHJhbnNwb3J0LXRlc3RzLG91PXJvb3Q";
+    public static final String TOKEN ="01i3fe7t02ASLEpN";
+    public static final String CSE_BASE = "staging.onetransport.uk.net";
     public static final String CSE_NAME = "ONETCSE01";
 
     public static final String BASE_URL = "https://" + CSE_BASE + "/";
