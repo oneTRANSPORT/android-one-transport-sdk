@@ -222,7 +222,6 @@ import net.uk.onetransport.android.test.onetransporttest.tests.oxon.vms.OxonVari
 public class TestList {
 
     public OneTransportTest[] oneTransportTests = {
-//            new ApplicationEntityCreateTest(),
             // Buckinghamshire.
             new BucksCarParkRetrieveTest(),
             new BucksEventRetrieveTest(),
@@ -458,7 +457,5 @@ public class TestList {
             new BcsSketchQueryTest(),
             new BcsSketchIntervalQueryTest(),
             new BcsSyncAdapterTest(),
-
-//            new ApplicationEntityDeleteTest()
     };
 }

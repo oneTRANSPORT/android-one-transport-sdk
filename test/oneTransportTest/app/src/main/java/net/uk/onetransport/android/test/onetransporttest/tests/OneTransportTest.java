@@ -24,8 +24,9 @@ import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
 
 public abstract class OneTransportTest {
 
-    public static final String CLIENT_AE_ID = "C-Y249T25lVHJhbnNwb3J0VGVzdCxvdT1yb290";
-    public static final String TOKEN = "010FYzsgPMbnxKRn";
+
+    public static final String CLIENT_AE_ID = "C-Y249b25lLXRyYW5zcG9ydC1zZGstdGVzdCxvdT1yb290";
+    public static final String TOKEN = "01s8cyb6AfkMO82U";
     public static final String CSE_BASE = "cse-01.onetransport.uk.net";
     public static final String CSE_NAME = "ONETCSE01";
 
@@ -35,12 +36,7 @@ public abstract class OneTransportTest {
     public static final int COLOUR_NOT_IMPLEMENTED = 0xffcc80ff;
     public static final int COLOUR_FAILED = 0xffff8080;
 
-    //    String AE_ID = "C-ONETRANSPORT-TEST";
     public static final String APP_NAME = "C-ONETRANSPORT-TEST-APP";
-
-//    String NAME = "ONETRANSPORT-TEST";
-//    String APPLICATION_ID = "C-ONETRANSPORT-TEST-APP-ID";
-//    String BASE_URL_CSE = BASE_URL + CSE_NAME + "/";
 
     public boolean adapterFinished = false;
 

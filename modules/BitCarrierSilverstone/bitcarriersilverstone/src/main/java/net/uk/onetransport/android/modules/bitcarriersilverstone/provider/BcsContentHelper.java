@@ -133,6 +133,7 @@ public class BcsContentHelper extends CommonContentHelper {
             ContentValues[] cvs = new ContentValues[vectors.size()];
             for (int i = 0; i < vectors.size(); i++) {
                 cvs[i] = new ContentValues();
+                cvs[i].put(BitCarrierSilverstoneDataVector.COLUMN_VECTOR_ID, vectors.get(i).getVectorId());
                 Details details = vectors.get(i).getAverageDetails();
                 if (details != null) {
                     Stat stat = details.getPublish();
@@ -140,11 +141,11 @@ public class BcsContentHelper extends CommonContentHelper {
                         cvs[i].put(BitCarrierSilverstoneDataVector.COLUMN_ELAPSED, stat.getElapsed());
                         cvs[i].put(BitCarrierSilverstoneDataVector.COLUMN_SPEED, stat.getSpeed());
                     }
-                    cvs[i].put(BitCarrierSilverstoneDataVector.COLUMN_LEVEL_OF_SERVICE, vectors.get(i).getLevelOfService());
-                    cvs[i].put(BitCarrierSilverstoneDataVector.COLUMN_TIMESTAMP, vectors.get(i).getTimestamp());
-                    cvs[i].put(BitCarrierSilverstoneDataVector.COLUMN_CIN_ID, vectors.get(i).getCinId());
-                    cvs[i].put(BitCarrierSilverstoneDataVector.COLUMN_CREATION_TIME, vectors.get(i).getCreationTime());
                 }
+                cvs[i].put(BitCarrierSilverstoneDataVector.COLUMN_LEVEL_OF_SERVICE, vectors.get(i).getLevelOfService());
+                cvs[i].put(BitCarrierSilverstoneDataVector.COLUMN_TIMESTAMP, vectors.get(i).getTimestamp());
+                cvs[i].put(BitCarrierSilverstoneDataVector.COLUMN_CIN_ID, vectors.get(i).getCinId());
+                cvs[i].put(BitCarrierSilverstoneDataVector.COLUMN_CREATION_TIME, vectors.get(i).getCreationTime());
             }
             ContentResolver contentResolver = context.getContentResolver();
             contentResolver.bulkInsert(BcsProviderModule.DATA_VECTOR_URI, cvs);
@@ -158,6 +159,8 @@ public class BcsContentHelper extends CommonContentHelper {
             ContentValues[] cvs = new ContentValues[travelSummaries.size()];
             for (int i = 0; i < travelSummaries.size(); i++) {
                 cvs[i] = new ContentValues();
+                cvs[i].put(BitCarrierSilverstoneTravelSummary.COLUMN_CLOCK_TIME,
+                        travelSummaries.get(i).getTime());
                 if (travelSummaries.get(i).getTravelTimes() != null) {
                     // TODO   We assume the array only has one entry.  Otherwise problem.
                     TravelTime travelTime = travelSummaries.get(i).getTravelTimes()[0];

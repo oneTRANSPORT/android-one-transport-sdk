@@ -46,12 +46,12 @@ public class CvsDeviceIntervalQueryTest extends OneTransportTest {
         Device[] devices = CvsContentHelper.getDevices(runnerTask.getContext(), oldest, newest);
         if (cursor != null) {
             if (cursor.getCount() > 0 && cursor.getCount() == devices.length) {
-                runnerTask.report("Cvs device interval query ... PASSED.", COLOUR_PASSED);
+                runnerTask.report("CVS device interval query ... PASSED.", COLOUR_PASSED);
                 cursor.close();
                 return;
             }
             cursor.close();
         }
-        runnerTask.report("Cvs device interval query ... FAILED.", COLOUR_FAILED);
+        runnerTask.report("CVS device interval query ... FAILED.", COLOUR_FAILED);
     }
 }
