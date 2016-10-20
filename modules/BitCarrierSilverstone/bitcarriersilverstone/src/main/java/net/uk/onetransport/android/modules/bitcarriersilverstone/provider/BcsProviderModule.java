@@ -317,28 +317,28 @@ public class BcsProviderModule implements ProviderModule {
                         insert.bindString(2, clockTime);
                     }
                     if (fromLocation != null) {
-                        insert.bindString(4, fromLocation);
+                        insert.bindString(3, fromLocation);
                     }
                     if (toLocation != null) {
-                        insert.bindString(5, toLocation);
+                        insert.bindString(4, toLocation);
                     }
                     if (score != null) {
-                        insert.bindDouble(6, score);
+                        insert.bindDouble(5, score);
                     }
                     if (speed != null) {
-                        insert.bindDouble(7, speed);
+                        insert.bindDouble(6, speed);
                     }
                     if (elapsed != null) {
-                        insert.bindDouble(8, elapsed);
+                        insert.bindDouble(7, elapsed);
                     }
                     if (trend != null) {
-                        insert.bindDouble(9, trend);
+                        insert.bindDouble(8, trend);
                     }
                     if (cinId != null) {
-                        insert.bindString(10, cinId);
+                        insert.bindString(9, cinId);
                     }
                     if (creationTime != null) {
-                        insert.bindLong(11, creationTime);
+                        insert.bindLong(10, creationTime);
                     }
                     insert.executeInsert();
                     insert.clearBindings();
