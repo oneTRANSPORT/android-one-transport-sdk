@@ -230,6 +230,59 @@ public class BcsProviderModule implements ProviderModule {
     public int bulkInsert(int match, ContentValues[] contentValues, SQLiteDatabase sqLiteDatabase) {
         ContentResolver contentResolver = context.getContentResolver();
         int numInserted = 0;
+        if (match == SKETCHES) {
+            sqLiteDatabase.beginTransaction();
+            try {
+                SQLiteStatement insert = sqLiteDatabase.compileStatement(
+                        "INSERT INTO " + BitCarrierSilverstoneSketch.TABLE_NAME + "("
+                                + BitCarrierSilverstoneSketch.COLUMN_SKETCH_ID + ","
+                                + BitCarrierSilverstoneSketch.COLUMN_VECTOR_ID + ","
+                                + BitCarrierSilverstoneSketch.COLUMN_VISIBLE + ","
+                                + BitCarrierSilverstoneSketch.COLUMN_COPYRIGHTS + ","
+                                + BitCarrierSilverstoneSketch.COLUMN_COORDINATES + ","
+                                + BitCarrierSilverstoneSketch.COLUMN_CIN_ID + ","
+                                + BitCarrierSilverstoneSketch.COLUMN_CREATION_TIME
+                                + ") VALUES " + "(?,?,?,?,?,?,?);");
+                for (ContentValues value : contentValues) {
+                    Integer sketchId = value.getAsInteger(BitCarrierSilverstoneSketch.COLUMN_SKETCH_ID);
+                    Integer vectorId = value.getAsInteger(BitCarrierSilverstoneSketch.COLUMN_VECTOR_ID);
+                    Integer visible = value.getAsInteger(BitCarrierSilverstoneSketch.COLUMN_VISIBLE);
+                    String copyrights = value.getAsString(BitCarrierSilverstoneSketch.COLUMN_COPYRIGHTS);
+                    String coordinates = value.getAsString(BitCarrierSilverstoneSketch.COLUMN_COORDINATES);
+                    String cinId = value.getAsString(BitCarrierSilverstoneSketch.COLUMN_CIN_ID);
+                    Long creationTime = value.getAsLong(BitCarrierSilverstoneSketch.COLUMN_CREATION_TIME);
+                    if (sketchId != null) {
+                        insert.bindLong(1, sketchId);
+                    }
+                    if (vectorId != null) {
+                        insert.bindLong(2, vectorId);
+                    }
+                    if (visible != null) {
+                        insert.bindLong(3, visible);
+                    }
+                    if (copyrights != null) {
+                        insert.bindString(4, copyrights);
+                    }
+                    if (coordinates != null) {
+                        insert.bindString(5, coordinates);
+                    }
+                    if (cinId != null) {
+                        insert.bindString(6, cinId);
+                    }
+                    if (creationTime != null) {
+                        insert.bindLong(7, creationTime);
+                    }
+                    insert.executeInsert();
+                    insert.clearBindings();
+                }
+                sqLiteDatabase.setTransactionSuccessful();
+                numInserted = contentValues.length;
+                contentResolver.notifyChange(NODE_URI, null);
+            } finally {
+                sqLiteDatabase.endTransaction();
+            }
+            return numInserted;
+        }
         if (match == NODES) {
             sqLiteDatabase.beginTransaction();
             try {
@@ -519,7 +572,8 @@ public class BcsProviderModule implements ProviderModule {
     }
 
     @Override
-    public Cursor query(Uri uri, int match, String[] projection, String selection, String[] selectionArgs,
+    public Cursor query(Uri uri, int match, String[] projection, String selection, String[]
+            selectionArgs,
                         String sortOrder, SQLiteDatabase sqLiteDatabase) {
         ContentResolver contentResolver = context.getContentResolver();
         if (match == SKETCHES) {
@@ -617,7 +671,8 @@ public class BcsProviderModule implements ProviderModule {
     }
 
     @Override
-    public int update(Uri uri, int match, ContentValues values, String selection, String[] selectionArgs,
+    public int update(Uri uri, int match, ContentValues values, String selection, String[]
+            selectionArgs,
                       SQLiteDatabase sqLiteDatabase) {
         ContentResolver contentResolver = context.getContentResolver();
         if (match == SKETCHES) {
@@ -700,7 +755,8 @@ public class BcsProviderModule implements ProviderModule {
     }
 
     @Override
-    public int delete(int match, String selection, String[] selectionArgs, SQLiteDatabase sqLiteDatabase) {
+    public int delete(int match, String selection, String[] selectionArgs, SQLiteDatabase
+            sqLiteDatabase) {
         ContentResolver contentResolver = context.getContentResolver();
         int rows = 0;
         if (match == SKETCHES) {
