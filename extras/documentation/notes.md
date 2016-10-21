@@ -1,7 +1,7 @@
 SDK docs outline
 ----------------
 
-oneTransport Android SDK: What data is available?
+oneTRANSPORT Android SDK: What data is available?
 
 Real time: Car parks, roadworks, traffic flow/queue/scoot/speed/travel time, VMS.
            Some of Bucks, Herts, Northants and Oxon.

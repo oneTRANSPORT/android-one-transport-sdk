@@ -1,7 +1,7 @@
 Retriever API
 =============
 
-Current feed data from oneTransport is made available through retriever
+Current feed data from oneTRANSPORT is made available through retriever
 objects that wrap HTTPS GET requests to the CSE.  These can be synchronous
 or asynchronous, with the async version using an AsyncTaskLoader to manage
 the background thread for you.

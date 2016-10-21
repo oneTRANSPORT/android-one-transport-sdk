@@ -3,7 +3,7 @@ Adding the SDK to your app
 
 ## Configure your Gradle build file
 
-The oneTransport SDK for Android is currently distributed as a set of AAR
+The oneTRANSPORT SDK for Android is currently distributed as a set of AAR
 libraries that you can add to your `app/libs` directory.
 
 In the `build.gradle` in your app module, add these lines to allow including
@@ -15,7 +15,7 @@ libraries from the `libs` directory:
             }
         }
 
-As well as including the oneTransport libraries, you will also need a few
+As well as including the oneTRANSPORT libraries, you will also need a few
 third-party packages.  Add these to your list of dependencies:
 
         compile 'com.interdigital.android:bucks-debug:1.0.0@aar'

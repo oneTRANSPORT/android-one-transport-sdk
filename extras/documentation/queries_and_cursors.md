@@ -35,7 +35,7 @@ resource types.
 
 If you are going to work with cursors, you need to know the SQL table
 structure so you can extract the columns you need.  Each module in the
-oneTransport SDK has a contract class that defines the SQL tables that module
+oneTRANSPORT SDK has a contract class that defines the SQL tables that module
 uses and also contains SQL commands to create the tables from scratch.
 
 The classes are:

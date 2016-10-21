@@ -1,4 +1,4 @@
-oneTransport Android SDK
+oneTRANSPORT Android SDK
 ========================
 
 ## [What data is available?](available_data.html)
@@ -17,13 +17,13 @@ several AAR files to your projects and also third party libraries like
 
 ## [Retriever API](retrievers.html)
 For the latest road traffic data we provide a simple, no-frills retriever
-API that returns oneTransport resources as arrays of objects, either
+API that returns oneTRANSPORT resources as arrays of objects, either
 synchronously or in the background.
 
 ## [Local caching API](local_cache.html)
 To provide a better user experience, we also have a caching API that
 uses a SQLite database, content provider and sync adapter to store and
-update oneTransport resources locally.  This is what you will use to access
+update oneTRANSPORT resources locally.  This is what you will use to access
 historical data sets, but can also be used to build up a store of the
 latest road traffic resources.
 
@@ -36,7 +36,7 @@ resolver are possible of course.  Our content helper also returns cursors
 if you would prefer to inject those into adapter views.
 
 <!-- ## [Dougal---a oneM2M SDK](dougal.html)
-oneTransport is based on an implementation of the oneM2M standard called
+oneTRANSPORT is based on an implementation of the oneM2M standard called
 Dougal.  Lower level routines to access individual containers and content
 instances are available here. -->
 
