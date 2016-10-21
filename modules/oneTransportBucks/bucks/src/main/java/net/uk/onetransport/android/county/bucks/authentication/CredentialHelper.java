@@ -37,8 +37,6 @@ public class CredentialHelper {
         Prefs.putAeId(context, aeId);
         Prefs.putSessionToken(context, sessionToken);
         Prefs.putInstallationId(context, installationId);
-//        Resource.addInterceptors(context.getString(R.string.bucks_cse_base_url),
-//                new Interceptor[]{new AuthenticationInterceptor()});
     }
 
 //    public static String getBasicAuth(Context context) {

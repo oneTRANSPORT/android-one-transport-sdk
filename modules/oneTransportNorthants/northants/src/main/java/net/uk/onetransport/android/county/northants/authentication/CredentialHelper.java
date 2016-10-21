@@ -18,13 +18,9 @@ package net.uk.onetransport.android.county.northants.authentication;
 
 import android.content.Context;
 
-import com.interdigital.android.dougal.resource.Resource;
-
-import net.uk.onetransport.android.county.northants.R;
 import net.uk.onetransport.android.county.northants.storage.Prefs;
 
 import okhttp3.Credentials;
-import okhttp3.Interceptor;
 
 public class CredentialHelper {
 
@@ -37,8 +33,6 @@ public class CredentialHelper {
         Prefs.putAeId(context, aeId);
         Prefs.putSessionToken(context, sessionToken);
         Prefs.putInstallationId(context, installationId);
-        Resource.addInterceptors(context.getString(R.string.northants_cse_base_url),
-                new Interceptor[]{new AuthenticationInterceptor()});
     }
 
     public static String getBasicAuth(Context context) {
