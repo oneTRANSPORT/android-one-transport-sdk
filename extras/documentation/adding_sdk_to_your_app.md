@@ -50,4 +50,15 @@ package name in reverse will be fine, for example:
 
         <string name="sync_account_type">samplemapdataapp.android.interdigital.com</string>
 
+## Initialise credentials
 
+For each module that you want to use, you must inject credentials for
+accessing the CSE used by that module.  Currently all modules use the same
+CSE and therefore you should supply the same credentials to each.
+
+Your `AE_ID` and `TOKEN` are the ones you set up in the developer portal.
+Make the call to `initialiseCredentials` before you use the SDK:
+
+        CredentialHelper.initialiseCredentials(context, CLIENT_AE_ID, TOKEN, INSTALLATION_ID);
+
+The `INSTALLATION_ID` is currently unused, so any non-null string will work.

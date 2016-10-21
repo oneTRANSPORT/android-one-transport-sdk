@@ -2,7 +2,7 @@
 
 <h2>Configure your Gradle build file</h2>
 
-<p>The oneTransport SDK for Android is currently distributed as a set of AAR
+<p>The oneTRANSPORT SDK for Android is currently distributed as a set of AAR
 libraries that you can add to your <code>app/libs</code> directory.</p>
 
 <p>In the <code>build.gradle</code> in your app module, add these lines to allow including
@@ -15,7 +15,7 @@ libraries from the <code>libs</code> directory:</p>
     }
 </code></pre>
 
-<p>As well as including the oneTransport libraries, you will also need a few
+<p>As well as including the oneTRANSPORT libraries, you will also need a few
 third-party packages.  Add these to your list of dependencies:</p>
 
 <pre><code>    compile 'com.interdigital.android:bucks-debug:1.0.0@aar'
@@ -52,3 +52,17 @@ package name in reverse will be fine, for example:</p>
 
 <pre><code>    &lt;string name="sync_account_type"&gt;samplemapdataapp.android.interdigital.com&lt;/string&gt;
 </code></pre>
+
+<h2>Initialise credentials</h2>
+
+<p>For each module that you want to use, you must inject credentials for
+accessing the CSE used by that module.  Currently all modules use the same
+CSE and therefore you should supply the same credentials to each.</p>
+
+<p>Your <code>AE_ID</code> and <code>TOKEN</code> are the ones you set up in the developer portal.
+Make the call to <code>initialiseCredentials</code> before you use the SDK:</p>
+
+<pre><code>    CredentialHelper.initialiseCredentials(context, CLIENT_AE_ID, TOKEN, INSTALLATION_ID);
+</code></pre>
+
+<p>The <code>INSTALLATION_ID</code> is currently unused, so any non-null string will work.</p>
