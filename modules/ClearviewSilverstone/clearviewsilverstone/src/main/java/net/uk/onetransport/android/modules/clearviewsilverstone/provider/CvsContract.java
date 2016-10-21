@@ -22,7 +22,7 @@ public class CvsContract {
     public static final String CREATE_CLEARVIEW_SILVERSTONE_DEVICE_TABLE =
             "CREATE TABLE IF NOT EXISTS " + ClearviewSilverstoneDevice.TABLE_NAME + " ("
                     + ClearviewSilverstoneDevice._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-                    + ClearviewSilverstoneDevice.COLUMN_SENSOR_ID + " INTEGER,"
+                    + ClearviewSilverstoneDevice.COLUMN_SENSOR_ID + " INTEGER NOT NULL,"
                     + ClearviewSilverstoneDevice.COLUMN_TITLE + " TEXT,"
                     + ClearviewSilverstoneDevice.COLUMN_DESCRIPTION + " TEXT,"
                     + ClearviewSilverstoneDevice.COLUMN_TYPE + " TEXT,"
@@ -56,7 +56,7 @@ public class CvsContract {
                     + ClearviewSilverstoneTraffic.COLUMN_TIMESTAMP + " TEXT,"
                     + ClearviewSilverstoneTraffic.COLUMN_LANE + " INTEGER,"
                     + ClearviewSilverstoneTraffic.COLUMN_DIRECTION + " BOOLEAN,"
-                    + ClearviewSilverstoneTraffic.COLUMN_CIN_ID + " TEXT,"
+                    + ClearviewSilverstoneTraffic.COLUMN_CIN_ID + " TEXT NOT NULL,"
                     + ClearviewSilverstoneTraffic.COLUMN_CREATION_TIME + " INTEGER,"
                     + "UNIQUE ("
                     + ClearviewSilverstoneTraffic.COLUMN_SENSOR_ID + ","

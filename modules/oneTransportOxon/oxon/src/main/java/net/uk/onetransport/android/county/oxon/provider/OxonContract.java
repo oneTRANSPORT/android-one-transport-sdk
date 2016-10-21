@@ -63,7 +63,7 @@ public class OxonContract {
     public static final String CREATE_EVENT_TABLE =
             "CREATE TABLE IF NOT EXISTS " + OxonEvent.TABLE_NAME + " ("
                     + OxonEvent._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-                    + OxonEvent.COLUMN_ID + " TEXT,"
+                    + OxonEvent.COLUMN_ID + " TEXT NOT NULL,"
                     + OxonEvent.COLUMN_START_OF_PERIOD + " TEXT,"
                     + OxonEvent.COLUMN_END_OF_PERIOD + " TEXT,"
                     + OxonEvent.COLUMN_OVERALL_START_TIME + " TEXT,"

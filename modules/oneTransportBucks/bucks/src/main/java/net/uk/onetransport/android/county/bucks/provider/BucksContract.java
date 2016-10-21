@@ -63,7 +63,7 @@ public class BucksContract {
     public static final String CREATE_EVENT_TABLE =
             "CREATE TABLE IF NOT EXISTS " + BucksEvent.TABLE_NAME + " ("
                     + BucksEvent._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-                    + BucksEvent.COLUMN_ID + " TEXT,"
+                    + BucksEvent.COLUMN_ID + " TEXT NOT NULL,"
                     + BucksEvent.COLUMN_START_OF_PERIOD + " TEXT,"
                     + BucksEvent.COLUMN_END_OF_PERIOD + " TEXT,"
                     + BucksEvent.COLUMN_OVERALL_START_TIME + " TEXT,"

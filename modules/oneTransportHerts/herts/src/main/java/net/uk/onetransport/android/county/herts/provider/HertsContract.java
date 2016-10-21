@@ -63,7 +63,7 @@ public class HertsContract {
     public static final String CREATE_EVENT_TABLE =
             "CREATE TABLE IF NOT EXISTS " + HertsEvent.TABLE_NAME + " ("
                     + HertsEvent._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-                    + HertsEvent.COLUMN_ID + " TEXT,"
+                    + HertsEvent.COLUMN_ID + " TEXT NOT NULL,"
                     + HertsEvent.COLUMN_START_OF_PERIOD + " TEXT,"
                     + HertsEvent.COLUMN_END_OF_PERIOD + " TEXT,"
                     + HertsEvent.COLUMN_OVERALL_START_TIME + " TEXT,"
