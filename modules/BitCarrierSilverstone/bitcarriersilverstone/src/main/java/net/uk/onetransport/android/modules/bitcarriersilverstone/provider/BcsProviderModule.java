@@ -352,7 +352,8 @@ public class BcsProviderModule implements ProviderModule {
             return numInserted;
         }
         if (match == LATEST_TRAVEL_SUMMARIES) {
-            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed)
+                    + BitCarrierSilverstoneLatestTravelSummary.TABLE_NAME);
         }
         if (match == DATA_VECTORS) {
             sqLiteDatabase.beginTransaction();
@@ -408,7 +409,8 @@ public class BcsProviderModule implements ProviderModule {
             return numInserted;
         }
         if (match == LATEST_DATA_VECTORS) {
-            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed)
+                    + BitCarrierSilverstoneLatestDataVector.TABLE_NAME);
         }
         if (match == CONFIG_VECTORS) {
             sqLiteDatabase.beginTransaction();

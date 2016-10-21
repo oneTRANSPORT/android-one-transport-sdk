@@ -362,7 +362,8 @@ public class NorthantsProviderModule implements ProviderModule {
             return numInserted;
         }
         if (match == LATEST_CAR_PARKS) {
-            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed)
+                    + NorthantsLatestCarPark.TABLE_NAME);
         }
         if (match == ROADWORKS) {
             sqLiteDatabase.beginTransaction();
@@ -453,7 +454,8 @@ public class NorthantsProviderModule implements ProviderModule {
             return numInserted;
         }
         if (match == LATEST_ROADWORKS) {
-            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed)
+                    + NorthantsLatestRoadworks.TABLE_NAME);
         }
         if (match == TRAFFIC_FLOWS) {
             sqLiteDatabase.beginTransaction();
@@ -544,7 +546,8 @@ public class NorthantsProviderModule implements ProviderModule {
             return numInserted;
         }
         if (match == LATEST_TRAFFIC_FLOWS) {
-            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed)
+                    + NorthantsLatestTrafficFlow.TABLE_NAME);
         }
         if (match == TRAFFIC_TRAVEL_TIMES) {
             sqLiteDatabase.beginTransaction();
@@ -645,7 +648,8 @@ public class NorthantsProviderModule implements ProviderModule {
             return numInserted;
         }
         if (match == LATEST_TRAFFIC_TRAVEL_TIMES) {
-            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed)
+                    + NorthantsLatestTrafficTravelTime.TABLE_NAME);
         }
         if (match == VARIABLE_MESSAGE_SIGNS) {
             sqLiteDatabase.beginTransaction();
@@ -716,11 +720,12 @@ public class NorthantsProviderModule implements ProviderModule {
             return numInserted;
         }
         if (match == LATEST_VARIABLE_MESSAGE_SIGNS) {
-            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed)
+                    + NorthantsLatestVariableMessageSign.TABLE_NAME);
         }
         return numInserted;
     }
-    
+
     @Override
     public Uri insert(int match, ContentValues contentValues, SQLiteDatabase sqLiteDatabase) {
         long id;
@@ -731,7 +736,8 @@ public class NorthantsProviderModule implements ProviderModule {
             return ContentUris.withAppendedId(CAR_PARK_URI, id);
         }
         if (match == LATEST_CAR_PARKS) {
-            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed)
+                    + NorthantsLatestCarPark.TABLE_NAME);
         }
         if (match == ROADWORKS) {
             id = sqLiteDatabase.insert(NorthantsRoadworks.TABLE_NAME, null, contentValues);
@@ -739,7 +745,8 @@ public class NorthantsProviderModule implements ProviderModule {
             return ContentUris.withAppendedId(ROADWORKS_URI, id);
         }
         if (match == LATEST_ROADWORKS) {
-            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed)
+                    + NorthantsLatestRoadworks.TABLE_NAME);
         }
         if (match == TRAFFIC_FLOWS) {
             id = sqLiteDatabase.insert(NorthantsTrafficFlow.TABLE_NAME, null, contentValues);
@@ -747,7 +754,8 @@ public class NorthantsProviderModule implements ProviderModule {
             return ContentUris.withAppendedId(TRAFFIC_FLOW_URI, id);
         }
         if (match == LATEST_TRAFFIC_FLOWS) {
-            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed)
+                    + NorthantsLatestTrafficFlow.TABLE_NAME);
         }
         if (match == TRAFFIC_TRAVEL_TIMES) {
             id = sqLiteDatabase.insert(NorthantsTrafficTravelTime.TABLE_NAME, null, contentValues);
@@ -755,7 +763,8 @@ public class NorthantsProviderModule implements ProviderModule {
             return ContentUris.withAppendedId(TRAFFIC_TRAVEL_TIME_URI, id);
         }
         if (match == LATEST_TRAFFIC_TRAVEL_TIMES) {
-            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed)
+                    + NorthantsLatestTrafficTravelTime.TABLE_NAME);
         }
         if (match == VARIABLE_MESSAGE_SIGNS) {
             id = sqLiteDatabase.insert(NorthantsVariableMessageSign.TABLE_NAME, null, contentValues);
@@ -763,7 +772,8 @@ public class NorthantsProviderModule implements ProviderModule {
             return ContentUris.withAppendedId(VARIABLE_MESSAGE_SIGN_URI, id);
         }
         if (match == LATEST_VARIABLE_MESSAGE_SIGNS) {
-            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed)
+                    + NorthantsLatestVariableMessageSign.TABLE_NAME);
         }
         return null;
     }
@@ -879,7 +889,8 @@ public class NorthantsProviderModule implements ProviderModule {
             return rows;
         }
         if (match == LATEST_CAR_PARKS) {
-            throw new IllegalArgumentException(context.getString(R.string.error_update_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_update_not_allowed)
+                    + NorthantsLatestCarPark.TABLE_NAME);
         }
         if (match == CAR_PARK_ID) {
             int rows = sqLiteDatabase.update(NorthantsCarPark.TABLE_NAME, values, NorthantsCarPark._ID + "=?",
@@ -893,7 +904,8 @@ public class NorthantsProviderModule implements ProviderModule {
             return rows;
         }
         if (match == LATEST_ROADWORKS) {
-            throw new IllegalArgumentException(context.getString(R.string.error_update_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_update_not_allowed)
+                    + NorthantsLatestRoadworks.TABLE_NAME);
         }
         if (match == ROADWORKS_ID) {
             int rows = sqLiteDatabase.update(NorthantsRoadworks.TABLE_NAME, values,
@@ -907,7 +919,8 @@ public class NorthantsProviderModule implements ProviderModule {
             return rows;
         }
         if (match == LATEST_TRAFFIC_FLOWS) {
-            throw new IllegalArgumentException(context.getString(R.string.error_update_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_update_not_allowed)
+                    + NorthantsLatestTrafficFlow.TABLE_NAME);
         }
         if (match == TRAFFIC_FLOW_ID) {
             int rows = sqLiteDatabase.update(NorthantsTrafficFlow.TABLE_NAME, values,
@@ -922,7 +935,8 @@ public class NorthantsProviderModule implements ProviderModule {
             return rows;
         }
         if (match == LATEST_TRAFFIC_TRAVEL_TIMES) {
-            throw new IllegalArgumentException(context.getString(R.string.error_update_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_update_not_allowed)
+                    + NorthantsLatestTrafficTravelTime.TABLE_NAME);
         }
         if (match == TRAFFIC_TRAVEL_TIME_ID) {
             int rows = sqLiteDatabase.update(NorthantsTrafficTravelTime.TABLE_NAME, values,
@@ -937,7 +951,8 @@ public class NorthantsProviderModule implements ProviderModule {
             return rows;
         }
         if (match == LATEST_VARIABLE_MESSAGE_SIGNS) {
-            throw new IllegalArgumentException(context.getString(R.string.error_update_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_update_not_allowed)
+                    + NorthantsLatestVariableMessageSign.TABLE_NAME);
         }
         if (match == VARIABLE_MESSAGE_SIGN_ID) {
             int rows = sqLiteDatabase.update(NorthantsVariableMessageSign.TABLE_NAME, values,
@@ -957,35 +972,40 @@ public class NorthantsProviderModule implements ProviderModule {
             contentResolver.notifyChange(CAR_PARK_URI, null);
         }
         if (match == LATEST_CAR_PARKS) {
-            throw new IllegalArgumentException(context.getString(R.string.error_delete_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_delete_not_allowed)
+                    + NorthantsLatestCarPark.TABLE_NAME);
         }
         if (match == ROADWORKS) {
             rows = sqLiteDatabase.delete(NorthantsRoadworks.TABLE_NAME, selection, selectionArgs);
             contentResolver.notifyChange(ROADWORKS_URI, null);
         }
         if (match == LATEST_ROADWORKS) {
-            throw new IllegalArgumentException(context.getString(R.string.error_delete_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_delete_not_allowed)
+                    + NorthantsLatestRoadworks.TABLE_NAME);
         }
         if (match == TRAFFIC_FLOWS) {
             rows = sqLiteDatabase.delete(NorthantsTrafficFlow.TABLE_NAME, selection, selectionArgs);
             contentResolver.notifyChange(TRAFFIC_FLOW_URI, null);
         }
         if (match == LATEST_TRAFFIC_FLOWS) {
-            throw new IllegalArgumentException(context.getString(R.string.error_delete_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_delete_not_allowed)
+                    + NorthantsLatestTrafficFlow.TABLE_NAME);
         }
         if (match == TRAFFIC_TRAVEL_TIMES) {
             rows = sqLiteDatabase.delete(NorthantsTrafficTravelTime.TABLE_NAME, selection, selectionArgs);
             contentResolver.notifyChange(TRAFFIC_TRAVEL_TIME_URI, null);
         }
         if (match == LATEST_TRAFFIC_TRAVEL_TIMES) {
-            throw new IllegalArgumentException(context.getString(R.string.error_delete_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_delete_not_allowed)
+                    + NorthantsLatestTrafficTravelTime.TABLE_NAME);
         }
         if (match == VARIABLE_MESSAGE_SIGNS) {
             rows = sqLiteDatabase.delete(NorthantsVariableMessageSign.TABLE_NAME, selection, selectionArgs);
             contentResolver.notifyChange(VARIABLE_MESSAGE_SIGN_URI, null);
         }
         if (match == LATEST_VARIABLE_MESSAGE_SIGNS) {
-            throw new IllegalArgumentException(context.getString(R.string.error_delete_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_delete_not_allowed)
+                    + NorthantsLatestVariableMessageSign.TABLE_NAME);
         }
         return rows;
     }

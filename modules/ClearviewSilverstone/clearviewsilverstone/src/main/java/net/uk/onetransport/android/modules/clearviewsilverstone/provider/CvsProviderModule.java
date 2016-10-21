@@ -224,7 +224,8 @@ public class CvsProviderModule implements ProviderModule {
             return numInserted;
         }
         if (match == LATEST_DEVICES) {
-            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed)
+                    + ClearviewSilverstoneLatestDevice.TABLE_NAME);
         }
         if (match == TRAFFIC) {
             sqLiteDatabase.beginTransaction();
@@ -273,7 +274,8 @@ public class CvsProviderModule implements ProviderModule {
             return numInserted;
         }
         if (match == LATEST_TRAFFIC) {
-            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed)
+                    + ClearviewSilverstoneLatestTraffic.TABLE_NAME);
         }
         return numInserted;
     }

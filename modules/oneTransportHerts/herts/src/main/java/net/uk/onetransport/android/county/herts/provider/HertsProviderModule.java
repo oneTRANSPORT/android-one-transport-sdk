@@ -466,7 +466,8 @@ public class HertsProviderModule implements ProviderModule {
             return numInserted;
         }
         if (match == LATEST_CAR_PARKS) {
-            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed)
+                    + HertsLatestCarPark.TABLE_NAME);
         }
         if (match == EVENTS) {
             sqLiteDatabase.beginTransaction();
@@ -547,7 +548,8 @@ public class HertsProviderModule implements ProviderModule {
             return numInserted;
         }
         if (match == LATEST_EVENTS) {
-            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed)
+                    + HertsLatestEvent.TABLE_NAME);
         }
         if (match == ROADWORKS) {
             sqLiteDatabase.beginTransaction();
@@ -638,7 +640,8 @@ public class HertsProviderModule implements ProviderModule {
             return numInserted;
         }
         if (match == LATEST_ROADWORKS) {
-            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed)
+                    + HertsLatestRoadworks.TABLE_NAME);
         }
         if (match == TRAFFIC_FLOWS) {
             sqLiteDatabase.beginTransaction();
@@ -729,7 +732,8 @@ public class HertsProviderModule implements ProviderModule {
             return numInserted;
         }
         if (match == LATEST_TRAFFIC_FLOWS) {
-            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed)
+                    + HertsLatestTrafficFlow.TABLE_NAME);
         }
         if (match == TRAFFIC_SCOOTS) {
             sqLiteDatabase.beginTransaction();
@@ -845,7 +849,8 @@ public class HertsProviderModule implements ProviderModule {
             return numInserted;
         }
         if (match == LATEST_TRAFFIC_SCOOTS) {
-            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed)
+                    + HertsLatestTrafficScoot.TABLE_NAME);
         }
         if (match == TRAFFIC_SPEEDS) {
             sqLiteDatabase.beginTransaction();
@@ -936,7 +941,8 @@ public class HertsProviderModule implements ProviderModule {
             return numInserted;
         }
         if (match == LATEST_TRAFFIC_SPEEDS) {
-            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed)
+                    + HertsLatestTrafficSpeed.TABLE_NAME);
         }
         if (match == TRAFFIC_TRAVEL_TIMES) {
             sqLiteDatabase.beginTransaction();
@@ -1037,7 +1043,8 @@ public class HertsProviderModule implements ProviderModule {
             return numInserted;
         }
         if (match == LATEST_TRAFFIC_TRAVEL_TIMES) {
-            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed)
+                    + HertsLatestTrafficTravelTime.TABLE_NAME);
         }
         if (match == VARIABLE_MESSAGE_SIGNS) {
             sqLiteDatabase.beginTransaction();
@@ -1108,7 +1115,8 @@ public class HertsProviderModule implements ProviderModule {
             return numInserted;
         }
         if (match == LATEST_VARIABLE_MESSAGE_SIGNS) {
-            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed)
+                    + HertsLatestVariableMessageSign.TABLE_NAME);
         }
         return numInserted;
     }
@@ -1123,7 +1131,8 @@ public class HertsProviderModule implements ProviderModule {
             return ContentUris.withAppendedId(CAR_PARK_URI, id);
         }
         if (match == LATEST_CAR_PARKS) {
-            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed)
+                    + HertsLatestCarPark.TABLE_NAME);
         }
         if (match == EVENTS) {
             id = sqLiteDatabase.insert(HertsEvent.TABLE_NAME, null, contentValues);
@@ -1131,7 +1140,8 @@ public class HertsProviderModule implements ProviderModule {
             return ContentUris.withAppendedId(EVENT_URI, id);
         }
         if (match == LATEST_EVENTS) {
-            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed)
+                    + HertsLatestEvent.TABLE_NAME);
         }
         if (match == ROADWORKS) {
             id = sqLiteDatabase.insert(HertsRoadworks.TABLE_NAME, null, contentValues);
@@ -1139,7 +1149,8 @@ public class HertsProviderModule implements ProviderModule {
             return ContentUris.withAppendedId(ROADWORKS_URI, id);
         }
         if (match == LATEST_ROADWORKS) {
-            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed)
+                    + HertsLatestRoadworks.TABLE_NAME);
         }
         if (match == TRAFFIC_FLOWS) {
             id = sqLiteDatabase.insert(HertsTrafficFlow.TABLE_NAME, null, contentValues);
@@ -1147,7 +1158,8 @@ public class HertsProviderModule implements ProviderModule {
             return ContentUris.withAppendedId(TRAFFIC_FLOW_URI, id);
         }
         if (match == LATEST_TRAFFIC_FLOWS) {
-            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed)
+                    + HertsLatestTrafficFlow.TABLE_NAME);
         }
         if (match == TRAFFIC_SCOOTS) {
             id = sqLiteDatabase.insert(HertsTrafficScoot.TABLE_NAME, null, contentValues);
@@ -1155,7 +1167,8 @@ public class HertsProviderModule implements ProviderModule {
             return ContentUris.withAppendedId(TRAFFIC_SCOOT_URI, id);
         }
         if (match == LATEST_TRAFFIC_SCOOTS) {
-            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed)
+                    + HertsLatestTrafficScoot.TABLE_NAME);
         }
         if (match == TRAFFIC_SPEEDS) {
             id = sqLiteDatabase.insert(HertsTrafficSpeed.TABLE_NAME, null, contentValues);
@@ -1163,7 +1176,8 @@ public class HertsProviderModule implements ProviderModule {
             return ContentUris.withAppendedId(TRAFFIC_SPEED_URI, id);
         }
         if (match == LATEST_TRAFFIC_SPEEDS) {
-            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed)
+                    + HertsLatestTrafficSpeed.TABLE_NAME);
         }
         if (match == TRAFFIC_TRAVEL_TIMES) {
             id = sqLiteDatabase.insert(HertsTrafficTravelTime.TABLE_NAME, null, contentValues);
@@ -1171,7 +1185,8 @@ public class HertsProviderModule implements ProviderModule {
             return ContentUris.withAppendedId(TRAFFIC_TRAVEL_TIME_URI, id);
         }
         if (match == LATEST_TRAFFIC_TRAVEL_TIMES) {
-            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed)
+                    + HertsLatestTrafficTravelTime.TABLE_NAME);
         }
         if (match == VARIABLE_MESSAGE_SIGNS) {
             id = sqLiteDatabase.insert(HertsVariableMessageSign.TABLE_NAME, null, contentValues);
@@ -1179,7 +1194,8 @@ public class HertsProviderModule implements ProviderModule {
             return ContentUris.withAppendedId(VARIABLE_MESSAGE_SIGN_URI, id);
         }
         if (match == LATEST_VARIABLE_MESSAGE_SIGNS) {
-            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed)
+                    + HertsLatestVariableMessageSign.TABLE_NAME);
         }
         return null;
     }
@@ -1351,7 +1367,8 @@ public class HertsProviderModule implements ProviderModule {
             return rows;
         }
         if (match == LATEST_CAR_PARKS) {
-            throw new IllegalArgumentException(context.getString(R.string.error_update_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_update_not_allowed)
+                    + HertsLatestCarPark.TABLE_NAME);
         }
         if (match == CAR_PARK_ID) {
             int rows = sqLiteDatabase.update(HertsCarPark.TABLE_NAME, values, HertsCarPark._ID + "=?",
@@ -1365,7 +1382,8 @@ public class HertsProviderModule implements ProviderModule {
             return rows;
         }
         if (match == LATEST_EVENTS) {
-            throw new IllegalArgumentException(context.getString(R.string.error_update_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_update_not_allowed)
+                    + HertsLatestEvent.TABLE_NAME);
         }
         if (match == EVENT_ID) {
             int rows = sqLiteDatabase.update(HertsEvent.TABLE_NAME, values, HertsEvent._ID + "=?",
@@ -1379,7 +1397,8 @@ public class HertsProviderModule implements ProviderModule {
             return rows;
         }
         if (match == LATEST_ROADWORKS) {
-            throw new IllegalArgumentException(context.getString(R.string.error_update_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_update_not_allowed)
+                    + HertsLatestRoadworks.TABLE_NAME);
         }
         if (match == ROADWORKS_ID) {
             int rows = sqLiteDatabase.update(HertsRoadworks.TABLE_NAME, values,
@@ -1393,7 +1412,8 @@ public class HertsProviderModule implements ProviderModule {
             return rows;
         }
         if (match == LATEST_TRAFFIC_FLOWS) {
-            throw new IllegalArgumentException(context.getString(R.string.error_update_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_update_not_allowed)
+                    + HertsLatestTrafficFlow.TABLE_NAME);
         }
         if (match == TRAFFIC_FLOW_ID) {
             int rows = sqLiteDatabase.update(HertsTrafficFlow.TABLE_NAME, values,
@@ -1407,7 +1427,8 @@ public class HertsProviderModule implements ProviderModule {
             return rows;
         }
         if (match == LATEST_TRAFFIC_SCOOTS) {
-            throw new IllegalArgumentException(context.getString(R.string.error_update_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_update_not_allowed)
+                    + HertsLatestTrafficScoot.TABLE_NAME);
         }
         if (match == TRAFFIC_SCOOT_ID) {
             int rows = sqLiteDatabase.update(HertsTrafficScoot.TABLE_NAME, values,
@@ -1421,7 +1442,8 @@ public class HertsProviderModule implements ProviderModule {
             return rows;
         }
         if (match == LATEST_TRAFFIC_SPEEDS) {
-            throw new IllegalArgumentException(context.getString(R.string.error_update_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_update_not_allowed)
+                    + HertsLatestTrafficSpeed.TABLE_NAME);
         }
         if (match == TRAFFIC_SPEED_ID) {
             int rows = sqLiteDatabase.update(HertsTrafficSpeed.TABLE_NAME, values,
@@ -1436,7 +1458,8 @@ public class HertsProviderModule implements ProviderModule {
             return rows;
         }
         if (match == LATEST_TRAFFIC_TRAVEL_TIMES) {
-            throw new IllegalArgumentException(context.getString(R.string.error_update_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_update_not_allowed)
+                    + HertsLatestTrafficTravelTime.TABLE_NAME);
         }
         if (match == TRAFFIC_TRAVEL_TIME_ID) {
             int rows = sqLiteDatabase.update(HertsTrafficTravelTime.TABLE_NAME, values,
@@ -1451,7 +1474,8 @@ public class HertsProviderModule implements ProviderModule {
             return rows;
         }
         if (match == LATEST_VARIABLE_MESSAGE_SIGNS) {
-            throw new IllegalArgumentException(context.getString(R.string.error_update_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_update_not_allowed)
+                    + HertsLatestVariableMessageSign.TABLE_NAME);
         }
         if (match == VARIABLE_MESSAGE_SIGN_ID) {
             int rows = sqLiteDatabase.update(HertsVariableMessageSign.TABLE_NAME, values,
@@ -1471,56 +1495,64 @@ public class HertsProviderModule implements ProviderModule {
             contentResolver.notifyChange(CAR_PARK_URI, null);
         }
         if (match == LATEST_CAR_PARKS) {
-            throw new IllegalArgumentException(context.getString(R.string.error_delete_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_delete_not_allowed)
+                    + HertsLatestCarPark.TABLE_NAME);
         }
         if (match == EVENTS) {
             rows = sqLiteDatabase.delete(HertsEvent.TABLE_NAME, selection, selectionArgs);
             contentResolver.notifyChange(EVENT_URI, null);
         }
         if (match == LATEST_EVENTS) {
-            throw new IllegalArgumentException(context.getString(R.string.error_delete_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_delete_not_allowed)
+                    + HertsLatestEvent.TABLE_NAME);
         }
         if (match == ROADWORKS) {
             rows = sqLiteDatabase.delete(HertsRoadworks.TABLE_NAME, selection, selectionArgs);
             contentResolver.notifyChange(ROADWORKS_URI, null);
         }
         if (match == LATEST_ROADWORKS) {
-            throw new IllegalArgumentException(context.getString(R.string.error_delete_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_delete_not_allowed)
+                    + HertsLatestRoadworks.TABLE_NAME);
         }
         if (match == TRAFFIC_FLOWS) {
             rows = sqLiteDatabase.delete(HertsTrafficFlow.TABLE_NAME, selection, selectionArgs);
             contentResolver.notifyChange(TRAFFIC_FLOW_URI, null);
         }
         if (match == LATEST_TRAFFIC_FLOWS) {
-            throw new IllegalArgumentException(context.getString(R.string.error_delete_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_delete_not_allowed)
+                    + HertsLatestTrafficFlow.TABLE_NAME);
         }
         if (match == TRAFFIC_SCOOTS) {
             rows = sqLiteDatabase.delete(HertsTrafficScoot.TABLE_NAME, selection, selectionArgs);
             contentResolver.notifyChange(TRAFFIC_SCOOT_URI, null);
         }
         if (match == LATEST_TRAFFIC_SCOOTS) {
-            throw new IllegalArgumentException(context.getString(R.string.error_delete_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_delete_not_allowed)
+                    + HertsLatestTrafficScoot.TABLE_NAME);
         }
         if (match == TRAFFIC_SPEEDS) {
             rows = sqLiteDatabase.delete(HertsTrafficSpeed.TABLE_NAME, selection, selectionArgs);
             contentResolver.notifyChange(TRAFFIC_SPEED_URI, null);
         }
         if (match == LATEST_TRAFFIC_SPEEDS) {
-            throw new IllegalArgumentException(context.getString(R.string.error_delete_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_delete_not_allowed)
+                    + HertsLatestTrafficSpeed.TABLE_NAME);
         }
         if (match == TRAFFIC_TRAVEL_TIMES) {
             rows = sqLiteDatabase.delete(HertsTrafficTravelTime.TABLE_NAME, selection, selectionArgs);
             contentResolver.notifyChange(TRAFFIC_TRAVEL_TIME_URI, null);
         }
         if (match == LATEST_TRAFFIC_TRAVEL_TIMES) {
-            throw new IllegalArgumentException(context.getString(R.string.error_delete_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_delete_not_allowed)
+                    + HertsLatestTrafficTravelTime.TABLE_NAME);
         }
         if (match == VARIABLE_MESSAGE_SIGNS) {
             rows = sqLiteDatabase.delete(HertsVariableMessageSign.TABLE_NAME, selection, selectionArgs);
             contentResolver.notifyChange(VARIABLE_MESSAGE_SIGN_URI, null);
         }
         if (match == LATEST_VARIABLE_MESSAGE_SIGNS) {
-            throw new IllegalArgumentException(context.getString(R.string.error_delete_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_delete_not_allowed)
+                    + HertsLatestVariableMessageSign.TABLE_NAME);
         }
         return rows;
     }

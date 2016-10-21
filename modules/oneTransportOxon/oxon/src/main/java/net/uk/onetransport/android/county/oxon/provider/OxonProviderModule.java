@@ -501,7 +501,8 @@ public class OxonProviderModule implements ProviderModule {
             return numInserted;
         }
         if (match == LATEST_CAR_PARKS) {
-            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed)
+                    + OxonLatestCarPark.TABLE_NAME);
         }
         if (match == EVENTS) {
             sqLiteDatabase.beginTransaction();
@@ -582,7 +583,8 @@ public class OxonProviderModule implements ProviderModule {
             return numInserted;
         }
         if (match == LATEST_EVENTS) {
-            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed)
+                    + OxonLatestEvent.TABLE_NAME);
         }
         if (match == ROADWORKS) {
             sqLiteDatabase.beginTransaction();
@@ -673,7 +675,8 @@ public class OxonProviderModule implements ProviderModule {
             return numInserted;
         }
         if (match == LATEST_ROADWORKS) {
-            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed)
+                    + OxonLatestRoadworks.TABLE_NAME);
         }
         if (match == TRAFFIC_FLOWS) {
             sqLiteDatabase.beginTransaction();
@@ -764,7 +767,8 @@ public class OxonProviderModule implements ProviderModule {
             return numInserted;
         }
         if (match == LATEST_TRAFFIC_FLOWS) {
-            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed)
+                    + OxonLatestTrafficFlow.TABLE_NAME);
         }
         if (match == TRAFFIC_QUEUES) {
             sqLiteDatabase.beginTransaction();
@@ -860,7 +864,8 @@ public class OxonProviderModule implements ProviderModule {
             return numInserted;
         }
         if (match == LATEST_TRAFFIC_QUEUES) {
-            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed)
+                    + OxonLatestTrafficQueue.TABLE_NAME);
         }
         if (match == TRAFFIC_SCOOTS) {
             sqLiteDatabase.beginTransaction();
@@ -976,7 +981,8 @@ public class OxonProviderModule implements ProviderModule {
             return numInserted;
         }
         if (match == LATEST_TRAFFIC_SCOOTS) {
-            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed)
+                    + OxonLatestTrafficScoot.TABLE_NAME);
         }
         if (match == TRAFFIC_SPEEDS) {
             sqLiteDatabase.beginTransaction();
@@ -1067,7 +1073,8 @@ public class OxonProviderModule implements ProviderModule {
             return numInserted;
         }
         if (match == LATEST_TRAFFIC_SPEEDS) {
-            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed)
+                    + OxonLatestTrafficSpeed.TABLE_NAME);
         }
         if (match == TRAFFIC_TRAVEL_TIMES) {
             sqLiteDatabase.beginTransaction();
@@ -1168,7 +1175,8 @@ public class OxonProviderModule implements ProviderModule {
             return numInserted;
         }
         if (match == LATEST_TRAFFIC_TRAVEL_TIMES) {
-            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed)
+                    + OxonLatestTrafficTravelTime.TABLE_NAME);
         }
         if (match == VARIABLE_MESSAGE_SIGNS) {
             sqLiteDatabase.beginTransaction();
@@ -1239,7 +1247,8 @@ public class OxonProviderModule implements ProviderModule {
             return numInserted;
         }
         if (match == LATEST_VARIABLE_MESSAGE_SIGNS) {
-            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed)
+                    + OxonLatestVariableMessageSign.TABLE_NAME);
         }
         return numInserted;
     }
@@ -1254,7 +1263,8 @@ public class OxonProviderModule implements ProviderModule {
             return ContentUris.withAppendedId(CAR_PARK_URI, id);
         }
         if (match == LATEST_CAR_PARKS) {
-            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed)
+                    + OxonLatestCarPark.TABLE_NAME);
         }
         if (match == EVENTS) {
             id = sqLiteDatabase.insert(OxonEvent.TABLE_NAME, null, contentValues);
@@ -1262,7 +1272,8 @@ public class OxonProviderModule implements ProviderModule {
             return ContentUris.withAppendedId(EVENT_URI, id);
         }
         if (match == LATEST_EVENTS) {
-            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed)
+                    + OxonLatestEvent.TABLE_NAME);
         }
         if (match == ROADWORKS) {
             id = sqLiteDatabase.insert(OxonRoadworks.TABLE_NAME, null, contentValues);
@@ -1270,7 +1281,8 @@ public class OxonProviderModule implements ProviderModule {
             return ContentUris.withAppendedId(ROADWORKS_URI, id);
         }
         if (match == LATEST_ROADWORKS) {
-            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed)
+                    + OxonLatestRoadworks.TABLE_NAME);
         }
         if (match == TRAFFIC_FLOWS) {
             id = sqLiteDatabase.insert(OxonTrafficFlow.TABLE_NAME, null, contentValues);
@@ -1278,7 +1290,8 @@ public class OxonProviderModule implements ProviderModule {
             return ContentUris.withAppendedId(TRAFFIC_FLOW_URI, id);
         }
         if (match == LATEST_TRAFFIC_FLOWS) {
-            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed)
+                    + OxonLatestTrafficFlow.TABLE_NAME);
         }
         if (match == TRAFFIC_QUEUES) {
             id = sqLiteDatabase.insert(OxonTrafficQueue.TABLE_NAME, null, contentValues);
@@ -1286,7 +1299,8 @@ public class OxonProviderModule implements ProviderModule {
             return ContentUris.withAppendedId(TRAFFIC_QUEUE_URI, id);
         }
         if (match == LATEST_TRAFFIC_QUEUES) {
-            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed)
+                    + OxonLatestTrafficQueue.TABLE_NAME);
         }
         if (match == TRAFFIC_SCOOTS) {
             id = sqLiteDatabase.insert(OxonTrafficScoot.TABLE_NAME, null, contentValues);
@@ -1294,7 +1308,8 @@ public class OxonProviderModule implements ProviderModule {
             return ContentUris.withAppendedId(TRAFFIC_SCOOT_URI, id);
         }
         if (match == LATEST_TRAFFIC_SCOOTS) {
-            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed)
+                    + OxonLatestTrafficScoot.TABLE_NAME);
         }
         if (match == TRAFFIC_SPEEDS) {
             id = sqLiteDatabase.insert(OxonTrafficSpeed.TABLE_NAME, null, contentValues);
@@ -1302,7 +1317,8 @@ public class OxonProviderModule implements ProviderModule {
             return ContentUris.withAppendedId(TRAFFIC_SPEED_URI, id);
         }
         if (match == LATEST_TRAFFIC_SPEEDS) {
-            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed)
+                    + OxonLatestTrafficSpeed.TABLE_NAME);
         }
         if (match == TRAFFIC_TRAVEL_TIMES) {
             id = sqLiteDatabase.insert(OxonTrafficTravelTime.TABLE_NAME, null, contentValues);
@@ -1310,7 +1326,8 @@ public class OxonProviderModule implements ProviderModule {
             return ContentUris.withAppendedId(TRAFFIC_TRAVEL_TIME_URI, id);
         }
         if (match == LATEST_TRAFFIC_TRAVEL_TIMES) {
-            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed)
+                    + OxonLatestTrafficTravelTime.TABLE_NAME);
         }
         if (match == VARIABLE_MESSAGE_SIGNS) {
             id = sqLiteDatabase.insert(OxonVariableMessageSign.TABLE_NAME, null, contentValues);
@@ -1318,7 +1335,8 @@ public class OxonProviderModule implements ProviderModule {
             return ContentUris.withAppendedId(VARIABLE_MESSAGE_SIGN_URI, id);
         }
         if (match == LATEST_VARIABLE_MESSAGE_SIGNS) {
-            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed)
+                    + OxonLatestVariableMessageSign.TABLE_NAME);
         }
         return null;
     }
@@ -1509,7 +1527,8 @@ public class OxonProviderModule implements ProviderModule {
             return rows;
         }
         if (match == LATEST_CAR_PARKS) {
-            throw new IllegalArgumentException(context.getString(R.string.error_update_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_update_not_allowed)
+                    + OxonLatestCarPark.TABLE_NAME);
         }
         if (match == CAR_PARK_ID) {
             int rows = sqLiteDatabase.update(OxonCarPark.TABLE_NAME, values, OxonCarPark._ID + "=?",
@@ -1523,7 +1542,8 @@ public class OxonProviderModule implements ProviderModule {
             return rows;
         }
         if (match == LATEST_EVENTS) {
-            throw new IllegalArgumentException(context.getString(R.string.error_update_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_update_not_allowed)
+                    + OxonLatestEvent.TABLE_NAME);
         }
         if (match == EVENT_ID) {
             int rows = sqLiteDatabase.update(OxonEvent.TABLE_NAME, values, OxonEvent._ID + "=?",
@@ -1537,7 +1557,8 @@ public class OxonProviderModule implements ProviderModule {
             return rows;
         }
         if (match == LATEST_ROADWORKS) {
-            throw new IllegalArgumentException(context.getString(R.string.error_update_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_update_not_allowed)
+                    + OxonLatestRoadworks.TABLE_NAME);
         }
         if (match == ROADWORKS_ID) {
             int rows = sqLiteDatabase.update(OxonRoadworks.TABLE_NAME, values,
@@ -1551,7 +1572,8 @@ public class OxonProviderModule implements ProviderModule {
             return rows;
         }
         if (match == LATEST_TRAFFIC_FLOWS) {
-            throw new IllegalArgumentException(context.getString(R.string.error_update_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_update_not_allowed)
+                    + OxonLatestTrafficFlow.TABLE_NAME);
         }
         if (match == TRAFFIC_FLOW_ID) {
             int rows = sqLiteDatabase.update(OxonTrafficFlow.TABLE_NAME, values,
@@ -1565,7 +1587,8 @@ public class OxonProviderModule implements ProviderModule {
             return rows;
         }
         if (match == LATEST_TRAFFIC_QUEUES) {
-            throw new IllegalArgumentException(context.getString(R.string.error_update_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_update_not_allowed)
+                    + OxonLatestTrafficQueue.TABLE_NAME);
         }
         if (match == TRAFFIC_QUEUE_ID) {
             int rows = sqLiteDatabase.update(OxonTrafficQueue.TABLE_NAME, values,
@@ -1579,7 +1602,8 @@ public class OxonProviderModule implements ProviderModule {
             return rows;
         }
         if (match == LATEST_TRAFFIC_SCOOTS) {
-            throw new IllegalArgumentException(context.getString(R.string.error_update_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_update_not_allowed)
+                    + OxonLatestTrafficScoot.TABLE_NAME);
         }
         if (match == TRAFFIC_SCOOT_ID) {
             int rows = sqLiteDatabase.update(OxonTrafficScoot.TABLE_NAME, values,
@@ -1593,7 +1617,8 @@ public class OxonProviderModule implements ProviderModule {
             return rows;
         }
         if (match == LATEST_TRAFFIC_SPEEDS) {
-            throw new IllegalArgumentException(context.getString(R.string.error_update_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_update_not_allowed)
+                    + OxonLatestTrafficSpeed.TABLE_NAME);
         }
         if (match == TRAFFIC_SPEED_ID) {
             int rows = sqLiteDatabase.update(OxonTrafficSpeed.TABLE_NAME, values,
@@ -1608,7 +1633,8 @@ public class OxonProviderModule implements ProviderModule {
             return rows;
         }
         if (match == LATEST_TRAFFIC_TRAVEL_TIMES) {
-            throw new IllegalArgumentException(context.getString(R.string.error_update_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_update_not_allowed)
+                    + OxonLatestTrafficTravelTime.TABLE_NAME);
         }
         if (match == TRAFFIC_TRAVEL_TIME_ID) {
             int rows = sqLiteDatabase.update(OxonTrafficTravelTime.TABLE_NAME, values,
@@ -1623,7 +1649,8 @@ public class OxonProviderModule implements ProviderModule {
             return rows;
         }
         if (match == LATEST_VARIABLE_MESSAGE_SIGNS) {
-            throw new IllegalArgumentException(context.getString(R.string.error_update_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_update_not_allowed)
+                    + OxonLatestVariableMessageSign.TABLE_NAME);
         }
         if (match == VARIABLE_MESSAGE_SIGN_ID) {
             int rows = sqLiteDatabase.update(OxonVariableMessageSign.TABLE_NAME, values,
@@ -1643,63 +1670,72 @@ public class OxonProviderModule implements ProviderModule {
             contentResolver.notifyChange(CAR_PARK_URI, null);
         }
         if (match == LATEST_CAR_PARKS) {
-            throw new IllegalArgumentException(context.getString(R.string.error_delete_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_delete_not_allowed)
+                    + OxonLatestCarPark.TABLE_NAME);
         }
         if (match == EVENTS) {
             rows = sqLiteDatabase.delete(OxonEvent.TABLE_NAME, selection, selectionArgs);
             contentResolver.notifyChange(EVENT_URI, null);
         }
         if (match == LATEST_EVENTS) {
-            throw new IllegalArgumentException(context.getString(R.string.error_delete_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_delete_not_allowed)
+                    + OxonLatestEvent.TABLE_NAME);
         }
         if (match == ROADWORKS) {
             rows = sqLiteDatabase.delete(OxonRoadworks.TABLE_NAME, selection, selectionArgs);
             contentResolver.notifyChange(ROADWORKS_URI, null);
         }
         if (match == LATEST_ROADWORKS) {
-            throw new IllegalArgumentException(context.getString(R.string.error_delete_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_delete_not_allowed)
+                    + OxonLatestRoadworks.TABLE_NAME);
         }
         if (match == TRAFFIC_FLOWS) {
             rows = sqLiteDatabase.delete(OxonTrafficFlow.TABLE_NAME, selection, selectionArgs);
             contentResolver.notifyChange(TRAFFIC_FLOW_URI, null);
         }
         if (match == LATEST_TRAFFIC_FLOWS) {
-            throw new IllegalArgumentException(context.getString(R.string.error_delete_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_delete_not_allowed)
+                    + OxonLatestTrafficFlow.TABLE_NAME);
         }
         if (match == TRAFFIC_QUEUES) {
             rows = sqLiteDatabase.delete(OxonTrafficQueue.TABLE_NAME, selection, selectionArgs);
             contentResolver.notifyChange(TRAFFIC_QUEUE_URI, null);
         }
         if (match == LATEST_TRAFFIC_QUEUES) {
-            throw new IllegalArgumentException(context.getString(R.string.error_delete_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_delete_not_allowed)
+                    + OxonLatestTrafficQueue.TABLE_NAME);
         }
         if (match == TRAFFIC_SCOOTS) {
             rows = sqLiteDatabase.delete(OxonTrafficScoot.TABLE_NAME, selection, selectionArgs);
             contentResolver.notifyChange(TRAFFIC_SCOOT_URI, null);
         }
         if (match == LATEST_TRAFFIC_SCOOTS) {
-            throw new IllegalArgumentException(context.getString(R.string.error_delete_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_delete_not_allowed)
+                    + OxonLatestTrafficScoot.TABLE_NAME);
         }
         if (match == TRAFFIC_SPEEDS) {
             rows = sqLiteDatabase.delete(OxonTrafficSpeed.TABLE_NAME, selection, selectionArgs);
             contentResolver.notifyChange(TRAFFIC_SPEED_URI, null);
         }
         if (match == LATEST_TRAFFIC_SPEEDS) {
-            throw new IllegalArgumentException(context.getString(R.string.error_delete_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_delete_not_allowed)
+                    + OxonLatestTrafficSpeed.TABLE_NAME);
         }
         if (match == TRAFFIC_TRAVEL_TIMES) {
             rows = sqLiteDatabase.delete(OxonTrafficTravelTime.TABLE_NAME, selection, selectionArgs);
             contentResolver.notifyChange(TRAFFIC_TRAVEL_TIME_URI, null);
         }
         if (match == LATEST_TRAFFIC_TRAVEL_TIMES) {
-            throw new IllegalArgumentException(context.getString(R.string.error_delete_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_delete_not_allowed)
+                    + OxonLatestTrafficTravelTime.TABLE_NAME);
         }
         if (match == VARIABLE_MESSAGE_SIGNS) {
             rows = sqLiteDatabase.delete(OxonVariableMessageSign.TABLE_NAME, selection, selectionArgs);
             contentResolver.notifyChange(VARIABLE_MESSAGE_SIGN_URI, null);
         }
         if (match == LATEST_VARIABLE_MESSAGE_SIGNS) {
-            throw new IllegalArgumentException(context.getString(R.string.error_delete_not_allowed));
+            throw new IllegalArgumentException(context.getString(R.string.error_delete_not_allowed)
+                    + OxonLatestVariableMessageSign.TABLE_NAME);
         }
         return rows;
     }
