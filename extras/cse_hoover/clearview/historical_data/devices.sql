@@ -1,5 +1,3 @@
-DROP TABLE IF EXISTS clearview_silverstone_device;
-CREATE TABLE clearview_silverstone_device (_id INTEGER PRIMARY KEY AUTOINCREMENT,sensor_id INTEGER,title TEXT,description TEXT,type TEXT,latitude REAL,longitude REAL,changed TEXT,cin_id TEXT UNIQUE ON CONFLICT REPLACE,creation_time INTEGER);
 INSERT INTO clearview_silverstone_device values (NULL,1745,'Silverstone01','Site 1, Marshal Campground','M680',52.083884,-1.019874,'2016-06-27 12:09:19','cin20010121T094659980070419139872948041472',1467712661);
 INSERT INTO clearview_silverstone_device values (NULL,1746,'Silverstone02','Site 2, Car Park Area 37 (VIP)','M680',52.074274,-1.005932,'2016-06-27 12:10:26','cin19850729T101651491480211139872840963840',1467712662);
 INSERT INTO clearview_silverstone_device values (NULL,1747,'Silverstone03','Site 3, Car Park Area 40','M680',52.068423,-1.024824,'2016-06-27 12:11:24','cin20010602T140015991490415139872832571136',1467712662);

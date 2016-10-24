@@ -1,5 +1,3 @@
-DROP TABLE IF EXISTS bit_carrier_silverstone_config_vector;
-CREATE TABLE bit_carrier_silverstone_config_vector (_id INTEGER PRIMARY KEY AUTOINCREMENT,vector_id INTEGER,name TEXT,customer_name TEXT,from_location INTEGER,to_location INTEGER,distance INTEGER,sketch_id INTEGER,cin_id TEXT UNIQUE ON CONFLICT REPLACE,creation_time INTEGER);
 INSERT INTO bit_carrier_silverstone_config_vector values (null,276,'276','2->14',1159,1165,6147,1,'cin19790102T052044284102444140493914752768',1467798797);
 INSERT INTO bit_carrier_silverstone_config_vector values (null,276,'276','2->14',1159,1165,6147,1,'cin19710423T10285841250538140043228407552',1468800069);
 INSERT INTO bit_carrier_silverstone_config_vector values (null,276,'276','2->14',1159,1165,6147,1,'cin19710731T05381449786694139987184080640',1471392012);

@@ -33,18 +33,18 @@ $context = stream_context_create($opts);
 
 //{"m2m:cin":{"cnf":"text/plain","con":"{\"title\":\"Silverstone10\",\"description\":\"Site 10, North Car Parks\",\"type\":\"M680\",\"latitude\":\"52.078907\",\"longitude\":\"-1.026202\",\"changed\":\"2016-06-27 12:28:09\"}","cs":159,"ct":"20160705T095746","et":"99991231T235959","lt":"20160705T095746","or":"http://www.google.com","pi":"cnt_20160705T095746_1372","ri":"cin_20160705T095746_1373","rn":"cin19880629T135052583595452139872849356544","st":1,"ty":4}}
 
-echo "DROP TABLE IF EXISTS clearview_silverstone_device;\n";
-echo 'CREATE TABLE clearview_silverstone_device (',
+echo 'CREATE TABLE IF NOT EXISTS clearview_silverstone_device (',
                   '_id INTEGER PRIMARY KEY AUTOINCREMENT,',
-                  'sensor_id INTEGER,',
+                  'sensor_id INTEGER NOT NULL,',
                   'title TEXT,',
                   'description TEXT,',
                   'type TEXT,',
                   'latitude REAL,',
                   'longitude REAL,',
                   'changed TEXT,',
-                  'cin_id TEXT UNIQUE ON CONFLICT REPLACE,',
-                  "creation_time INTEGER);\n";
+                  'cin_id TEXT NOT NULL,',
+                  'creation_time INTEGER,'
+                  "UNIQUE (sensor_id,cin_id) ON CONFLICT IGNORE);\n";
 
 $file    = file_get_contents("$host$path?rcn=6", false, $context);
 $json    = json_decode($file, true);
