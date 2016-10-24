@@ -442,3 +442,51 @@ is slightly different to the direct feed class:
 > > **`String levelOfService`** red, yellow or green, with red being the most
 > > congested and green being the least
 
+### Historical data
+
+An archive of SQL files may be found in the oneTRANSPORT repo here:
+
+        /extras/cse_hoover/historical_import/silverstone_historical.tar
+
+To import these into your app database, you should first run your app so that
+it creates a database for its content provider in `/sdcard/oneTransport`.
+
+For example, the oneTRANSPORT test app uses the following database file:
+
+        /sdcard/oneTransport/net.uk.onetransport.android.test.onetransporttest.provider/one-transport-db
+
+The path will depend on your own app package name, of course.  Close your app,
+the copy the one-transport-db file down to your laptop with `adb`:
+
+        adb pull /sdcard/oneTransport/net.uk.onetransport.android.test.onetransporttest.provider/one-transport-db
+
+Unpack the historical archive in the current directory with:
+
+        tar xf silverstone_historical.tar
+
+Then insert the data files into your database with these SQLite commands
+(note these will delete any existing rows in BitCarrier and Clearview tables
+but local authority data will be preserved):
+
+        bzcat config_vectors.sql.bz2 | sqlite3 one-transport-db
+        bzcat data_vectors.sql.bz2 | sqlite3 one-transport-db
+        bzcat devices.sql.bz2 | sqlite3 one-transport-db
+        bzcat nodes.sql.bz2 | sqlite3 one-transport-db
+        bzcat sketches.sql.bz2 | sqlite3 one-transport-db
+        bzcat traffic.sql.bz2 | sqlite3 one-transport-db
+        bzcat travel_times.sql.bz2 | sqlite3 one-transport-db
+
+Finally, copy the updated database back to your Android device with:
+
+        adb push one-transport-db /sdcard/oneTransport/<your-package-name>.provider/one-transport-db
+
+Alternatively, if you do not have any existing local authority data you wish
+to keep, just uncompress the SQLite binary file in this archive and copy that
+into place:
+
+        bunzip2 one-transport-db.bz2
+        adb push one-transport-db /sdcard/oneTransport/<your-package-name>.provider/one-transport-db
+
+Now you should be able to restart your app and historical data from BitCarrier
+and Clearview at Silverstone over the F1 Grand Prix and Moto GP races will be
+available.

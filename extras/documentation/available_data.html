@@ -526,3 +526,59 @@ congested and green being the least</p>
 </blockquote>
 
 <p></blockquote></p>
+
+<h3>Historical data</h3>
+
+<p>An archive of SQL files may be found in the oneTRANSPORT repo here:</p>
+
+<pre><code>    /extras/cse_hoover/historical_import/silverstone_historical.tar
+</code></pre>
+
+<p>To import these into your app database, you should first run your app so that
+it creates a database for its content provider in <code>/sdcard/oneTransport</code>.</p>
+
+<p>For example, the oneTRANSPORT test app uses the following database file:</p>
+
+<pre><code>    /sdcard/oneTransport/net.uk.onetransport.android.test.onetransporttest.provider/one-transport-db
+</code></pre>
+
+<p>The path will depend on your own app package name, of course.  Close your app,
+the copy the one-transport-db file down to your laptop with <code>adb</code>:</p>
+
+<pre><code>    adb pull /sdcard/oneTransport/net.uk.onetransport.android.test.onetransporttest.provider/one-transport-db
+</code></pre>
+
+<p>Unpack the historical archive in the current directory with:</p>
+
+<pre><code>    tar xf silverstone_historical.tar
+</code></pre>
+
+<p>Then insert the data files into your database with these SQLite commands
+(note these will delete any existing rows in BitCarrier and Clearview tables
+but local authority data will be preserved):</p>
+
+<pre><code>    bzcat config_vectors.sql.bz2 | sqlite3 one-transport-db
+    bzcat data_vectors.sql.bz2 | sqlite3 one-transport-db
+    bzcat devices.sql.bz2 | sqlite3 one-transport-db
+    bzcat nodes.sql.bz2 | sqlite3 one-transport-db
+    bzcat sketches.sql.bz2 | sqlite3 one-transport-db
+    bzcat traffic.sql.bz2 | sqlite3 one-transport-db
+    bzcat travel_times.sql.bz2 | sqlite3 one-transport-db
+</code></pre>
+
+<p>Finally, copy the updated database back to your Android device with:</p>
+
+<pre><code>    adb push one-transport-db /sdcard/oneTransport/&lt;your-package-name&gt;.provider/one-transport-db
+</code></pre>
+
+<p>Alternatively, if you do not have any existing local authority data you wish
+to keep, just uncompress the SQLite binary file in this archive and copy that
+into place:</p>
+
+<pre><code>    bunzip2 one-transport-db.bz2
+    adb push one-transport-db /sdcard/oneTransport/&lt;your-package-name&gt;.provider/one-transport-db
+</code></pre>
+
+<p>Now you should be able to restart your app and historical data from BitCarrier
+and Clearview at Silverstone over the F1 Grand Prix and Moto GP races will be
+available.</p>
