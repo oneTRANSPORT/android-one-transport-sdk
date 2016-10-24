@@ -21,7 +21,7 @@ limitations under the License.
     <string name="app_name">oneTransport BitCarrier Silverstone SDK</string>
     <string name="bitcarrier_ae_id">C-TEST-BANANA</string>
     <string name="bitcarrier_base_url">https://cse-01.onetransport.uk.net/</string>
-    <string name="bitcarrier_cse_base_url">https://cse-01.onetransport.uk.net/ONETCSE01/</string>
+    <string name="bitcarrier_cse_name">ONETCSE01</string>
     <string name="bitcarrier_silverstone_provider_module_class" translatable="false">net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsProviderModule</string>
 
     <string name="error_insert_not_allowed">Insert not allowed into </string>

@@ -26,6 +26,7 @@ import com.interdigital.android.dougal.resource.ContentInstance;
 import net.uk.onetransport.android.county.northants.R;
 import net.uk.onetransport.android.county.northants.authentication.CredentialHelper;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -41,7 +42,8 @@ public abstract class Retriever<T> {
     public T[] retrieve() throws Exception {
         String aeId = CredentialHelper.getAeId(context);
         String token = CredentialHelper.getSessionToken(context);
-        String cseBaseUrl = context.getString(R.string.northants_cse_base_url);
+        String cseBaseUrl = context.getString(R.string.northants_base_url)
+                + context.getString(R.string.northants_cse_name) + File.separator;
         ContentInstance contentInstance = Container.retrieveLatest(aeId, cseBaseUrl,
                 getRetrievePrefix(), token);
         String cinId = contentInstance.getResourceId();

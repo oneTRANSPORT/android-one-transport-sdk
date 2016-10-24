@@ -148,7 +148,6 @@ public class BucksProviderModule implements ProviderModule {
 
     private Context context;
 
-    // TODO    Error messages, add table names.
     public BucksProviderModule(Context context) {
         this.context = context;
     }

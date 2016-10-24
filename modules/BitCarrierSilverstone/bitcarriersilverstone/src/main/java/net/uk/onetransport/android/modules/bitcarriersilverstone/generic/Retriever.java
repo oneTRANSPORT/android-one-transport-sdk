@@ -27,6 +27,7 @@ import com.interdigital.android.dougal.resource.ResourceChild;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.R;
 import net.uk.onetransport.android.modules.bitcarriersilverstone.authentication.CredentialHelper;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -43,7 +44,8 @@ public abstract class Retriever<T> {
     public void retrieve(ArrayList<T> list) throws Exception {
         String aeId = CredentialHelper.getAeId(context);
         String token = CredentialHelper.getSessionToken(context);
-        String cseBaseUrl = context.getString(R.string.bitcarrier_cse_base_url);
+        String cseBaseUrl = context.getString(R.string.bitcarrier_base_url)
+                + context.getString(R.string.bitcarrier_cse_name) + File.separator;
         // Get the names of child resources.
         ResourceChild[] containerChildren = Container.retrieveChildren(aeId, cseBaseUrl, getRetrievePrefix(),
                 token).getResourceChildren();

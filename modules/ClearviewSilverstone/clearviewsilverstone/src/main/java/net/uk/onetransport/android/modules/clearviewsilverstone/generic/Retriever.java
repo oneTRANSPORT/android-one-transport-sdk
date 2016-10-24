@@ -28,6 +28,7 @@ import com.interdigital.android.dougal.resource.ResourceChild;
 import net.uk.onetransport.android.modules.clearviewsilverstone.R;
 import net.uk.onetransport.android.modules.clearviewsilverstone.authentication.CredentialHelper;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -44,7 +45,8 @@ public abstract class Retriever<T> {
     public void retrieve(ArrayList<T> list, String container) throws Exception {
         String aeId = CredentialHelper.getAeId(context);
         String token = CredentialHelper.getSessionToken(context);
-        String cseBaseUrl = context.getString(R.string.clearview_cse_base_url);
+        String cseBaseUrl = context.getString(R.string.clearview_base_url)
+                + context.getString(R.string.clearview_cse_name) + File.separator;
         // Get the names of child resources.
         // This is very ugly, but we have to follow the spec.
         ResourceChild[] children = retrieveChildren(aeId, cseBaseUrl, token);
