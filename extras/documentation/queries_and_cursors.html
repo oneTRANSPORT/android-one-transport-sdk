@@ -37,7 +37,7 @@ resource types.</p>
 
 <p>If you are going to work with cursors, you need to know the SQL table
 structure so you can extract the columns you need.  Each module in the
-oneTransport SDK has a contract class that defines the SQL tables that module
+oneTRANSPORT SDK has a contract class that defines the SQL tables that module
 uses and also contains SQL commands to create the tables from scratch.</p>
 
 <p>The classes are:</p>
@@ -102,7 +102,7 @@ main identifier and the content instance identifier:</p>
 <p>In order to produce a list of rows containing the latest data (from the
 latest content instance) we need to do a join.  However, since the content
 provider interface doesn't allow for join queries like this, we create a SQL
-view that the content provider can query like a table.</p>
+view that the content provider can query like a normal table.</p>
 
 <pre><code>    public static final class HertsLatestVariableMessageSign {
         public static final String TABLE_NAME = "herts_latest_variable_message_sign";

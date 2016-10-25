@@ -96,7 +96,7 @@ main identifier and the content instance identifier:
 In order to produce a list of rows containing the latest data (from the
 latest content instance) we need to do a join.  However, since the content
 provider interface doesn't allow for join queries like this, we create a SQL
-view that the content provider can query like a table.
+view that the content provider can query like a normal table.
 
         public static final class HertsLatestVariableMessageSign {
             public static final String TABLE_NAME = "herts_latest_variable_message_sign";

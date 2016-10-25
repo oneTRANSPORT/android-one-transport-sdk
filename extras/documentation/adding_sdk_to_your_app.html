@@ -1,5 +1,10 @@
 <h1>Adding the SDK to your app</h1>
 
+<p>Whether you build with Android Studio or another IDE, you'll need to add
+several AAR files to your projects and also third party libraries like
+<a href="https://github.com/google/gson">Gson</a> and
+<a href="https://github.com/square/retrofit">Retrofit</a>.</p>
+
 <h2>Configure your Gradle build file</h2>
 
 <p>The oneTRANSPORT SDK for Android is currently distributed as a set of AAR
@@ -32,7 +37,7 @@ third-party packages.  Add these to your list of dependencies:</p>
     compile 'com.squareup.okhttp3:logging-interceptor:3.2.0'
 </code></pre>
 
-<p><strong>Note:</strong> the order of dependencies is important as resources from the local
+<p><strong>Note</strong>: the order of dependencies is important as resources from the local
 authority libraries need to override those in Common and Dougal.</p>
 
 <h2>Set up string resources</h2>

@@ -1,17 +1,17 @@
 <h1>Local caching API</h1>
 
-<p>The oneTransport SDK provides a way for clients to acquire and store data
+<p>The oneTRANSPORT SDK provides a way for clients to acquire and store data
 from the CSE in a structured format suitable for running local queries.  A
 typical Android pattern is implemented where a SQLite database is wrapped by
 a Content Provider, using a Sync Adapter to refresh the content when needed.</p>
 
-<p>There is also a class of mainly static helper routines which can return
-resource objects if you would prefer not to work with content provider URLs
-and database cursors.</p>
+<p>There is also a class of static helper routines which can return resource
+objects if you would prefer not to work with content provider URLs and
+database cursors.</p>
 
 <h2>Content helper classes</h2>
 
-<p>Each oneTransport module contains its own helper class for accessing SQL
+<p>Each oneTRANSPORT module contains its own helper class for accessing SQL
 tables relating to that module.  The Common module manages a content provider
 that allows the other modules to inject tables and to insert, select, update
 and delete data.</p>

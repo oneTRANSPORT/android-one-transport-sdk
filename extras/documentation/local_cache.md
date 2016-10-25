@@ -6,9 +6,9 @@ from the CSE in a structured format suitable for running local queries.  A
 typical Android pattern is implemented where a SQLite database is wrapped by
 a Content Provider, using a Sync Adapter to refresh the content when needed.
 
-There is also a class of mainly static helper routines which can return
-resource objects if you would prefer not to work with content provider URLs
-and database cursors.
+There is also a class of static helper routines which can return resource
+objects if you would prefer not to work with content provider URLs and
+database cursors.
 
 ## Content helper classes
 

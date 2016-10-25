@@ -1,11 +1,11 @@
 Troubleshooting
 ===============
 
-We have error logging enabled on HTTP requests.  You should see in the
-Android log messages like these:
+We have error logging enabled on HTTP requests.  You should see messages like
+these in the Android log:
 
         D/OkHttp  ( 7250): --> GET https://dev.onetransport.uk.net/ONETCSE01/Oxfordshire/v2.0/VariableMessageSign/All/la?rt=3 http/1.1
-        D/OkHttp  ( 7250): X-M2M-Origin: C-Y249U2FtcGxlTWFwQXBwMixvdT1yb290
+        D/OkHttp  ( 7250): X-M2M-Origin: C-********************************
         D/OkHttp  ( 7250): Authorization: Bearer ****************
         D/OkHttp  ( 7250): X-M2M-RI: 5aae25ed-d2ef-4b45-a722-dda5adf9a9ac
         D/OkHttp  ( 7250): Accept: application/json

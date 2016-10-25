@@ -1,6 +1,12 @@
 What data is available?
 =======================
 
+This SDK gives your app access to road transport data from four counties in
+England: Buckinghamshire, Hertfordshire, Northamptonshire and Oxfordshire.
+
+In addition, there are historical data sets from race weekends at Silverstone
+circuit during the Formula One Grand Prix and Moto GP races in 2016.
+
 ## Near-real-time local authority feeds
 
 Data sources are provided by county and by data type, but note that there
@@ -13,21 +19,26 @@ if needed.
 Also, not every county provides every type of data.  These feeds are
 available:
 
-> ### Buckinghamshire
-> > Car parks, events, traffic flow, traffic queue, traffic scoot, traffic
-> > speed, traffic travel time, roadworks, variable message signs
-
-> ### Hertfordshire
-> > Car parks, events, traffic flow, traffic scoot, traffic
-> > speed, traffic travel time, roadworks, variable message signs
-
-> ### Northamptonshire
-> > Car parks, traffic flow, traffic travel time, roadworks,
-> > variable message signs
-
-> ### Oxfordshire
-> > Car parks, events, traffic flow, traffic queue, traffic scoot, traffic
-> > speed, traffic travel time, roadworks, variable message signs
+                                  |   BUCKS   |   HERTS   | NORTHANTS |   OXON    |
+         +------------------------+-----------+-----------+-----------+-----------+
+         | Car Parks              |     X     |     X     |     X     |     X     |
+         |                        |           |           |           |           |
+         | Events                 |     X     |     X     |           |     X     |
+         |                        |           |           |           |           |
+         | Roadworks              |     X     |     X     |     X     |     X     |
+         |                        |           |           |           |           |
+         | Traffic Flow           |     X     |     X     |     X     |     X     |
+         |                        |           |           |           |           |
+         | Traffic Queue          |     X     |           |           |     X     |
+         |                        |           |           |           |           |
+         | Traffic Speed          |     X     |     X     |           |     X     |
+         |                        |           |           |           |           |
+         | Traffic Scoot          |     X     |     X     |           |     X     |
+         |                        |           |           |           |           |
+         | Traffic Travel Time    |     X     |     X     |     X     |     X     |
+         |                        |           |           |           |           |
+         | Variable Message Signs |     X     |     X     |     X     |     X     |
+         +------------------------+-----------+-----------+-----------+-----------+
 
 The data types in each feed are common across counties, so a car park object
 from Bucks will be the same class as one from Northants.  Objects retrieved
@@ -293,7 +304,7 @@ The classes are:
 ## Silverstone near-real-time and historical data
 
 We have two groups of feeds supplied by Clearview and BitCarrier, for the
-car parks and roads at Silverstone circuit.
+car parks and roads in the vicinity of Silverstone circuit.
 
 Clearview has parking sensors located at the entrances to car parks at the
 venue and BitCarrier has Bluetooth sensors on road junctions that can match
@@ -379,14 +390,19 @@ is slightly different to the direct feed class:
 
 > ### `Sketch`
 > > **`Integer sketchId`** unique identifier for this sketch
+> >
 > > **`Integer vectorId`** corresponding vector identifier
+> >
 > > **`Boolean visible`** always true
+> >
 > > **`String copyrights`** attribution for this data
+> >
 > > **`String coordinates`** JSON string of point data, can be ignored
+> >
 > > **`Position[] positions`** use this array of positions instead of
 > > `coordinates`
 
-> ### `Vector`
+> ### `Config.Vector`
 > > **`Integer id`** unique identifier
 > >
 > > **`String name`** appears to be not working at present
@@ -403,13 +419,13 @@ is slightly different to the direct feed class:
 > > **`Integer sId`** identifier of the sketch pertaining to this vector
 
 > ### `Stat`
-> > **`Double speed**` average speed in km/h along a link
+> > **`Double speed`** average speed in km/h along a link
 > >
-> > **`Double elapsed**` time taken to traverse this link
+> > **`Double elapsed`** time taken to traverse this link
 > >
-> > **`Double trend**` 
+> > **`Double trend`** 
 > >
-> > **`Integer readings**` how many readings contributed to this observation
+> > **`Integer readings`** how many readings contributed to this observation
 
 > ### `Details`
 > > **`Integer score`** 
@@ -442,6 +458,23 @@ is slightly different to the direct feed class:
 > > **`String levelOfService`** red, yellow or green, with red being the most
 > > congested and green being the least
 
+> ### `Data.Vector`
+> > **`Integer vectorId`** unique identifier
+> >
+> > **`String timestamp`** timestamp for these observations
+> >
+> > **`Details averageDetails`** average statistics for this vector
+> >
+> > **`Details lastDetails`** last observed statistics
+> >
+> > **`String levelOfService`** red, yellow or green service
+
+Those last two classes are very similar, but apply to routes and vectors
+respectively.  A route is a chain of one or more vectors.  One vector maps
+to one sketch.
+
+In the latest data for BitCarrier, every individual vector has a route.
+
 ### Historical data
 
 An archive of SQL files may be found in the oneTRANSPORT repo here:
@@ -456,7 +489,7 @@ For example, the oneTRANSPORT test app uses the following database file:
         /sdcard/oneTransport/net.uk.onetransport.android.test.onetransporttest.provider/one-transport-db
 
 The path will depend on your own app package name, of course.  Close your app,
-the copy the one-transport-db file down to your laptop with `adb`:
+and copy the one-transport-db file down to your laptop with `adb`:
 
         adb pull /sdcard/oneTransport/net.uk.onetransport.android.test.onetransporttest.provider/one-transport-db
 
