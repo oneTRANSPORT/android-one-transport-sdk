@@ -139,3 +139,19 @@ is used to return the results or an exception.</p>
         }
     }
 </code></pre>
+
+<h2>Tree traversal</h2>
+
+<p>If you don't know the container structure on the CSE, you can find all the
+child resources of a particular resource.  Iterating down the tree, you will
+be able to find all the resources on the CSE.</p>
+
+<p>For example, to find the resource identifiers of all the application entities
+on a CSE:</p>
+
+<pre><code>    ApplicationEntity ae = ApplicationEntity.retrieveChildren(AE_ID, BASE_URL, PATH_RETRIEVE, TOKEN);
+    ResourceChild[] children = ae.getResourceChildren();
+    for (ResourceChild child : children) {
+        Log.i(TAG, "Child: " + child.getName);
+    }
+</code></pre>

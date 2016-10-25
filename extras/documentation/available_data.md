@@ -63,9 +63,9 @@ The classes are:
 > >
 > > **`Double longitude`** longitude of this car park
 > >
-> > **`Double occupancy`**
+> > **`Double occupancy`** number of vehicles currently in this car park
 > >
-> > **`String occupancyTrend`**
+> > **`String occupancyTrend`** 'Filling', 'Emptying' or 'Static'
 > >
 > > **`Double totalParkingCapacity`** number of parking spaces
 > >
@@ -85,9 +85,9 @@ The classes are:
 > > **`Double fullDecreasing`** number of spaces below which 'full' becomes
 > > 'almost full' as cars leave
 > >
-> > **`String status`**
+> > **`String status`** undocumented
 > >
-> > **`String statusTime`**
+> > **`String statusTime`** undocumented
 > >
 > > **`Double queuingTime`** current queuing time for car park entry
 > >

@@ -126,4 +126,17 @@ And in your callback class implement the interface:
             }
         }
 
+## Tree traversal
 
+If you don't know the container structure on the CSE, you can find all the
+child resources of a particular resource.  Iterating down the tree, you will
+be able to find all the resources on the CSE.
+
+For example, to find the resource identifiers of all the application entities
+on a CSE:
+
+        ApplicationEntity ae = ApplicationEntity.retrieveChildren(AE_ID, BASE_URL, PATH_RETRIEVE, TOKEN);
+        ResourceChild[] children = ae.getResourceChildren();
+        for (ResourceChild child : children) {
+            Log.i(TAG, "Child: " + child.getName);
+        }
