@@ -16,8 +16,7 @@ limitations under the License.
 -->
 <resources>
     <string name="app_name">oneTransport Oxon SDK</string>
-    <string name="oxon_ae_id">C-TEST-BANANA</string>
-    <string name="oxon_base_url">https://cse-01.onetransport.uk.net/</string>
+    <string name="oxon_base_url">https://dev.onetransport.uk.net/</string>
     <string name="oxon_cse_name">ONETCSE01</string>
     <!-- Required for common module integration. -->
     <string name="oxon_provider_module_class" translatable="false">net.uk.onetransport.android.county.oxon.provider.OxonProviderModule</string>
