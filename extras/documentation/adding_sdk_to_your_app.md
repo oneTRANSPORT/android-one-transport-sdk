@@ -9,7 +9,12 @@ several AAR files to your projects and also third party libraries like
 ## Configure your Gradle build file
 
 The oneTRANSPORT SDK for Android is currently distributed as a set of AAR
-libraries that you can add to your `app/libs` directory.
+libraries that you can add to your `app/libs` directory.  The easiest way to
+get the latest versions is to clone the Sample Map Data app and copy them out
+of the `libs` directory:
+
+        git clone git@github.com:oneTRANSPORT/android-sample-map-data-app.git
+        cp android-sample-map-data-app/app/libs/*.aar your-app/libs
 
 In the `build.gradle` in your app module, add these lines to allow including
 libraries from the `libs` directory:
@@ -61,7 +66,9 @@ For each module that you want to use, you must inject credentials for
 accessing the CSE used by that module.  Currently all modules use the same
 CSE and therefore you should supply the same credentials to each.
 
-Your `AE_ID` and `TOKEN` are the ones you set up in the developer portal.
+Your `AE_ID` and `TOKEN` are the ones you set up for your app in the
+[developer portal](https://cse-01.onetransport.uk.net/portal/apps).
+
 Make the call to `initialiseCredentials` before you use the SDK:
 
         CredentialHelper.initialiseCredentials(context, CLIENT_AE_ID, TOKEN, INSTALLATION_ID);

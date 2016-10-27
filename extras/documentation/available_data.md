@@ -21,23 +21,23 @@ available:
 
                                   |   BUCKS   |   HERTS   | NORTHANTS |   OXON    |
          +------------------------+-----------+-----------+-----------+-----------+
-         | Car Parks              |     X     |     X     |     X     |     X     |
+         | Car Parks              |           |     X     |           |           |
          |                        |           |           |           |           |
-         | Events                 |     X     |     X     |           |     X     |
+         | Events                 |     X     |           |     X     |     X     |
          |                        |           |           |           |           |
          | Roadworks              |     X     |     X     |     X     |     X     |
          |                        |           |           |           |           |
          | Traffic Flow           |     X     |     X     |     X     |     X     |
          |                        |           |           |           |           |
-         | Traffic Queue          |     X     |           |           |     X     |
+         | Traffic Queue          |           |           |           |           |
          |                        |           |           |           |           |
-         | Traffic Speed          |     X     |     X     |           |     X     |
+         | Traffic Speed          |           |     X     |           |     X     |
          |                        |           |           |           |           |
-         | Traffic Scoot          |     X     |     X     |           |     X     |
+         | Traffic Scoot          |     X     |     X     |           |           |
          |                        |           |           |           |           |
-         | Traffic Travel Time    |     X     |     X     |     X     |     X     |
+         | Traffic Travel Time    |           |     X     |     X     |     X     |
          |                        |           |           |           |           |
-         | Variable Message Signs |     X     |     X     |     X     |     X     |
+         | Variable Message Signs |           |     X     |     X     |     X     |
          +------------------------+-----------+-----------+-----------+-----------+
 
 The data types in each feed are common across counties, so a car park object
@@ -477,9 +477,9 @@ In the latest data for BitCarrier, every individual vector has a route.
 
 ### Historical data
 
-An archive of SQL files may be found in the oneTRANSPORT repo here:
+An archive of SQL files may be found in the oneTRANSPORT repo:
 
-        /extras/cse_hoover/historical_import/silverstone_historical.tar
+> [`/extras/cse_hoover/historical_import/silverstone_historical.tar`](https://github.com/oneTRANSPORT/android-one-transport-sdk/tree/master/extras/cse_hoover/historical_import)
 
 To import these into your app database, you should first run your app so that
 it creates a database for its content provider in `/sdcard/oneTransport`.
