@@ -29,8 +29,6 @@ available:
          |                        |           |           |           |           |
          | Traffic Flow           |     X     |     X     |     X     |     X     |
          |                        |           |           |           |           |
-         | Traffic Queue          |           |           |           |           |
-         |                        |           |           |           |           |
          | Traffic Speed          |           |     X     |           |     X     |
          |                        |           |           |           |           |
          | Traffic Scoot          |     X     |     X     |           |           |
