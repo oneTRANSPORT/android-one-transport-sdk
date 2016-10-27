@@ -24,7 +24,7 @@ Buckinghamshire, this is the code you need:
 
 As well as car parks, there are also events, roadworks, traffic flow, traffic
 queues, traffic scoot data, traffic speeds, traffic travel times and variable
-message signs.  See [all available data](available_data.html).
+message signs.  See [all available data](#docs/android/available_data.md).
 
 ## Background loading
 
