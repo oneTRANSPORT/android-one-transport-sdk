@@ -147,10 +147,15 @@ import net.uk.onetransport.android.test.onetransporttest.tests.herts.trafficspee
 import net.uk.onetransport.android.test.onetransporttest.tests.herts.traffictraveltime.HertsTrafficTravelTimeRetrieveTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.herts.vms.HertsVariableMessageSignRetrieveTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.northants.carpark.NorthantsCarParkRetrieveTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.northants.event.NorthantsEventRetrieveTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.northants.provider.NorthantsCarParkDeleteTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.northants.provider.NorthantsCarParkInsertTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.northants.provider.NorthantsCarParkIntervalQueryTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.northants.provider.NorthantsCarParkLatestTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.northants.provider.NorthantsEventDeleteTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.northants.provider.NorthantsEventInsertTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.northants.provider.NorthantsEventIntervalQueryTest;
+import net.uk.onetransport.android.test.onetransporttest.tests.northants.provider.NorthantsEventLatestTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.northants.provider.NorthantsRoadworksDeleteTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.northants.provider.NorthantsRoadworksInsertTest;
 import net.uk.onetransport.android.test.onetransporttest.tests.northants.provider.NorthantsRoadworksIntervalQueryTest;
@@ -325,30 +330,35 @@ public class TestList {
 
             // Northamptonshire.
             new NorthantsCarParkRetrieveTest(),
+            new NorthantsEventRetrieveTest(),
             new NorthantsRoadworksRetrieveTest(),
             new NorthantsTrafficFlowRetrieveTest(),
             new NorthantsTrafficTravelTimeRetrieveTest(),
             new NorthantsVariableMessageSignRetrieveTest(),
 
             new NorthantsCarParkInsertTest(), // Also query test.
+            new NorthantsEventInsertTest(),
             new NorthantsRoadworksInsertTest(),
             new NorthantsTrafficFlowInsertTest(),
             new NorthantsTrafficTravelTimeInsertTest(),
             new NorthantsVariableMessageSignInsertTest(),
 
             new NorthantsCarParkIntervalQueryTest(),
+            new NorthantsEventIntervalQueryTest(),
             new NorthantsRoadworksIntervalQueryTest(),
             new NorthantsTrafficFlowIntervalQueryTest(),
             new NorthantsTrafficTravelTimeIntervalQueryTest(),
             new NorthantsVariableMessageSignIntervalQueryTest(),
 
             new NorthantsCarParkLatestTest(),
+            new NorthantsEventLatestTest(),
             new NorthantsRoadworksLatestTest(),
             new NorthantsTrafficFlowLatestTest(),
             new NorthantsTrafficTravelTimeLatestTest(),
             new NorthantsVariableMessageSignLatestTest(),
 
             new NorthantsCarParkDeleteTest(),
+            new NorthantsEventDeleteTest(),
             new NorthantsRoadworksDeleteTest(),
             new NorthantsTrafficFlowDeleteTest(),
             new NorthantsTrafficTravelTimeDeleteTest(),

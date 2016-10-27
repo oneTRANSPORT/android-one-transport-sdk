@@ -62,7 +62,7 @@ public class NorthantsSyncAdapterTest extends OneTransportTest {
         context.getContentResolver().registerContentObserver(
                 LastUpdatedProviderModule.LAST_UPDATED_URI, true, adapterObserver);
 
-        NorthantsProviderModule.refresh(context, true, true, true, true, true);
+        NorthantsProviderModule.refresh(context, true, true, true, true, true, true);
         // Now block until the adapter finishes?  Will the observer run?
         // The observer should modify adapterFinished.
         while (!adapterFinished) {

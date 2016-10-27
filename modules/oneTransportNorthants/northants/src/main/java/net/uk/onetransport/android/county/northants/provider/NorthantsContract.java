@@ -60,6 +60,38 @@ public class NorthantsContract {
                     + NorthantsCarPark.COLUMN_CAR_PARK_IDENTITY + " AND a."
                     + NorthantsCarPark.COLUMN_CREATION_TIME + "=b."
                     + NorthantsCarPark.COLUMN_CREATION_TIME + ";";
+    public static final String CREATE_EVENT_TABLE =
+            "CREATE TABLE IF NOT EXISTS " + NorthantsEvent.TABLE_NAME + " ("
+                    + NorthantsEvent._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    + NorthantsEvent.COLUMN_ID + " TEXT NOT NULL,"
+                    + NorthantsEvent.COLUMN_START_OF_PERIOD + " TEXT,"
+                    + NorthantsEvent.COLUMN_END_OF_PERIOD + " TEXT,"
+                    + NorthantsEvent.COLUMN_OVERALL_START_TIME + " TEXT,"
+                    + NorthantsEvent.COLUMN_OVERALL_END_TIME + " TEXT,"
+                    + NorthantsEvent.COLUMN_LATITUDE + " REAL,"
+                    + NorthantsEvent.COLUMN_LONGITUDE + " REAL,"
+                    + NorthantsEvent.COLUMN_DESCRIPTION + " TEXT,"
+                    + NorthantsEvent.COLUMN_IMPACT_ON_TRAFFIC + " TEXT,"
+                    + NorthantsEvent.COLUMN_VALIDITY_STATUS + " TEXT,"
+                    + NorthantsEvent.COLUMN_CIN_ID + " TEXT NOT NULL,"
+                    + NorthantsEvent.COLUMN_CREATION_TIME + " INTEGER,"
+                    + "UNIQUE ("
+                    + NorthantsEvent.COLUMN_ID + ","
+                    + NorthantsEvent.COLUMN_CIN_ID
+                    + ") ON CONFLICT IGNORE);";
+    public static final String CREATE_LATEST_EVENT_TABLE =
+            "CREATE VIEW IF NOT EXISTS " + NorthantsLatestEvent.TABLE_NAME + " AS "
+                    + "SELECT a.* FROM " + NorthantsEvent.TABLE_NAME + " AS a "
+                    + "INNER JOIN (SELECT " + NorthantsEvent.COLUMN_ID
+                    + ", MAX("
+                    + NorthantsEvent.COLUMN_CREATION_TIME + ") AS "
+                    + NorthantsEvent.COLUMN_CREATION_TIME + " FROM "
+                    + NorthantsEvent.TABLE_NAME + " GROUP BY "
+                    + NorthantsEvent.COLUMN_ID + ") AS b ON a."
+                    + NorthantsEvent.COLUMN_ID + "=b."
+                    + NorthantsEvent.COLUMN_ID + " AND a."
+                    + NorthantsEvent.COLUMN_CREATION_TIME + "=b."
+                    + NorthantsEvent.COLUMN_CREATION_TIME + ";";
     public static final String CREATE_ROADWORKS_TABLE =
             "CREATE TABLE IF NOT EXISTS " + NorthantsRoadworks.TABLE_NAME + " ("
                     + NorthantsRoadworks.COLUMN_ID + " TEXT NOT NULL,"
@@ -221,6 +253,24 @@ public class NorthantsContract {
     // Just a view, so all columns come from the car park table.
     public static final class NorthantsLatestCarPark {
         public static final String TABLE_NAME = "northants_latest_car_park";
+    }
+
+    public static final class NorthantsEvent implements CommonBaseColumns {
+        public static final String TABLE_NAME = "northants_event";
+        public static final String COLUMN_ID = "id";
+        public static final String COLUMN_START_OF_PERIOD = "start_of_period";
+        public static final String COLUMN_END_OF_PERIOD = "end_of_period";
+        public static final String COLUMN_OVERALL_START_TIME = "overall_start_time";
+        public static final String COLUMN_OVERALL_END_TIME = "overall_end_time";
+        public static final String COLUMN_LATITUDE = "latitude";
+        public static final String COLUMN_LONGITUDE = "longitude";
+        public static final String COLUMN_DESCRIPTION = "description";
+        public static final String COLUMN_IMPACT_ON_TRAFFIC = "impact_on_traffic";
+        public static final String COLUMN_VALIDITY_STATUS = "validity_status";
+    }
+
+    public static final class NorthantsLatestEvent {
+        public static final String TABLE_NAME = "northants_latest_event";
     }
 
     public static final class NorthantsRoadworks implements CommonBaseColumns {

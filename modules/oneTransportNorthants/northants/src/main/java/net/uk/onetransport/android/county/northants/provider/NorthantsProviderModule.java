@@ -33,6 +33,8 @@ import android.os.Bundle;
 import net.uk.onetransport.android.county.northants.R;
 import net.uk.onetransport.android.county.northants.carparks.CarPark;
 import net.uk.onetransport.android.county.northants.carparks.CarParkRetriever;
+import net.uk.onetransport.android.county.northants.events.Event;
+import net.uk.onetransport.android.county.northants.events.EventRetriever;
 import net.uk.onetransport.android.county.northants.roadworks.Roadworks;
 import net.uk.onetransport.android.county.northants.roadworks.RoadworksRetriever;
 import net.uk.onetransport.android.county.northants.trafficflow.TrafficFlow;
@@ -48,7 +50,9 @@ import net.uk.onetransport.android.modules.common.sync.CommonSyncAdapter;
 import java.util.ArrayList;
 
 import static net.uk.onetransport.android.county.northants.provider.NorthantsContract.NorthantsCarPark;
+import static net.uk.onetransport.android.county.northants.provider.NorthantsContract.NorthantsEvent;
 import static net.uk.onetransport.android.county.northants.provider.NorthantsContract.NorthantsLatestCarPark;
+import static net.uk.onetransport.android.county.northants.provider.NorthantsContract.NorthantsLatestEvent;
 import static net.uk.onetransport.android.county.northants.provider.NorthantsContract.NorthantsLatestRoadworks;
 import static net.uk.onetransport.android.county.northants.provider.NorthantsContract.NorthantsLatestTrafficFlow;
 import static net.uk.onetransport.android.county.northants.provider.NorthantsContract.NorthantsLatestTrafficTravelTime;
@@ -64,6 +68,8 @@ public class NorthantsProviderModule implements ProviderModule {
     public static Uri AUTHORITY_URI;
     public static Uri CAR_PARK_URI;
     public static Uri LATEST_CAR_PARK_URI;
+    public static Uri EVENT_URI;
+    public static Uri LATEST_EVENT_URI;
     public static Uri ROADWORKS_URI;
     public static Uri LATEST_ROADWORKS_URI;
     public static Uri TRAFFIC_FLOW_URI;
@@ -75,6 +81,8 @@ public class NorthantsProviderModule implements ProviderModule {
     // Sync adapter extras.
     private static final String EXTRAS_CAR_PARKS =
             "net.uk.onetransport.android.county.northants.sync.CAR_PARKS";
+    private static final String EXTRAS_EVENTS =
+            "net.uk.onetransport.android.county.northants.sync.EVENTS";
     private static final String EXTRAS_ROADWORKS =
             "net.uk.onetransport.android.county.northants.sync.ROADWORKS";
     private static final String EXTRAS_TRAFFIC_FLOW =
@@ -86,6 +94,9 @@ public class NorthantsProviderModule implements ProviderModule {
     private static int CAR_PARKS;
     private static int LATEST_CAR_PARKS;
     private static int CAR_PARK_ID;
+    private static int EVENTS;
+    private static int LATEST_EVENTS;
+    private static int EVENT_ID;
     private static int ROADWORKS;
     private static int LATEST_ROADWORKS;
     private static int ROADWORKS_ID;
@@ -109,6 +120,8 @@ public class NorthantsProviderModule implements ProviderModule {
     public void createDatabase(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL(NorthantsContract.CREATE_CAR_PARK_TABLE);
         sqLiteDatabase.execSQL(NorthantsContract.CREATE_LATEST_CAR_PARK_TABLE);
+        sqLiteDatabase.execSQL(NorthantsContract.CREATE_EVENT_TABLE);
+        sqLiteDatabase.execSQL(NorthantsContract.CREATE_LATEST_EVENT_TABLE);
         sqLiteDatabase.execSQL(NorthantsContract.CREATE_ROADWORKS_TABLE);
         sqLiteDatabase.execSQL(NorthantsContract.CREATE_LATEST_ROADWORKS_TABLE);
         sqLiteDatabase.execSQL(NorthantsContract.CREATE_TRAFFIC_FLOW_TABLE);
@@ -127,6 +140,9 @@ public class NorthantsProviderModule implements ProviderModule {
         CAR_PARK_URI = Uri.withAppendedPath(AUTHORITY_URI, NorthantsCarPark.TABLE_NAME);
         LATEST_CAR_PARK_URI = Uri.withAppendedPath(AUTHORITY_URI,
                 NorthantsLatestCarPark.TABLE_NAME);
+        EVENT_URI = Uri.withAppendedPath(AUTHORITY_URI, NorthantsEvent.TABLE_NAME);
+        LATEST_EVENT_URI = Uri.withAppendedPath(AUTHORITY_URI,
+                NorthantsLatestEvent.TABLE_NAME);
         ROADWORKS_URI = Uri.withAppendedPath(AUTHORITY_URI, NorthantsRoadworks.TABLE_NAME);
         LATEST_ROADWORKS_URI = Uri.withAppendedPath(AUTHORITY_URI,
                 NorthantsLatestRoadworks.TABLE_NAME);
@@ -150,6 +166,15 @@ public class NorthantsProviderModule implements ProviderModule {
         providerModules.add(this);
         CAR_PARK_ID = providerModules.size();
         uriMatcher.addURI(authority, NorthantsCarPark.TABLE_NAME + "/#", CAR_PARK_ID);
+        providerModules.add(this);
+        EVENTS = providerModules.size();
+        uriMatcher.addURI(authority, NorthantsEvent.TABLE_NAME, EVENTS);
+        providerModules.add(this);
+        LATEST_EVENTS = providerModules.size();
+        uriMatcher.addURI(authority, NorthantsLatestEvent.TABLE_NAME, LATEST_EVENTS);
+        providerModules.add(this);
+        EVENT_ID = providerModules.size();
+        uriMatcher.addURI(authority, NorthantsEvent.TABLE_NAME + "/#", EVENT_ID);
         providerModules.add(this);
         ROADWORKS = providerModules.size();
         uriMatcher.addURI(authority, NorthantsRoadworks.TABLE_NAME, ROADWORKS);
@@ -204,6 +229,15 @@ public class NorthantsProviderModule implements ProviderModule {
         }
         if (match == CAR_PARK_ID) {
             return mimeItemPrefix + NorthantsCarPark.TABLE_NAME;
+        }
+        if (match == EVENTS) {
+            return mimeDirPrefix + NorthantsEvent.TABLE_NAME;
+        }
+        if (match == LATEST_EVENTS) {
+            return mimeDirPrefix + NorthantsLatestEvent.TABLE_NAME;
+        }
+        if (match == EVENT_ID) {
+            return mimeItemPrefix + NorthantsEvent.TABLE_NAME;
         }
         if (match == ROADWORKS) {
             return mimeDirPrefix + NorthantsRoadworks.TABLE_NAME;
@@ -361,9 +395,92 @@ public class NorthantsProviderModule implements ProviderModule {
             }
             return numInserted;
         }
+
         if (match == LATEST_CAR_PARKS) {
             throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed)
                     + NorthantsLatestCarPark.TABLE_NAME);
+        }
+        if (match == EVENTS) {
+            sqLiteDatabase.beginTransaction();
+            try {
+                SQLiteStatement insert = sqLiteDatabase.compileStatement(
+                        "INSERT INTO " + NorthantsEvent.TABLE_NAME + "("
+                                + NorthantsEvent.COLUMN_ID + ","
+                                + NorthantsEvent.COLUMN_START_OF_PERIOD + ","
+                                + NorthantsEvent.COLUMN_END_OF_PERIOD + ","
+                                + NorthantsEvent.COLUMN_OVERALL_START_TIME + ","
+                                + NorthantsEvent.COLUMN_OVERALL_END_TIME + ","
+                                + NorthantsEvent.COLUMN_LATITUDE + ","
+                                + NorthantsEvent.COLUMN_LONGITUDE + ","
+                                + NorthantsEvent.COLUMN_DESCRIPTION + ","
+                                + NorthantsEvent.COLUMN_IMPACT_ON_TRAFFIC + ","
+                                + NorthantsEvent.COLUMN_VALIDITY_STATUS + ","
+                                + NorthantsEvent.COLUMN_CIN_ID + ","
+                                + NorthantsEvent.COLUMN_CREATION_TIME
+                                + ") VALUES " + "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
+                for (ContentValues value : contentValues) {
+                    String id = value.getAsString(NorthantsEvent.COLUMN_ID);
+                    String startOfPeriod = value.getAsString(NorthantsEvent.COLUMN_START_OF_PERIOD);
+                    String endOfPeriod = value.getAsString(NorthantsEvent.COLUMN_END_OF_PERIOD);
+                    String overallStartTime = value.getAsString(NorthantsEvent.COLUMN_OVERALL_START_TIME);
+                    String overallEndTime = value.getAsString(NorthantsEvent.COLUMN_OVERALL_END_TIME);
+                    Double latitude = value.getAsDouble(NorthantsEvent.COLUMN_LATITUDE);
+                    Double longitude = value.getAsDouble(NorthantsEvent.COLUMN_LONGITUDE);
+                    String description = value.getAsString(NorthantsEvent.COLUMN_DESCRIPTION);
+                    String impactOnTraffic = value.getAsString(NorthantsEvent.COLUMN_IMPACT_ON_TRAFFIC);
+                    String validityStatus = value.getAsString(NorthantsEvent.COLUMN_VALIDITY_STATUS);
+                    String cinId = value.getAsString(NorthantsEvent.COLUMN_CIN_ID);
+                    Long creationTime = value.getAsLong(NorthantsEvent.COLUMN_CREATION_TIME);
+                    if (id != null) {
+                        insert.bindString(1, id);
+                    }
+                    if (startOfPeriod != null) {
+                        insert.bindString(2, startOfPeriod);
+                    }
+                    if (endOfPeriod != null) {
+                        insert.bindString(3, endOfPeriod);
+                    }
+                    if (overallStartTime != null) {
+                        insert.bindString(4, overallStartTime);
+                    }
+                    if (overallEndTime != null) {
+                        insert.bindString(5, overallEndTime);
+                    }
+                    if (latitude != null) {
+                        insert.bindDouble(6, latitude);
+                    }
+                    if (longitude != null) {
+                        insert.bindDouble(7, longitude);
+                    }
+                    if (description != null) {
+                        insert.bindString(8, description);
+                    }
+                    if (impactOnTraffic != null) {
+                        insert.bindString(9, impactOnTraffic);
+                    }
+                    if (validityStatus != null) {
+                        insert.bindString(10, validityStatus);
+                    }
+                    if (cinId != null) {
+                        insert.bindString(11, cinId);
+                    }
+                    if (creationTime != null) {
+                        insert.bindLong(12, creationTime);
+                    }
+                    insert.executeInsert();
+                    insert.clearBindings();
+                }
+                sqLiteDatabase.setTransactionSuccessful();
+                numInserted = contentValues.length;
+                contentResolver.notifyChange(EVENT_URI, null);
+            } finally {
+                sqLiteDatabase.endTransaction();
+            }
+            return numInserted;
+        }
+        if (match == LATEST_EVENTS) {
+            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed)
+                    + NorthantsLatestEvent.TABLE_NAME);
         }
         if (match == ROADWORKS) {
             sqLiteDatabase.beginTransaction();
@@ -739,6 +856,15 @@ public class NorthantsProviderModule implements ProviderModule {
             throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed)
                     + NorthantsLatestCarPark.TABLE_NAME);
         }
+        if (match == EVENTS) {
+            id = sqLiteDatabase.insert(NorthantsEvent.TABLE_NAME, null, contentValues);
+            contentResolver.notifyChange(EVENT_URI, null);
+            return ContentUris.withAppendedId(EVENT_URI, id);
+        }
+        if (match == LATEST_EVENTS) {
+            throw new IllegalArgumentException(context.getString(R.string.error_insert_not_allowed)
+                    + NorthantsLatestEvent.TABLE_NAME);
+        }
         if (match == ROADWORKS) {
             id = sqLiteDatabase.insert(NorthantsRoadworks.TABLE_NAME, null, contentValues);
             contentResolver.notifyChange(ROADWORKS_URI, null);
@@ -798,6 +924,24 @@ public class NorthantsProviderModule implements ProviderModule {
             Cursor cursor = sqLiteDatabase.query(NorthantsCarPark.TABLE_NAME, projection,
                     NorthantsCarPark._ID + "=?", new String[]{uri.getLastPathSegment()}, null, null, sortOrder);
             cursor.setNotificationUri(contentResolver, CAR_PARK_URI);
+            return cursor;
+        }
+        if (match == EVENTS) {
+            Cursor cursor = sqLiteDatabase.query(NorthantsEvent.TABLE_NAME, projection,
+                    selection, selectionArgs, null, null, sortOrder);
+            cursor.setNotificationUri(contentResolver, EVENT_URI);
+            return cursor;
+        }
+        if (match == LATEST_EVENTS) {
+            Cursor cursor = sqLiteDatabase.query(NorthantsLatestEvent.TABLE_NAME, projection,
+                    selection, selectionArgs, null, null, sortOrder);
+            cursor.setNotificationUri(contentResolver, LATEST_EVENT_URI);
+            return cursor;
+        }
+        if (match == EVENT_ID) {
+            Cursor cursor = sqLiteDatabase.query(NorthantsEvent.TABLE_NAME, projection,
+                    NorthantsEvent._ID + "=?", new String[]{uri.getLastPathSegment()}, null, null, sortOrder);
+            cursor.setNotificationUri(contentResolver, EVENT_URI);
             return cursor;
         }
         if (match == ROADWORKS) {
@@ -898,6 +1042,21 @@ public class NorthantsProviderModule implements ProviderModule {
             contentResolver.notifyChange(CAR_PARK_URI, null);
             return rows;
         }
+        if (match == EVENTS) {
+            int rows = sqLiteDatabase.update(NorthantsEvent.TABLE_NAME, values, selection, selectionArgs);
+            contentResolver.notifyChange(EVENT_URI, null);
+            return rows;
+        }
+        if (match == LATEST_EVENTS) {
+            throw new IllegalArgumentException(context.getString(R.string.error_update_not_allowed)
+                    + NorthantsLatestEvent.TABLE_NAME);
+        }
+        if (match == EVENT_ID) {
+            int rows = sqLiteDatabase.update(NorthantsEvent.TABLE_NAME, values, NorthantsEvent._ID + "=?",
+                    new String[]{uri.getLastPathSegment()});
+            contentResolver.notifyChange(EVENT_URI, null);
+            return rows;
+        }
         if (match == ROADWORKS) {
             int rows = sqLiteDatabase.update(NorthantsRoadworks.TABLE_NAME, values, selection, selectionArgs);
             contentResolver.notifyChange(ROADWORKS_URI, null);
@@ -975,6 +1134,14 @@ public class NorthantsProviderModule implements ProviderModule {
             throw new IllegalArgumentException(context.getString(R.string.error_delete_not_allowed)
                     + NorthantsLatestCarPark.TABLE_NAME);
         }
+        if (match == EVENTS) {
+            rows = sqLiteDatabase.delete(NorthantsEvent.TABLE_NAME, selection, selectionArgs);
+            contentResolver.notifyChange(EVENT_URI, null);
+        }
+        if (match == LATEST_EVENTS) {
+            throw new IllegalArgumentException(context.getString(R.string.error_delete_not_allowed)
+                    + NorthantsLatestEvent.TABLE_NAME);
+        }
         if (match == ROADWORKS) {
             rows = sqLiteDatabase.delete(NorthantsRoadworks.TABLE_NAME, selection, selectionArgs);
             contentResolver.notifyChange(ROADWORKS_URI, null);
@@ -1023,6 +1190,15 @@ public class NorthantsProviderModule implements ProviderModule {
                     e.printStackTrace();
                 }
             }
+            // Events.
+            if (extras.getBoolean(EXTRAS_EVENTS, false)) {
+                try {
+                    Event[] events = new EventRetriever(context).retrieve();
+                    NorthantsContentHelper.insertIntoProvider(context, events);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
             // Road works.
             if (extras.getBoolean(EXTRAS_ROADWORKS, false)) {
                 try {
@@ -1063,10 +1239,11 @@ public class NorthantsProviderModule implements ProviderModule {
         }
     }
 
-    public static void refresh(Context context, boolean carParks, boolean roadworks, boolean trafficFlow,
-                               boolean trafficTravelTime, boolean variableMessageSigns) {
+    public static void refresh(Context context, boolean carParks, boolean events,boolean roadworks,
+                               boolean trafficFlow, boolean trafficTravelTime, boolean variableMessageSigns) {
         Bundle settingsBundle = new Bundle();
         settingsBundle.putBoolean(EXTRAS_CAR_PARKS, carParks);
+        settingsBundle.putBoolean(EXTRAS_EVENTS, events);
         settingsBundle.putBoolean(EXTRAS_ROADWORKS, roadworks);
         settingsBundle.putBoolean(EXTRAS_TRAFFIC_FLOW, trafficFlow);
         settingsBundle.putBoolean(EXTRAS_TRAFFIC_TRAVEL_TIME, trafficTravelTime);

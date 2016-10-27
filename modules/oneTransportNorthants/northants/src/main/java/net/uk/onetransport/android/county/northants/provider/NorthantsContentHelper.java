@@ -26,6 +26,7 @@ import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 
 import net.uk.onetransport.android.county.northants.carparks.CarPark;
+import net.uk.onetransport.android.county.northants.events.Event;
 import net.uk.onetransport.android.county.northants.roadworks.Roadworks;
 import net.uk.onetransport.android.county.northants.trafficflow.TrafficFlow;
 import net.uk.onetransport.android.county.northants.traffictraveltime.TrafficTravelTime;
@@ -37,6 +38,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 import static net.uk.onetransport.android.county.northants.provider.NorthantsContract.NorthantsCarPark;
+import static net.uk.onetransport.android.county.northants.provider.NorthantsContract.NorthantsEvent;
 import static net.uk.onetransport.android.county.northants.provider.NorthantsContract.NorthantsRoadworks;
 import static net.uk.onetransport.android.county.northants.provider.NorthantsContract.NorthantsTrafficFlow;
 import static net.uk.onetransport.android.county.northants.provider.NorthantsContract.NorthantsTrafficTravelTime;
@@ -46,6 +48,7 @@ public class NorthantsContentHelper extends CommonContentHelper {
 
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({DATA_TYPE_CAR_PARK,
+            DATA_TYPE_EVENT,
             DATA_TYPE_ROADWORKS,
             DATA_TYPE_TRAFFIC_FLOW,
             DATA_TYPE_TRAFFIC_TRAVEL_TIME,
@@ -54,10 +57,11 @@ public class NorthantsContentHelper extends CommonContentHelper {
     }
 
     public static final int DATA_TYPE_CAR_PARK = 1;
-    public static final int DATA_TYPE_ROADWORKS = 2;
-    public static final int DATA_TYPE_TRAFFIC_FLOW = 3;
-    public static final int DATA_TYPE_TRAFFIC_TRAVEL_TIME = 4;
-    public static final int DATA_TYPE_VMS = 5;
+    public static final int DATA_TYPE_EVENT = 2;
+    public static final int DATA_TYPE_ROADWORKS = 3;
+    public static final int DATA_TYPE_TRAFFIC_FLOW = 4;
+    public static final int DATA_TYPE_TRAFFIC_TRAVEL_TIME = 5;
+    public static final int DATA_TYPE_VMS = 6;
 
     public static void insertIntoProvider(@NonNull Context context, @NonNull CarPark[] carParks)
             throws RemoteException, OperationApplicationException {
@@ -87,6 +91,30 @@ public class NorthantsContentHelper extends CommonContentHelper {
             }
             ContentResolver contentResolver = context.getContentResolver();
             contentResolver.bulkInsert(NorthantsProviderModule.CAR_PARK_URI, cvs);
+        }
+    }
+
+    public static void insertIntoProvider(@NonNull Context context, @NonNull Event[] events)
+            throws RemoteException, OperationApplicationException {
+        if (events.length > 0) {
+            ContentValues[] cvs = new ContentValues[events.length];
+            for (int i = 0; i < events.length; i++) {
+                cvs[i] = new ContentValues();
+                cvs[i].put(NorthantsEvent.COLUMN_ID, events[i].getId());
+                cvs[i].put(NorthantsEvent.COLUMN_START_OF_PERIOD, events[i].getStartOfPeriod());
+                cvs[i].put(NorthantsEvent.COLUMN_END_OF_PERIOD, events[i].getEndOfPeriod());
+                cvs[i].put(NorthantsEvent.COLUMN_OVERALL_START_TIME, events[i].getOverallStartTime());
+                cvs[i].put(NorthantsEvent.COLUMN_OVERALL_END_TIME, events[i].getOverallEndTime());
+                cvs[i].put(NorthantsEvent.COLUMN_LATITUDE, events[i].getLatitude());
+                cvs[i].put(NorthantsEvent.COLUMN_LONGITUDE, events[i].getLongitude());
+                cvs[i].put(NorthantsEvent.COLUMN_DESCRIPTION, events[i].getDescription());
+                cvs[i].put(NorthantsEvent.COLUMN_IMPACT_ON_TRAFFIC, events[i].getImpactOnTraffic());
+                cvs[i].put(NorthantsEvent.COLUMN_VALIDITY_STATUS, events[i].getValidityStatus());
+                cvs[i].put(NorthantsEvent.COLUMN_CIN_ID, events[i].getCinId());
+                cvs[i].put(NorthantsEvent.COLUMN_CREATION_TIME, events[i].getCreationTime());
+            }
+            ContentResolver contentResolver = context.getContentResolver();
+            contentResolver.bulkInsert(NorthantsProviderModule.EVENT_URI, cvs);
         }
     }
 
@@ -224,6 +252,34 @@ public class NorthantsContentHelper extends CommonContentHelper {
         return carParksFromCursor(getLatestCarParkCursor(context));
     }
 
+    public static Cursor getEventCursor(@NonNull Context context) {
+        return context.getContentResolver().query(NorthantsProviderModule.EVENT_URI,
+                new String[]{"*"}, null, null, NorthantsEvent.COLUMN_ID);
+    }
+
+    public static Cursor getEventCursor(@NonNull Context context, long oldest, long newest) {
+        return context.getContentResolver().query(NorthantsProviderModule.EVENT_URI,
+                new String[]{"*"}, CREATION_INTERVAL_SELECTION, interval(oldest, newest),
+                CommonBaseColumns.COLUMN_CREATION_TIME);
+    }
+
+    public static Cursor getLatestEventCursor(@NonNull Context context) {
+        return context.getContentResolver().query(NorthantsProviderModule.LATEST_EVENT_URI,
+                new String[]{"*"}, null, null, NorthantsEvent.COLUMN_ID);
+    }
+
+    public static Event[] getEvents(@NonNull Context context) {
+        return eventsFromCursor(getEventCursor(context));
+    }
+
+    public static Event[] getEvents(@NonNull Context context, long oldest, long newest) {
+        return eventsFromCursor(getEventCursor(context, oldest, newest));
+    }
+
+    public static Event[] getLatestEvents(@NonNull Context context) {
+        return eventsFromCursor(getLatestEventCursor(context));
+    }
+
     public static Cursor getRoadworksCursor(@NonNull Context context) {
         return context.getContentResolver().query(NorthantsProviderModule.ROADWORKS_URI,
                 new String[]{"*"}, null, null, NorthantsRoadworks.COLUMN_ID);
@@ -347,6 +403,9 @@ public class NorthantsContentHelper extends CommonContentHelper {
             case DATA_TYPE_CAR_PARK:
                 contentResolver.delete(NorthantsProviderModule.CAR_PARK_URI, null, null);
                 break;
+            case DATA_TYPE_EVENT:
+                contentResolver.delete(NorthantsProviderModule.EVENT_URI, null, null);
+                break;
             case DATA_TYPE_ROADWORKS:
                 contentResolver.delete(NorthantsProviderModule.ROADWORKS_URI, null, null);
                 break;
@@ -368,6 +427,10 @@ public class NorthantsContentHelper extends CommonContentHelper {
         switch (dataType) {
             case DATA_TYPE_CAR_PARK:
                 contentResolver.delete(NorthantsProviderModule.CAR_PARK_URI, CREATED_BEFORE,
+                        new String[]{String.valueOf(creationTime)});
+                break;
+            case DATA_TYPE_EVENT:
+                contentResolver.delete(NorthantsProviderModule.EVENT_URI, CREATED_BEFORE,
                         new String[]{String.valueOf(creationTime)});
                 break;
             case DATA_TYPE_ROADWORKS:
@@ -441,6 +504,48 @@ public class NorthantsContentHelper extends CommonContentHelper {
         return carParks;
     }
 
+    public static Event[] eventsFromCursor(Cursor cursor) {
+        Event[] events = null;
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                events = new Event[cursor.getCount()];
+                for (int i = 0; i < events.length; i++) {
+                    events[i] = new Event();
+                    events[i].setId(cursor.getString(cursor.getColumnIndex(
+                            NorthantsEvent.COLUMN_ID)));
+                    events[i].setStartOfPeriod(cursor.getString(cursor.getColumnIndex(
+                            NorthantsEvent.COLUMN_START_OF_PERIOD)));
+                    events[i].setEndOfPeriod(cursor.getString(cursor.getColumnIndex(
+                            NorthantsEvent.COLUMN_END_OF_PERIOD)));
+                    events[i].setOverallStartTime(cursor.getString(cursor.getColumnIndex(
+                            NorthantsEvent.COLUMN_OVERALL_START_TIME)));
+                    events[i].setOverallEndTime(cursor.getString(cursor.getColumnIndex(
+                            NorthantsEvent.COLUMN_OVERALL_END_TIME)));
+                    events[i].setLatitude(cursor.getDouble(cursor.getColumnIndex(
+                            NorthantsEvent.COLUMN_LATITUDE)));
+                    events[i].setLongitude(cursor.getDouble(cursor.getColumnIndex(
+                            NorthantsEvent.COLUMN_LONGITUDE)));
+                    events[i].setImpactOnTraffic(cursor.getString(cursor.getColumnIndex(
+                            NorthantsEvent.COLUMN_IMPACT_ON_TRAFFIC)));
+                    events[i].setValidityStatus(cursor.getString(cursor.getColumnIndex(
+                            NorthantsEvent.COLUMN_VALIDITY_STATUS)));
+                    events[i].setDescription((cursor.getString(cursor.getColumnIndex(
+                            NorthantsEvent.COLUMN_DESCRIPTION))));
+                    events[i].setCinId(cursor.getString(cursor.getColumnIndex(
+                            NorthantsEvent.COLUMN_CIN_ID)));
+                    events[i].setCreationTime(cursor.getLong(cursor.getColumnIndex(
+                            NorthantsEvent.COLUMN_CREATION_TIME)));
+                    cursor.moveToNext();
+                }
+            }
+            cursor.close();
+        }
+        if (events == null) {
+            return new Event[0];
+        }
+        return events;
+    }
+    
     public static Roadworks[] roadworksesFromCursor(Cursor cursor) {
         Roadworks[] roadworkses = null;
         if (cursor != null) {

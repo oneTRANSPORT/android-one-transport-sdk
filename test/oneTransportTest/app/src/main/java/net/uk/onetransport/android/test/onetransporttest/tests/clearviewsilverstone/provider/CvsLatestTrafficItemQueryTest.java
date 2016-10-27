@@ -50,6 +50,6 @@ public class CvsLatestTrafficItemQueryTest extends OneTransportTest {
             }
             cursor.close();
         }
-        runnerTask.report("CSV latest traffic item query ... FAILED.", COLOUR_FAILED);
+        runnerTask.report("CVS latest traffic item query ... FAILED.", COLOUR_FAILED);
     }
 }
