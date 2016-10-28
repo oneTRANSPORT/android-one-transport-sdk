@@ -231,7 +231,7 @@ public class CvsProviderModule implements ProviderModule {
             sqLiteDatabase.beginTransaction();
             try {
                 SQLiteStatement insert = sqLiteDatabase.compileStatement(
-                        "INSERT INTO " + ClearviewSilverstoneDevice.TABLE_NAME + "("
+                        "INSERT INTO " + ClearviewSilverstoneTraffic.TABLE_NAME + "("
                                 + ClearviewSilverstoneTraffic.COLUMN_SENSOR_ID + ","
                                 + ClearviewSilverstoneTraffic.COLUMN_TIMESTAMP + ","
                                 + ClearviewSilverstoneTraffic.COLUMN_LANE + ","
@@ -264,10 +264,12 @@ public class CvsProviderModule implements ProviderModule {
                     if (creationTime != null) {
                         insert.bindLong(6, creationTime);
                     }
-                    sqLiteDatabase.setTransactionSuccessful();
-                    numInserted = contentValues.length;
-                    contentResolver.notifyChange(TRAFFIC_URI, null);
+                    insert.executeInsert();
+                    insert.clearBindings();
                 }
+                sqLiteDatabase.setTransactionSuccessful();
+                numInserted = contentValues.length;
+                contentResolver.notifyChange(TRAFFIC_URI, null);
             } finally {
                 sqLiteDatabase.endTransaction();
             }
