@@ -24,18 +24,12 @@ import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
 
 public abstract class OneTransportTest {
 
-    // Dev.
-    public static final String CLIENT_AE_ID = "C-Y249T25lVHJhbnNwb3J0VGVzdCxvdT1yb290";
-    public static final String TOKEN = "010FYzsgPMbnxKRn";
-    // Production.
-//    public static final String CLIENT_AE_ID = "C-Y249b25lLXRyYW5zcG9ydC1zZGstdGVzdCxvdT1yb290";
-//    public static final String TOKEN = "01s8cyb6AfkMO82U";
+    public static final String CLIENT_AE_ID = "C-Y249b25lLXRyYW5zcG9ydC1zZGstdGVzdCxvdT1yb290";
+    public static final String TOKEN = "01s8cyb6AfkMO82U";
 
     public static final int COLOUR_PASSED = 0xff80ff80;
     public static final int COLOUR_NOT_IMPLEMENTED = 0xffcc80ff;
     public static final int COLOUR_FAILED = 0xffff8080;
-
-//    public static final String APP_NAME = "C-ONETRANSPORT-TEST-APP";
 
     public boolean adapterFinished = false;
 
@@ -44,10 +38,6 @@ public abstract class OneTransportTest {
     public abstract void start(RunnerTask runnerTask) throws Exception;
 
     public abstract void startAsync(DougalCallback dougalCallback);
-
-    public String getAeId() {
-        return CLIENT_AE_ID;
-    }
 
     public Context getContext() {
         return context;

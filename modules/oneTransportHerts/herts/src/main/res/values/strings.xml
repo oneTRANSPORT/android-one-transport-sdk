@@ -16,7 +16,7 @@ limitations under the License.
 -->
 <resources>
     <string name="app_name">oneTransport Herts SDK</string>
-    <string name="herts_base_url">https://dev.onetransport.uk.net/</string>
+    <string name="herts_base_url">https://cse-01.onetransport.uk.net/</string>
     <string name="herts_cse_name">ONETCSE01</string>
     <!-- Required for common module integration. -->
     <string name="herts_provider_module_class" translatable="false">net.uk.onetransport.android.county.herts.provider.HertsProviderModule</string>

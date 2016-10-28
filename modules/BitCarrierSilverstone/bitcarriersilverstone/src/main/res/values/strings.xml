@@ -19,7 +19,7 @@ limitations under the License.
 -->
 <resources>
     <string name="app_name">oneTransport BitCarrier Silverstone SDK</string>
-    <string name="bitcarrier_base_url">https://dev.onetransport.uk.net/</string>
+    <string name="bitcarrier_base_url">https://cse-01.onetransport.uk.net/</string>
     <string name="bitcarrier_cse_name">ONETCSE01</string>
     <string name="bitcarrier_silverstone_provider_module_class" translatable="false">net.uk.onetransport.android.modules.bitcarriersilverstone.provider.BcsProviderModule</string>
 

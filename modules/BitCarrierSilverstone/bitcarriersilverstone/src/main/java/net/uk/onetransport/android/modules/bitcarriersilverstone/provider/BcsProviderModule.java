@@ -246,7 +246,7 @@ public class BcsProviderModule implements ProviderModule {
                 for (ContentValues value : contentValues) {
                     Integer sketchId = value.getAsInteger(BitCarrierSilverstoneSketch.COLUMN_SKETCH_ID);
                     Integer vectorId = value.getAsInteger(BitCarrierSilverstoneSketch.COLUMN_VECTOR_ID);
-                    Integer visible = value.getAsInteger(BitCarrierSilverstoneSketch.COLUMN_VISIBLE);
+                    Boolean visible = value.getAsBoolean(BitCarrierSilverstoneSketch.COLUMN_VISIBLE);
                     String copyrights = value.getAsString(BitCarrierSilverstoneSketch.COLUMN_COPYRIGHTS);
                     String coordinates = value.getAsString(BitCarrierSilverstoneSketch.COLUMN_COORDINATES);
                     String cinId = value.getAsString(BitCarrierSilverstoneSketch.COLUMN_CIN_ID);
@@ -258,7 +258,11 @@ public class BcsProviderModule implements ProviderModule {
                         insert.bindLong(2, vectorId);
                     }
                     if (visible != null) {
-                        insert.bindLong(3, visible);
+                        if (visible) {
+                            insert.bindLong(3, 1);
+                        } else {
+                            insert.bindLong(3, 0);
+                        }
                     }
                     if (copyrights != null) {
                         insert.bindString(4, copyrights);

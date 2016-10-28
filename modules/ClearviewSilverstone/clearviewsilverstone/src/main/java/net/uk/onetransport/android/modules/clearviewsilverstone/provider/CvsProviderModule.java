@@ -243,7 +243,7 @@ public class CvsProviderModule implements ProviderModule {
                     Long sensorId = value.getAsLong(ClearviewSilverstoneTraffic.COLUMN_SENSOR_ID);
                     String timestamp = value.getAsString(ClearviewSilverstoneTraffic.COLUMN_TIMESTAMP);
                     Long lane = value.getAsLong(ClearviewSilverstoneTraffic.COLUMN_LANE);
-                    Long direction = value.getAsLong(ClearviewSilverstoneTraffic.COLUMN_DIRECTION);
+                    Boolean direction = value.getAsBoolean(ClearviewSilverstoneTraffic.COLUMN_DIRECTION);
                     String cinId = value.getAsString(ClearviewSilverstoneTraffic.COLUMN_CIN_ID);
                     Long creationTime = value.getAsLong(ClearviewSilverstoneTraffic.COLUMN_CREATION_TIME);
                     if (sensorId != null) {
@@ -256,7 +256,11 @@ public class CvsProviderModule implements ProviderModule {
                         insert.bindLong(3, lane);
                     }
                     if (direction != null) {
-                        insert.bindLong(4, direction);
+                        if (direction) {
+                            insert.bindLong(4, 1);
+                        } else {
+                            insert.bindLong(4, 0);
+                        }
                     }
                     if (cinId != null) {
                         insert.bindString(5, cinId);
