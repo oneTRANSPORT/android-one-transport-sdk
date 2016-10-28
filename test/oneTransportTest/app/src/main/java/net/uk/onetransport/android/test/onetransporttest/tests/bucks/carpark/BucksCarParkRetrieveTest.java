@@ -20,6 +20,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+import android.util.Log;
 
 import com.interdigital.android.dougal.Types;
 import com.interdigital.android.dougal.resource.Resource;
@@ -76,6 +77,7 @@ public class BucksCarParkRetrieveTest extends OneTransportTest
         runnerTask.setCurrentTest("BUCKS get car park array");
         CarPark[] carParks = new CarParkRetriever(getContext()).retrieve();
         if (carParks == null || carParks.length == 0) {
+            Log.i("BucksCarPark", "Error no data in feed");
             runnerTask.report("BUCKS get car park array ... FAILED.", COLOUR_FAILED);
         } else {
             runnerTask.report("BUCKS get car park array ... PASSED.", COLOUR_PASSED);

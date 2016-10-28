@@ -20,6 +20,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+import android.util.Log;
 
 import com.interdigital.android.dougal.Types;
 import com.interdigital.android.dougal.resource.Resource;
@@ -77,6 +78,7 @@ public class OxonTrafficScootRetrieveTest extends OneTransportTest
         runnerTask.setCurrentTest("OXON get traffic scoot array");
         TrafficScoot[] trafficScoots = new TrafficScootRetriever(getContext()).retrieve();
         if (trafficScoots == null || trafficScoots.length == 0) {
+            Log.i("OxonTrafficScoot", "Error no data in feed");
             runnerTask.report("OXON get traffic scoot array ... FAILED.", COLOUR_FAILED);
         } else {
             runnerTask.report("OXON get traffic scoot array ... PASSED.", COLOUR_PASSED);

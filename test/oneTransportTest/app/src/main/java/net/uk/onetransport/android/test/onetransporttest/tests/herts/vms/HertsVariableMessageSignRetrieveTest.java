@@ -20,6 +20,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+import android.util.Log;
 
 import com.interdigital.android.dougal.Types;
 import com.interdigital.android.dougal.resource.Resource;
@@ -78,6 +79,7 @@ public class HertsVariableMessageSignRetrieveTest extends OneTransportTest
         VariableMessageSign[] variableMessageSigns = new VariableMessageSignRetriever(getContext())
                 .retrieve();
         if (variableMessageSigns == null || variableMessageSigns.length == 0) {
+            Log.i("HertsVMS", "Error no data in feed");
             runnerTask.report("HERTS get VMS array ... FAILED.", COLOUR_FAILED);
         } else {
             runnerTask.report("HERTS get VMS array ... PASSED.", COLOUR_PASSED);

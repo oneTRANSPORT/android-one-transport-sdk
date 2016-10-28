@@ -20,6 +20,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+import android.util.Log;
 
 import com.interdigital.android.dougal.Types;
 import com.interdigital.android.dougal.resource.Resource;
@@ -76,6 +77,7 @@ public class HertsEventRetrieveTest extends OneTransportTest
         runnerTask.setCurrentTest("HERTS get event array");
         Event[] events = new EventRetriever(getContext()).retrieve();
         if (events == null || events.length == 0) {
+            Log.i("HertsEvent", "Error no data in feed");
             runnerTask.report("HERTS get event array ... FAILED.", COLOUR_FAILED);
         } else {
             runnerTask.report("HERTS get event array ... PASSED.", COLOUR_PASSED);

@@ -20,6 +20,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+import android.util.Log;
 
 import com.interdigital.android.dougal.Types;
 import com.interdigital.android.dougal.resource.Resource;
@@ -40,12 +41,12 @@ public class BucksRoadworksRetrieveTest extends OneTransportTest
 
     @Override
     public void start(RunnerTask runnerTask) throws Exception {
-        getRoadWorksArray(runnerTask);
+        getRoadworksArray(runnerTask);
     }
 
     @Override
     public void startAsync(DougalCallback dougalCallback) {
-        ((RunnerFragment) dougalCallback).setCurrentTest("BUCKS get road works array");
+        ((RunnerFragment) dougalCallback).setCurrentTest("BUCKS get roadworks array");
         this.dougalCallback = dougalCallback;
         ((Fragment) dougalCallback).getLoaderManager().initLoader(
                 ((RunnerFragment) dougalCallback).getUniqueLoaderId(), null, this);
@@ -60,7 +61,7 @@ public class BucksRoadworksRetrieveTest extends OneTransportTest
     public void onLoadFinished(Loader<RetrieverResult<Roadworks>> loader,
                                RetrieverResult<Roadworks> data) {
         if (data.getExceptions().size() > 0 || data.getContent() == null) {
-            dougalCallback.getResponse(null, new Throwable("Bucks road works array error"));
+            dougalCallback.getResponse(null, new Throwable("Bucks roadworks array error"));
         } else {
             // Just send any valid resource.
             dougalCallback.getResponse(new Resource("aeid", "resourceId", "resourceName",
@@ -73,13 +74,14 @@ public class BucksRoadworksRetrieveTest extends OneTransportTest
         // Nothing needs to be done.
     }
 
-    private void getRoadWorksArray(RunnerTask runnerTask) throws Exception {
-        runnerTask.setCurrentTest("BUCKS get road works array");
-        Roadworks[] roadWorkses = new RoadworksRetriever(getContext()).retrieve();
-        if (roadWorkses == null || roadWorkses.length == 0) {
-            runnerTask.report("BUCKS get road works array ... FAILED.", COLOUR_FAILED);
+    private void getRoadworksArray(RunnerTask runnerTask) throws Exception {
+        runnerTask.setCurrentTest("BUCKS get roadworks array");
+        Roadworks[] roadworkses = new RoadworksRetriever(getContext()).retrieve();
+        if (roadworkses == null || roadworkses.length == 0) {
+            Log.i("BucksRoadworks", "Error no data in feed");
+            runnerTask.report("BUCKS get roadworks array ... FAILED.", COLOUR_FAILED);
         } else {
-            runnerTask.report("BUCKS get road works array ... PASSED.", COLOUR_PASSED);
+            runnerTask.report("BUCKS get roadworks array ... PASSED.", COLOUR_PASSED);
         }
     }
 }

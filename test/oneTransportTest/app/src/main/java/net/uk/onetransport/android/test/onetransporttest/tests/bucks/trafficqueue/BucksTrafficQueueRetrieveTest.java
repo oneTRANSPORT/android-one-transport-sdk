@@ -20,6 +20,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+import android.util.Log;
 
 import com.interdigital.android.dougal.Types;
 import com.interdigital.android.dougal.resource.Resource;
@@ -77,6 +78,7 @@ public class BucksTrafficQueueRetrieveTest extends OneTransportTest
         runnerTask.setCurrentTest("BUCKS get traffic queue array");
         TrafficQueue[] trafficQueues = new TrafficQueueRetriever(getContext()).retrieve();
         if (trafficQueues == null || trafficQueues.length == 0) {
+            Log.i("BucksTrafficQueue", "Error no data in feed");
             runnerTask.report("BUCKS get traffic queue array ... FAILED.", COLOUR_FAILED);
         } else {
             runnerTask.report("BUCKS get traffic queue array ... PASSED.", COLOUR_PASSED);

@@ -20,6 +20,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+import android.util.Log;
 
 import com.interdigital.android.dougal.Types;
 import com.interdigital.android.dougal.resource.Resource;
@@ -79,6 +80,7 @@ public class BcsSketchRetrieveTest extends OneTransportTest
         SketchRetriever sketchRetriever = new SketchRetriever(runnerTask.getContext());
         ArrayList<Sketch> sketches = sketchRetriever.retrieve();
         if (sketches == null || sketches.size() == 0) {
+            Log.i("BCSSketch", "Error no data in feed");
             runnerTask.report("BCS get sketch array ... FAILED.", COLOUR_FAILED);
         } else {
             runnerTask.report("BCS get sketch array ... PASSED.", COLOUR_PASSED);

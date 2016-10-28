@@ -20,6 +20,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+import android.util.Log;
 
 import com.interdigital.android.dougal.Types;
 import com.interdigital.android.dougal.resource.Resource;
@@ -78,6 +79,7 @@ public class BucksVariableMessageSignRetrieveTest extends OneTransportTest
         VariableMessageSign[] variableMessageSigns = new VariableMessageSignRetriever(getContext())
                 .retrieve();
         if (variableMessageSigns == null || variableMessageSigns.length == 0) {
+            Log.i("BucksVMS", "Error no data in feed");
             runnerTask.report("BUCKS get VMS array ... FAILED.", COLOUR_FAILED);
         } else {
             runnerTask.report("BUCKS get VMS array ... PASSED.", COLOUR_PASSED);

@@ -20,6 +20,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+import android.util.Log;
 
 import com.interdigital.android.dougal.Types;
 import com.interdigital.android.dougal.resource.Resource;
@@ -80,6 +81,7 @@ public class CvsTrafficGroupRetrieveTest extends OneTransportTest
         TrafficGroupRetriever trafficGroupRetriever = new TrafficGroupRetriever(runnerTask.getContext());
         ArrayList<TrafficGroup> trafficGroups = trafficGroupRetriever.retrieve();
         if (trafficGroups == null || trafficGroups.size() == 0) {
+            Log.i("CVSTraffic", "Error no data in feed");
             runnerTask.report("CVS get traffic group array ... FAILED.", COLOUR_FAILED);
         } else {
             runnerTask.report("CVS get traffic group array ... PASSED.", COLOUR_PASSED);

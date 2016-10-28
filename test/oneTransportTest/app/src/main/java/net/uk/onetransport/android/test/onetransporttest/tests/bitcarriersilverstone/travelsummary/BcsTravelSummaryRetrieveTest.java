@@ -20,6 +20,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+import android.util.Log;
 
 import com.interdigital.android.dougal.Types;
 import com.interdigital.android.dougal.resource.Resource;
@@ -81,6 +82,7 @@ public class BcsTravelSummaryRetrieveTest extends OneTransportTest
                 runnerTask.getContext());
         ArrayList<TravelSummary> travelSummaries = travelSummaryRetriever.retrieve();
         if (travelSummaries == null || travelSummaries.size() == 0) {
+            Log.i("BCSTravelSummary", "Error no data in feed");
             runnerTask.report("BCS get travel summary array ... FAILED.", COLOUR_FAILED);
         } else {
             runnerTask.report("BCS get travel summary array ... PASSED.", COLOUR_PASSED);

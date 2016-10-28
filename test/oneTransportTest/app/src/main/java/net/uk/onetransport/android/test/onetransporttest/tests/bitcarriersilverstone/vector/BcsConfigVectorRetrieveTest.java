@@ -20,6 +20,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+import android.util.Log;
 
 import com.interdigital.android.dougal.Types;
 import com.interdigital.android.dougal.resource.Resource;
@@ -79,6 +80,7 @@ public class BcsConfigVectorRetrieveTest extends OneTransportTest
         VectorRetriever vectorRetriever = new VectorRetriever(runnerTask.getContext());
         ArrayList<Vector> configVectors = vectorRetriever.retrieve();
         if (configVectors == null || configVectors.size() == 0) {
+            Log.i("BCSConfigVector", "Error no data in feed");
             runnerTask.report("BCS get config vector array ... FAILED.", COLOUR_FAILED);
         } else {
             runnerTask.report("BCS get config vector array ... PASSED.", COLOUR_PASSED);

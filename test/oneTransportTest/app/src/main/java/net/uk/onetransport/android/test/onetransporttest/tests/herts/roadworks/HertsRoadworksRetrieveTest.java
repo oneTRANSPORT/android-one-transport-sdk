@@ -20,6 +20,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+import android.util.Log;
 
 import com.interdigital.android.dougal.Types;
 import com.interdigital.android.dougal.resource.Resource;
@@ -60,7 +61,7 @@ public class HertsRoadworksRetrieveTest extends OneTransportTest
     public void onLoadFinished(Loader<RetrieverResult<Roadworks>> loader,
                                RetrieverResult<Roadworks> data) {
         if (data.getExceptions().size() > 0 || data.getContent() == null) {
-            dougalCallback.getResponse(null, new Throwable("HERTS road works array error"));
+            dougalCallback.getResponse(null, new Throwable("HERTS roadworks array error"));
         } else {
             // Just send any valid resource.
             dougalCallback.getResponse(new Resource("aeid", "resourceId", "resourceName",
@@ -74,12 +75,13 @@ public class HertsRoadworksRetrieveTest extends OneTransportTest
     }
 
     private void getRoadworksArray(RunnerTask runnerTask) throws Exception {
-        runnerTask.setCurrentTest("HERTS get road works array");
+        runnerTask.setCurrentTest("HERTS get roadworks array");
         Roadworks[] roadworkses = new RoadworksRetriever(getContext()).retrieve();
         if (roadworkses == null || roadworkses.length == 0) {
-            runnerTask.report("HERTS get road works array ... FAILED.", COLOUR_FAILED);
+            Log.i("HertsRoadworks", "Error no data in feed");
+            runnerTask.report("HERTS get roadworks array ... FAILED.", COLOUR_FAILED);
         } else {
-            runnerTask.report("HERTS get road works array ... PASSED.", COLOUR_PASSED);
+            runnerTask.report("HERTS get roadworks array ... PASSED.", COLOUR_PASSED);
         }
     }
 }
