@@ -50,24 +50,20 @@ public class RunnerTask extends AsyncTask<Void, Object[], Void> {
     @Override
     protected Void doInBackground(Void... voids) {
         // Create an installation id if needed.
+        String clientAeId = getContext().getString(R.string.client_ae_id);
+        String token = getContext().getString(R.string.token);
         net.uk.onetransport.android.county.bucks.authentication.CredentialHelper
-                .initialiseCredentials(context, OneTransportTest.CLIENT_AE_ID,
-                        OneTransportTest.TOKEN, "installation-id");
+                .initialiseCredentials(context, clientAeId, token, "installation-id");
         net.uk.onetransport.android.county.herts.authentication.CredentialHelper
-                .initialiseCredentials(context, OneTransportTest.CLIENT_AE_ID,
-                        OneTransportTest.TOKEN, "installation-id");
+                .initialiseCredentials(context, clientAeId, token, "installation-id");
         net.uk.onetransport.android.county.northants.authentication.CredentialHelper
-                .initialiseCredentials(context, OneTransportTest.CLIENT_AE_ID,
-                        OneTransportTest.TOKEN, "installation-id");
+                .initialiseCredentials(context, clientAeId, token, "installation-id");
         net.uk.onetransport.android.county.oxon.authentication.CredentialHelper
-                .initialiseCredentials(context, OneTransportTest.CLIENT_AE_ID,
-                        OneTransportTest.TOKEN, "installation-id");
+                .initialiseCredentials(context, clientAeId, token, "installation-id");
         net.uk.onetransport.android.modules.clearviewsilverstone.authentication.CredentialHelper
-                .initialiseCredentials(context, OneTransportTest.CLIENT_AE_ID,
-                        OneTransportTest.TOKEN, "installation-id");
+                .initialiseCredentials(context, clientAeId, token, "installation-id");
         net.uk.onetransport.android.modules.bitcarriersilverstone.authentication.CredentialHelper
-                .initialiseCredentials(context, OneTransportTest.CLIENT_AE_ID,
-                        OneTransportTest.TOKEN, "installation-id");
+                .initialiseCredentials(context, clientAeId, token, "installation-id");
         // One synchronous test run and one asynchronous.
         reportAdapter.setNumTests(testList.oneTransportTests.length * 2);
         publishProgress(new Object[][]{{"", 0x0}, {"Starting tests...", 0xffffff00}, {"", 0x0}});

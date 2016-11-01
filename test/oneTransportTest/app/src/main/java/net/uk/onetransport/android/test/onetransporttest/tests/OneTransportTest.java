@@ -24,9 +24,6 @@ import net.uk.onetransport.android.test.onetransporttest.RunnerTask;
 
 public abstract class OneTransportTest {
 
-    public static final String CLIENT_AE_ID = "C-Y249b25lLXRyYW5zcG9ydC1zZGstdGVzdCxvdT1yb290";
-    public static final String TOKEN = "01s8cyb6AfkMO82U";
-
     public static final int COLOUR_PASSED = 0xff80ff80;
     public static final int COLOUR_NOT_IMPLEMENTED = 0xffcc80ff;
     public static final int COLOUR_FAILED = 0xffff8080;
